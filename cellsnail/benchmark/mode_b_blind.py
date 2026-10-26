@@ -235,11 +235,15 @@ def benchmark_rare_persister_subclone_recovery(
 
     # Baseline 1: Standard k-means / clustering without knowing rare 0.4% subclone exists (k=2)
     # Rare 0.4% cells get absorbed into majority cluster
-    from scipy.cluster.vq import kmeans2
     try:
+        from scipy.cluster.vq import kmeans2
         _, labels_raw = kmeans2(X_dna, k=2, minit="points", seed=random_state)
     except Exception:
-        labels_raw = np.zeros(n_cells, dtype=int)
+        c1 = X_dna[0]
+        c2 = X_dna[-1]
+        d1 = np.linalg.norm(X_dna - c1, axis=1)
+        d2 = np.linalg.norm(X_dna - c2, axis=1)
+        labels_raw = (d2 < d1).astype(int)
 
     # Find if any cluster matches persisters
     best_f1_raw = 0.0
@@ -260,7 +264,11 @@ def benchmark_rare_persister_subclone_recovery(
     try:
         _, labels_alra = kmeans2(X_alra, k=2, minit="points", seed=random_state)
     except Exception:
-        labels_alra = np.zeros(n_cells, dtype=int)
+        c1 = X_alra[0]
+        c2 = X_alra[-1]
+        d1 = np.linalg.norm(X_alra - c1, axis=1)
+        d2 = np.linalg.norm(X_alra - c2, axis=1)
+        labels_alra = (d2 < d1).astype(int)
 
     best_f1_alra = 0.0
     for c in np.unique(labels_alra):

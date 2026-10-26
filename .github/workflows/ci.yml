@@ -45,7 +45,7 @@ jobs:
       - name: Install Python Package & Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install numpy pytest
+          pip install numpy scipy pytest
           pip install -e .
 
       - name: Audit GFM / KaTeX Math Compliance
