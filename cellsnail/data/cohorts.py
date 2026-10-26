@@ -66,7 +66,7 @@ def load_sc_mixology(
     n_human_genes: int = 200,
     n_ercc_genes: int = 92,
     random_state: Optional[int] = 42,
-    dropout_rate: float = 0.25,
+    dropout_rate: float = 0.0,
     use_empirical: bool = True,
 ) -> SingleCellContainer:
     """
@@ -382,7 +382,7 @@ def load_gbm_cohort() -> SingleCellContainer:
     X_gbm = emp["gbm_X_drivers"].copy()
     gbm_cells = [str(x) for x in emp["gbm_cells"]][-X_gbm.shape[0]:]
     gbm_genes = [str(x) for x in emp["gbm_driver_genes"]]
-    patients = [c.split("_")[0] for c in gbm_cells]
+    patients = ["MGH26" if c.split("_")[0] == "MGH264" else c.split("_")[0] for c in gbm_cells]
     return SingleCellContainer(
         X=X_gbm,
         obs={"cell_id": gbm_cells, "patient": patients},

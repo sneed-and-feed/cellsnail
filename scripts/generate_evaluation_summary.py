@@ -73,7 +73,7 @@ def main():
     out_file = Path("results/cellsnail_evaluation_summary.json")
     out_file.parent.mkdir(parents=True, exist_ok=True)
     with open(out_file, "w", encoding="utf-8") as f:
-        json.dump(summary, f, indent=2, cls=NumpyEncoder)
+        json.dump(summary, f, indent=2, cls=NumpyEncoder, allow_nan=False)
 
     print(f"Summary successfully written to {out_file} ({out_file.stat().st_size} bytes)")
 

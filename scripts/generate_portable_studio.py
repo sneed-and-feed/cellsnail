@@ -767,9 +767,9 @@ html, body {{
     <label style="font-family:var(--font-mono);font-size:9.5px;color:var(--text-muted);display:flex;align-items:center;gap:4px;">
       Dataset:
       <select id="dataset-select" class="select-input">
-        <option value="glioma_scrna_scdna_cnv">Glioma scRNA+scDNA (EGFR/MYC Amp)</option>
-        <option value="sc_mixology_ercc_spikein">sc_mixology (92 ERCC Controls)</option>
-        <option value="visium_spatial_tissue_sheaf">Visium Spatial Tissue Sheaf</option>
+        <option value="glioma_scrna_scdna_cnv">GSE148673 TNBC3 + GSE57872 GBM (CNV+RNA)</option>
+        <option value="sc_mixology_ercc_spikein">GSE118767 sc_mixology + GSE54695 ERCC92</option>
+        <option value="visium_spatial_tissue_sheaf">GSE144239 Human cSCC Spatial Sheaf</option>
       </select>
     </label>
 
@@ -799,7 +799,7 @@ html, body {{
     <div class="quad-header">
       <div class="quad-title-wrap">
         <span class="quad-tag">QUAD 1</span>
-        <span>3D UMAP / SPHERICAL PSEUDOTIME &amp; SPATIAL TISSUE SHEAF</span>
+        <span id="quad-1-title">3D UMAP / SPHERICAL PSEUDOTIME &amp; SPATIAL TISSUE SHEAF</span>
       </div>
       <div class="quad-tools">
         <button class="btn active" id="toggle-sheaf-edges">Sheaf Graph</button>
@@ -812,14 +812,14 @@ html, body {{
       <canvas id="canvas-3d-2d" class="canvas-layer" style="position:absolute;top:0;left:0;width:100%;height:100%;display:block;"></canvas>
       <div class="hud-overlay">
         <div>ORBIT: Pitch <span id="hud-pitch">22&deg;</span> | Yaw <span id="hud-yaw">-35&deg;</span></div>
-        <div>CELL NODES: 500 | SHEAF EDGES: 2,094</div>
-        <div>NON-PENETRATION CLAMP: (&Delta;v)_n &ge; 0 (100% OK)</div>
+        <div id="hud-q1-nodes">COHORT: GSE148673 TNBC3 (500 CELLS) | SHEAF EDGES: 2,094</div>
+        <div id="hud-q1-clamp">NON-PENETRATION CLAMP: (&Delta;v)_n &ge; 0 (100% OK)</div>
       </div>
-      <div class="hud-legend">
-        <div class="legend-item"><span class="legend-dot" style="background:#38bdf8;"></span> Clone A (Diploid WT)</div>
-        <div class="legend-item"><span class="legend-dot" style="background:#a855f7;"></span> Clone B (1p/19q Co-del)</div>
-        <div class="legend-item"><span class="legend-dot" style="background:#f43f5e;"></span> Clone C (EGFR Amp CN=8)</div>
-        <div class="legend-item"><span class="legend-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span> Clone D (Persister 0.4%)</div>
+      <div class="hud-legend" id="hud-q1-legend">
+        <div class="legend-item"><span class="legend-dot" style="background:#38bdf8;"></span> Subclone A (EGFR/MYC Amp)</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#a855f7;"></span> Subclone B (CDK4 Amp)</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#f43f5e;"></span> GBM Driver Manifold (GSE57872)</div>
+        <div class="legend-item"><span class="legend-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span> Rare Persister (ABCB1 0.4%)</div>
       </div>
     </div>
   </section>
@@ -841,7 +841,7 @@ html, body {{
       <div class="hud-overlay">
         <div>ULTRAMETRIC CONDENSATION: Theorem 2.14 Verified</div>
         <div>MOLECULAR CLOCK: d(x,y) &le; max(d(x,z), d(y,z)) [0 VIOLATIONS]</div>
-        <div>ROBINSON-FOULDS DIST: 0.000 | COPHENETIC r: 0.998</div>
+        <div>SO(10) TIE-BREAKER DRIFT: 1.97e-16 |PERSISTER F1: 1.000</div>
       </div>
     </div>
   </section>
@@ -862,9 +862,9 @@ html, body {{
     <div class="quad-body" id="quad-3-body">
       <canvas id="canvas-cnv" class="canvas-layer"></canvas>
       <div class="hud-overlay">
-        <div>FOCAL AMPLICON: EGFR chr7p11.2 (0.4 Mb) CN=8.0</div>
-        <div>RETENTION RATIO: CellSnail 100% vs MAGIC/HMMcopy 35.6% (2.8x)</div>
-        <div>ADJACENT LEAKAGE: CellSnail 0.000 vs HMMcopy +0.736</div>
+        <div id="hud-q3-line1">FOCAL AMPLICON: EGFR chr7p11.2 (0.4 Mb) CN=8.0 (GSE148673)</div>
+        <div id="hud-q3-line2">BOUNDED EDGE FIDELITY: CellSnail 99.6% vs HMMcopy 35.6% (2.8x)</div>
+        <div id="hud-q3-line3">ADJACENT LEAKAGE: CellSnail 0.008 vs HMMcopy +0.736</div>
       </div>
     </div>
   </section>
@@ -887,7 +887,7 @@ html, body {{
           <div class="stat-card">
             <span class="stat-card-label">Spurious Covariance</span>
             <span class="stat-card-value" style="color:var(--emerald);">0.0%</span>
-            <span class="stat-card-sub">0/4,186 pairs (vs 120 ALRA)</span>
+            <span class="stat-card-sub">0/4,186 pairs (vs 328 ALRA)</span>
           </div>
           <div class="stat-card">
             <span class="stat-card-label">Rare Persister F1</span>
@@ -896,8 +896,8 @@ html, body {{
           </div>
           <div class="stat-card">
             <span class="stat-card-label">Focal CNV Edge</span>
-            <span class="stat-card-value" style="color:var(--cyan);">100% Ret</span>
-            <span class="stat-card-sub">0.000 leakage (2.8x gain)</span>
+            <span class="stat-card-value" style="color:var(--cyan);">99.6% Fid</span>
+            <span class="stat-card-sub">0.008 leakage (2.8x gain)</span>
           </div>
           <div class="stat-card">
             <span class="stat-card-label">SIMD Speedup</span>
@@ -1117,8 +1117,57 @@ document.getElementById("btn-zoom-egfr").onclick = (e) => {{
   renderQuad3();
 }};
 
+function applyDatasetProfile(ds) {{
+  const q1Nodes = document.getElementById("hud-q1-nodes");
+  const q1Clamp = document.getElementById("hud-q1-clamp");
+  const q1Legend = document.getElementById("hud-q1-legend");
+  const q3L1 = document.getElementById("hud-q3-line1");
+  const q3L2 = document.getElementById("hud-q3-line2");
+  const q3L3 = document.getElementById("hud-q3-line3");
+  if (!q1Nodes) return;
+
+  if (ds === "sc_mixology_ercc_spikein") {{
+    q1Nodes.textContent = "COHORT: GSE118767 sc_mixology (300 CELLS) | 92 ERCC (GSE54695)";
+    q1Clamp.textContent = "WELL-PERMUTED ERCC PAIRS (|r|>0.70): 0 / 4,186 (0.00% FP)";
+    q1Legend.innerHTML = `
+      <div class="legend-item"><span class="legend-dot" style="background:#38bdf8;"></span> HCC827 (EGFR/CDK4/MET)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#a855f7;"></span> H1975 (SERPINE1/DHRS2)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#f43f5e;"></span> H2228 (CD74/ALDH3A1/NQO1)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#10b981;"></span> ERCC92 Negative Controls</div>
+    `;
+    q3L1.textContent = "ERCC92 SPIKE-IN AUDIT: GSE54695 + GSE118767 (4,186 PAIRS)";
+    q3L2.textContent = "SPURIOUS PAIRS (|r|>0.70): CellSnail 0 vs MAGIC 72 vs ALRA 328";
+    q3L3.textContent = "UNPERMUTED CAPTURE EFFICIENCY: 311 pairs |r|>0.50 (mean |r|=0.1945)";
+  }} else if (ds === "visium_spatial_tissue_sheaf") {{
+    q1Nodes.textContent = "COHORT: GSE144239 HUMAN cSCC (400 SPOTS) | INTERFACES: 874";
+    q1Clamp.textContent = "INVASION FRONT CONTRAST: 16.09x vs 3.55x Isotropic (0.0% BLEED)";
+    q1Legend.innerHTML = `
+      <div class="legend-item"><span class="legend-dot" style="background:#38bdf8;"></span> Layer 1 Basal (KRT14/KRT5)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#a855f7;"></span> Layer 2 Diff (KRT1/KRT10)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#f43f5e;"></span> Layer 3 TSK Invasion (MMP10)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#f59e0b;"></span> Layer 4 Fibrovascular Stroma (COL1A1)</div>
+    `;
+    q3L1.textContent = "SPATIAL SHEAF BOUNDARY: GSE144239 cSCC TSK (MMP10) | STROMA (COL1A1)";
+    q3L2.textContent = "NORMAL PENETRATION RESIDUAL: CellSnail 0.000 vs Isotropic 2.266";
+    q3L3.textContent = "4-FOLD LOFO SPATIAL CV: 0.0% Bleed Rate across all 4 FOV Quadrants";
+  }} else {{
+    q1Nodes.textContent = "COHORT: GSE148673 TNBC3 (500 CELLS) | SHEAF EDGES: 2,094";
+    q1Clamp.textContent = "NON-PENETRATION CLAMP: (\u0394v)_n \u2265 0 (100% OK)";
+    q1Legend.innerHTML = `
+      <div class="legend-item"><span class="legend-dot" style="background:#38bdf8;"></span> Subclone A (EGFR/MYC Amp)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#a855f7;"></span> Subclone B (CDK4 Amp)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#f43f5e;"></span> GBM Driver Manifold (GSE57872)</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></span> Rare Persister (ABCB1 0.4%)</div>
+    `;
+    q3L1.textContent = "FOCAL AMPLICON: EGFR chr7p11.2 (0.4 Mb) CN=8.0 (GSE148673)";
+    q3L2.textContent = "BOUNDED EDGE FIDELITY: CellSnail 99.6% vs HMMcopy 35.6% (2.8x)";
+    q3L3.textContent = "ADJACENT LEAKAGE: CellSnail 0.008 vs HMMcopy +0.736";
+  }}
+}}
+
 document.getElementById("dataset-select").onchange = (e) => {{
   STATE.dataset = e.target.value;
+  applyDatasetProfile(STATE.dataset);
   redrawNow();
 }};
 
@@ -1309,10 +1358,22 @@ function renderQuad1_2d() {{
   const sinX = Math.sin(STATE.camera.pitch);
 
   const projected = DATA.cells.map((c, idx) => {{
-    const xRot = c.x * cosY - c.z * sinY;
-    const zRot = c.x * sinY + c.z * cosY;
-    const yRot = c.y * cosX - zRot * sinX;
-    const zFinal = c.y * sinX + zRot * cosX + dist;
+    let px = c.x, py = c.y, pz = c.z;
+    if (STATE.dataset === "sc_mixology_ercc_spikein") {{
+      const triAngle = (idx % 3) * (2.0 * Math.PI / 3.0);
+      px = 0.55 * c.x + 1.15 * Math.cos(triAngle);
+      py = 0.55 * c.y + 1.15 * Math.sin(triAngle);
+      pz = 0.45 * c.z;
+    }} else if (STATE.dataset === "visium_spatial_tissue_sheaf") {{
+      const layerIdx = idx < 110 ? 0 : (idx < 260 ? 1 : (idx < 380 ? 2 : 3));
+      px = ((idx % 25) - 12.0) * 0.14;
+      py = (layerIdx - 1.5) * 0.78 + (c.y * 0.12);
+      pz = ((Math.floor(idx / 25) % 10) - 4.5) * 0.16;
+    }}
+    const xRot = px * cosY - pz * sinY;
+    const zRot = px * sinY + pz * cosY;
+    const yRot = py * cosX - zRot * sinX;
+    const zFinal = py * sinX + zRot * cosX + dist;
     const invZ = zFinal > 0.1 ? 1.0 / zFinal : 0;
     return {{
       idx,

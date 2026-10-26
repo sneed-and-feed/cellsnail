@@ -44,12 +44,30 @@ def fetch_gz_text(url: str) -> List[str]:
     return text.splitlines()
 
 
+def _clean_clinvar_ids(ids_list: List[str]) -> List[str]:
+    return sorted(
+        list(
+            set(
+                cid
+                for cid in ids_list
+                if isinstance(cid, str) and (cid.startswith(("RCV", "VCV", "SCV")) or len(cid) > 3)
+            )
+        )
+    )[:8]
+
+
 def build_ensembl_clinvar_panel() -> Dict[str, Any]:
     out_json = EMP_DIR / "ensembl_clinvar_drivers.json"
     if out_json.exists() and not RAW_ENS_DIR.exists():
-        print(f"Loading existing {out_json} ({out_json.stat().st_size} bytes)")
+        print(f"Loading and sanitizing existing {out_json} ({out_json.stat().st_size} bytes)")
         with open(out_json, "r", encoding="utf-8") as f:
-            return json.load(f)
+            panel = json.load(f)
+        for v_rec in panel.get("clinical_hotspot_variants", {}).values():
+            if "clinvar_ids" in v_rec:
+                v_rec["clinvar_ids"] = _clean_clinvar_ids(v_rec["clinvar_ids"])
+        with open(out_json, "w", encoding="utf-8") as f:
+            json.dump(panel, f, indent=2)
+        return panel
     print("Building Ensembl GRCh38 + ClinVar + COSMIC Driver Panel...")
     drivers: Dict[str, Any] = {}
     gene_list = [
@@ -124,7 +142,7 @@ def build_ensembl_clinvar_panel() -> Dict[str, Any]:
             "loeuf": chosen_tc.get("loeuf", None),
             "conservation": chosen_tc.get("conservation", None),
             "cosmic_ids": sorted(list(set(cosmic_ids)))[:6],
-            "clinvar_ids": sorted(list(set(clinvar_ids)))[:8],
+            "clinvar_ids": _clean_clinvar_ids(clinvar_ids),
             "clinvar_significance": sorted(list(set(clin_sigs))),
             "clinvar_somatic_classification": somatic_class,
         }
@@ -142,16 +160,60 @@ def build_ensembl_clinvar_panel() -> Dict[str, Any]:
     return panel
 
 
+KNOWN_ENSG_SYMBOLS: Dict[str, str] = {
+    "ENSG00000146648": "EGFR",
+    "ENSG00000105976": "MET",
+    "ENSG00000171094": "ALK",
+    "ENSG00000133703": "KRAS",
+    "ENSG00000147889": "CDKN2A",
+    "ENSG00000141736": "ERBB2",
+    "ENSG00000141510": "TP53",
+    "ENSG00000121879": "PIK3CA",
+    "ENSG00000136997": "MYC",
+    "ENSG00000111640": "GAPDH",
+    "ENSG00000075624": "ACTB",
+    "ENSG00000196230": "TUBB",
+    "ENSG00000119888": "EPCAM",
+    "ENSG00000170421": "KRT8",
+    "ENSG00000111057": "KRT18",
+    "ENSG00000171345": "KRT19",
+    "ENSG00000148773": "MKI67",
+    "ENSG00000132646": "PCNA",
+    "ENSG00000110092": "CCND1",
+    "ENSG00000135446": "CDK4",
+    "ENSG00000210082": "MT-RNR2",
+    "ENSG00000210049": "MT-TF",
+    "ENSG00000211459": "MT-RNR1",
+    "ENSG00000198804": "MT-CO1",
+    "ENSG00000198712": "MT-CO2",
+    "ENSG00000198938": "MT-CO3",
+    "ENSG00000198886": "MT-ND4",
+    "ENSG00000198727": "MT-CYB",
+    "ENSG00000198899": "MT-ATP6",
+    "ENSG00000198840": "MT-ND3",
+    "ENSG00000198888": "MT-ND1",
+    "ENSG00000198763": "MT-ND2",
+    "ENSG00000106366": "SERPINE1",
+    "ENSG00000100867": "DHRS2",
+    "ENSG00000019582": "CD74",
+    "ENSG00000108602": "ALDH3A1",
+    "ENSG00000181019": "NQO1",
+    "ENSG00000163739": "CXCL1",
+    "ENSG00000146674": "IGFBP3",
+    "ENSG00000156508": "EEF1A1",
+    "ENSG00000087086": "FTL",
+    "ENSG00000167996": "FTH1",
+}
+
+
 def build_sc_mixology_and_ercc() -> Dict[str, Any]:
     print("Building Cohort 1: Empirical sc_mixology (GSE118767) + Empirical ERCC92 (GSE54695)...")
-    # 1. Fetch sc_celseq2 and sc_celseq2_5cl_p1 metadata + counts from LuyiTian/sc_mixology
     meta1 = fetch_gz_text("https://raw.githubusercontent.com/LuyiTian/sc_mixology/master/data/csv/sc_celseq2.metadata.csv.gz")
     cnt1 = fetch_gz_text("https://raw.githubusercontent.com/LuyiTian/sc_mixology/master/data/csv/sc_celseq2.count.csv.gz")
     meta2 = fetch_gz_text("https://raw.githubusercontent.com/LuyiTian/sc_mixology/master/data/csv/sc_celseq2_5cl_p1.metadata.csv.gz")
     cnt2 = fetch_gz_text("https://raw.githubusercontent.com/LuyiTian/sc_mixology/master/data/csv/sc_celseq2_5cl_p1.count.csv.gz")
 
     def parse_mixology_table(meta_lines: List[str], cnt_lines: List[str], batch_tag: str):
-        # Parse metadata
         cell_meta = {}
         for line in meta_lines[1:]:
             parts = [p.strip('"') for p in line.split(",")]
@@ -180,14 +242,13 @@ def build_sc_mixology_and_ercc() -> Dict[str, Any]:
             genes.append(gid)
             vals = [float(parts[idx + 1]) if (idx + 1) < len(parts) else 0.0 for idx, _ in valid_cols]
             mat_rows.append(vals)
-        X_sub = np.array(mat_rows, dtype=np.float32).T  # (n_cells, n_genes)
+        X_sub = np.array(mat_rows, dtype=np.float32).T
         metas = [cell_meta[c] for _, c in valid_cols]
         return X_sub, genes, metas
 
     X1, genes1, metas1 = parse_mixology_table(meta1, cnt1, "batch_1")
     X2, genes2, metas2 = parse_mixology_table(meta2, cnt2, "batch_2")
 
-    # Intersect genes between batch 1 and batch 2
     g2_map = {g: i for i, g in enumerate(genes2)}
     shared_idx1 = [i for i, g in enumerate(genes1) if g in g2_map]
     shared_idx2 = [g2_map[genes1[i]] for i in shared_idx1]
@@ -196,7 +257,6 @@ def build_sc_mixology_and_ercc() -> Dict[str, Any]:
     X_all = np.vstack([X1[:, shared_idx1], X2[:, shared_idx2]])
     metas_all = metas1 + metas2
 
-    # Select exactly 100 HCC827, 100 H1975, 100 H2228 (300 real cells total)
     selected_indices = []
     for cl in ["HCC827", "H1975", "H2228"]:
         cl_idx = [i for i, m in enumerate(metas_all) if m["cell_line"] == cl]
@@ -207,58 +267,28 @@ def build_sc_mixology_and_ercc() -> Dict[str, Any]:
     X_cells = X_all[selected_indices]
     metas_sel = [metas_all[i] for i in selected_indices]
 
-    # Map known Ensembl IDs to canonical human gene names for the top 20 markers
-    ensg_to_sym = {
-        "ENSG00000146648": "EGFR",
-        "ENSG00000105976": "MET",
-        "ENSG00000171094": "ALK",
-        "ENSG00000133703": "KRAS",
-        "ENSG00000147889": "CDKN2A",
-        "ENSG00000141736": "ERBB2",
-        "ENSG00000141510": "TP53",
-        "ENSG00000121879": "PIK3CA",
-        "ENSG00000136997": "MYC",
-        "ENSG00000111640": "GAPDH",
-        "ENSG00000075624": "ACTB",
-        "ENSG00000196230": "TUBB",
-        "ENSG00000119888": "EPCAM",
-        "ENSG00000170421": "KRT8",
-        "ENSG00000111057": "KRT18",
-        "ENSG00000171345": "KRT19",
-        "ENSG00000148773": "MKI67",
-        "ENSG00000132646": "PCNA",
-        "ENSG00000110092": "CCND1",
-        "ENSG00000135446": "CDK4",
-    }
-    sym_to_ensg = {v: k for k, v in ensg_to_sym.items()}
+    priority_ensg = [
+        "ENSG00000146648", "ENSG00000105976", "ENSG00000210082", "ENSG00000133703",
+        "ENSG00000147889", "ENSG00000141736", "ENSG00000141510", "ENSG00000121879",
+        "ENSG00000136997", "ENSG00000111640", "ENSG00000075624", "ENSG00000196230",
+        "ENSG00000119888", "ENSG00000170421", "ENSG00000111057", "ENSG00000171345",
+        "ENSG00000148773", "ENSG00000132646", "ENSG00000110092", "ENSG00000135446",
+    ]
     shared_map = {g: i for i, g in enumerate(shared_genes)}
 
-    marker_names = list(sym_to_ensg.keys())
     human_cols = []
     human_gene_ids = []
     human_gene_names = []
     used_indices = set()
 
-    for sym in marker_names:
-        eg = sym_to_ensg[sym]
+    for eg in priority_ensg:
         if eg in shared_map:
             idx = shared_map[eg]
             used_indices.add(idx)
             human_cols.append(X_cells[:, idx])
             human_gene_ids.append(eg)
-            human_gene_names.append(sym)
-        else:
-            # Fallback to highest-variance unused gene
-            var_vec = np.var(X_cells, axis=0)
-            for cand in np.argsort(var_vec)[::-1]:
-                if int(cand) not in used_indices:
-                    used_indices.add(int(cand))
-                    human_cols.append(X_cells[:, int(cand)])
-                    human_gene_ids.append(shared_genes[int(cand)])
-                    human_gene_names.append(sym)
-                    break
+            human_gene_names.append(KNOWN_ENSG_SYMBOLS.get(eg, eg))
 
-    # Add top 180 highest-variance empirical human genes from sc_celseq2
     var_vec = np.var(X_cells, axis=0)
     for cand in np.argsort(var_vec)[::-1]:
         if len(human_cols) >= 200:
@@ -266,16 +296,15 @@ def build_sc_mixology_and_ercc() -> Dict[str, Any]:
         c_idx = int(cand)
         if c_idx not in used_indices:
             used_indices.add(c_idx)
+            eg = shared_genes[c_idx]
             human_cols.append(X_cells[:, c_idx])
-            human_gene_ids.append(shared_genes[c_idx])
-            human_gene_names.append(shared_genes[c_idx])
+            human_gene_ids.append(eg)
+            human_gene_names.append(KNOWN_ENSG_SYMBOLS.get(eg, eg))
 
     X_human_200 = np.column_stack(human_cols).astype(np.float32)
 
-    # 2. Fetch real empirical ERCC spike-in UMI counts from GSE54695 (Grün et al. Nature Methods 2014)
     lines_54695 = fetch_gz_text("https://ftp.ncbi.nlm.nih.gov/geo/series/GSE54nnn/GSE54695/suppl/GSE54695_data_transcript_counts.txt.gz")
     ercc_raw_rows = []
-    ercc_raw_names = []
     for line in lines_54695[1:]:
         parts = line.split("\t")
         gname = parts[0].strip()
@@ -283,10 +312,8 @@ def build_sc_mixology_and_ercc() -> Dict[str, Any]:
             vals = [float(v) for v in parts[1:301]]
             if np.sum(vals) > 0:
                 ercc_raw_rows.append(vals)
-                ercc_raw_names.append(gname)
 
-    ercc_emp_mat = np.array(ercc_raw_rows, dtype=np.float32).T  # (300, n_detected_ercc)
-    # Pad to 92 ERCC transcripts by cycling empirical non-zero ERCC profiles with independent well permutations
+    ercc_emp_mat = np.array(ercc_raw_rows, dtype=np.float32).T
     rng = np.random.default_rng(42)
     X_ercc_unpermuted = np.zeros((300, 92), dtype=np.float32)
     X_ercc_permuted = np.zeros((300, 92), dtype=np.float32)
@@ -296,8 +323,6 @@ def build_sc_mixology_and_ercc() -> Dict[str, Any]:
     for j in range(92):
         src_col = np.round(ercc_emp_mat[:, j % n_det]).astype(np.float32)
         X_ercc_unpermuted[:, j] = src_col
-        # Andrews & Hemberg (2019) empirical negative-control well permutation:
-        # Preserves exact empirical wet-lab UMI marginal distribution while breaking shared well capture efficiency
         perm_idx = rng.permutation(300)
         X_ercc_permuted[:, j] = src_col[perm_idx]
 
@@ -322,7 +347,6 @@ def build_cancer_cnv_and_multiomic() -> Dict[str, Any]:
     lines_tnbc = fetch_gz_text("https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4476nnn/GSM4476488/suppl/GSM4476488_combined_UMIcount_CellTypes_TNBC3.txt.gz")
     barcodes_all = [b.strip('"') for b in lines_tnbc[0].split("\t")]
     copykat_all = [c.strip('"') for c in lines_tnbc[1].split("\t")[1:]]
-    cluster_all = [c.strip('"') for c in lines_tnbc[2].split("\t")[1:]]
 
     gene_to_row = {}
     all_genes_order = []
@@ -334,19 +358,15 @@ def build_cancer_cnv_and_multiomic() -> Dict[str, Any]:
             gene_to_row[g] = vals
             all_genes_order.append(g)
 
-    # Also fetch GSE57872 GBM for cross-tumor validation
     lines_gbm = fetch_gz_text("https://ftp.ncbi.nlm.nih.gov/geo/series/GSE57nnn/GSE57872/suppl/GSE57872_GBM_data_matrix.txt.gz")
-    gbm_cells = [c.strip('"') for c in lines_gbm[0].split("\t")]
+    gbm_cells = [c.strip('"') for c in lines_gbm[0].split("\t") if c.strip('"')]
     gbm_gene_map = {}
     for line in lines_gbm[1:]:
         parts = line.split("\t")
         g = parts[0].strip('"')
         gbm_gene_map[g] = np.array([float(x) for x in parts[1:]], dtype=np.float32)
+    gbm_cells = gbm_cells[-len(next(iter(gbm_gene_map.values()))):]
 
-    # Select 500 real cells from TNBC3 (532 available):
-    # - 350 Subclone_A (diploid/major tumor population)
-    # - 148 Subclone_B (second clonal cluster)
-    # - 2 Rare_Persister (< 0.5% chemoresistant persister cells with highest ABCB1/AXL/PROM1/EGFR expression)
     persister_score = (
         gene_to_row.get("ABCB1", np.zeros(len(barcodes_all))) * 3.0
         + gene_to_row.get("AXL", np.zeros(len(barcodes_all))) * 2.0
@@ -355,26 +375,13 @@ def build_cancer_cnv_and_multiomic() -> Dict[str, Any]:
     tumor_indices = [i for i, c in enumerate(copykat_all) if c == "T"]
     normal_indices = [i for i, c in enumerate(copykat_all) if c == "N"]
 
-    # Top 2 persister cells among tumor cells
     tumor_sorted_by_persister = sorted(tumor_indices, key=lambda idx: float(persister_score[idx]), reverse=True)
     persister_idx_raw = tumor_sorted_by_persister[:2]
     remaining_tumor = [idx for idx in tumor_indices if idx not in persister_idx_raw]
 
-    # Build 500-cell ordering: 350 Subclone_A + 148 Subclone_B + 2 Rare_Persister
-    pool_non_persister = remaining_tumor + normal_indices
-    subclone_a_raw = pool_non_persister[:350]
-    subclone_b_raw = pool_non_persister[350:498]
-    selected_500 = subclone_a_raw + subclone_b_raw + persister_idx_raw
+    pool_non_persister = (remaining_tumor + normal_indices)[:498]
+    selected_500 = pool_non_persister + persister_idx_raw
 
-    clone_labels = (
-        ["Subclone_A"] * 350
-        + ["Subclone_B"] * 148
-        + ["Rare_Persister"] * 2
-    )
-    cell_barcodes_500 = [f"TNBC3_{barcodes_all[i]}" for i in selected_500]
-    copykat_500 = [copykat_all[i] for i in selected_500]
-
-    # Select 100 real human genes ordered across genomic bins (including key drivers at exact canonical bins)
     focal_Map = {
         25: ("EGFR", "chr7", 55019017),
         28: ("ABCB1", "chr7", 87503863),
@@ -399,7 +406,6 @@ def build_cancer_cnv_and_multiomic() -> Dict[str, Any]:
     }
     used_genes = set(v[0] for v in focal_Map.values())
 
-    # Fill remaining 80 bins with high-expression empirical genes from TNBC3
     gene_totals = [(g, float(np.sum(gene_to_row[g]))) for g in all_genes_order if g not in used_genes]
     gene_totals.sort(key=lambda t: t[1], reverse=True)
     filler_genes = [g for g, _ in gene_totals[:80]]
@@ -422,15 +428,31 @@ def build_cancer_cnv_and_multiomic() -> Dict[str, Any]:
             bin_chroms.append(chroms[(b * len(chroms)) // 100])
             bin_starts.append((b * 2_000_000) % 50_000_000 + 1_000_000)
 
-    # Construct empirical RNA count matrix (500 x 100) from real TNBC3 UMI counts
     X_rna_emp = np.zeros((500, 100), dtype=np.float32)
     for b, g_sym in enumerate(bin_genes):
         if g_sym in gene_to_row:
             X_rna_emp[:, b] = gene_to_row[g_sym][selected_500]
 
-    # Construct paired copy-number profiles calibrated to empirical CopyKAT & GBM log2/CN dosage
-    cn_truth = np.full((500, 100), 2.0, dtype=np.float32)
+    # Partition the 498 non-persister cells into Subclone_A (n=350, EGFR/MYC-driven) and
+    # Subclone_B (n=148, CDK4-driven / PTEN-retained) using unaltered empirical TNBC3 UMI counts
     egfr_bin, abcb1_bin, myc_bin, pten_bin, cdk4_bin = 25, 28, 35, 45, 55
+    non_pers = X_rna_emp[:498]
+    def _zcol(col_b: int) -> np.ndarray:
+        v = np.log1p(non_pers[:, col_b])
+        return (v - np.mean(v)) / (np.std(v) + 1e-6)
+    subclone_b_score = _zcol(cdk4_bin) * 1.5 - _zcol(egfr_bin) - 0.5 * _zcol(myc_bin) + 0.5 * _zcol(pten_bin)
+    b_local_idx = sorted(range(498), key=lambda idx: float(subclone_b_score[idx]), reverse=True)[:148]
+    b_set = set(b_local_idx)
+    a_local_idx = [idx for idx in range(498) if idx not in b_set]
+    reorder_500 = a_local_idx + b_local_idx + [498, 499]
+
+    X_rna_emp = X_rna_emp[reorder_500]
+    selected_500 = [selected_500[i] for i in reorder_500]
+    cell_barcodes_500 = [f"TNBC3_{barcodes_all[i]}" for i in selected_500]
+    copykat_500 = [copykat_all[i] for i in selected_500]
+    clone_labels = ["Subclone_A"] * 350 + ["Subclone_B"] * 148 + ["Rare_Persister"] * 2
+
+    cn_truth = np.full((500, 100), 2.0, dtype=np.float32)
     for i, cl in enumerate(clone_labels):
         if cl == "Subclone_A":
             cn_truth[i, 10:20] = 3.0
@@ -447,20 +469,13 @@ def build_cancer_cnv_and_multiomic() -> Dict[str, Any]:
             cn_truth[i, egfr_bin] = 8.0
             cn_truth[i, pten_bin] = 0.0
 
-    # Empirical WGA + chromosomal expression residual fluctuations from real TNBC3 + GBM profiles
     emp_z = (X_rna_emp - np.mean(X_rna_emp, axis=0, keepdims=True)) / (np.std(X_rna_emp, axis=0, keepdims=True) + 1e-3)
     emp_fluct = np.clip(emp_z * 0.28, -0.75, 0.75).astype(np.float32)
     emp_fluct -= np.mean(emp_fluct, axis=0, keepdims=True)
     wga_wave = (np.sin(np.linspace(0, 4 * np.pi, 100)) * 0.18).astype(np.float32)
     sc_dna_observed = np.maximum(0.1, cn_truth + wga_wave + emp_fluct).astype(np.float32)
 
-    # Ensure driver RNA counts combine real empirical TNBC3 UMI baseline + CNV dosage coupling
     driver_indices = [egfr_bin, cdk4_bin, myc_bin, pten_bin, abcb1_bin]
-    for d_idx in driver_indices:
-        emp_col = X_rna_emp[:, d_idx]
-        X_rna_emp[:, d_idx] = np.round(emp_col + 5.0 + 15.0 * cn_truth[:, d_idx]).astype(np.float32)
-
-    # Also extract GBM 430-cell x 20-driver empirical log2 expression matrix from GSE57872
     gbm_driver_genes = ["EGFR", "MYC", "ERBB2", "CDK4", "PTEN", "TP53", "AXL", "PROM1", "TOP2A", "PCNA", "CCNB1", "CDK1"]
     X_gbm_drivers = np.column_stack([gbm_gene_map[g] for g in gbm_driver_genes]).astype(np.float32)
 
@@ -482,12 +497,56 @@ def build_cancer_cnv_and_multiomic() -> Dict[str, Any]:
     }
 
 
+def _partition_cscc_spots_by_empirical_markers(
+    X_spatial_50: np.ndarray,
+    coords_400_raw: np.ndarray,
+    spots_400: List[str],
+    real_st_symbols_50: List[str],
+):
+    def _z(sym: str) -> np.ndarray:
+        idx = real_st_symbols_50.index(sym)
+        v = np.log1p(np.maximum(0.0, X_spatial_50[:, idx]))
+        return (v - np.mean(v)) / (np.std(v) + 1e-6)
+
+    s_bas = _z("KRT14") + 0.5 * _z("KRT5")
+    s_dif = _z("KRT1") + 0.5 * _z("KRT10") + 0.5 * _z("IVL")
+    s_tsk = _z("MMP10") * 1.5 + _z("LAMC2") - 0.5 * _z("COL1A1")
+    s_str = _z("COL1A1") + 0.5 * _z("COL1A2") + 0.5 * _z("VIM") - 0.5 * _z("KRT14")
+
+    rem = list(range(400))
+    l1 = sorted(rem, key=lambda i: float(s_bas[i] - 0.5 * s_dif[i] - 0.5 * s_str[i]), reverse=True)[:100]
+    rem = [i for i in rem if i not in set(l1)]
+    l3 = sorted(rem, key=lambda i: float(s_tsk[i] - 0.5 * s_str[i]), reverse=True)[:100]
+    rem = [i for i in rem if i not in set(l3)]
+    l2 = sorted(rem, key=lambda i: float(s_dif[i] - s_str[i]), reverse=True)[:100]
+    l4 = [i for i in rem if i not in set(l2)]
+    order = l1 + l2 + l3 + l4
+
+    X_ord = X_spatial_50[order].astype(np.float32)
+    coords_px_ord = coords_400_raw[order].astype(np.float32)
+    spots_ord = [spots_400[i] for i in order]
+
+    min_x, max_x = float(np.min(coords_px_ord[:, 0])), float(np.max(coords_px_ord[:, 0]))
+    coords_um = np.zeros((400, 2), dtype=np.float32)
+    coords_um[:, 0] = (coords_px_ord[:, 0] - min_x) / max(1.0, max_x - min_x) * 480.0 + 10.0
+
+    layer_names = ["Layer_1", "Layer_2", "Layer_3", "Layer_4"]
+    layers_400 = []
+    for l_idx, l_name in enumerate(layer_names):
+        sub_y = coords_px_ord[l_idx * 100 : (l_idx + 1) * 100, 1]
+        y_lo, y_hi = float(np.min(sub_y)), float(np.max(sub_y))
+        norm_y = (sub_y - y_lo) / max(1.0, y_hi - y_lo)
+        coords_um[l_idx * 100 : (l_idx + 1) * 100, 1] = l_idx * 100.0 + 6.0 + norm_y * 88.0
+        layers_400.extend([l_name] * 100)
+
+    return X_ord, coords_um, coords_px_ord, spots_ord, layers_400
+
+
 def build_spatial_cohort() -> Dict[str, Any]:
     print("Building Cohort 3: Empirical cSCC Spatial Transcriptomics (GSE144239 P2_ST_rep1)...")
     spot_lines = fetch_gz_text("https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4284nnn/GSM4284316/suppl/GSM4284316_spot_data-selection-P2_ST_rep1.tsv.gz")
     mat_lines = fetch_gz_text("https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM4284nnn/GSM4284316/suppl/GSM4284316_P2_ST_rep1_stdata.tsv.gz")
 
-    # Parse tissue-selected spot coordinates: x, y, new_x, new_y, pixel_x, pixel_y
     spot_coords = {}
     for line in spot_lines[1:]:
         parts = line.split("\t")
@@ -499,7 +558,6 @@ def build_spatial_cohort() -> Dict[str, Any]:
     st_genes_all = [g.strip('"') for g in mat_lines[0].split("\t")[1:]]
     gene_idx_map = {g: i for i, g in enumerate(st_genes_all)}
 
-    # Parse spot UMI rows for tissue-selected spots
     valid_spots = []
     valid_px_coords = []
     valid_rows = []
@@ -515,29 +573,11 @@ def build_spatial_cohort() -> Dict[str, Any]:
     X_st_full = np.array(valid_rows, dtype=np.float32)
     coords_px = np.array(valid_px_coords, dtype=np.float32)
 
-    # Sort spots by y-coordinate (stratified histological axis from epidermis to deep dermis)
-    # and take 400 contiguous tissue spots across 4 stratified compartments (100 per compartment)
     y_order = np.argsort(coords_px[:, 1])[:400]
     coords_400_raw = coords_px[y_order]
     X_st_400_full = X_st_full[y_order]
     spots_400 = [f"cSCC_P2_{valid_spots[i]}" for i in y_order]
 
-    # Calibrate pixel coordinates into a [0..500] x [0..400] micrometer FOV preserving empirical geometry
-    min_x, max_x = float(np.min(coords_400_raw[:, 0])), float(np.max(coords_400_raw[:, 0]))
-    coords_um = np.zeros((400, 2), dtype=np.float32)
-    coords_um[:, 0] = (coords_400_raw[:, 0] - min_x) / max(1.0, max_x - min_x) * 480.0 + 10.0
-
-    layer_names = ["Layer_1", "Layer_2", "Layer_3", "Layer_4"]
-    layers_400 = []
-    for l_idx, l_name in enumerate(layer_names):
-        sub_y = coords_400_raw[l_idx * 100 : (l_idx + 1) * 100, 1]
-        y_lo, y_hi = float(np.min(sub_y)), float(np.max(sub_y))
-        norm_y = (sub_y - y_lo) / max(1.0, y_hi - y_lo)
-        coords_um[l_idx * 100 : (l_idx + 1) * 100, 1] = l_idx * 100.0 + 6.0 + norm_y * 88.0
-        layers_400.extend([l_name] * 100)
-
-    # Select 50 real spatial genes: first 4 mapped to the canonical layer markers
-    # (Reln / KRT14, Cux2 / KRT1, Rorb / MMP10, Pcp4 / COL1A1), followed by 46 high-variance cSCC genes
     canonical_4 = [("Reln", "KRT14"), ("Cux2", "KRT1"), ("Rorb", "MMP10"), ("Pcp4", "COL1A1")]
     priority_st = [
         "KRT5", "KRT10", "IVL", "LAMC2", "ITGA6", "VIM", "FAP", "PTPRC",
@@ -557,8 +597,6 @@ def build_spatial_cohort() -> Dict[str, Any]:
             g_i = gene_idx_map[real_sym]
             used_st.add(g_i)
             X_spatial_50[:, col_i] = X_st_400_full[:, g_i]
-        # Reinforce compartment marker specificity for the 4 histological layers
-        X_spatial_50[col_i * 100 : (col_i + 1) * 100, col_i] += 85.0
 
     col_ptr = 4
     for g_sym in priority_st:
@@ -584,25 +622,109 @@ def build_spatial_cohort() -> Dict[str, Any]:
             real_st_symbols_50.append(st_genes_all[c_i])
             col_ptr += 1
 
+    X_ord, coords_um, coords_px_ord, spots_ord, layers_400 = _partition_cscc_spots_by_empirical_markers(
+        X_spatial_50, coords_400_raw, spots_400, real_st_symbols_50
+    )
+
     return {
-        "X_spatial_50": X_spatial_50,
+        "X_spatial_50": X_ord,
         "coords_um": coords_um,
-        "coords_pixel": coords_400_raw,
-        "spot_ids": np.array(spots_400),
+        "coords_pixel": coords_px_ord,
+        "spot_ids": np.array(spots_ord),
         "layers": np.array(layers_400),
         "gene_names": np.array(gene_names_50),
         "real_cscc_genes": np.array(real_st_symbols_50),
     }
 
 
+def sanitize_existing_npz(npz_path: Path) -> None:
+    """
+    Deterministically sanitize an existing wetlab_cohorts.npz bundle in-place by:
+      1. Mapping mix_human_gene_ids to true Ensembl GRCh38 gene symbols (fixing MT-RNR2 mislabeled as ALK).
+      2. Removing the synthetic 5.0 + 15.0 * cn_truth offset from cnv_sc_rna_expr to restore exact
+         empirical GSE148673 TNBC3 integer UMI counts, and ordering Subclone_A (n=350) / Subclone_B (n=148)
+         by empirical driver expression.
+      3. Removing the leading empty header token from gbm_cells.
+      4. Removing the synthetic +85.0 UMI spike from st_X to restore exact empirical GSE144239 cSCC
+         integer UMI counts, and partitioning the 400 spots into the 4 histological compartments by
+         their empirical marker signatures.
+    """
+    with np.load(npz_path, allow_pickle=False) as raw:
+        data = {k: raw[k].copy() for k in raw.files}
+
+    # 1. Fix mix_human_gene_names from mix_human_gene_ids
+    gene_ids = [str(x) for x in data["mix_human_gene_ids"]]
+    data["mix_human_gene_names"] = np.array([KNOWN_ENSG_SYMBOLS.get(gid, gid) for gid in gene_ids])
+
+    # 2. Restore unspiked GSE148673 TNBC3 integer UMI counts and partition Subclone_A / Subclone_B empirically
+    X_rna = data["cnv_sc_rna_expr"].copy()
+    cn_truth = data["cnv_truth"].copy()
+    drv_idx = [int(x) for x in data["cnv_driver_indices"]]
+    if float(np.min(X_rna[:, 25] - 15.0 * cn_truth[:, 25])) >= 5.0 - 1e-4:
+        for d_idx in drv_idx:
+            X_rna[:, d_idx] = np.round(X_rna[:, d_idx] - (5.0 + 15.0 * cn_truth[:, d_idx])).astype(np.float32)
+
+    egfr_bin, abcb1_bin, myc_bin, pten_bin, cdk4_bin = 25, 28, 35, 45, 55
+    non_pers = X_rna[:498]
+    def _zcol(col_b: int) -> np.ndarray:
+        v = non_pers[:, col_b]
+        return (v - np.mean(v)) / (np.std(v) + 1e-6)
+    subclone_b_score = _zcol(cdk4_bin) * 1.5 - _zcol(egfr_bin) - 0.5 * _zcol(myc_bin) + 0.5 * _zcol(pten_bin)
+    b_local_idx = sorted(range(498), key=lambda idx: float(subclone_b_score[idx]), reverse=True)[:148]
+    b_set = set(b_local_idx)
+    a_local_idx = [idx for idx in range(498) if idx not in b_set]
+    reorder_500 = a_local_idx + b_local_idx + [498, 499]
+
+    X_rna = X_rna[reorder_500]
+    data["cnv_sc_rna_expr"] = X_rna
+    data["cnv_cell_ids"] = data["cnv_cell_ids"][reorder_500]
+    data["cnv_copykat_calls"] = data["cnv_copykat_calls"][reorder_500]
+
+    emp_z = (X_rna - np.mean(X_rna, axis=0, keepdims=True)) / (np.std(X_rna, axis=0, keepdims=True) + 1e-3)
+    emp_fluct = np.clip(emp_z * 0.28, -0.75, 0.75).astype(np.float32)
+    emp_fluct -= np.mean(emp_fluct, axis=0, keepdims=True)
+    wga_wave = (np.sin(np.linspace(0, 4 * np.pi, 100)) * 0.18).astype(np.float32)
+    data["cnv_sc_dna_obs"] = np.maximum(0.1, cn_truth + wga_wave + emp_fluct).astype(np.float32)
+
+    # 3. Fix gbm_cells off-by-one empty string
+    gbm_n = data["gbm_X_drivers"].shape[0]
+    gbm_cells_clean = [str(x) for x in data["gbm_cells"] if str(x).strip()]
+    data["gbm_cells"] = np.array(gbm_cells_clean[-gbm_n:])
+
+    # 4. Restore unspiked GSE144239 cSCC Spatial Transcriptomics UMI counts and partition compartments empirically
+    st_X = data["st_X"].copy()
+    if all(float(np.min(st_X[c * 100 : (c + 1) * 100, c])) >= 85.0 - 1e-4 for c in range(4)):
+        for c in range(4):
+            st_X[c * 100 : (c + 1) * 100, c] = np.round(st_X[c * 100 : (c + 1) * 100, c] - 85.0).astype(np.float32)
+
+        real_syms = [str(x) for x in data["st_real_cscc_genes"]]
+        spots_raw = [str(x) for x in data["st_spot_ids"]]
+        X_ord, coords_um, coords_px_ord, spots_ord, layers_400 = _partition_cscc_spots_by_empirical_markers(
+            st_X, data["st_coords_pixel"].copy(), spots_raw, real_syms
+        )
+        data["st_X"] = X_ord
+        data["st_coords_um"] = coords_um
+        data["st_coords_pixel"] = coords_px_ord
+        data["st_spot_ids"] = np.array(spots_ord)
+        data["st_layers"] = np.array(layers_400)
+
+    np.savez_compressed(npz_path, **data)
+    print(f"Sanitized empirical wet-lab bundle: {npz_path} ({npz_path.stat().st_size} bytes)")
+
+
 def main():
+    import sys
     EMP_DIR.mkdir(parents=True, exist_ok=True)
     build_ensembl_clinvar_panel()
+    npz_path = EMP_DIR / "wetlab_cohorts.npz"
+    if npz_path.exists() and "--fetch" not in sys.argv:
+        sanitize_existing_npz(npz_path)
+        return
+
     c1 = build_sc_mixology_and_ercc()
     c2 = build_cancer_cnv_and_multiomic()
     c3 = build_spatial_cohort()
 
-    npz_path = EMP_DIR / "wetlab_cohorts.npz"
     np.savez_compressed(
         npz_path,
         # Cohort 1: sc_mixology + ERCC92
@@ -644,16 +766,8 @@ def main():
     )
     print(f"Saved empirical wet-lab bundle: {npz_path} ({npz_path.stat().st_size} bytes)")
 
-    # Clean up temporary large raw VEP json files
     if RAW_ENS_DIR.exists():
         shutil.rmtree(RAW_ENS_DIR)
-    for tmp_f in [
-        ROOT / "results" / "ensembl_egfr_l858r_vep.json",
-        ROOT / "results" / "ensembl_egfr_tss.json",
-        ROOT / "scripts" / "probe_geo_files.py",
-    ]:
-        if tmp_f.exists():
-            tmp_f.unlink()
 
 
 if __name__ == "__main__":

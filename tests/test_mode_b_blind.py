@@ -3,6 +3,8 @@
 Mode B: Zero-Leakage Blind Cross-Validation & Baseline Comparison Tests.
 """
 
+import json
+from pathlib import Path
 import numpy as np
 import pytest
 
@@ -13,6 +15,7 @@ from cellsnail.benchmark.mode_b_blind import (
     benchmark_cnv_width_resolution_crossover,
     benchmark_ercc_spurious_correlation,
     benchmark_loco_lodo_lofo_cross_validation,
+    benchmark_permutation_and_missing_modality_crossover,
     benchmark_rare_persister_subclone_recovery,
     benchmark_spatial_boundary_penetration,
     benchmark_spatial_jitter_crossover_sweep,
@@ -132,6 +135,48 @@ def test_loco_lodo_lofo_cross_validation():
         assert fold["cellsnail_max_penetration_residual"] == 0.0
 
 
+def test_permutation_and_missing_modality_crossover():
+    res = benchmark_permutation_and_missing_modality_crossover(random_state=42)
+    perm_audit = res["column_permutation_collision_audit"]
+    assert perm_audit["adversarial_adjacent_amplicons_recall"]["unsorted_1d_morse_gate"] <= 0.25
+    assert perm_audit["adversarial_adjacent_amplicons_recall"]["chromosomal_sorted_morse_gate"] == 1.0
+    assert perm_audit["random_10_permutations_mean_recall"]["chromosomal_sorted_morse_gate"] == 1.0
+
+    m_sweep = res["missing_modality_ambient_soup_sweep"]
+    assert len(m_sweep) == 5
+    for row in m_sweep:
+        assert row["relative_trace_residual"] < 1e-13
+    # At 85% missing modality + heavy log-normal soup, shrinkage regularization beats unregularized rotor
+    assert m_sweep[-1]["driver_subspace_cosine_similarity"]["shrinkage_regularized_rotor"] > m_sweep[-1]["driver_subspace_cosine_similarity"]["unregularized_so6_rotor"]
+
+
+def test_empirical_wetlab_umi_integer_and_json_integrity():
+    root = Path(__file__).resolve().parent.parent
+    npz_path = root / "cellsnail" / "data" / "empirical" / "wetlab_cohorts.npz"
+    assert npz_path.exists()
+    with np.load(npz_path, allow_pickle=False) as z:
+        for key in ("mix_X_human", "mix_X_ercc_perm", "cnv_sc_rna_expr", "st_X"):
+            arr = z[key]
+            assert np.all(arr >= 0.0)
+            np.testing.assert_allclose(arr, np.round(arr), atol=1e-6)
+        assert len(z["gbm_cells"]) == 543
+        assert "" not in list(z["gbm_cells"])
+        # Verify ENSG00000210082 is mapped to its true Ensembl GRCh38 symbol MT-RNR2
+        ens_ids = list(z["mix_human_gene_ids"])
+        syms = list(z["mix_human_gene_names"])
+        idx = ens_ids.index("ENSG00000210082")
+        assert syms[idx] == "MT-RNR2"
+
+    summary_path = root / "results" / "cellsnail_evaluation_summary.json"
+    if summary_path.exists():
+        raw_text = summary_path.read_text(encoding="utf-8")
+        parsed = json.loads(
+            raw_text,
+            parse_constant=lambda c: (_ for _ in ()).throw(ValueError(f"Non-standard JSON constant: {c}")),
+        )
+        assert parsed["mode_b_blind_cross_validation"]["status"] == "MODE_B_BENCHMARKS_COMPLETE"
+
+
 def test_run_mode_b_blind_cross_validation_sweeps():
     sweep_res = run_mode_b_blind_cross_validation(
         snr_levels=[np.inf, 20.0, 10.0],
@@ -144,4 +189,5 @@ def test_run_mode_b_blind_cross_validation_sweeps():
     assert len(sweep_res["cnv_edge_fidelity_sweep"]) == 6
     assert "loco_lodo_lofo_cross_validation" in sweep_res
     assert "failure_mode_crossover_sweeps" in sweep_res
+
 

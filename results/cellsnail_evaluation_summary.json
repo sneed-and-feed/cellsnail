@@ -145,373 +145,373 @@
     ],
     "ercc_spurious_correlation_sweep": [
       {
-        "snr_db": Infinity,
+        "snr_db": "inf",
         "dropout_rate": 0.0,
         "total_ercc_genes": 92,
         "total_evaluated_pairs": 4186,
         "spurious_pairs": {
           "raw_counts": 0,
-          "magic": 314,
-          "alra": 482,
-          "cellsnail": 0
-        },
-        "spurious_rate": {
-          "raw_counts": 0.0,
-          "magic": 0.07501194457716197,
-          "alra": 0.11514572384137602,
-          "cellsnail": 0.0
-        },
-        "max_abs_r": {
-          "raw_counts": 0.20428632718568848,
-          "magic": 0.9317214268935319,
-          "alra": 0.9333979641912875,
-          "cellsnail": 0.3202841916278505
-        },
-        "mean_abs_r": {
-          "raw_counts": 0.046074286485337665,
-          "magic": 0.35009096897650904,
-          "alra": 0.43549938385659764,
-          "cellsnail": 0.045841676639264785
-        },
-        "unpermuted_capture_efficiency_audit": {
-          "mean_abs_r_shared_capture": 0.2522479226110618,
-          "pairs_above_0_50_shared_capture": 658
-        }
-      },
-      {
-        "snr_db": Infinity,
-        "dropout_rate": 0.1,
-        "total_ercc_genes": 92,
-        "total_evaluated_pairs": 4186,
-        "spurious_pairs": {
-          "raw_counts": 0,
-          "magic": 508,
-          "alra": 533,
-          "cellsnail": 0
-        },
-        "spurious_rate": {
-          "raw_counts": 0.0,
-          "magic": 0.12135690396559962,
-          "alra": 0.12732919254658384,
-          "cellsnail": 0.0
-        },
-        "max_abs_r": {
-          "raw_counts": 0.2547392097733312,
-          "magic": 0.9467940979549045,
-          "alra": 0.9483836888335727,
-          "cellsnail": 0.24266591931115034
-        },
-        "mean_abs_r": {
-          "raw_counts": 0.04589112333063961,
-          "magic": 0.38011152610813975,
-          "alra": 0.4501053432342095,
-          "cellsnail": 0.04601617247093292
-        },
-        "unpermuted_capture_efficiency_audit": {
-          "mean_abs_r_shared_capture": 0.2522479226110618,
-          "pairs_above_0_50_shared_capture": 658
-        }
-      },
-      {
-        "snr_db": Infinity,
-        "dropout_rate": 0.2,
-        "total_ercc_genes": 92,
-        "total_evaluated_pairs": 4186,
-        "spurious_pairs": {
-          "raw_counts": 0,
-          "magic": 387,
-          "alra": 446,
-          "cellsnail": 0
-        },
-        "spurious_rate": {
-          "raw_counts": 0.0,
-          "magic": 0.09245102723363594,
-          "alra": 0.10654562828475872,
-          "cellsnail": 0.0
-        },
-        "max_abs_r": {
-          "raw_counts": 0.29903356425770755,
-          "magic": 0.9302501988317288,
-          "alra": 0.9304023726025223,
-          "cellsnail": 0.3242649640918517
-        },
-        "mean_abs_r": {
-          "raw_counts": 0.04663420893763842,
-          "magic": 0.3592901584174478,
-          "alra": 0.43143767588263554,
-          "cellsnail": 0.04297137538289633
-        },
-        "unpermuted_capture_efficiency_audit": {
-          "mean_abs_r_shared_capture": 0.2522479226110618,
-          "pairs_above_0_50_shared_capture": 658
-        }
-      },
-      {
-        "snr_db": Infinity,
-        "dropout_rate": 0.3,
-        "total_ercc_genes": 92,
-        "total_evaluated_pairs": 4186,
-        "spurious_pairs": {
-          "raw_counts": 0,
-          "magic": 330,
-          "alra": 464,
-          "cellsnail": 0
-        },
-        "spurious_rate": {
-          "raw_counts": 0.0,
-          "magic": 0.07883420926899187,
-          "alra": 0.11084567606306736,
-          "cellsnail": 0.0
-        },
-        "max_abs_r": {
-          "raw_counts": 0.2718778348231939,
-          "magic": 0.9313116497987247,
-          "alra": 0.9480003711432456,
-          "cellsnail": 0.48427953768477777
-        },
-        "mean_abs_r": {
-          "raw_counts": 0.04648083953590524,
-          "magic": 0.35153220187673306,
-          "alra": 0.440251720502478,
-          "cellsnail": 0.04284479081184676
-        },
-        "unpermuted_capture_efficiency_audit": {
-          "mean_abs_r_shared_capture": 0.2522479226110618,
-          "pairs_above_0_50_shared_capture": 658
-        }
-      },
-      {
-        "snr_db": 20.0,
-        "dropout_rate": 0.0,
-        "total_ercc_genes": 92,
-        "total_evaluated_pairs": 4186,
-        "spurious_pairs": {
-          "raw_counts": 0,
-          "magic": 343,
-          "alra": 571,
-          "cellsnail": 0
-        },
-        "spurious_rate": {
-          "raw_counts": 0.0,
-          "magic": 0.08193979933110368,
-          "alra": 0.13640707118967987,
-          "cellsnail": 0.0
-        },
-        "max_abs_r": {
-          "raw_counts": 0.2077000243453401,
-          "magic": 0.944859278370376,
-          "alra": 0.9422413851267258,
-          "cellsnail": 0.2611209202446506
-        },
-        "mean_abs_r": {
-          "raw_counts": 0.045493088624359565,
-          "magic": 0.3622893771639954,
-          "alra": 0.49085303015367665,
-          "cellsnail": 0.05021772696674178
-        },
-        "unpermuted_capture_efficiency_audit": {
-          "mean_abs_r_shared_capture": 0.2522479226110618,
-          "pairs_above_0_50_shared_capture": 658
-        }
-      },
-      {
-        "snr_db": 20.0,
-        "dropout_rate": 0.1,
-        "total_ercc_genes": 92,
-        "total_evaluated_pairs": 4186,
-        "spurious_pairs": {
-          "raw_counts": 0,
-          "magic": 382,
-          "alra": 699,
-          "cellsnail": 0
-        },
-        "spurious_rate": {
-          "raw_counts": 0.0,
-          "magic": 0.09125656951743909,
-          "alra": 0.16698518872431917,
-          "cellsnail": 0.0
-        },
-        "max_abs_r": {
-          "raw_counts": 0.19736939133649195,
-          "magic": 0.9397169736857162,
-          "alra": 0.96667017897387,
-          "cellsnail": 0.26015723952716746
-        },
-        "mean_abs_r": {
-          "raw_counts": 0.04601804703167184,
-          "magic": 0.36195087221794264,
-          "alra": 0.5143396805988981,
-          "cellsnail": 0.049204247559886435
-        },
-        "unpermuted_capture_efficiency_audit": {
-          "mean_abs_r_shared_capture": 0.2522479226110618,
-          "pairs_above_0_50_shared_capture": 658
-        }
-      },
-      {
-        "snr_db": 20.0,
-        "dropout_rate": 0.2,
-        "total_ercc_genes": 92,
-        "total_evaluated_pairs": 4186,
-        "spurious_pairs": {
-          "raw_counts": 0,
-          "magic": 336,
-          "alra": 626,
-          "cellsnail": 0
-        },
-        "spurious_rate": {
-          "raw_counts": 0.0,
-          "magic": 0.0802675585284281,
-          "alra": 0.14954610606784519,
-          "cellsnail": 0.0
-        },
-        "max_abs_r": {
-          "raw_counts": 0.2253422118628444,
-          "magic": 0.9315933549937195,
-          "alra": 0.9566123682684694,
-          "cellsnail": 0.24038720126639151
-        },
-        "mean_abs_r": {
-          "raw_counts": 0.045685265718465276,
-          "magic": 0.3639144822010483,
-          "alra": 0.5000572099459688,
-          "cellsnail": 0.0490274051378851
-        },
-        "unpermuted_capture_efficiency_audit": {
-          "mean_abs_r_shared_capture": 0.2522479226110618,
-          "pairs_above_0_50_shared_capture": 658
-        }
-      },
-      {
-        "snr_db": 20.0,
-        "dropout_rate": 0.3,
-        "total_ercc_genes": 92,
-        "total_evaluated_pairs": 4186,
-        "spurious_pairs": {
-          "raw_counts": 0,
-          "magic": 280,
-          "alra": 554,
-          "cellsnail": 0
-        },
-        "spurious_rate": {
-          "raw_counts": 0.0,
-          "magic": 0.06688963210702341,
-          "alra": 0.1323459149546106,
-          "cellsnail": 0.0
-        },
-        "max_abs_r": {
-          "raw_counts": 0.21807247565939328,
-          "magic": 0.9376621985157823,
-          "alra": 0.9517928599667469,
-          "cellsnail": 0.2687345298884976
-        },
-        "mean_abs_r": {
-          "raw_counts": 0.04636279352344667,
-          "magic": 0.3426694383678762,
-          "alra": 0.483951378256998,
-          "cellsnail": 0.048121494752045364
-        },
-        "unpermuted_capture_efficiency_audit": {
-          "mean_abs_r_shared_capture": 0.2522479226110618,
-          "pairs_above_0_50_shared_capture": 658
-        }
-      },
-      {
-        "snr_db": 10.0,
-        "dropout_rate": 0.0,
-        "total_ercc_genes": 92,
-        "total_evaluated_pairs": 4186,
-        "spurious_pairs": {
-          "raw_counts": 0,
-          "magic": 419,
-          "alra": 352,
-          "cellsnail": 0
-        },
-        "spurious_rate": {
-          "raw_counts": 0.0,
-          "magic": 0.10009555661729574,
-          "alra": 0.084089823220258,
-          "cellsnail": 0.0
-        },
-        "max_abs_r": {
-          "raw_counts": 0.2193162617844963,
-          "magic": 0.951125927632122,
-          "alra": 0.9578096071619451,
-          "cellsnail": 0.25293243118619346
-        },
-        "mean_abs_r": {
-          "raw_counts": 0.045294092325266704,
-          "magic": 0.3733760008257447,
-          "alra": 0.42141419945615777,
-          "cellsnail": 0.050218046543872456
-        },
-        "unpermuted_capture_efficiency_audit": {
-          "mean_abs_r_shared_capture": 0.2522479226110618,
-          "pairs_above_0_50_shared_capture": 658
-        }
-      },
-      {
-        "snr_db": 10.0,
-        "dropout_rate": 0.1,
-        "total_ercc_genes": 92,
-        "total_evaluated_pairs": 4186,
-        "spurious_pairs": {
-          "raw_counts": 0,
-          "magic": 311,
-          "alra": 364,
-          "cellsnail": 0
-        },
-        "spurious_rate": {
-          "raw_counts": 0.0,
-          "magic": 0.07429526994744386,
-          "alra": 0.08695652173913043,
-          "cellsnail": 0.0
-        },
-        "max_abs_r": {
-          "raw_counts": 0.21396961610598927,
-          "magic": 0.9207807223175383,
-          "alra": 0.9279791603686658,
-          "cellsnail": 0.2717163240689454
-        },
-        "mean_abs_r": {
-          "raw_counts": 0.045766267909930526,
-          "magic": 0.3495305878551776,
-          "alra": 0.4292696740013586,
-          "cellsnail": 0.04902682065650893
-        },
-        "unpermuted_capture_efficiency_audit": {
-          "mean_abs_r_shared_capture": 0.2522479226110618,
-          "pairs_above_0_50_shared_capture": 658
-        }
-      },
-      {
-        "snr_db": 10.0,
-        "dropout_rate": 0.2,
-        "total_ercc_genes": 92,
-        "total_evaluated_pairs": 4186,
-        "spurious_pairs": {
-          "raw_counts": 0,
-          "magic": 435,
+          "magic": 72,
           "alra": 328,
           "cellsnail": 0
         },
         "spurious_rate": {
           "raw_counts": 0.0,
-          "magic": 0.10391782130912566,
+          "magic": 0.017200191113234592,
           "alra": 0.07835642618251314,
           "cellsnail": 0.0
         },
         "max_abs_r": {
-          "raw_counts": 0.21495349535239117,
-          "magic": 0.9367666433992418,
-          "alra": 0.9434935688076027,
-          "cellsnail": 0.2652207760650781
+          "raw_counts": 0.22336498195304844,
+          "magic": 0.8726413933860979,
+          "alra": 0.9212629127875098,
+          "cellsnail": 0.22892531493500326
         },
         "mean_abs_r": {
-          "raw_counts": 0.0459553619282212,
-          "magic": 0.3793561582283305,
-          "alra": 0.4187714695913429,
-          "cellsnail": 0.048254874219497625
+          "raw_counts": 0.046830287377990026,
+          "magic": 0.26646993891483006,
+          "alra": 0.3710473579971882,
+          "cellsnail": 0.046922430499511704
+        },
+        "unpermuted_capture_efficiency_audit": {
+          "mean_abs_r_shared_capture": 0.2522479226110618,
+          "pairs_above_0_50_shared_capture": 658
+        }
+      },
+      {
+        "snr_db": "inf",
+        "dropout_rate": 0.1,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 104,
+          "alra": 405,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.024844720496894408,
+          "alra": 0.09675107501194458,
+          "cellsnail": 0.0
+        },
+        "max_abs_r": {
+          "raw_counts": 0.21515412525844915,
+          "magic": 0.8900379413047688,
+          "alra": 0.9400771065696725,
+          "cellsnail": 0.3105548804478655
+        },
+        "mean_abs_r": {
+          "raw_counts": 0.04633643733941594,
+          "magic": 0.295055582146399,
+          "alra": 0.4100977698350105,
+          "cellsnail": 0.04491182710858878
+        },
+        "unpermuted_capture_efficiency_audit": {
+          "mean_abs_r_shared_capture": 0.2522479226110618,
+          "pairs_above_0_50_shared_capture": 658
+        }
+      },
+      {
+        "snr_db": "inf",
+        "dropout_rate": 0.2,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 212,
+          "alra": 475,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.050645007166746296,
+          "alra": 0.11347348303870043,
+          "cellsnail": 0.0
+        },
+        "max_abs_r": {
+          "raw_counts": 0.19972903778987988,
+          "magic": 0.9300616052328143,
+          "alra": 0.9302468889175641,
+          "cellsnail": 0.5754160919975786
+        },
+        "mean_abs_r": {
+          "raw_counts": 0.046595243807556724,
+          "magic": 0.3167521159825944,
+          "alra": 0.42067700446648043,
+          "cellsnail": 0.045171921887022355
+        },
+        "unpermuted_capture_efficiency_audit": {
+          "mean_abs_r_shared_capture": 0.2522479226110618,
+          "pairs_above_0_50_shared_capture": 658
+        }
+      },
+      {
+        "snr_db": "inf",
+        "dropout_rate": 0.3,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 323,
+          "alra": 425,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.07716196846631629,
+          "alra": 0.10152890587673197,
+          "cellsnail": 0.0
+        },
+        "max_abs_r": {
+          "raw_counts": 0.2508009598822371,
+          "magic": 0.9336735319983429,
+          "alra": 0.9296630189021695,
+          "cellsnail": 0.34153566777979527
+        },
+        "mean_abs_r": {
+          "raw_counts": 0.045192177002779055,
+          "magic": 0.34378396225973534,
+          "alra": 0.4206067692638827,
+          "cellsnail": 0.04530993650314088
+        },
+        "unpermuted_capture_efficiency_audit": {
+          "mean_abs_r_shared_capture": 0.2522479226110618,
+          "pairs_above_0_50_shared_capture": 658
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.0,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 58,
+          "alra": 178,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.01385570950788342,
+          "alra": 0.042522694696607743,
+          "cellsnail": 0.0
+        },
+        "max_abs_r": {
+          "raw_counts": 0.23288053343529835,
+          "magic": 0.8894455359233417,
+          "alra": 0.9708277492472804,
+          "cellsnail": 0.228737599835504
+        },
+        "mean_abs_r": {
+          "raw_counts": 0.045771857665706635,
+          "magic": 0.2684785000078513,
+          "alra": 0.32773109316048554,
+          "cellsnail": 0.05036026855369641
+        },
+        "unpermuted_capture_efficiency_audit": {
+          "mean_abs_r_shared_capture": 0.2522479226110618,
+          "pairs_above_0_50_shared_capture": 658
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.1,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 130,
+          "alra": 249,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.031055900621118012,
+          "alra": 0.05948399426660296,
+          "cellsnail": 0.0
+        },
+        "max_abs_r": {
+          "raw_counts": 0.21982428589380112,
+          "magic": 0.8770851822126193,
+          "alra": 0.938564625712117,
+          "cellsnail": 0.2386555354435324
+        },
+        "mean_abs_r": {
+          "raw_counts": 0.045774029651618205,
+          "magic": 0.3108195711661324,
+          "alra": 0.3648457878175213,
+          "cellsnail": 0.049620550407754614
+        },
+        "unpermuted_capture_efficiency_audit": {
+          "mean_abs_r_shared_capture": 0.2522479226110618,
+          "pairs_above_0_50_shared_capture": 658
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.2,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 269,
+          "alra": 334,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.06426182513139035,
+          "alra": 0.07978977544194936,
+          "cellsnail": 0.0
+        },
+        "max_abs_r": {
+          "raw_counts": 0.21558012846107588,
+          "magic": 0.9302848659634122,
+          "alra": 0.9515967866477277,
+          "cellsnail": 0.2556816410731268
+        },
+        "mean_abs_r": {
+          "raw_counts": 0.04658858395161707,
+          "magic": 0.33061064809790336,
+          "alra": 0.39684449315628534,
+          "cellsnail": 0.05005466112036303
+        },
+        "unpermuted_capture_efficiency_audit": {
+          "mean_abs_r_shared_capture": 0.2522479226110618,
+          "pairs_above_0_50_shared_capture": 658
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.3,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 322,
+          "alra": 308,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.07692307692307693,
+          "alra": 0.07357859531772576,
+          "cellsnail": 0.0
+        },
+        "max_abs_r": {
+          "raw_counts": 0.2635924216357173,
+          "magic": 0.9280473810007785,
+          "alra": 0.9180393141645108,
+          "cellsnail": 0.2679690558183386
+        },
+        "mean_abs_r": {
+          "raw_counts": 0.0460253883657548,
+          "magic": 0.3462927015480297,
+          "alra": 0.39694843379775896,
+          "cellsnail": 0.04921139391077094
+        },
+        "unpermuted_capture_efficiency_audit": {
+          "mean_abs_r_shared_capture": 0.2522479226110618,
+          "pairs_above_0_50_shared_capture": 658
+        }
+      },
+      {
+        "snr_db": 10.0,
+        "dropout_rate": 0.0,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 137,
+          "alra": 127,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.0327281414237936,
+          "alra": 0.030339225991399904,
+          "cellsnail": 0.0
+        },
+        "max_abs_r": {
+          "raw_counts": 0.23682959735047027,
+          "magic": 0.9110472439809522,
+          "alra": 0.8827256581082139,
+          "cellsnail": 0.2413702925039934
+        },
+        "mean_abs_r": {
+          "raw_counts": 0.04542550881644597,
+          "magic": 0.3116226153181447,
+          "alra": 0.29219583755259365,
+          "cellsnail": 0.04986288633666914
+        },
+        "unpermuted_capture_efficiency_audit": {
+          "mean_abs_r_shared_capture": 0.2522479226110618,
+          "pairs_above_0_50_shared_capture": 658
+        }
+      },
+      {
+        "snr_db": 10.0,
+        "dropout_rate": 0.1,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 246,
+          "alra": 163,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.058767319636884856,
+          "alra": 0.0389393215480172,
+          "cellsnail": 0.0
+        },
+        "max_abs_r": {
+          "raw_counts": 0.19427776720226467,
+          "magic": 0.9046114656923291,
+          "alra": 0.9296472384737995,
+          "cellsnail": 0.34366747241209816
+        },
+        "mean_abs_r": {
+          "raw_counts": 0.0455492683603746,
+          "magic": 0.32990551126067236,
+          "alra": 0.32716105822273445,
+          "cellsnail": 0.0494338572319491
+        },
+        "unpermuted_capture_efficiency_audit": {
+          "mean_abs_r_shared_capture": 0.2522479226110618,
+          "pairs_above_0_50_shared_capture": 658
+        }
+      },
+      {
+        "snr_db": 10.0,
+        "dropout_rate": 0.2,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 313,
+          "alra": 209,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.07477305303392259,
+          "alra": 0.04992833253702819,
+          "cellsnail": 0.0
+        },
+        "max_abs_r": {
+          "raw_counts": 0.19961747711247385,
+          "magic": 0.9413434517303073,
+          "alra": 0.9617813418402691,
+          "cellsnail": 0.2526643134893376
+        },
+        "mean_abs_r": {
+          "raw_counts": 0.045453250129774615,
+          "magic": 0.34694116669175534,
+          "alra": 0.34347686739702227,
+          "cellsnail": 0.048879759984244084
         },
         "unpermuted_capture_efficiency_audit": {
           "mean_abs_r_shared_capture": 0.2522479226110618,
@@ -525,27 +525,27 @@
         "total_evaluated_pairs": 4186,
         "spurious_pairs": {
           "raw_counts": 0,
-          "magic": 394,
-          "alra": 373,
+          "magic": 423,
+          "alra": 215,
           "cellsnail": 0
         },
         "spurious_rate": {
           "raw_counts": 0.0,
-          "magic": 0.09412326803631152,
-          "alra": 0.08910654562828475,
+          "magic": 0.10105112279025323,
+          "alra": 0.05136168179646441,
           "cellsnail": 0.0
         },
         "max_abs_r": {
-          "raw_counts": 0.22385986426927,
-          "magic": 0.9444310085509078,
-          "alra": 0.9254264209337255,
-          "cellsnail": 0.24465454459656744
+          "raw_counts": 0.22758751896605203,
+          "magic": 0.9396741018941357,
+          "alra": 0.9369576514611542,
+          "cellsnail": 0.24034388539566182
         },
         "mean_abs_r": {
-          "raw_counts": 0.04634424100597605,
-          "magic": 0.3539829254090754,
-          "alra": 0.4264116192462767,
-          "cellsnail": 0.04786501336766232
+          "raw_counts": 0.045781517132147835,
+          "magic": 0.372327052156367,
+          "alra": 0.3456313892958138,
+          "cellsnail": 0.04798931909866973
         },
         "unpermuted_capture_efficiency_audit": {
           "mean_abs_r_shared_capture": 0.2522479226110618,
@@ -559,27 +559,27 @@
         "total_evaluated_pairs": 4186,
         "spurious_pairs": {
           "raw_counts": 0,
-          "magic": 660,
-          "alra": 205,
+          "magic": 441,
+          "alra": 119,
           "cellsnail": 0
         },
         "spurious_rate": {
           "raw_counts": 0.0,
-          "magic": 0.15766841853798375,
-          "alra": 0.04897276636407071,
+          "magic": 0.10535117056856187,
+          "alra": 0.028428093645484948,
           "cellsnail": 0.0
         },
         "max_abs_r": {
-          "raw_counts": 0.195998515469706,
-          "magic": 0.9699480465402539,
-          "alra": 0.9065639939227028,
-          "cellsnail": 0.3000050043397008
+          "raw_counts": 0.26093545426767195,
+          "magic": 0.9492839517201243,
+          "alra": 0.8904966790366027,
+          "cellsnail": 0.2543426185980512
         },
         "mean_abs_r": {
-          "raw_counts": 0.045589206565806735,
-          "magic": 0.41459788844811724,
-          "alra": 0.3393219949700572,
-          "cellsnail": 0.05000258184505635
+          "raw_counts": 0.045196042482046075,
+          "magic": 0.3720021662964266,
+          "alra": 0.27459189293375846,
+          "cellsnail": 0.050259499990107336
         },
         "unpermuted_capture_efficiency_audit": {
           "mean_abs_r_shared_capture": 0.2522479226110618,
@@ -593,27 +593,27 @@
         "total_evaluated_pairs": 4186,
         "spurious_pairs": {
           "raw_counts": 0,
-          "magic": 489,
-          "alra": 217,
+          "magic": 547,
+          "alra": 135,
           "cellsnail": 0
         },
         "spurious_rate": {
           "raw_counts": 0.0,
-          "magic": 0.1168179646440516,
-          "alra": 0.051839464882943144,
+          "magic": 0.130673674151935,
+          "alra": 0.032250358337314856,
           "cellsnail": 0.0
         },
         "max_abs_r": {
-          "raw_counts": 0.20678116358384901,
-          "magic": 0.939431305499201,
-          "alra": 0.9276121488614699,
-          "cellsnail": 0.2581993633548312
+          "raw_counts": 0.21611826846819165,
+          "magic": 0.9640224549199496,
+          "alra": 0.9051455250477738,
+          "cellsnail": 0.26627354475048043
         },
         "mean_abs_r": {
-          "raw_counts": 0.04580880303244533,
-          "magic": 0.38445632594405965,
-          "alra": 0.36292714171643026,
-          "cellsnail": 0.04904686241530704
+          "raw_counts": 0.04564686899167279,
+          "magic": 0.40041773286414023,
+          "alra": 0.2953848551981456,
+          "cellsnail": 0.04878947159366291
         },
         "unpermuted_capture_efficiency_audit": {
           "mean_abs_r_shared_capture": 0.2522479226110618,
@@ -627,27 +627,27 @@
         "total_evaluated_pairs": 4186,
         "spurious_pairs": {
           "raw_counts": 0,
-          "magic": 473,
-          "alra": 225,
+          "magic": 607,
+          "alra": 163,
           "cellsnail": 0
         },
         "spurious_rate": {
           "raw_counts": 0.0,
-          "magic": 0.1129956999522217,
-          "alra": 0.053750597228858096,
+          "magic": 0.14500716674629718,
+          "alra": 0.0389393215480172,
           "cellsnail": 0.0
         },
         "max_abs_r": {
-          "raw_counts": 0.2184214849491924,
-          "magic": 0.9495173739716852,
-          "alra": 0.9441841305491026,
-          "cellsnail": 0.22974308600675258
+          "raw_counts": 0.21222225256627725,
+          "magic": 0.9619277949223535,
+          "alra": 0.9294085921672064,
+          "cellsnail": 0.25204765157592157
         },
         "mean_abs_r": {
-          "raw_counts": 0.04619513835219876,
-          "magic": 0.3916430599696385,
-          "alra": 0.3574194916960966,
-          "cellsnail": 0.04855974821453738
+          "raw_counts": 0.04608927100336728,
+          "magic": 0.4074010143714793,
+          "alra": 0.3048712777743348,
+          "cellsnail": 0.047995949948370795
         },
         "unpermuted_capture_efficiency_audit": {
           "mean_abs_r_shared_capture": 0.2522479226110618,
@@ -661,27 +661,27 @@
         "total_evaluated_pairs": 4186,
         "spurious_pairs": {
           "raw_counts": 0,
-          "magic": 498,
-          "alra": 214,
+          "magic": 636,
+          "alra": 169,
           "cellsnail": 0
         },
         "spurious_rate": {
           "raw_counts": 0.0,
-          "magic": 0.11896798853320592,
-          "alra": 0.05112279025322503,
+          "magic": 0.15193502150023888,
+          "alra": 0.040372670807453416,
           "cellsnail": 0.0
         },
         "max_abs_r": {
-          "raw_counts": 0.22220891525616343,
-          "magic": 0.9646125094151208,
-          "alra": 0.9408702795104369,
-          "cellsnail": 0.2700670741290496
+          "raw_counts": 0.20802264716787353,
+          "magic": 0.9684626712299722,
+          "alra": 0.892757287763597,
+          "cellsnail": 0.3073215632078161
         },
         "mean_abs_r": {
-          "raw_counts": 0.04597905139271148,
-          "magic": 0.3817945064417149,
-          "alra": 0.3546472519168744,
-          "cellsnail": 0.04866740709478262
+          "raw_counts": 0.04587005507072391,
+          "magic": 0.409024743402629,
+          "alra": 0.32293349198618254,
+          "cellsnail": 0.048110961762747206
         },
         "unpermuted_capture_efficiency_audit": {
           "mean_abs_r_shared_capture": 0.2522479226110618,
@@ -691,7 +691,7 @@
     ],
     "rare_persister_subclone_sweep": [
       {
-        "snr_db": Infinity,
+        "snr_db": "inf",
         "dropout_rate": 0.0,
         "true_persister_cells": 2,
         "persister_fraction": 0.004,
@@ -707,12 +707,12 @@
         }
       },
       {
-        "snr_db": Infinity,
+        "snr_db": "inf",
         "dropout_rate": 0.1,
         "true_persister_cells": 2,
         "persister_fraction": 0.004,
         "f1_scores": {
-          "baseline_clustering": 0.011363636363636362,
+          "baseline_clustering": 0.011396011396011397,
           "alra": 0.011363636363636362,
           "cellsnail": 1.0
         },
@@ -723,13 +723,13 @@
         }
       },
       {
-        "snr_db": Infinity,
+        "snr_db": "inf",
         "dropout_rate": 0.2,
         "true_persister_cells": 2,
         "persister_fraction": 0.004,
         "f1_scores": {
           "baseline_clustering": 0.018691588785046728,
-          "alra": 0.023255813953488372,
+          "alra": 0.018691588785046728,
           "cellsnail": 1.0
         },
         "cellsnail_metrics": {
@@ -739,13 +739,13 @@
         }
       },
       {
-        "snr_db": Infinity,
+        "snr_db": "inf",
         "dropout_rate": 0.3,
         "true_persister_cells": 2,
         "persister_fraction": 0.004,
         "f1_scores": {
-          "baseline_clustering": 0.01673640167364017,
-          "alra": 0.0223463687150838,
+          "baseline_clustering": 0.015936254980079678,
+          "alra": 0.015936254980079678,
           "cellsnail": 1.0
         },
         "cellsnail_metrics": {
@@ -776,8 +776,8 @@
         "true_persister_cells": 2,
         "persister_fraction": 0.004,
         "f1_scores": {
-          "baseline_clustering": 0.011363636363636362,
-          "alra": 0.011363636363636362,
+          "baseline_clustering": 0.011396011396011397,
+          "alra": 0.011396011396011397,
           "cellsnail": 1.0
         },
         "cellsnail_metrics": {
@@ -793,7 +793,7 @@
         "persister_fraction": 0.004,
         "f1_scores": {
           "baseline_clustering": 0.018691588785046728,
-          "alra": 0.02222222222222222,
+          "alra": 0.018691588785046728,
           "cellsnail": 1.0
         },
         "cellsnail_metrics": {
@@ -808,8 +808,8 @@
         "true_persister_cells": 2,
         "persister_fraction": 0.004,
         "f1_scores": {
-          "baseline_clustering": 0.022099447513812154,
-          "alra": 0.017777777777777778,
+          "baseline_clustering": 0.015936254980079678,
+          "alra": 0.015936254980079678,
           "cellsnail": 1.0
         },
         "cellsnail_metrics": {
@@ -824,8 +824,8 @@
         "true_persister_cells": 2,
         "persister_fraction": 0.004,
         "f1_scores": {
-          "baseline_clustering": 0.02631578947368421,
-          "alra": 0.02631578947368421,
+          "baseline_clustering": 0.01129943502824859,
+          "alra": 0.01129943502824859,
           "cellsnail": 1.0
         },
         "cellsnail_metrics": {
@@ -840,8 +840,8 @@
         "true_persister_cells": 2,
         "persister_fraction": 0.004,
         "f1_scores": {
-          "baseline_clustering": 0.02531645569620253,
-          "alra": 0.011363636363636362,
+          "baseline_clustering": 0.011527377521613834,
+          "alra": 0.011560693641618497,
           "cellsnail": 1.0
         },
         "cellsnail_metrics": {
@@ -856,8 +856,8 @@
         "true_persister_cells": 2,
         "persister_fraction": 0.004,
         "f1_scores": {
-          "baseline_clustering": 0.020304568527918784,
-          "alra": 0.022099447513812154,
+          "baseline_clustering": 0.018691588785046728,
+          "alra": 0.018691588785046728,
           "cellsnail": 1.0
         },
         "cellsnail_metrics": {
@@ -888,14 +888,14 @@
         "true_persister_cells": 2,
         "persister_fraction": 0.004,
         "f1_scores": {
-          "baseline_clustering": 0.02631578947368421,
-          "alra": 0.02631578947368421,
-          "cellsnail": 0.5714285714285715
+          "baseline_clustering": 0.01129943502824859,
+          "alra": 0.01129943502824859,
+          "cellsnail": 0.6666666666666666
         },
         "cellsnail_metrics": {
-          "precision": 0.4,
+          "precision": 0.5,
           "recall": 1.0,
-          "f1": 0.5714285714285715
+          "f1": 0.6666666666666666
         }
       },
       {
@@ -904,14 +904,14 @@
         "true_persister_cells": 2,
         "persister_fraction": 0.004,
         "f1_scores": {
-          "baseline_clustering": 0.024539877300613494,
-          "alra": 0.012422360248447206,
-          "cellsnail": 0.5714285714285715
+          "baseline_clustering": 0.011661807580174927,
+          "alra": 0.011661807580174927,
+          "cellsnail": 0.6666666666666666
         },
         "cellsnail_metrics": {
-          "precision": 0.4,
+          "precision": 0.5,
           "recall": 1.0,
-          "f1": 0.5714285714285715
+          "f1": 0.6666666666666666
         }
       },
       {
@@ -920,14 +920,14 @@
         "true_persister_cells": 2,
         "persister_fraction": 0.004,
         "f1_scores": {
-          "baseline_clustering": 0.02150537634408602,
-          "alra": 0.02173913043478261,
-          "cellsnail": 0.5714285714285715
+          "baseline_clustering": 0.020833333333333332,
+          "alra": 0.020725388601036274,
+          "cellsnail": 0.6666666666666666
         },
         "cellsnail_metrics": {
-          "precision": 0.4,
+          "precision": 0.5,
           "recall": 1.0,
-          "f1": 0.5714285714285715
+          "f1": 0.6666666666666666
         }
       },
       {
@@ -938,90 +938,90 @@
         "f1_scores": {
           "baseline_clustering": 0.015936254980079678,
           "alra": 0.015936254980079678,
-          "cellsnail": 0.5714285714285715
+          "cellsnail": 0.6666666666666666
         },
         "cellsnail_metrics": {
-          "precision": 0.4,
+          "precision": 0.5,
           "recall": 1.0,
-          "f1": 0.5714285714285715
+          "f1": 0.6666666666666666
         }
       }
     ],
     "cnv_edge_fidelity_sweep": [
       {
-        "snr_db": Infinity,
+        "snr_db": "inf",
         "dropout_rate": 0.0,
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 1.0219345092773438,
-          "hmmcopy_infercnv": 0.34746497869491577,
-          "cellsnail": 1.0219321250915527
+          "raw": 1.002981424331665,
+          "hmmcopy_infercnv": 0.3365766704082489,
+          "cellsnail": 1.0029820203781128
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.9679484553150162,
-          "hmmcopy_infercnv": 0.36902522873015314,
-          "cellsnail": 0.9711806006888695
+          "raw": 0.996032658334911,
+          "hmmcopy_infercnv": 0.3691300013958248,
+          "cellsnail": 0.9960318667595883
         },
         "adjacent_boundary_leakage": {
-          "hmmcopy_infercnv": 0.761061429977417,
+          "hmmcopy_infercnv": 0.6722517013549805,
           "cellsnail": 0.0
         }
       },
       {
-        "snr_db": Infinity,
+        "snr_db": "inf",
         "dropout_rate": 0.1,
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 0.9372406601905823,
-          "hmmcopy_infercnv": 0.31309443712234497,
-          "cellsnail": 0.9372389316558838
+          "raw": 0.9195181131362915,
+          "hmmcopy_infercnv": 0.30353257060050964,
+          "cellsnail": 0.9195181727409363
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.9197263307695033,
-          "hmmcopy_infercnv": 0.3690374291677648,
-          "cellsnail": 0.9197242110667782
+          "raw": 0.8982479075322638,
+          "hmmcopy_infercnv": 0.36915457096005283,
+          "cellsnail": 0.8982479789185965
         },
         "adjacent_boundary_leakage": {
-          "hmmcopy_infercnv": 0.4858987331390381,
+          "hmmcopy_infercnv": 0.4074995517730713,
           "cellsnail": 0.0
         }
       },
       {
-        "snr_db": Infinity,
+        "snr_db": "inf",
         "dropout_rate": 0.2,
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 0.8584102988243103,
-          "hmmcopy_infercnv": 0.28042036294937134,
-          "cellsnail": 0.8584097027778625
+          "raw": 0.8427733778953552,
+          "hmmcopy_infercnv": 0.2716468572616577,
+          "cellsnail": 0.8427730798721313
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.8279634498749867,
-          "hmmcopy_infercnv": 0.3693117521753446,
-          "cellsnail": 0.8279627918690172
+          "raw": 0.810879760911979,
+          "hmmcopy_infercnv": 0.3693938686586265,
+          "cellsnail": 0.8108794386973757
         },
         "adjacent_boundary_leakage": {
-          "hmmcopy_infercnv": 0.2200477123260498,
+          "hmmcopy_infercnv": 0.14852571487426758,
           "cellsnail": 0.0
         }
       },
       {
-        "snr_db": Infinity,
+        "snr_db": "inf",
         "dropout_rate": 0.3,
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 0.7766664624214172,
-          "hmmcopy_infercnv": 0.24713346362113953,
-          "cellsnail": 0.7766663432121277
+          "raw": 0.7619701027870178,
+          "hmmcopy_infercnv": 0.2394401729106903,
+          "cellsnail": 0.7619695067405701
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.7424661117372418,
-          "hmmcopy_infercnv": 0.36647607168473745,
-          "cellsnail": 0.7424659937254409
+          "raw": 0.7280589955073772,
+          "hmmcopy_infercnv": 0.3627360771116061,
+          "cellsnail": 0.7280584168983031
         },
         "adjacent_boundary_leakage": {
           "hmmcopy_infercnv": 0.0,
@@ -1034,17 +1034,17 @@
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 1.0258159637451172,
-          "hmmcopy_infercnv": 0.3481467664241791,
-          "cellsnail": 1.0258156061172485
+          "raw": 1.006850242614746,
+          "hmmcopy_infercnv": 0.33725622296333313,
+          "cellsnail": 1.0068503618240356
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.9640708830281726,
-          "hmmcopy_infercnv": 0.36900635697275325,
-          "cellsnail": 0.9661648490326762
+          "raw": 0.9909079283193512,
+          "hmmcopy_infercnv": 0.36911119761620426,
+          "cellsnail": 0.9909077708187901
         },
         "adjacent_boundary_leakage": {
-          "hmmcopy_infercnv": 0.7668225765228271,
+          "hmmcopy_infercnv": 0.6779937744140625,
           "cellsnail": 0.0
         }
       },
@@ -1054,17 +1054,17 @@
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 0.9405322074890137,
-          "hmmcopy_infercnv": 0.3136291205883026,
-          "cellsnail": 0.9405316114425659
+          "raw": 0.9227988719940186,
+          "hmmcopy_infercnv": 0.3040655255317688,
+          "cellsnail": 0.9227988123893738
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.9237716314345824,
-          "hmmcopy_infercnv": 0.36899351241249734,
-          "cellsnail": 0.9237708972871416
+          "raw": 0.9021857603889205,
+          "hmmcopy_infercnv": 0.3691107869359188,
+          "cellsnail": 0.902185688689641
         },
         "adjacent_boundary_leakage": {
-          "hmmcopy_infercnv": 0.4908902645111084,
+          "hmmcopy_infercnv": 0.4124748706817627,
           "cellsnail": 0.0
         }
       },
@@ -1074,17 +1074,17 @@
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 0.8617289662361145,
-          "hmmcopy_infercnv": 0.28085941076278687,
-          "cellsnail": 0.8617286682128906
+          "raw": 0.8460810780525208,
+          "hmmcopy_infercnv": 0.27208444476127625,
+          "cellsnail": 0.8460807800292969
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.8316352145535414,
-          "hmmcopy_infercnv": 0.369275227581691,
-          "cellsnail": 0.8316348840914634
+          "raw": 0.8144638546577386,
+          "hmmcopy_infercnv": 0.3693574533592816,
+          "cellsnail": 0.8144635310189446
         },
         "adjacent_boundary_leakage": {
-          "hmmcopy_infercnv": 0.2241535186767578,
+          "hmmcopy_infercnv": 0.1526179313659668,
           "cellsnail": 0.0
         }
       },
@@ -1094,14 +1094,14 @@
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 0.7794731855392456,
-          "hmmcopy_infercnv": 0.24744336307048798,
-          "cellsnail": 0.7794730067253113
+          "raw": 0.7647675275802612,
+          "hmmcopy_infercnv": 0.239749014377594,
+          "cellsnail": 0.7647673487663269
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.7452498463366329,
-          "hmmcopy_infercnv": 0.3666275306176951,
-          "cellsnail": 0.7452496686552447
+          "raw": 0.7307796532901862,
+          "hmmcopy_infercnv": 0.36288547845992136,
+          "cellsnail": 0.7307794790587604
         },
         "adjacent_boundary_leakage": {
           "hmmcopy_infercnv": 0.0,
@@ -1114,17 +1114,17 @@
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 1.03420889377594,
-          "hmmcopy_infercnv": 0.3497540354728699,
-          "cellsnail": 1.03420889377594
+          "raw": 1.015215516090393,
+          "hmmcopy_infercnv": 0.33888742327690125,
+          "cellsnail": 1.0152153968811035
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.9554127256863437,
-          "hmmcopy_infercnv": 0.3689655521133357,
-          "cellsnail": 0.9554127256863437
+          "raw": 0.9799170489905682,
+          "hmmcopy_infercnv": 0.36907048382225904,
+          "cellsnail": 0.9799172047442009
         },
         "adjacent_boundary_leakage": {
-          "hmmcopy_infercnv": 0.7803442478179932,
+          "hmmcopy_infercnv": 0.6917052268981934,
           "cellsnail": 0.0
         }
       },
@@ -1134,17 +1134,17 @@
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 0.9476494193077087,
-          "hmmcopy_infercnv": 0.3148975372314453,
-          "cellsnail": 0.9476493000984192
+          "raw": 0.9298925995826721,
+          "hmmcopy_infercnv": 0.3053474724292755,
+          "cellsnail": 0.9298923015594482
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.9325795952630602,
-          "hmmcopy_infercnv": 0.36889854105976116,
-          "cellsnail": 0.9325794470335373
+          "raw": 0.910759389155661,
+          "hmmcopy_infercnv": 0.3690161226567898,
+          "cellsnail": 0.9107590272524672
         },
         "adjacent_boundary_leakage": {
-          "hmmcopy_infercnv": 0.5025820732116699,
+          "hmmcopy_infercnv": 0.424269437789917,
           "cellsnail": 0.0
         }
       },
@@ -1154,17 +1154,17 @@
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 0.8689048290252686,
-          "hmmcopy_infercnv": 0.28188034892082214,
-          "cellsnail": 0.8689047694206238
+          "raw": 0.853233277797699,
+          "hmmcopy_infercnv": 0.2731165289878845,
+          "cellsnail": 0.8532333970069885
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.8396303350743558,
-          "hmmcopy_infercnv": 0.3691962769550242,
-          "cellsnail": 0.8396302683465346
+          "raw": 0.8222679507164242,
+          "hmmcopy_infercnv": 0.369278749281486,
+          "cellsnail": 0.8222680814124056
         },
         "adjacent_boundary_leakage": {
-          "hmmcopy_infercnv": 0.23360395431518555,
+          "hmmcopy_infercnv": 0.1621532440185547,
           "cellsnail": 0.0
         }
       },
@@ -1174,14 +1174,14 @@
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 0.7855420112609863,
-          "hmmcopy_infercnv": 0.24815776944160461,
-          "cellsnail": 0.7855420112609863
+          "raw": 0.7708165049552917,
+          "hmmcopy_infercnv": 0.24046388268470764,
+          "cellsnail": 0.7708163857460022
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.7513046991119566,
-          "hmmcopy_infercnv": 0.36697692505595214,
-          "cellsnail": 0.7513046991119566
+          "raw": 0.7366974450554734,
+          "hmmcopy_infercnv": 0.36323153045834333,
+          "cellsnail": 0.7366973279605773
         },
         "adjacent_boundary_leakage": {
           "hmmcopy_infercnv": 0.0,
@@ -1194,17 +1194,17 @@
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 1.0437618494033813,
-          "hmmcopy_infercnv": 0.35532253980636597,
-          "cellsnail": 1.0437618494033813
+          "raw": 1.024737000465393,
+          "hmmcopy_infercnv": 0.3447211980819702,
+          "cellsnail": 1.0247368812561035
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.9367034641181923,
-          "hmmcopy_infercnv": 0.3689055333311741,
-          "cellsnail": 0.9433205460415341
+          "raw": 0.9675553298023535,
+          "hmmcopy_infercnv": 0.36900015457790264,
+          "cellsnail": 0.9675554835911436
         },
         "adjacent_boundary_leakage": {
-          "hmmcopy_infercnv": 0.8258683681488037,
+          "hmmcopy_infercnv": 0.7395188808441162,
           "cellsnail": 0.0
         }
       },
@@ -1214,17 +1214,17 @@
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 0.9557502865791321,
-          "hmmcopy_infercnv": 0.31963807344436646,
-          "cellsnail": 0.9557504653930664
+          "raw": 0.9379668235778809,
+          "hmmcopy_infercnv": 0.3103425204753876,
+          "cellsnail": 0.9379668235778809
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.9427071293706188,
-          "hmmcopy_infercnv": 0.36878961360470114,
-          "cellsnail": 0.94270735412954
+          "raw": 0.9206172574557829,
+          "hmmcopy_infercnv": 0.36890141417830535,
+          "cellsnail": 0.9206172574557829
         },
         "adjacent_boundary_leakage": {
-          "hmmcopy_infercnv": 0.5422782897949219,
+          "hmmcopy_infercnv": 0.4660952091217041,
           "cellsnail": 0.0
         }
       },
@@ -1234,17 +1234,17 @@
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 0.8770725131034851,
-          "hmmcopy_infercnv": 0.2859288454055786,
-          "cellsnail": 0.8770726919174194
+          "raw": 0.8613741397857666,
+          "hmmcopy_infercnv": 0.27741530537605286,
+          "cellsnail": 0.8613742589950562
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.8488240857380325,
-          "hmmcopy_infercnv": 0.3691055508023321,
-          "cellsnail": 0.8488242881134891
+          "raw": 0.8312418593812055,
+          "hmmcopy_infercnv": 0.3691821935033647,
+          "cellsnail": 0.8312419915035514
         },
         "adjacent_boundary_leakage": {
-          "hmmcopy_infercnv": 0.26746654510498047,
+          "hmmcopy_infercnv": 0.19811248779296875,
           "cellsnail": 0.0
         }
       },
@@ -1254,14 +1254,14 @@
         "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
         "true_amplitude_cn": 8.0,
         "amplitude_retention_ratio": {
-          "raw": 0.7924497723579407,
-          "hmmcopy_infercnv": 0.25156569480895996,
-          "cellsnail": 0.7924497127532959
+          "raw": 0.7777014374732971,
+          "hmmcopy_infercnv": 0.24409401416778564,
+          "cellsnail": 0.7777014970779419
         },
         "bounded_edge_gradient_fidelity": {
-          "raw": 0.7582564417837371,
-          "hmmcopy_infercnv": 0.3686482259222585,
-          "cellsnail": 0.7582563815229317
+          "raw": 0.7434913975413747,
+          "hmmcopy_infercnv": 0.3649938963835599,
+          "cellsnail": 0.7434914566287646
         },
         "adjacent_boundary_leakage": {
           "hmmcopy_infercnv": 0.0,
@@ -1270,11 +1270,11 @@
       }
     ],
     "spatial_sheaf_boundary_evaluation": {
-      "total_boundary_interfaces": 296,
+      "total_boundary_interfaces": 60,
       "isotropic_smoothing": {
-        "penetrating_edges": 148,
+        "penetrating_edges": 30,
         "bleed_rate": 0.5,
-        "normal_penetration_residual": 2.3320031544264124
+        "normal_penetration_residual": 2.6791158540906315
       },
       "cellsnail_sheaf": {
         "penetrating_edges": 0,
@@ -1288,54 +1288,54 @@
           "held_out_clone": "HCC827",
           "n_test_cells": 100,
           "cellsnail_spurious_ercc_pairs": 0,
-          "magic_spurious_ercc_pairs": 913
+          "magic_spurious_ercc_pairs": 376
         },
         {
           "held_out_clone": "H1975",
           "n_test_cells": 100,
           "cellsnail_spurious_ercc_pairs": 0,
-          "magic_spurious_ercc_pairs": 445
+          "magic_spurious_ercc_pairs": 393
         },
         {
           "held_out_clone": "H2228",
           "n_test_cells": 100,
           "cellsnail_spurious_ercc_pairs": 0,
-          "magic_spurious_ercc_pairs": 790
+          "magic_spurious_ercc_pairs": 483
         }
       ],
       "lodo_gbm_patient_folds": [
         {
           "held_out_donor": "MGH26",
-          "n_test_cells": 53,
-          "calibrated_threshold": 0.1881,
+          "n_test_cells": 118,
+          "calibrated_threshold": 0.4444,
           "max_orthogonality_residual": 0.0,
           "driver_variance_retained_ratio": 1.0
         },
         {
           "held_out_donor": "MGH28",
           "n_test_cells": 94,
-          "calibrated_threshold": 0.2034,
+          "calibrated_threshold": 0.4508,
           "max_orthogonality_residual": 0.0,
           "driver_variance_retained_ratio": 1.0
         },
         {
           "held_out_donor": "MGH29",
           "n_test_cells": 75,
-          "calibrated_threshold": 0.2009,
+          "calibrated_threshold": 0.4088,
           "max_orthogonality_residual": 0.0,
           "driver_variance_retained_ratio": 1.0
         },
         {
           "held_out_donor": "MGH30",
           "n_test_cells": 73,
-          "calibrated_threshold": 0.1769,
+          "calibrated_threshold": 0.4156,
           "max_orthogonality_residual": 0.0,
           "driver_variance_retained_ratio": 1.0
         },
         {
           "held_out_donor": "MGH31",
           "n_test_cells": 70,
-          "calibrated_threshold": 0.2006,
+          "calibrated_threshold": 0.4384,
           "max_orthogonality_residual": 0.0,
           "driver_variance_retained_ratio": 1.0
         }
@@ -1343,29 +1343,29 @@
       "lofo_cscc_spatial_folds": [
         {
           "held_out_fov": "FOV_NW",
-          "n_test_spots": 108,
-          "n_boundary_edges": 94,
+          "n_test_spots": 95,
+          "n_boundary_edges": 20,
           "cellsnail_max_penetration_residual": 0.0,
           "isotropic_bleed_rate": 0.5
         },
         {
           "held_out_fov": "FOV_NE",
-          "n_test_spots": 92,
-          "n_boundary_edges": 112,
+          "n_test_spots": 105,
+          "n_boundary_edges": 0,
           "cellsnail_max_penetration_residual": 0.0,
-          "isotropic_bleed_rate": 0.5
+          "isotropic_bleed_rate": 0.0
         },
         {
           "held_out_fov": "FOV_SW",
-          "n_test_spots": 92,
-          "n_boundary_edges": 90,
+          "n_test_spots": 105,
+          "n_boundary_edges": 58,
           "cellsnail_max_penetration_residual": 0.0,
           "isotropic_bleed_rate": 0.5
         },
         {
           "held_out_fov": "FOV_SE",
-          "n_test_spots": 108,
-          "n_boundary_edges": 96,
+          "n_test_spots": 95,
+          "n_boundary_edges": 2,
           "cellsnail_max_penetration_residual": 0.0,
           "isotropic_bleed_rate": 0.5
         }
@@ -1397,7 +1397,7 @@
             "cellsnail_morse": 0.22940325912828316,
             "winner": "ALRA (low-rank pooling)"
           },
-          "single_cell_focal_egfr_recall": 0.88,
+          "single_cell_focal_egfr_recall": 0.8857142857142857,
           "ercc_spurious_pairs": {
             "alra_svd": 328,
             "cellsnail_morse": 0
@@ -1412,7 +1412,7 @@
             "cellsnail_morse": 0.2046625038019773,
             "winner": "ALRA (low-rank pooling)"
           },
-          "single_cell_focal_egfr_recall": 0.5428571428571428,
+          "single_cell_focal_egfr_recall": 0.5371428571428571,
           "ercc_spurious_pairs": {
             "alra_svd": 190,
             "cellsnail_morse": 0
@@ -1442,7 +1442,7 @@
             "cellsnail_morse": 0.11410018145692462,
             "winner": "ALRA (low-rank pooling)"
           },
-          "single_cell_focal_egfr_recall": 0.10285714285714286,
+          "single_cell_focal_egfr_recall": 0.1,
           "ercc_spurious_pairs": {
             "alra_svd": 74,
             "cellsnail_morse": 0
@@ -1534,48 +1534,112 @@
           "coordinate_jitter_um": 0.0,
           "mis_segmented_edge_rate": 0.0,
           "compartment_marker_accuracy": {
-            "isotropic_smoothing": 0.9825,
-            "cellsnail_sheaf": 1.0,
+            "isotropic_smoothing": 0.855,
+            "cellsnail_sheaf": 0.865,
             "winner": "cellsnail_sheaf"
           }
         },
         {
           "coordinate_jitter_um": 5.0,
-          "mis_segmented_edge_rate": 0.009205983889528193,
+          "mis_segmented_edge_rate": 0.004845548152634767,
           "compartment_marker_accuracy": {
-            "isotropic_smoothing": 0.9725,
-            "cellsnail_sheaf": 0.995,
+            "isotropic_smoothing": 0.87,
+            "cellsnail_sheaf": 0.8825,
             "winner": "cellsnail_sheaf"
           }
         },
         {
           "coordinate_jitter_um": 15.0,
-          "mis_segmented_edge_rate": 0.1093210586881473,
+          "mis_segmented_edge_rate": 0.08338380779325662,
           "compartment_marker_accuracy": {
-            "isotropic_smoothing": 0.98,
-            "cellsnail_sheaf": 0.9475,
+            "isotropic_smoothing": 0.8475,
+            "cellsnail_sheaf": 0.845,
             "winner": "isotropic_smoothing (soft fallback)"
           }
         },
         {
           "coordinate_jitter_um": 30.0,
-          "mis_segmented_edge_rate": 0.2904487917146145,
+          "mis_segmented_edge_rate": 0.1901877649909146,
           "compartment_marker_accuracy": {
-            "isotropic_smoothing": 0.9825,
-            "cellsnail_sheaf": 0.9075,
+            "isotropic_smoothing": 0.8775,
+            "cellsnail_sheaf": 0.865,
             "winner": "isotropic_smoothing (soft fallback)"
           }
         },
         {
           "coordinate_jitter_um": 50.0,
-          "mis_segmented_edge_rate": 0.40368239355581126,
+          "mis_segmented_edge_rate": 0.4253987482333939,
           "compartment_marker_accuracy": {
-            "isotropic_smoothing": 0.9825,
-            "cellsnail_sheaf": 0.91,
+            "isotropic_smoothing": 0.855,
+            "cellsnail_sheaf": 0.8475,
             "winner": "isotropic_smoothing (soft fallback)"
           }
         }
-      ]
+      ],
+      "permutation_and_missing_modality_crossover": {
+        "column_permutation_collision_audit": {
+          "adversarial_adjacent_amplicons_recall": {
+            "unsorted_1d_morse_gate": 0.0,
+            "chromosomal_sorted_morse_gate": 1.0
+          },
+          "random_10_permutations_mean_recall": {
+            "unsorted_1d_morse_gate": 0.925,
+            "chromosomal_sorted_morse_gate": 1.0
+          }
+        },
+        "missing_modality_ambient_soup_sweep": [
+          {
+            "missing_modality_block_rate": 0.0,
+            "paired_cells_retained": 500,
+            "relative_trace_residual": 1.3176257913216584e-15,
+            "driver_subspace_cosine_similarity": {
+              "unregularized_so6_rotor": 0.8406,
+              "shrinkage_regularized_rotor": 0.8406,
+              "winner": "unregularized_so6_rotor"
+            }
+          },
+          {
+            "missing_modality_block_rate": 0.25,
+            "paired_cells_retained": 365,
+            "relative_trace_residual": 3.7748071570451806e-16,
+            "driver_subspace_cosine_similarity": {
+              "unregularized_so6_rotor": 0.6592,
+              "shrinkage_regularized_rotor": 0.6158,
+              "winner": "unregularized_so6_rotor"
+            }
+          },
+          {
+            "missing_modality_block_rate": 0.5,
+            "paired_cells_retained": 254,
+            "relative_trace_residual": 7.108493892093383e-16,
+            "driver_subspace_cosine_similarity": {
+              "unregularized_so6_rotor": 0.4744,
+              "shrinkage_regularized_rotor": 0.5796,
+              "winner": "shrinkage_regularized_rotor"
+            }
+          },
+          {
+            "missing_modality_block_rate": 0.7,
+            "paired_cells_retained": 152,
+            "relative_trace_residual": 7.462474901312705e-16,
+            "driver_subspace_cosine_similarity": {
+              "unregularized_so6_rotor": 0.4551,
+              "shrinkage_regularized_rotor": 0.5122,
+              "winner": "shrinkage_regularized_rotor"
+            }
+          },
+          {
+            "missing_modality_block_rate": 0.85,
+            "paired_cells_retained": 64,
+            "relative_trace_residual": 2.465218002537436e-16,
+            "driver_subspace_cosine_similarity": {
+              "unregularized_so6_rotor": 0.2378,
+              "shrinkage_regularized_rotor": 0.4845,
+              "winner": "shrinkage_regularized_rotor"
+            }
+          }
+        ]
+      }
     }
   },
   "discovery_receipts": {
@@ -1594,36 +1658,70 @@
       },
       "well_permuted_negative_control_spurious_pairs_r070": {
         "raw_countsplit": 0,
-        "magic_k15_t3": 314,
-        "alra_svd_k10": 482,
+        "magic_k15_t3": 72,
+        "alra_svd_k10": 328,
         "cellsnail_morse": 0
       },
       "well_permuted_max_abs_r": {
-        "raw_countsplit": 0.2043,
-        "magic_k15_t3": 0.9317,
-        "alra_svd_k10": 0.9334,
-        "cellsnail_morse": 0.3203
+        "raw_countsplit": 0.2234,
+        "magic_k15_t3": 0.8726,
+        "alra_svd_k10": 0.9213,
+        "cellsnail_morse": 0.2289
       },
       "human_lung_adenocarcinoma_lineage_markers": {
         "EGFR": {
           "enriched_cell_line": "HCC827",
-          "mean_filtered_in_line": 26.96,
-          "mean_filtered_out_line": 3.36
+          "mean_filtered_in_line": 31.52,
+          "mean_filtered_out_line": 3.785,
+          "enrichment_ratio": 8.33
+        },
+        "CDK4": {
+          "enriched_cell_line": "HCC827",
+          "mean_filtered_in_line": 22.26,
+          "mean_filtered_out_line": 3.605,
+          "enrichment_ratio": 6.17
         },
         "MET": {
           "enriched_cell_line": "HCC827",
-          "mean_filtered_in_line": 3.79,
-          "mean_filtered_out_line": 2.03
+          "mean_filtered_in_line": 4.2,
+          "mean_filtered_out_line": 2.405,
+          "enrichment_ratio": 1.75
         },
-        "ERBB2": {
+        "SERPINE1": {
           "enriched_cell_line": "H1975",
-          "mean_filtered_in_line": 0.07,
-          "mean_filtered_out_line": 0.115
+          "mean_filtered_in_line": 11.06,
+          "mean_filtered_out_line": 1.58,
+          "enrichment_ratio": 7.0
         },
-        "ALK": {
+        "DHRS2": {
+          "enriched_cell_line": "H1975",
+          "mean_filtered_in_line": 6.5,
+          "mean_filtered_out_line": 0.195,
+          "enrichment_ratio": 33.33
+        },
+        "CD74": {
           "enriched_cell_line": "H2228",
-          "mean_filtered_in_line": 243.01,
-          "mean_filtered_out_line": 249.185
+          "mean_filtered_in_line": 14.34,
+          "mean_filtered_out_line": 0.965,
+          "enrichment_ratio": 14.86
+        },
+        "ALDH3A1": {
+          "enriched_cell_line": "H2228",
+          "mean_filtered_in_line": 11.99,
+          "mean_filtered_out_line": 0.7,
+          "enrichment_ratio": 17.13
+        },
+        "NQO1": {
+          "enriched_cell_line": "H2228",
+          "mean_filtered_in_line": 17.38,
+          "mean_filtered_out_line": 3.025,
+          "enrichment_ratio": 5.75
+        },
+        "IGFBP3": {
+          "enriched_cell_line": "H2228",
+          "mean_filtered_in_line": 12.78,
+          "mean_filtered_out_line": 1.03,
+          "enrichment_ratio": 12.41
         }
       }
     },
@@ -1634,27 +1732,28 @@
       "max_allowed_cells": 2,
       "discovered_persister_count": 2,
       "discovered_persister_indices": [
-        499,
-        498
+        498,
+        499
       ],
       "discovered_persister_cell_ids": [
-        "TNBC3_CCGTGGATCGGAGCAA",
-        "TNBC3_GTGCATAGTAAGTGGC"
+        "TNBC3_GTGCATAGTAAGTGGC",
+        "TNBC3_CCGTGGATCGGAGCAA"
       ],
       "signature_feature_index": 28,
       "signature_gene": "ABCB1",
       "ensembl_gene_id": "ENSG00000085563",
       "mane_select_transcript": "ENST00000622132",
-      "observed_peak_amplitude": 12.692488670349121,
-      "baseline_median": 1.923637866973877
+      "observed_peak_amplitude": 12.613696098327637,
+      "baseline_median": 1.9119359254837036
     },
     "focal_cnv_amplicons": {
       "type": "sub_megabase_focal_amplicons",
       "total_genomic_bins": 100,
-      "focal_amplicons_discovered": 2,
+      "focal_amplicons_discovered": 3,
       "amplicons": [
         {
           "bin_index": 25,
+          "canonical_chromosomal_bin": 25,
           "gene": "EGFR",
           "chrom": "chr7",
           "pos": 55019017,
@@ -1681,14 +1780,15 @@
             "COSV51765161",
             "COSV51854030"
           ],
-          "peak_amplitude_cn": 6.218288421630859,
-          "left_adjacent_cn": 2.017108678817749,
-          "right_adjacent_cn": 1.9715590476989746,
-          "morse_product": 17.841272354125977,
-          "sharpness_ratio": 3.1179776546898523
+          "peak_amplitude_cn": 6.218307971954346,
+          "left_adjacent_cn": 2.0171098709106445,
+          "right_adjacent_cn": 1.971559762954712,
+          "morse_product": 17.841428756713867,
+          "sharpness_ratio": 3.117985966628318
         },
         {
           "bin_index": 35,
+          "canonical_chromosomal_bin": 35,
           "gene": "MYC",
           "chrom": "chr8",
           "pos": 127735434,
@@ -1701,14 +1801,36 @@
           "alphamissense_pathogenicity": null,
           "clinvar_ids": [],
           "cosmic_ids": [],
-          "peak_amplitude_cn": 7.426528453826904,
-          "left_adjacent_cn": 2.533975839614868,
-          "right_adjacent_cn": 2.5218329429626465,
-          "morse_product": 23.996479034423828,
-          "sharpness_ratio": 2.9378201483485564
+          "peak_amplitude_cn": 7.426506519317627,
+          "left_adjacent_cn": 2.5339744091033936,
+          "right_adjacent_cn": 2.5218327045440674,
+          "morse_product": 23.996274948120117,
+          "sharpness_ratio": 2.937812441171178
+        },
+        {
+          "bin_index": 55,
+          "canonical_chromosomal_bin": 55,
+          "gene": "CDK4",
+          "chrom": "chr12",
+          "pos": 57747727,
+          "ensembl_gene_id": "ENSG00000135446",
+          "mane_select_transcript": "ENST00000257904",
+          "canonical_tss_grch38": 57752310,
+          "p_haplo": null,
+          "p_triplo": null,
+          "loeuf": null,
+          "alphamissense_pathogenicity": null,
+          "clinvar_ids": [],
+          "cosmic_ids": [],
+          "peak_amplitude_cn": 3.299696922302246,
+          "left_adjacent_cn": 2.6893150806427,
+          "right_adjacent_cn": 2.724226236343384,
+          "morse_product": 0.3512568473815918,
+          "sharpness_ratio": 1.2190530113619997
         }
       ],
       "mad_floor_used": 2.85,
+      "chromosomal_coordinate_sorted": true,
       "ensembl_clinvar_hotspots": {
         "EGFR_L858R": {
           "assembly": "GRCh38",
@@ -1813,7 +1935,6 @@
             "COSV55888015"
           ],
           "clinvar_ids": [
-            "R",
             "RCV000014622",
             "RCV000014623",
             "RCV000014624",
@@ -1964,15 +2085,17 @@
         "MYC",
         "CDK4",
         "ERBB2",
-        "AXL"
+        "CDKN2A"
       ],
       "tnbc3_max_orthogonality_residual": 0.0,
       "gbm_max_orthogonality_residual": 0.0,
-      "total_norm_conservation_ratio": 1.0,
-      "h_nope_lineage_fraction": 0.655157442836507,
-      "h_clock_mitotic_fraction": 0.344842557163493,
-      "naive_ols_lineage_variance_retained": 0.8328366671479293,
-      "naive_ols_over_subtraction_loss": 0.16716333285207075
+      "total_norm_conservation_ratio": 0.9999999999999999,
+      "h_nope_lineage_fraction": 0.9096394347624699,
+      "h_clock_mitotic_fraction": 0.09036056523752986,
+      "cellsnail_tnbc3_driver_variance_retained": 1.0,
+      "cellsnail_gbm_driver_variance_retained": 1.0,
+      "naive_ols_lineage_variance_retained": 0.7508,
+      "naive_ols_over_subtraction_loss": 0.2492
     },
     "synthetic_lethality_cavities": {
       "type": "synthetic_lethality_cavities",
@@ -1981,32 +2104,32 @@
         {
           "gene_a": "EGFR_amp",
           "gene_b": "CDK4_amp",
-          "freq_a": 0.704,
-          "freq_b": 0.296,
-          "expected_independent_cooccurrence": 0.2084,
-          "observed_cooccurrence": 0.0,
-          "topological_cavity_depletion": 1.0,
+          "freq_a": 0.712,
+          "freq_b": 0.318,
+          "expected_independent_cooccurrence": 0.2264,
+          "observed_cooccurrence": 0.03,
+          "topological_cavity_depletion": 0.8675,
           "is_beta1_exclusivity_cavity": true,
           "biological_interpretation": "Mutual-Exclusivity Clonal Cavity (beta_1 = 1)"
         },
         {
           "gene_a": "PTEN_homdel",
           "gene_b": "CDK4_amp",
-          "freq_a": 0.704,
-          "freq_b": 0.296,
-          "expected_independent_cooccurrence": 0.2084,
-          "observed_cooccurrence": 0.0,
-          "topological_cavity_depletion": 1.0,
+          "freq_a": 0.7,
+          "freq_b": 0.318,
+          "expected_independent_cooccurrence": 0.2226,
+          "observed_cooccurrence": 0.022,
+          "topological_cavity_depletion": 0.9012,
           "is_beta1_exclusivity_cavity": true,
           "biological_interpretation": "Subclone-Partitioned Synthetic Lethal Void"
         },
         {
           "gene_a": "EGFR_amp",
           "gene_b": "MYC_amp",
-          "freq_a": 0.704,
-          "freq_b": 0.7,
-          "expected_independent_cooccurrence": 0.4928,
-          "observed_cooccurrence": 0.7,
+          "freq_a": 0.712,
+          "freq_b": 0.732,
+          "expected_independent_cooccurrence": 0.5212,
+          "observed_cooccurrence": 0.702,
           "topological_cavity_depletion": 0.0,
           "is_beta1_exclusivity_cavity": false,
           "biological_interpretation": "Co-Amplified Synergistic Ridge (Subclone_A)"
@@ -2014,34 +2137,34 @@
         {
           "gene_a": "ABCB1_amp",
           "gene_b": "CDK4_amp",
-          "freq_a": 0.004,
-          "freq_b": 0.296,
-          "expected_independent_cooccurrence": 0.0012,
-          "observed_cooccurrence": 0.0,
-          "topological_cavity_depletion": 1.0,
-          "is_beta1_exclusivity_cavity": true,
+          "freq_a": 0.024,
+          "freq_b": 0.318,
+          "expected_independent_cooccurrence": 0.0076,
+          "observed_cooccurrence": 0.002,
+          "topological_cavity_depletion": 0.7379,
+          "is_beta1_exclusivity_cavity": false,
           "biological_interpretation": "Mutually Exclusive Persister vs Subclone_B Cavity"
         }
       ],
-      "beta1_cavities_detected": 3,
+      "beta1_cavities_detected": 2,
       "so10_tiebreaker_radial_norm_drift": 0.0
     },
     "multiomic_dosage_factorization": {
       "type": "multiomic_dosage_factorization",
-      "trace_original": 5804.387090885201,
-      "trace_rotated": 5804.38709088521,
-      "trace_residual": 8.185452315956354e-12,
-      "relative_trace_residual": 1.4102182000938926e-15,
-      "driver_subspace_variance": 123.43574909183904,
-      "passenger_subspace_variance": 5680.95134179337,
+      "trace_original": 133.77058290805817,
+      "trace_rotated": 133.770582908058,
+      "trace_residual": 1.7053025658242404e-13,
+      "relative_trace_residual": 1.274796393012888e-15,
+      "driver_subspace_variance": 62.2598503067598,
+      "passenger_subspace_variance": 71.5107326012982,
       "trace_conservation_passed": true
     },
     "spatial_niches": {
       "type": "deconfounded_spatial_niches",
       "total_cells": 400,
-      "total_contact_edges": 3228,
-      "total_boundary_edges": 296,
-      "walls_clamped": 1614,
+      "total_contact_edges": 4764,
+      "total_boundary_edges": 60,
+      "walls_clamped": 2382,
       "max_penetration_residual": 0.0,
       "mean_penetration_residual": 0.0,
       "boundary_fidelity": "100% Non-Penetration Verified ((delta v)_n >= 0)",
@@ -2049,11 +2172,16 @@
         "cohort": "GEO GSE144239 Human cSCC Patient P2 (Ji et al. Cell 2020)",
         "leading_edge_tsk_marker": "MMP10 / LAMC2 (Rorb)",
         "stroma_marker": "COL1A1 / FAP (Pcp4)",
-        "mmp10_mean_in_tsk_layer3": 85.35,
-        "mmp10_mean_in_stroma_layer4": 0.38,
-        "col1a1_mean_in_stroma_layer4": 164.45,
-        "col1a1_mean_in_tsk_layer3": 74.66,
-        "invasion_front_contrast_ratio": 85.35
+        "krt14_mean_in_basal_layer1": 316.39,
+        "krt1_mean_in_diff_layer2": 78.06,
+        "mmp10_mean_in_tsk_layer3": 1.39,
+        "mmp10_mean_in_stroma_layer4": 0.09,
+        "lamc2_mean_in_tsk_layer3": 5.36,
+        "lamc2_mean_in_stroma_layer4": 1.74,
+        "col1a1_mean_in_stroma_layer4": 128.75,
+        "col1a1_mean_in_tsk_layer3": 45.98,
+        "invasion_front_contrast_ratio": 15.44,
+        "lamc2_invasion_contrast_ratio": 3.08
       }
     }
   },

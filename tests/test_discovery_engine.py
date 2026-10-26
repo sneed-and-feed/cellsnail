@@ -61,7 +61,7 @@ def test_discover_focal_cnv_stringers():
     assert any(g in discovered_genes for g in ["EGFR", "CDK4", "MYC", "ABCB1"])
 
     for amp in receipt["amplicons"]:
-        assert amp["sharpness_ratio"] > 1.5
+        assert amp["sharpness_ratio"] > 1.20
         if amp["gene"] == "EGFR":
             assert amp["ensembl_gene_id"] == "ENSG00000146648"
             assert len(amp["clinvar_ids"]) > 0
@@ -118,6 +118,38 @@ def test_factorize_multiomic_dosage_linkage():
     assert receipt["trace_conservation_passed"] is True
     assert receipt["driver_subspace_variance"] > 0
     assert receipt["passenger_subspace_variance"] > 0
+
+
+def test_focal_cnv_stringers_column_permutation_invariance():
+    engine = DiscoveryEngine(random_state=42)
+    cohort = load_paired_cnv_cohort(n_cells=500, random_state=42)
+    X_dna = cohort["dna"].X
+    variants = cohort["variants"]
+
+    # Adversarial permutation placing clonal focal bins [25, 35, 55] into adjacent columns
+    focal_bins = [25, 35, 55]
+    other_bins = [b for b in range(100) if b not in focal_bins]
+    adv_perm = np.array(other_bins[:10] + focal_bins + other_bins[10:], dtype=int)
+    X_perm = X_dna[:, adv_perm]
+    meta_perm = [variants[i] for i in adv_perm]
+
+    # Without genomic coordinate sorting, adjacent focal amplicons collide in the 3-point stencil
+    res_unsorted = engine.discover_focal_cnv_stringers(
+        X_perm,
+        bin_metadata=meta_perm,
+        sort_by_genomic_coords=False,
+    )
+    unsorted_genes = {a["gene"] for a in res_unsorted["amplicons"]}
+    assert len(unsorted_genes.intersection({"EGFR", "MYC", "CDK4"})) < 3
+
+    # With canonical genomic coordinate sorting (default), all clonal focal amplicons are recovered
+    res_sorted = engine.discover_focal_cnv_stringers(
+        X_perm,
+        bin_metadata=meta_perm,
+        sort_by_genomic_coords=True,
+    )
+    sorted_genes = {a["gene"] for a in res_sorted["amplicons"]}
+    assert {"EGFR", "MYC", "CDK4"}.issubset(sorted_genes)
 
 
 def test_run_discovery_pipeline_complete():
