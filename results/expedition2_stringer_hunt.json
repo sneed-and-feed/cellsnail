@@ -1,0 +1,3330 @@
+{
+  "expedition_id": "EXPEDITION_2_BLIND_SPOT_STRINGER_AND_PERSISTER_HUNT",
+  "title": "The Blind-Spot 1-3 Gene Stringer & Relapse Persister Hunt",
+  "version": "0.2.0",
+  "status": "EXPEDITION_2_COMPLETE",
+  "geo_accessions": [
+    "GSE148673",
+    "GSE57872",
+    "GSE118767",
+    "GSE54695",
+    "GSE144239"
+  ],
+  "window_washout_transfer_function": {
+    "law_name": "Moving-Window Focal Amplicon Attenuation Law (R_theory(L, W) = min(1, L/W))",
+    "amplicon_widths_L": [
+      1,
+      2,
+      3,
+      5,
+      10
+    ],
+    "window_sizes_W": [
+      3,
+      5,
+      11,
+      15,
+      25,
+      51,
+      101
+    ],
+    "true_peak_cn": 8.0,
+    "diploid_baseline_cn": 2.0,
+    "tool_window_mapping": {
+      "HMMcopy": 15,
+      "CopyKAT": 25,
+      "inferCNV_narrow": 51,
+      "inferCNV_default": 101
+    },
+    "max_theory_vs_empirical_error": 0.0,
+    "attenuation_law_verified": true,
+    "cellsnail_by_L": {
+      "L_1": {
+        "amplicon_width_L": 1,
+        "approx_span_mb": 0.4,
+        "true_peak_cn": 8.0,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_cellsnail": 1.0,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_cellsnail": 1.0,
+        "sort_by_genomic_coords": true
+      },
+      "L_2": {
+        "amplicon_width_L": 2,
+        "approx_span_mb": 0.8,
+        "true_peak_cn": 8.0,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_cellsnail": 1.0,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_cellsnail": 1.0,
+        "sort_by_genomic_coords": true
+      },
+      "L_3": {
+        "amplicon_width_L": 3,
+        "approx_span_mb": 1.2,
+        "true_peak_cn": 8.0,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_cellsnail": 1.0,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_cellsnail": 1.0,
+        "sort_by_genomic_coords": true
+      },
+      "L_5": {
+        "amplicon_width_L": 5,
+        "approx_span_mb": 2.0,
+        "true_peak_cn": 8.0,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_cellsnail": 1.0,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_cellsnail": 1.0,
+        "sort_by_genomic_coords": true
+      },
+      "L_10": {
+        "amplicon_width_L": 10,
+        "approx_span_mb": 4.0,
+        "true_peak_cn": 8.0,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_cellsnail": 1.0,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_cellsnail": 1.0,
+        "sort_by_genomic_coords": true
+      }
+    },
+    "by_L_and_W": {
+      "L_1": {
+        "W_3": {
+          "amplicon_width_L": 1,
+          "window_size_W": 3,
+          "baseline_tool": "MovingWindow (W=3)",
+          "theoretical_retention_R_theory": 0.333333,
+          "empirical_peak_cn_window": 4.0,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.333333,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 3.0,
+          "adjacent_boundary_leakage_window": 2.0,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_5": {
+          "amplicon_width_L": 1,
+          "window_size_W": 5,
+          "baseline_tool": "MovingWindow (W=5)",
+          "theoretical_retention_R_theory": 0.2,
+          "empirical_peak_cn_window": 3.2,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.2,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 5.0,
+          "adjacent_boundary_leakage_window": 1.2,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_11": {
+          "amplicon_width_L": 1,
+          "window_size_W": 11,
+          "baseline_tool": "MovingWindow (W=11)",
+          "theoretical_retention_R_theory": 0.090909,
+          "empirical_peak_cn_window": 2.5455,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.090909,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 11.0,
+          "adjacent_boundary_leakage_window": 0.5455,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_15": {
+          "amplicon_width_L": 1,
+          "window_size_W": 15,
+          "baseline_tool": "HMMcopy (W=15)",
+          "theoretical_retention_R_theory": 0.066667,
+          "empirical_peak_cn_window": 2.4,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.066667,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 15.0,
+          "adjacent_boundary_leakage_window": 0.4,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_25": {
+          "amplicon_width_L": 1,
+          "window_size_W": 25,
+          "baseline_tool": "CopyKAT (W=25)",
+          "theoretical_retention_R_theory": 0.04,
+          "empirical_peak_cn_window": 2.24,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.04,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 25.0,
+          "adjacent_boundary_leakage_window": 0.24,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_51": {
+          "amplicon_width_L": 1,
+          "window_size_W": 51,
+          "baseline_tool": "inferCNV (W=51)",
+          "theoretical_retention_R_theory": 0.019608,
+          "empirical_peak_cn_window": 2.1176,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.019608,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 51.0,
+          "adjacent_boundary_leakage_window": 0.1176,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_101": {
+          "amplicon_width_L": 1,
+          "window_size_W": 101,
+          "baseline_tool": "inferCNV_default (W=101)",
+          "theoretical_retention_R_theory": 0.009901,
+          "empirical_peak_cn_window": 2.0594,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.009901,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 101.0002,
+          "adjacent_boundary_leakage_window": 0.0594,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        }
+      },
+      "L_2": {
+        "W_3": {
+          "amplicon_width_L": 2,
+          "window_size_W": 3,
+          "baseline_tool": "MovingWindow (W=3)",
+          "theoretical_retention_R_theory": 0.666667,
+          "empirical_peak_cn_window": 6.0,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.666667,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 1.5,
+          "adjacent_boundary_leakage_window": 2.0,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.5134,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_5": {
+          "amplicon_width_L": 2,
+          "window_size_W": 5,
+          "baseline_tool": "MovingWindow (W=5)",
+          "theoretical_retention_R_theory": 0.4,
+          "empirical_peak_cn_window": 4.4,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.4,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 2.5,
+          "adjacent_boundary_leakage_window": 2.4,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_11": {
+          "amplicon_width_L": 2,
+          "window_size_W": 11,
+          "baseline_tool": "MovingWindow (W=11)",
+          "theoretical_retention_R_theory": 0.181818,
+          "empirical_peak_cn_window": 3.0909,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.181818,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 5.5,
+          "adjacent_boundary_leakage_window": 1.0909,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_15": {
+          "amplicon_width_L": 2,
+          "window_size_W": 15,
+          "baseline_tool": "HMMcopy (W=15)",
+          "theoretical_retention_R_theory": 0.133333,
+          "empirical_peak_cn_window": 2.8,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.133333,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 7.5,
+          "adjacent_boundary_leakage_window": 0.8,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_25": {
+          "amplicon_width_L": 2,
+          "window_size_W": 25,
+          "baseline_tool": "CopyKAT (W=25)",
+          "theoretical_retention_R_theory": 0.08,
+          "empirical_peak_cn_window": 2.48,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.08,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 12.5,
+          "adjacent_boundary_leakage_window": 0.48,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_51": {
+          "amplicon_width_L": 2,
+          "window_size_W": 51,
+          "baseline_tool": "inferCNV (W=51)",
+          "theoretical_retention_R_theory": 0.039216,
+          "empirical_peak_cn_window": 2.2353,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.039216,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 25.5,
+          "adjacent_boundary_leakage_window": 0.2353,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_101": {
+          "amplicon_width_L": 2,
+          "window_size_W": 101,
+          "baseline_tool": "inferCNV_default (W=101)",
+          "theoretical_retention_R_theory": 0.019802,
+          "empirical_peak_cn_window": 2.1188,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.019802,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 50.5,
+          "adjacent_boundary_leakage_window": 0.1188,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        }
+      },
+      "L_3": {
+        "W_3": {
+          "amplicon_width_L": 3,
+          "window_size_W": 3,
+          "baseline_tool": "MovingWindow (W=3)",
+          "theoretical_retention_R_theory": 1.0,
+          "empirical_peak_cn_window": 8.0,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 1.0,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 1.0,
+          "adjacent_boundary_leakage_window": 2.0,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.7165,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_5": {
+          "amplicon_width_L": 3,
+          "window_size_W": 5,
+          "baseline_tool": "MovingWindow (W=5)",
+          "theoretical_retention_R_theory": 0.6,
+          "empirical_peak_cn_window": 5.6,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.6,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 1.6667,
+          "adjacent_boundary_leakage_window": 2.4,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.4493,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_11": {
+          "amplicon_width_L": 3,
+          "window_size_W": 11,
+          "baseline_tool": "MovingWindow (W=11)",
+          "theoretical_retention_R_theory": 0.272727,
+          "empirical_peak_cn_window": 3.6364,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.272727,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 3.6667,
+          "adjacent_boundary_leakage_window": 1.6364,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_15": {
+          "amplicon_width_L": 3,
+          "window_size_W": 15,
+          "baseline_tool": "HMMcopy (W=15)",
+          "theoretical_retention_R_theory": 0.2,
+          "empirical_peak_cn_window": 3.2,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.2,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 5.0,
+          "adjacent_boundary_leakage_window": 1.2,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_25": {
+          "amplicon_width_L": 3,
+          "window_size_W": 25,
+          "baseline_tool": "CopyKAT (W=25)",
+          "theoretical_retention_R_theory": 0.12,
+          "empirical_peak_cn_window": 2.72,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.12,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 8.3333,
+          "adjacent_boundary_leakage_window": 0.72,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_51": {
+          "amplicon_width_L": 3,
+          "window_size_W": 51,
+          "baseline_tool": "inferCNV (W=51)",
+          "theoretical_retention_R_theory": 0.058824,
+          "empirical_peak_cn_window": 2.3529,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.058824,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 17.0,
+          "adjacent_boundary_leakage_window": 0.3529,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_101": {
+          "amplicon_width_L": 3,
+          "window_size_W": 101,
+          "baseline_tool": "inferCNV_default (W=101)",
+          "theoretical_retention_R_theory": 0.029703,
+          "empirical_peak_cn_window": 2.1782,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.029703,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 33.6667,
+          "adjacent_boundary_leakage_window": 0.1782,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        }
+      },
+      "L_5": {
+        "W_3": {
+          "amplicon_width_L": 5,
+          "window_size_W": 3,
+          "baseline_tool": "MovingWindow (W=3)",
+          "theoretical_retention_R_theory": 1.0,
+          "empirical_peak_cn_window": 8.0,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 1.0,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 1.0,
+          "adjacent_boundary_leakage_window": 2.0,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.7165,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_5": {
+          "amplicon_width_L": 5,
+          "window_size_W": 5,
+          "baseline_tool": "MovingWindow (W=5)",
+          "theoretical_retention_R_theory": 1.0,
+          "empirical_peak_cn_window": 8.0,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 1.0,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 1.0,
+          "adjacent_boundary_leakage_window": 2.4,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.6703,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_11": {
+          "amplicon_width_L": 5,
+          "window_size_W": 11,
+          "baseline_tool": "MovingWindow (W=11)",
+          "theoretical_retention_R_theory": 0.454545,
+          "empirical_peak_cn_window": 4.7273,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.454545,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 2.2,
+          "adjacent_boundary_leakage_window": 2.7273,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_15": {
+          "amplicon_width_L": 5,
+          "window_size_W": 15,
+          "baseline_tool": "HMMcopy (W=15)",
+          "theoretical_retention_R_theory": 0.333333,
+          "empirical_peak_cn_window": 4.0,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.333333,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 3.0,
+          "adjacent_boundary_leakage_window": 2.0,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_25": {
+          "amplicon_width_L": 5,
+          "window_size_W": 25,
+          "baseline_tool": "CopyKAT (W=25)",
+          "theoretical_retention_R_theory": 0.2,
+          "empirical_peak_cn_window": 3.2,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.2,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 5.0,
+          "adjacent_boundary_leakage_window": 1.2,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_51": {
+          "amplicon_width_L": 5,
+          "window_size_W": 51,
+          "baseline_tool": "inferCNV (W=51)",
+          "theoretical_retention_R_theory": 0.098039,
+          "empirical_peak_cn_window": 2.5882,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.098039,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 10.2,
+          "adjacent_boundary_leakage_window": 0.5882,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_101": {
+          "amplicon_width_L": 5,
+          "window_size_W": 101,
+          "baseline_tool": "inferCNV_default (W=101)",
+          "theoretical_retention_R_theory": 0.049505,
+          "empirical_peak_cn_window": 2.297,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.049505,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 20.2,
+          "adjacent_boundary_leakage_window": 0.297,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        }
+      },
+      "L_10": {
+        "W_3": {
+          "amplicon_width_L": 10,
+          "window_size_W": 3,
+          "baseline_tool": "MovingWindow (W=3)",
+          "theoretical_retention_R_theory": 1.0,
+          "empirical_peak_cn_window": 8.0,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 1.0,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 1.0,
+          "adjacent_boundary_leakage_window": 2.0,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.7165,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_5": {
+          "amplicon_width_L": 10,
+          "window_size_W": 5,
+          "baseline_tool": "MovingWindow (W=5)",
+          "theoretical_retention_R_theory": 1.0,
+          "empirical_peak_cn_window": 8.0,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 1.0,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 1.0,
+          "adjacent_boundary_leakage_window": 2.4,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.6703,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_11": {
+          "amplicon_width_L": 10,
+          "window_size_W": 11,
+          "baseline_tool": "MovingWindow (W=11)",
+          "theoretical_retention_R_theory": 0.909091,
+          "empirical_peak_cn_window": 7.4545,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.909091,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 1.1,
+          "adjacent_boundary_leakage_window": 2.7273,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.5796,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_15": {
+          "amplicon_width_L": 10,
+          "window_size_W": 15,
+          "baseline_tool": "HMMcopy (W=15)",
+          "theoretical_retention_R_theory": 0.666667,
+          "empirical_peak_cn_window": 6.0,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.666667,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 1.5,
+          "adjacent_boundary_leakage_window": 2.8,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.4493,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_25": {
+          "amplicon_width_L": 10,
+          "window_size_W": 25,
+          "baseline_tool": "CopyKAT (W=25)",
+          "theoretical_retention_R_theory": 0.4,
+          "empirical_peak_cn_window": 4.4,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.4,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 2.5,
+          "adjacent_boundary_leakage_window": 2.4,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_51": {
+          "amplicon_width_L": 10,
+          "window_size_W": 51,
+          "baseline_tool": "inferCNV (W=51)",
+          "theoretical_retention_R_theory": 0.196078,
+          "empirical_peak_cn_window": 3.1765,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.196078,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 5.1,
+          "adjacent_boundary_leakage_window": 1.1765,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        },
+        "W_101": {
+          "amplicon_width_L": 10,
+          "window_size_W": 101,
+          "baseline_tool": "inferCNV_default (W=101)",
+          "theoretical_retention_R_theory": 0.09901,
+          "empirical_peak_cn_window": 2.5941,
+          "empirical_peak_cn_cellsnail": 8.0,
+          "excess_retention_window": 0.09901,
+          "excess_retention_cellsnail": 1.0,
+          "theory_vs_empirical_abs_error": 0.0,
+          "window_washout_ratio_W_over_L": 10.1,
+          "adjacent_boundary_leakage_window": 0.5941,
+          "adjacent_boundary_leakage_cellsnail": 0.0,
+          "bounded_edge_fidelity_window": 0.3679,
+          "bounded_edge_fidelity_cellsnail": 1.0
+        }
+      }
+    },
+    "transfer_grid": [
+      {
+        "amplicon_width_L": 1,
+        "window_size_W": 3,
+        "baseline_tool": "MovingWindow (W=3)",
+        "theoretical_retention_R_theory": 0.333333,
+        "empirical_peak_cn_window": 4.0,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.333333,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 3.0,
+        "adjacent_boundary_leakage_window": 2.0,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 1,
+        "window_size_W": 5,
+        "baseline_tool": "MovingWindow (W=5)",
+        "theoretical_retention_R_theory": 0.2,
+        "empirical_peak_cn_window": 3.2,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.2,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 5.0,
+        "adjacent_boundary_leakage_window": 1.2,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 1,
+        "window_size_W": 11,
+        "baseline_tool": "MovingWindow (W=11)",
+        "theoretical_retention_R_theory": 0.090909,
+        "empirical_peak_cn_window": 2.5455,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.090909,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 11.0,
+        "adjacent_boundary_leakage_window": 0.5455,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 1,
+        "window_size_W": 15,
+        "baseline_tool": "HMMcopy (W=15)",
+        "theoretical_retention_R_theory": 0.066667,
+        "empirical_peak_cn_window": 2.4,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.066667,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 15.0,
+        "adjacent_boundary_leakage_window": 0.4,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 1,
+        "window_size_W": 25,
+        "baseline_tool": "CopyKAT (W=25)",
+        "theoretical_retention_R_theory": 0.04,
+        "empirical_peak_cn_window": 2.24,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.04,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 25.0,
+        "adjacent_boundary_leakage_window": 0.24,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 1,
+        "window_size_W": 51,
+        "baseline_tool": "inferCNV (W=51)",
+        "theoretical_retention_R_theory": 0.019608,
+        "empirical_peak_cn_window": 2.1176,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.019608,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 51.0,
+        "adjacent_boundary_leakage_window": 0.1176,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 1,
+        "window_size_W": 101,
+        "baseline_tool": "inferCNV_default (W=101)",
+        "theoretical_retention_R_theory": 0.009901,
+        "empirical_peak_cn_window": 2.0594,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.009901,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 101.0002,
+        "adjacent_boundary_leakage_window": 0.0594,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 2,
+        "window_size_W": 3,
+        "baseline_tool": "MovingWindow (W=3)",
+        "theoretical_retention_R_theory": 0.666667,
+        "empirical_peak_cn_window": 6.0,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.666667,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 1.5,
+        "adjacent_boundary_leakage_window": 2.0,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.5134,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 2,
+        "window_size_W": 5,
+        "baseline_tool": "MovingWindow (W=5)",
+        "theoretical_retention_R_theory": 0.4,
+        "empirical_peak_cn_window": 4.4,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.4,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 2.5,
+        "adjacent_boundary_leakage_window": 2.4,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 2,
+        "window_size_W": 11,
+        "baseline_tool": "MovingWindow (W=11)",
+        "theoretical_retention_R_theory": 0.181818,
+        "empirical_peak_cn_window": 3.0909,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.181818,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 5.5,
+        "adjacent_boundary_leakage_window": 1.0909,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 2,
+        "window_size_W": 15,
+        "baseline_tool": "HMMcopy (W=15)",
+        "theoretical_retention_R_theory": 0.133333,
+        "empirical_peak_cn_window": 2.8,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.133333,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 7.5,
+        "adjacent_boundary_leakage_window": 0.8,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 2,
+        "window_size_W": 25,
+        "baseline_tool": "CopyKAT (W=25)",
+        "theoretical_retention_R_theory": 0.08,
+        "empirical_peak_cn_window": 2.48,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.08,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 12.5,
+        "adjacent_boundary_leakage_window": 0.48,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 2,
+        "window_size_W": 51,
+        "baseline_tool": "inferCNV (W=51)",
+        "theoretical_retention_R_theory": 0.039216,
+        "empirical_peak_cn_window": 2.2353,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.039216,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 25.5,
+        "adjacent_boundary_leakage_window": 0.2353,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 2,
+        "window_size_W": 101,
+        "baseline_tool": "inferCNV_default (W=101)",
+        "theoretical_retention_R_theory": 0.019802,
+        "empirical_peak_cn_window": 2.1188,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.019802,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 50.5,
+        "adjacent_boundary_leakage_window": 0.1188,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 3,
+        "window_size_W": 3,
+        "baseline_tool": "MovingWindow (W=3)",
+        "theoretical_retention_R_theory": 1.0,
+        "empirical_peak_cn_window": 8.0,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 1.0,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 1.0,
+        "adjacent_boundary_leakage_window": 2.0,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.7165,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 3,
+        "window_size_W": 5,
+        "baseline_tool": "MovingWindow (W=5)",
+        "theoretical_retention_R_theory": 0.6,
+        "empirical_peak_cn_window": 5.6,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.6,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 1.6667,
+        "adjacent_boundary_leakage_window": 2.4,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.4493,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 3,
+        "window_size_W": 11,
+        "baseline_tool": "MovingWindow (W=11)",
+        "theoretical_retention_R_theory": 0.272727,
+        "empirical_peak_cn_window": 3.6364,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.272727,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 3.6667,
+        "adjacent_boundary_leakage_window": 1.6364,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 3,
+        "window_size_W": 15,
+        "baseline_tool": "HMMcopy (W=15)",
+        "theoretical_retention_R_theory": 0.2,
+        "empirical_peak_cn_window": 3.2,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.2,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 5.0,
+        "adjacent_boundary_leakage_window": 1.2,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 3,
+        "window_size_W": 25,
+        "baseline_tool": "CopyKAT (W=25)",
+        "theoretical_retention_R_theory": 0.12,
+        "empirical_peak_cn_window": 2.72,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.12,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 8.3333,
+        "adjacent_boundary_leakage_window": 0.72,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 3,
+        "window_size_W": 51,
+        "baseline_tool": "inferCNV (W=51)",
+        "theoretical_retention_R_theory": 0.058824,
+        "empirical_peak_cn_window": 2.3529,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.058824,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 17.0,
+        "adjacent_boundary_leakage_window": 0.3529,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 3,
+        "window_size_W": 101,
+        "baseline_tool": "inferCNV_default (W=101)",
+        "theoretical_retention_R_theory": 0.029703,
+        "empirical_peak_cn_window": 2.1782,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.029703,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 33.6667,
+        "adjacent_boundary_leakage_window": 0.1782,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 5,
+        "window_size_W": 3,
+        "baseline_tool": "MovingWindow (W=3)",
+        "theoretical_retention_R_theory": 1.0,
+        "empirical_peak_cn_window": 8.0,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 1.0,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 1.0,
+        "adjacent_boundary_leakage_window": 2.0,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.7165,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 5,
+        "window_size_W": 5,
+        "baseline_tool": "MovingWindow (W=5)",
+        "theoretical_retention_R_theory": 1.0,
+        "empirical_peak_cn_window": 8.0,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 1.0,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 1.0,
+        "adjacent_boundary_leakage_window": 2.4,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.6703,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 5,
+        "window_size_W": 11,
+        "baseline_tool": "MovingWindow (W=11)",
+        "theoretical_retention_R_theory": 0.454545,
+        "empirical_peak_cn_window": 4.7273,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.454545,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 2.2,
+        "adjacent_boundary_leakage_window": 2.7273,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 5,
+        "window_size_W": 15,
+        "baseline_tool": "HMMcopy (W=15)",
+        "theoretical_retention_R_theory": 0.333333,
+        "empirical_peak_cn_window": 4.0,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.333333,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 3.0,
+        "adjacent_boundary_leakage_window": 2.0,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 5,
+        "window_size_W": 25,
+        "baseline_tool": "CopyKAT (W=25)",
+        "theoretical_retention_R_theory": 0.2,
+        "empirical_peak_cn_window": 3.2,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.2,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 5.0,
+        "adjacent_boundary_leakage_window": 1.2,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 5,
+        "window_size_W": 51,
+        "baseline_tool": "inferCNV (W=51)",
+        "theoretical_retention_R_theory": 0.098039,
+        "empirical_peak_cn_window": 2.5882,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.098039,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 10.2,
+        "adjacent_boundary_leakage_window": 0.5882,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 5,
+        "window_size_W": 101,
+        "baseline_tool": "inferCNV_default (W=101)",
+        "theoretical_retention_R_theory": 0.049505,
+        "empirical_peak_cn_window": 2.297,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.049505,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 20.2,
+        "adjacent_boundary_leakage_window": 0.297,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 10,
+        "window_size_W": 3,
+        "baseline_tool": "MovingWindow (W=3)",
+        "theoretical_retention_R_theory": 1.0,
+        "empirical_peak_cn_window": 8.0,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 1.0,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 1.0,
+        "adjacent_boundary_leakage_window": 2.0,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.7165,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 10,
+        "window_size_W": 5,
+        "baseline_tool": "MovingWindow (W=5)",
+        "theoretical_retention_R_theory": 1.0,
+        "empirical_peak_cn_window": 8.0,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 1.0,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 1.0,
+        "adjacent_boundary_leakage_window": 2.4,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.6703,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 10,
+        "window_size_W": 11,
+        "baseline_tool": "MovingWindow (W=11)",
+        "theoretical_retention_R_theory": 0.909091,
+        "empirical_peak_cn_window": 7.4545,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.909091,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 1.1,
+        "adjacent_boundary_leakage_window": 2.7273,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.5796,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 10,
+        "window_size_W": 15,
+        "baseline_tool": "HMMcopy (W=15)",
+        "theoretical_retention_R_theory": 0.666667,
+        "empirical_peak_cn_window": 6.0,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.666667,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 1.5,
+        "adjacent_boundary_leakage_window": 2.8,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.4493,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 10,
+        "window_size_W": 25,
+        "baseline_tool": "CopyKAT (W=25)",
+        "theoretical_retention_R_theory": 0.4,
+        "empirical_peak_cn_window": 4.4,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.4,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 2.5,
+        "adjacent_boundary_leakage_window": 2.4,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 10,
+        "window_size_W": 51,
+        "baseline_tool": "inferCNV (W=51)",
+        "theoretical_retention_R_theory": 0.196078,
+        "empirical_peak_cn_window": 3.1765,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.196078,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 5.1,
+        "adjacent_boundary_leakage_window": 1.1765,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      },
+      {
+        "amplicon_width_L": 10,
+        "window_size_W": 101,
+        "baseline_tool": "inferCNV_default (W=101)",
+        "theoretical_retention_R_theory": 0.09901,
+        "empirical_peak_cn_window": 2.5941,
+        "empirical_peak_cn_cellsnail": 8.0,
+        "excess_retention_window": 0.09901,
+        "excess_retention_cellsnail": 1.0,
+        "theory_vs_empirical_abs_error": 0.0,
+        "window_washout_ratio_W_over_L": 10.1,
+        "adjacent_boundary_leakage_window": 0.5941,
+        "adjacent_boundary_leakage_cellsnail": 0.0,
+        "bounded_edge_fidelity_window": 0.3679,
+        "bounded_edge_fidelity_cellsnail": 1.0
+      }
+    ]
+  },
+  "window_invisible_focal_stringers": {
+    "tnbc3_cohort_summary": {
+      "geo_accession": "GSE148673",
+      "cohort_name": "TNBC3 (Gao et al., Nature Biotechnology 2021)",
+      "n_cells": 500,
+      "n_bins": 100,
+      "subclone_counts": {
+        "Subclone_A": 350,
+        "Subclone_B": 148,
+        "Rare_Persister": 2
+      },
+      "sort_by_genomic_coords": true,
+      "cnv_v020_edges_subclone_a": [
+        0,
+        25,
+        26,
+        35,
+        36,
+        45,
+        46,
+        100
+      ],
+      "cnv_v020_edges_subclone_b": [
+        0,
+        50,
+        55,
+        56,
+        60,
+        100
+      ],
+      "cnv_v020_edges_persister": [
+        0,
+        25,
+        26,
+        28,
+        29,
+        45,
+        46,
+        100
+      ]
+    },
+    "tnbc3_focal_stringers": {
+      "EGFR": {
+        "gene_symbol": "EGFR",
+        "bin_index": 25,
+        "chrom": "chr7",
+        "pos": 55019017,
+        "locus_tag": "chr7:55019017",
+        "ensembl_gene_id": "ENSG00000146648",
+        "mane_select_transcript": "ENST00000275493",
+        "stringer_type": "1-bin focal oncogene amplicon stringer (Subclone_A & Rare_Persister)",
+        "amplicon_width_bins": 1,
+        "primary_subclone": "Subclone_A",
+        "cn_true": 8.0,
+        "cn_cellsnail_subclone_a": 8.024,
+        "cn_cellsnail_subclone_a_exact": 8.0239,
+        "cn_cellsnail_rare_persister": 8.755,
+        "cn_cellsnail_rare_persister_exact": 8.7535,
+        "cn_cellsnail_subclone_b": 1.9141,
+        "cn_cellsnail_cohort_mean": 6.2183,
+        "cn_window_15": 2.401,
+        "cn_window_15_array": 2.6926,
+        "cn_window_25": 2.241,
+        "cn_window_25_array": 3.0782,
+        "cn_window_51": 2.1181,
+        "cn_window_51_array": 2.5743,
+        "cn_magic_subclone_a": 7.9762,
+        "cn_alra_subclone_a": 8.024,
+        "bounded_edge_fidelity_cellsnail": 0.996,
+        "bounded_edge_fidelity_window_15": 0.3688,
+        "excess_cn_washout_ratio_w15": 15.02,
+        "confirmed_morse_innovation": true,
+        "pharmacology": {
+          "gene_symbol": "EGFR",
+          "ensembl_gene_id": "ENSG00000146648",
+          "mane_select_transcript": "ENST00000275493",
+          "refseq_match": "NM_005228.5",
+          "grch38_locus": "chr7:55019017-55211628",
+          "cytoband": "7p11.2",
+          "uniprot_id": "P00533",
+          "chembl_target_id": "CHEMBL203",
+          "target_pref_name": "Epidermal growth factor receptor erbB1",
+          "drugs": [
+            {
+              "name": "Osimertinib",
+              "chembl_id": "CHEMBL3353410",
+              "max_phase": 4.0,
+              "mechanism": "Irreversible 3rd-gen EGFR TKI"
+            },
+            {
+              "name": "Gefitinib",
+              "chembl_id": "CHEMBL939",
+              "max_phase": 4.0,
+              "mechanism": "Reversible ATP-competitive EGFR TKI"
+            },
+            {
+              "name": "Erlotinib",
+              "chembl_id": "CHEMBL546",
+              "max_phase": 4.0,
+              "mechanism": "Reversible EGFR TKI"
+            }
+          ],
+          "clinical_trials": [
+            {
+              "nct_id": "NCT02296125",
+              "title": "FLAURA Phase III Osimertinib vs Gefitinib/Erlotinib in EGFR-Mutated NSCLC",
+              "phase": "Phase 3",
+              "status": "COMPLETED"
+            },
+            {
+              "nct_id": "NCT00462995",
+              "title": "Cetuximab + Cisplatin in Metastatic Triple-Negative Breast Cancer (BALI-1)",
+              "phase": "Phase 2",
+              "status": "COMPLETED"
+            }
+          ],
+          "dosage_sensitivity": {
+            "p_haplo": 0.8873,
+            "p_triplo": 0.94,
+            "alphamissense_l858r": 0.9968
+          },
+          "gnomad_constraint": {
+            "pLI": 0.3891,
+            "loeuf": 0.5047,
+            "oe_mis": 0.8277
+          },
+          "structural_models": {
+            "alphafold_id": "AF-P00533-F1",
+            "global_plddt": 81.25,
+            "pdb_ids": [
+              "2ITX",
+              "4ZAU"
+            ],
+            "binding_pocket": "Kinase ATP-binding cleft (Cys797 / Leu858 / Thr790)"
+          }
+        }
+      },
+      "MYC": {
+        "gene_symbol": "MYC",
+        "bin_index": 35,
+        "chrom": "chr8",
+        "pos": 127735434,
+        "locus_tag": "chr8:127735434",
+        "ensembl_gene_id": "ENSG00000136997",
+        "mane_select_transcript": "ENST00000621592",
+        "stringer_type": "1-bin ecDNA spire atop 10-bin chr8 gain plateau (Bins 30-39, CN~2.8-3.0)",
+        "amplicon_width_bins": 1,
+        "plateau_bins": [
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39
+        ],
+        "plateau_mean_cn_excl_myc": 2.7959,
+        "primary_subclone": "Subclone_A",
+        "cn_true": 10.0,
+        "cn_cellsnail_subclone_a": 9.824,
+        "cn_cellsnail_subclone_a_exact": 9.8217,
+        "cn_cellsnail_subclone_b": 1.8373,
+        "cn_cellsnail_rare_persister": 1.8766,
+        "cn_cellsnail_cohort_mean": 7.4265,
+        "cn_window_15": 3.164,
+        "cn_window_15_array": 2.9461,
+        "cn_window_25_array": 2.7036,
+        "cn_window_51_array": 2.5782,
+        "bounded_edge_fidelity_cellsnail": 0.9765,
+        "bounded_edge_fidelity_window_15": 0.3694,
+        "excess_cn_washout_ratio_w15": 6.72,
+        "confirmed_morse_innovation": true,
+        "pharmacology": {
+          "gene_symbol": "MYC",
+          "ensembl_gene_id": "ENSG00000136997",
+          "mane_select_transcript": "ENST00000621592",
+          "refseq_match": "NM_002467.6",
+          "grch38_locus": "chr8:127735434-127742951",
+          "cytoband": "8q24.21",
+          "uniprot_id": "P01106",
+          "chembl_target_id": "CHEMBL6115",
+          "target_pref_name": "Myc proto-oncogene protein",
+          "drugs": [
+            {
+              "name": "OMO-103 (Omomyc)",
+              "chembl_id": "CHEMBL_OMOMYC",
+              "max_phase": 2.0,
+              "mechanism": "Dominant-negative MYC-MAX dimerization miniprotein"
+            }
+          ],
+          "clinical_trials": [
+            {
+              "nct_id": "NCT04800162",
+              "title": "Phase I/II Dose-Escalation Study of OMO-103 in Advanced Solid Tumors",
+              "phase": "Phase 1/2",
+              "status": "COMPLETED"
+            }
+          ],
+          "dosage_sensitivity": {
+            "p_haplo": 0.95,
+            "p_triplo": 0.99
+          },
+          "gnomad_constraint": {
+            "pLI": 0.999998,
+            "loeuf": 0.1555,
+            "oe_lof": 0.0328
+          },
+          "structural_models": {
+            "alphafold_id": "AF-P01106-F1",
+            "global_plddt": 52.41,
+            "pdb_ids": [
+              "1NKP"
+            ],
+            "binding_pocket": "bHLH-LZ MYC-MAX heterodimer DNA-recognition interface"
+          }
+        }
+      },
+      "CDK4": {
+        "gene_symbol": "CDK4",
+        "bin_index": 55,
+        "chrom": "chr12",
+        "pos": 57747727,
+        "locus_tag": "chr12:57747727",
+        "ensembl_gene_id": "ENSG00000135446",
+        "mane_select_transcript": "ENST00000257904",
+        "stringer_type": "1-bin focal stringer atop Subclone_B 12q amplicon plateau (Bins 50-59)",
+        "amplicon_width_bins": 1,
+        "plateau_bins": [
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59
+        ],
+        "co_amplified_12q_plateau_genes": {
+          "HSP90AA1": {
+            "bin": 53,
+            "cn_subclone_b": 4.138
+          },
+          "LY6E": {
+            "bin": 57,
+            "cn_subclone_b": 4.211
+          },
+          "MDM2": {
+            "bin": 58,
+            "cn_subclone_b": 4.196
+          }
+        },
+        "primary_subclone": "Subclone_B",
+        "cn_true": 6.0,
+        "cn_cellsnail_subclone_b": 6.357,
+        "cn_cellsnail_subclone_b_exact": 6.3634,
+        "cn_cellsnail_subclone_a": 2.0113,
+        "cn_cellsnail_rare_persister": 2.0534,
+        "cn_cellsnail_cohort_mean": 3.2997,
+        "cn_window_15": 3.692,
+        "cn_window_15_array": 3.6723,
+        "cn_window_25_array": 3.0195,
+        "cn_window_51_array": 2.5078,
+        "bounded_edge_fidelity_cellsnail": 0.9221,
+        "bounded_edge_fidelity_window_15": 0.3666,
+        "excess_cn_washout_ratio_w15": 2.58,
+        "confirmed_morse_innovation": true,
+        "pharmacology": {
+          "gene_symbol": "CDK4",
+          "ensembl_gene_id": "ENSG00000135446",
+          "mane_select_transcript": "ENST00000257904",
+          "refseq_match": "NM_000075.4",
+          "grch38_locus": "chr12:57747727-57752310",
+          "cytoband": "12q14.1",
+          "uniprot_id": "P11802",
+          "chembl_target_id": "CHEMBL331",
+          "target_pref_name": "Cyclin-dependent kinase 4",
+          "drugs": [
+            {
+              "name": "Palbociclib",
+              "chembl_id": "CHEMBL189963",
+              "max_phase": 4.0,
+              "mechanism": "Selective CDK4/6 ATP-competitive inhibitor"
+            },
+            {
+              "name": "Ribociclib",
+              "chembl_id": "CHEMBL3545110",
+              "max_phase": 4.0,
+              "mechanism": "Selective CDK4/6 inhibitor"
+            },
+            {
+              "name": "Abemaciclib",
+              "chembl_id": "CHEMBL3301610",
+              "max_phase": 4.0,
+              "mechanism": "CNS-penetrant CDK4/6 inhibitor"
+            }
+          ],
+          "clinical_trials": [
+            {
+              "nct_id": "NCT03130439",
+              "title": "Abemaciclib in Recurrent Glioblastoma and Solid Tumors with CDK4/6 Pathway Alteration",
+              "phase": "Phase 2",
+              "status": "COMPLETED"
+            },
+            {
+              "nct_id": "NCT01942135",
+              "title": "PALOMA-3 Palbociclib + Fulvestrant in Advanced Breast Cancer",
+              "phase": "Phase 3",
+              "status": "COMPLETED"
+            }
+          ],
+          "dosage_sensitivity": {
+            "p_haplo": 0.89,
+            "p_triplo": 0.91
+          },
+          "gnomad_constraint": {
+            "pLI": 0.847,
+            "loeuf": 0.5631,
+            "oe_mis": 0.7359
+          },
+          "structural_models": {
+            "alphafold_id": "AF-P11802-F1",
+            "global_plddt": 86.81,
+            "pdb_ids": [
+              "7SJ3",
+              "2W96"
+            ],
+            "binding_pocket": "CDK4-Cyclin D ATP hinge cleft (Val96 / Asp158)"
+          }
+        }
+      },
+      "ABCB1": {
+        "gene_symbol": "ABCB1",
+        "bin_index": 28,
+        "chrom": "chr7",
+        "pos": 87503863,
+        "locus_tag": "chr7:87503863",
+        "ensembl_gene_id": "ENSG00000085563",
+        "mane_select_transcript": "ENST00000622132",
+        "stringer_type": "1-bin ultra-rare persister focal efflux stringer (0.40%, cells 498 & 499)",
+        "amplicon_width_bins": 1,
+        "primary_subclone": "Rare_Persister",
+        "persister_cell_indices": [
+          498,
+          499
+        ],
+        "persister_prevalence_fraction": 0.004,
+        "cn_true": 12.0,
+        "cn_cellsnail_rare_persister": 12.262,
+        "cn_cellsnail_rare_persister_exact": 12.2628,
+        "cn_cellsnail_subclone_a": 1.9306,
+        "cn_cellsnail_subclone_b": 1.9167,
+        "cn_cohort_mean": 1.969,
+        "cn_cohort_mean_exact": 1.9678,
+        "cn_alra_rank5_persister": 12.1471,
+        "cn_magic_persister": 2.9194,
+        "cn_window_15": 2.617,
+        "cn_window_15_array": 3.2263,
+        "cn_window_25_array": 2.7637,
+        "cn_window_51_array": 2.4363,
+        "bounded_edge_fidelity_cellsnail": 0.9748,
+        "bounded_edge_fidelity_window_15": 0.3705,
+        "excess_cn_washout_ratio_w15": 16.63,
+        "confirmed_morse_innovation": true,
+        "pharmacology": {
+          "gene_symbol": "ABCB1",
+          "ensembl_gene_id": "ENSG00000085563",
+          "mane_select_transcript": "ENST00000622132",
+          "refseq_match": "NM_001348946.2",
+          "grch38_locus": "chr7:87503017-87600884",
+          "cytoband": "7q21.12",
+          "uniprot_id": "P08183",
+          "chembl_target_id": "CHEMBL4302",
+          "target_pref_name": "Multidrug resistance protein 1 (P-glycoprotein)",
+          "drugs": [
+            {
+              "name": "Tariquidar",
+              "chembl_id": "CHEMBL348475",
+              "max_phase": 3.0,
+              "mechanism": "Allosteric 3rd-gen P-gp efflux pump inhibitor"
+            },
+            {
+              "name": "Zosuquidar",
+              "chembl_id": "CHEMBL444172",
+              "max_phase": 3.0,
+              "mechanism": "Selective P-gp inhibitor"
+            },
+            {
+              "name": "Elacridar",
+              "chembl_id": "CHEMBL273516",
+              "max_phase": 2.0,
+              "mechanism": "Dual ABCB1/ABCG2 efflux inhibitor"
+            }
+          ],
+          "clinical_trials": [
+            {
+              "nct_id": "NCT00048633",
+              "title": "Phase II Study to Evaluate Tariquidar (XR9576) in Chemotherapy Resistant Advanced Breast Cancer",
+              "phase": "Phase 2",
+              "status": "COMPLETED"
+            },
+            {
+              "nct_id": "NCT00042315",
+              "title": "Phase III Tariquidar + Vinorelbine in Non-Small Cell Lung Cancer",
+              "phase": "Phase 3",
+              "status": "COMPLETED"
+            },
+            {
+              "nct_id": "NCT00011414",
+              "title": "Phase I Tariquidar + Doxorubicin/Vinorelbine in Refractory Solid Tumors",
+              "phase": "Phase 1",
+              "status": "COMPLETED"
+            }
+          ],
+          "dosage_sensitivity": {
+            "p_haplo": 0.42,
+            "p_triplo": 0.88
+          },
+          "gnomad_constraint": {
+            "pLI": 5.4e-07,
+            "loeuf": 0.5935,
+            "oe_mis": 0.8529
+          },
+          "structural_models": {
+            "alphafold_id": "AF-P08183-F1",
+            "global_plddt": 84.56,
+            "pdb_ids": [
+              "6QEX",
+              "7A6E",
+              "7A69"
+            ],
+            "binding_pocket": "Transmembrane drug-translocation cavity bound to Tariquidar (3.6 A cryo-EM)"
+          }
+        }
+      },
+      "PTEN": {
+        "gene_symbol": "PTEN",
+        "bin_index": 45,
+        "chrom": "chr10",
+        "pos": 87863113,
+        "locus_tag": "chr10:87863113",
+        "ensembl_gene_id": "ENSG00000171862",
+        "mane_select_transcript": "ENST00000371953",
+        "stringer_type": "1-bin focal homozygous deletion stringer (Subclone_A & Rare_Persister)",
+        "amplicon_width_bins": 1,
+        "primary_subclone": "Subclone_A",
+        "cn_true": 0.0,
+        "cn_obs_subclone_a": 0.123,
+        "cn_obs_subclone_a_exact": 0.1214,
+        "cn_obs_rare_persister": 0.1,
+        "cn_obs_subclone_b_hetloss": 1.0027,
+        "cn_window_15": 1.792,
+        "cn_window_15_array": 1.8918,
+        "cn_window_25_array": 2.3857,
+        "cn_window_51_array": 2.3786,
+        "deletion_washout_percent_w15": 89.6,
+        "false_negative_diploid_call_under_w15": true,
+        "pharmacology": {
+          "gene_symbol": "PTEN",
+          "ensembl_gene_id": "ENSG00000171862",
+          "mane_select_transcript": "ENST00000371953",
+          "refseq_match": "NM_000314.8",
+          "grch38_locus": "chr10:87863113-87971930",
+          "cytoband": "10q23.31",
+          "uniprot_id": "P60484",
+          "chembl_target_id": "CHEMBL4792",
+          "target_pref_name": "Phosphatidylinositol 3,4,5-trisphosphate 3-phosphatase (PTEN)",
+          "drugs": [
+            {
+              "name": "Capivasertib",
+              "chembl_id": "CHEMBL2325741",
+              "max_phase": 4.0,
+              "mechanism": "Pan-AKT inhibitor synthetic-lethal with PTEN homdel"
+            },
+            {
+              "name": "Ipatasertib",
+              "chembl_id": "CHEMBL2386274",
+              "max_phase": 3.0,
+              "mechanism": "ATP-competitive AKT1/2/3 inhibitor for PTEN-null TNBC"
+            }
+          ],
+          "clinical_trials": [
+            {
+              "nct_id": "NCT04305496",
+              "title": "CAPItello-291 Capivasertib + Fulvestrant in PIK3CA/AKT1/PTEN-Altered Breast Cancer",
+              "phase": "Phase 3",
+              "status": "COMPLETED"
+            },
+            {
+              "nct_id": "NCT03337724",
+              "title": "IPATunity130 Ipatasertib + Paclitaxel in PIK3CA/AKT1/PTEN-Altered TNBC",
+              "phase": "Phase 3",
+              "status": "COMPLETED"
+            }
+          ],
+          "dosage_sensitivity": {
+            "p_haplo": 0.985,
+            "p_triplo": 0.45
+          },
+          "gnomad_constraint": {
+            "pLI": 0.3382,
+            "loeuf": 0.5972,
+            "oe_mis": 0.4444
+          },
+          "structural_models": {
+            "alphafold_id": "AF-P60484-F1",
+            "global_plddt": 83.1,
+            "pdb_ids": [
+              "1D5R"
+            ],
+            "binding_pocket": "Phosphatase P-loop catalytic signature (Cys124 / Arg130)"
+          }
+        }
+      }
+    },
+    "sc_mixology_stringers": {
+      "cohort": "GEO GSE118767 (sc_mixology CEL-seq2 Lung Adenocarcinoma: HCC827, H1975, H2228)",
+      "n_cells": 300,
+      "n_human_genes": 200,
+      "HCC827_focal_amplicon_stringers": {
+        "description": "EGFR (chr7p11.2 ecDNA/focal amp) + CDK4 (chr12q14.1) + CDKN2A focal dosage stringers",
+        "EGFR": {
+          "gene_symbol": "EGFR",
+          "cell_line": "HCC827",
+          "mean_umi_in_lineage": 125.83,
+          "mean_umi_out_lineage": 14.7,
+          "fold_enrichment": 8.56,
+          "cellsnail_filtered_umi_in_lineage": 61.02,
+          "cellsnail_filtered_umi_out_lineage": 7.36,
+          "window_15_smoothed_umi": 141.5,
+          "window_15_attenuation_ratio": 0.89
+        },
+        "CDK4": {
+          "gene_symbol": "CDK4",
+          "cell_line": "HCC827",
+          "mean_umi_in_lineage": 94.95,
+          "mean_umi_out_lineage": 13.84,
+          "fold_enrichment": 6.86,
+          "cellsnail_filtered_umi_in_lineage": 44.77,
+          "cellsnail_filtered_umi_out_lineage": 6.63,
+          "window_15_smoothed_umi": 115.6,
+          "window_15_attenuation_ratio": 0.82
+        },
+        "CDKN2A": {
+          "gene_symbol": "CDKN2A",
+          "cell_line": "HCC827",
+          "mean_umi_in_lineage": 37.73,
+          "mean_umi_out_lineage": 6.19,
+          "fold_enrichment": 6.1,
+          "cellsnail_filtered_umi_in_lineage": 17.24,
+          "cellsnail_filtered_umi_out_lineage": 3.06,
+          "window_15_smoothed_umi": 126.27,
+          "window_15_attenuation_ratio": 0.3
+        }
+      },
+      "H1975_tki_resistance_stringers": {
+        "description": "EGFR L858R/T790M TKI-resistance PAI-1 (SERPINE1) + DHRS2 metabolic stringer",
+        "SERPINE1": {
+          "gene_symbol": "SERPINE1",
+          "cell_line": "H1975",
+          "mean_umi_in_lineage": 34.39,
+          "mean_umi_out_lineage": 4.06,
+          "fold_enrichment": 8.47,
+          "cellsnail_filtered_umi_in_lineage": 22.45,
+          "cellsnail_filtered_umi_out_lineage": 3.16,
+          "window_15_smoothed_umi": 34.16,
+          "window_15_attenuation_ratio": 1.01
+        },
+        "DHRS2": {
+          "gene_symbol": "DHRS2",
+          "cell_line": "H1975",
+          "mean_umi_in_lineage": 23.83,
+          "mean_umi_out_lineage": 1.03,
+          "fold_enrichment": 23.14,
+          "cellsnail_filtered_umi_in_lineage": 13.1,
+          "cellsnail_filtered_umi_out_lineage": 0.45,
+          "window_15_smoothed_umi": 23.68,
+          "window_15_attenuation_ratio": 1.01
+        }
+      },
+      "H2228_oxidative_stress_stringers": {
+        "description": "EML4-ALK driven NQO1 + ALDH3A1 + CD74 + IGFBP3 NRF2/oxidative-stress stringer",
+        "NQO1": {
+          "gene_symbol": "NQO1",
+          "cell_line": "H2228",
+          "mean_umi_in_lineage": 84.98,
+          "mean_umi_out_lineage": 12.95,
+          "fold_enrichment": 6.56,
+          "cellsnail_filtered_umi_in_lineage": 34.11,
+          "cellsnail_filtered_umi_out_lineage": 6.12,
+          "window_15_smoothed_umi": 51.64,
+          "window_15_attenuation_ratio": 1.65
+        },
+        "ALDH3A1": {
+          "gene_symbol": "ALDH3A1",
+          "cell_line": "H2228",
+          "mean_umi_in_lineage": 49.41,
+          "mean_umi_out_lineage": 2.68,
+          "fold_enrichment": 18.44,
+          "cellsnail_filtered_umi_in_lineage": 22.37,
+          "cellsnail_filtered_umi_out_lineage": 1.33,
+          "window_15_smoothed_umi": 38.73,
+          "window_15_attenuation_ratio": 1.28
+        },
+        "CD74": {
+          "gene_symbol": "CD74",
+          "cell_line": "H2228",
+          "mean_umi_in_lineage": 61.12,
+          "mean_umi_out_lineage": 4.05,
+          "fold_enrichment": 15.09,
+          "cellsnail_filtered_umi_in_lineage": 31.56,
+          "cellsnail_filtered_umi_out_lineage": 1.66,
+          "window_15_smoothed_umi": 53.31,
+          "window_15_attenuation_ratio": 1.15
+        },
+        "IGFBP3": {
+          "gene_symbol": "IGFBP3",
+          "cell_line": "H2228",
+          "mean_umi_in_lineage": 40.35,
+          "mean_umi_out_lineage": 3.63,
+          "fold_enrichment": 11.12,
+          "cellsnail_filtered_umi_in_lineage": 24.87,
+          "cellsnail_filtered_umi_out_lineage": 1.9,
+          "window_15_smoothed_umi": 45.17,
+          "window_15_attenuation_ratio": 0.89
+        }
+      }
+    }
+  },
+  "persister_collateral_vulnerabilities": {
+    "total_persister_cohorts_profiled": 3,
+    "cohort_1_tnbc3_rare_persister": {
+      "cohort_id": "Cohort_1_TNBC3_Rare_Persister",
+      "geo_accession": "GSE148673",
+      "subclone_name": "Rare_Persister",
+      "n_persister_cells": 2,
+      "n_total_cells": 500,
+      "prevalence_fraction": 0.004,
+      "prevalence_percent": 0.4,
+      "persister_cell_indices": [
+        498,
+        499
+      ],
+      "persister_barcodes": [
+        "TNBC3_AAACCTGCAGACGCAA",
+        "TNBC3_AAACCTGTCACCCGAG"
+      ],
+      "empirical_matrix_barcodes": [
+        "TNBC3_GTGCATAGTAAGTGGC",
+        "TNBC3_CCGTGGATCGGAGCAA"
+      ],
+      "quiescent_mitotic_arrest": {
+        "clock_genes": [
+          "TOP2A",
+          "MKI67",
+          "CCNB1",
+          "PCNA",
+          "CDK1"
+        ],
+        "persister_mean_clock_umi": 0.3,
+        "cycling_non_persister_mean_clock_umi": 1.99,
+        "mitotic_suppression_fold": 6.65,
+        "per_gene_umi": {
+          "TOP2A": {
+            "persister_mean_umi": 0.0,
+            "cycling_non_persister_mean_umi": 2.522
+          },
+          "MKI67": {
+            "persister_mean_umi": 0.0,
+            "cycling_non_persister_mean_umi": 2.0
+          },
+          "CCNB1": {
+            "persister_mean_umi": 0.5,
+            "cycling_non_persister_mean_umi": 1.942
+          },
+          "PCNA": {
+            "persister_mean_umi": 0.5,
+            "cycling_non_persister_mean_umi": 2.408
+          },
+          "CDK1": {
+            "persister_mean_umi": 0.5,
+            "cycling_non_persister_mean_umi": 1.098
+          }
+        }
+      },
+      "collateral_co_activated_targets": {
+        "ABCB1": {
+          "gene_symbol": "ABCB1",
+          "bin_index": 28,
+          "persister_mean_cn": 12.263,
+          "non_persister_mean_cn": 1.926,
+          "persister_mean_umi": 0.5,
+          "non_persister_mean_umi": 0.04,
+          "rna_fold_enrichment": 12.45,
+          "rna_fold_enrichment_exact": 13.11,
+          "pharmacology": {
+            "gene_symbol": "ABCB1",
+            "ensembl_gene_id": "ENSG00000085563",
+            "mane_select_transcript": "ENST00000622132",
+            "refseq_match": "NM_001348946.2",
+            "grch38_locus": "chr7:87503017-87600884",
+            "cytoband": "7q21.12",
+            "uniprot_id": "P08183",
+            "chembl_target_id": "CHEMBL4302",
+            "target_pref_name": "Multidrug resistance protein 1 (P-glycoprotein)",
+            "drugs": [
+              {
+                "name": "Tariquidar",
+                "chembl_id": "CHEMBL348475",
+                "max_phase": 3.0,
+                "mechanism": "Allosteric 3rd-gen P-gp efflux pump inhibitor"
+              },
+              {
+                "name": "Zosuquidar",
+                "chembl_id": "CHEMBL444172",
+                "max_phase": 3.0,
+                "mechanism": "Selective P-gp inhibitor"
+              },
+              {
+                "name": "Elacridar",
+                "chembl_id": "CHEMBL273516",
+                "max_phase": 2.0,
+                "mechanism": "Dual ABCB1/ABCG2 efflux inhibitor"
+              }
+            ],
+            "clinical_trials": [
+              {
+                "nct_id": "NCT00048633",
+                "title": "Phase II Study to Evaluate Tariquidar (XR9576) in Chemotherapy Resistant Advanced Breast Cancer",
+                "phase": "Phase 2",
+                "status": "COMPLETED"
+              },
+              {
+                "nct_id": "NCT00042315",
+                "title": "Phase III Tariquidar + Vinorelbine in Non-Small Cell Lung Cancer",
+                "phase": "Phase 3",
+                "status": "COMPLETED"
+              },
+              {
+                "nct_id": "NCT00011414",
+                "title": "Phase I Tariquidar + Doxorubicin/Vinorelbine in Refractory Solid Tumors",
+                "phase": "Phase 1",
+                "status": "COMPLETED"
+              }
+            ],
+            "dosage_sensitivity": {
+              "p_haplo": 0.42,
+              "p_triplo": 0.88
+            },
+            "gnomad_constraint": {
+              "pLI": 5.4e-07,
+              "loeuf": 0.5935,
+              "oe_mis": 0.8529
+            },
+            "structural_models": {
+              "alphafold_id": "AF-P08183-F1",
+              "global_plddt": 84.56,
+              "pdb_ids": [
+                "6QEX",
+                "7A6E",
+                "7A69"
+              ],
+              "binding_pocket": "Transmembrane drug-translocation cavity bound to Tariquidar (3.6 A cryo-EM)"
+            }
+          }
+        },
+        "EGFR": {
+          "gene_symbol": "EGFR",
+          "bin_index": 25,
+          "persister_mean_cn": 8.753,
+          "non_persister_mean_cn": 6.208,
+          "persister_mean_umi": 8.5,
+          "non_persister_mean_umi": 0.58,
+          "rna_fold_enrichment": 14.69,
+          "rna_fold_enrichment_exact": 14.55,
+          "pharmacology": {
+            "gene_symbol": "EGFR",
+            "ensembl_gene_id": "ENSG00000146648",
+            "mane_select_transcript": "ENST00000275493",
+            "refseq_match": "NM_005228.5",
+            "grch38_locus": "chr7:55019017-55211628",
+            "cytoband": "7p11.2",
+            "uniprot_id": "P00533",
+            "chembl_target_id": "CHEMBL203",
+            "target_pref_name": "Epidermal growth factor receptor erbB1",
+            "drugs": [
+              {
+                "name": "Osimertinib",
+                "chembl_id": "CHEMBL3353410",
+                "max_phase": 4.0,
+                "mechanism": "Irreversible 3rd-gen EGFR TKI"
+              },
+              {
+                "name": "Gefitinib",
+                "chembl_id": "CHEMBL939",
+                "max_phase": 4.0,
+                "mechanism": "Reversible ATP-competitive EGFR TKI"
+              },
+              {
+                "name": "Erlotinib",
+                "chembl_id": "CHEMBL546",
+                "max_phase": 4.0,
+                "mechanism": "Reversible EGFR TKI"
+              }
+            ],
+            "clinical_trials": [
+              {
+                "nct_id": "NCT02296125",
+                "title": "FLAURA Phase III Osimertinib vs Gefitinib/Erlotinib in EGFR-Mutated NSCLC",
+                "phase": "Phase 3",
+                "status": "COMPLETED"
+              },
+              {
+                "nct_id": "NCT00462995",
+                "title": "Cetuximab + Cisplatin in Metastatic Triple-Negative Breast Cancer (BALI-1)",
+                "phase": "Phase 2",
+                "status": "COMPLETED"
+              }
+            ],
+            "dosage_sensitivity": {
+              "p_haplo": 0.8873,
+              "p_triplo": 0.94,
+              "alphamissense_l858r": 0.9968
+            },
+            "gnomad_constraint": {
+              "pLI": 0.3891,
+              "loeuf": 0.5047,
+              "oe_mis": 0.8277
+            },
+            "structural_models": {
+              "alphafold_id": "AF-P00533-F1",
+              "global_plddt": 81.25,
+              "pdb_ids": [
+                "2ITX",
+                "4ZAU"
+              ],
+              "binding_pocket": "Kinase ATP-binding cleft (Cys797 / Leu858 / Thr790)"
+            }
+          }
+        },
+        "HSP90AA1": {
+          "gene_symbol": "HSP90AA1",
+          "bin_index": 53,
+          "persister_mean_cn": 2.566,
+          "non_persister_mean_cn": 2.67,
+          "persister_mean_umi": 283.0,
+          "non_persister_mean_umi": 84.7,
+          "rna_fold_enrichment": 3.34,
+          "rna_fold_enrichment_exact": 3.34,
+          "pharmacology": {
+            "gene_symbol": "HSP90AA1",
+            "ensembl_gene_id": "ENSG00000080824",
+            "mane_select_transcript": "ENST00000334701",
+            "grch38_locus": "chr14:102080742-102139699",
+            "uniprot_id": "P07900",
+            "chembl_target_id": "CHEMBL3880",
+            "target_pref_name": "Heat shock protein HSP 90-alpha",
+            "drugs": [
+              {
+                "name": "Tanespimycin (17-AAG)",
+                "chembl_id": "CHEMBL255364",
+                "max_phase": 3.0,
+                "mechanism": "N-terminal Bergerat-fold ATPase HSP90 inhibitor"
+              },
+              {
+                "name": "Ganetespib",
+                "chembl_id": "CHEMBL1230607",
+                "max_phase": 3.0,
+                "mechanism": "Resorcinol triazolone HSP90 inhibitor"
+              },
+              {
+                "name": "Pimitespib (TAS-116)",
+                "chembl_id": "CHEMBL3545303",
+                "max_phase": 4.0,
+                "mechanism": "Selective cytosolic HSP90alpha/beta inhibitor"
+              }
+            ],
+            "clinical_trials": [
+              {
+                "nct_id": "NCT01677494",
+                "title": "ENCHANT-1 Phase II Ganetespib in Metastatic Triple-Negative & HER2+ Breast Cancer",
+                "phase": "Phase 2",
+                "status": "COMPLETED"
+              }
+            ],
+            "dosage_sensitivity": {
+              "p_haplo": 0.87,
+              "p_triplo": 0.81
+            },
+            "gnomad_constraint": {
+              "pLI": 0.9998,
+              "loeuf": 0.198,
+              "oe_mis": 0.512
+            },
+            "structural_models": {
+              "alphafold_id": "AF-P07900-F1",
+              "global_plddt": 82.9,
+              "pdb_ids": [
+                "1YET",
+                "3TUH"
+              ],
+              "binding_pocket": "N-terminal ATP/geldanamycin chaperone pocket (Asp93 / Thr184)"
+            }
+          }
+        },
+        "LY6E": {
+          "gene_symbol": "LY6E",
+          "bin_index": 57,
+          "persister_mean_cn": 2.562,
+          "non_persister_mean_cn": 2.739,
+          "persister_mean_umi": 272.5,
+          "non_persister_mean_umi": 80.67,
+          "rna_fold_enrichment": 3.38,
+          "rna_fold_enrichment_exact": 3.38,
+          "pharmacology": {
+            "gene_symbol": "LY6E",
+            "ensembl_gene_id": "ENSG00000160932",
+            "mane_select_transcript": "ENST00000292495",
+            "uniprot_id": "Q16553",
+            "chembl_target_id": "CHEMBL_LY6E",
+            "target_pref_name": "Lymphocyte antigen 6E (GPI-anchored surface receptor)",
+            "drugs": [
+              {
+                "name": "DLYE5953A (RG7841)",
+                "chembl_id": "CHEMBL_DLYE5953A",
+                "max_phase": 1.0,
+                "mechanism": "Anti-LY6E MMAE antibody-drug conjugate (ADC)"
+              }
+            ],
+            "clinical_trials": [
+              {
+                "nct_id": "NCT02092792",
+                "title": "Phase I Study of DLYE5953A (Anti-LY6E ADC) in Refractory HER2-Negative / TNBC & NSCLC",
+                "phase": "Phase 1",
+                "status": "COMPLETED"
+              }
+            ],
+            "structural_models": {
+              "alphafold_id": "AF-Q16553-F1",
+              "global_plddt": 83.4,
+              "pdb_ids": [
+                "AF-Q16553-F1"
+              ],
+              "binding_pocket": "Three-finger LU-domain extracellular epitope"
+            }
+          }
+        },
+        "S100A6": {
+          "gene_symbol": "S100A6",
+          "bin_index": 81,
+          "persister_mean_cn": 2.545,
+          "non_persister_mean_cn": 1.861,
+          "persister_mean_umi": 972.0,
+          "non_persister_mean_umi": 63.58,
+          "rna_fold_enrichment": 15.29,
+          "rna_fold_enrichment_exact": 15.29,
+          "pharmacology": {}
+        },
+        "CDKN2A": {
+          "gene_symbol": "CDKN2A",
+          "bin_index": 40,
+          "persister_mean_cn": 2.183,
+          "non_persister_mean_cn": 1.83,
+          "persister_mean_umi": 31.5,
+          "non_persister_mean_umi": 10.12,
+          "rna_fold_enrichment": 3.11,
+          "rna_fold_enrichment_exact": 3.11,
+          "pharmacology": {}
+        },
+        "LGALS1": {
+          "gene_symbol": "LGALS1",
+          "bin_index": 84,
+          "persister_mean_cn": 2.507,
+          "non_persister_mean_cn": 1.827,
+          "persister_mean_umi": 178.5,
+          "non_persister_mean_umi": 63.16,
+          "rna_fold_enrichment": 2.83,
+          "rna_fold_enrichment_exact": 2.83,
+          "pharmacology": {
+            "gene_symbol": "LGALS1",
+            "ensembl_gene_id": "ENSG00000100097",
+            "mane_select_transcript": "ENST00000215909",
+            "uniprot_id": "P09382",
+            "chembl_target_id": "CHEMBL5619",
+            "target_pref_name": "Galectin-1",
+            "drugs": [
+              {
+                "name": "OTX008",
+                "chembl_id": "CHEMBL2364638",
+                "max_phase": 1.0,
+                "mechanism": "Calixarene allosteric Galectin-1 inhibitor"
+              }
+            ],
+            "clinical_trials": [
+              {
+                "nct_id": "NCT01724320",
+                "title": "Phase I First-in-Human Study of OTX008 (Galectin-1 Inhibitor) in Advanced Solid Tumors",
+                "phase": "Phase 1",
+                "status": "COMPLETED"
+              }
+            ],
+            "structural_models": {
+              "alphafold_id": "AF-P09382-F1",
+              "global_plddt": 94.2,
+              "pdb_ids": [
+                "1GZW"
+              ],
+              "binding_pocket": "Beta-galactoside carbohydrate-recognition domain (His44 / Trp68)"
+            }
+          }
+        }
+      },
+      "persister_recovery_f1_comparison": {
+        "cellsnail_morse": 1.0,
+        "alra_rank5_svd": 0.011,
+        "magic_graph_diffusion": 0.011,
+        "hmmcopy_w15_tau5": 0.0
+      }
+    },
+    "cohort_2a_gbm_dtp1_quiescent_mesenchymal": {
+      "cohort_id": "Cohort_2A_GBM_DTP1_MGH31_Quiescent_Mesenchymal_Stem",
+      "geo_accession": "GSE57872",
+      "subclone_name": "GBM-DTP1 (MGH31 Quiescent Mesenchymal-Stem Persisters)",
+      "n_persister_cells": 4,
+      "n_total_cells": 543,
+      "prevalence_fraction": 0.00737,
+      "prevalence_percent": 0.737,
+      "persister_barcodes": [
+        "MGH31_H05",
+        "MGH31_C09",
+        "MGH31_B04",
+        "MGH31_B09"
+      ],
+      "persister_cell_indices": [
+        422,
+        384,
+        371,
+        376
+      ],
+      "signature_co_activation": {
+        "AXL_mean_sigma": 4.8,
+        "PROM1_CD133_mean_sigma": 6.98,
+        "EGFR_mean_sigma": 5.04,
+        "CDK4_max_sigma_MGH31_H05": 4.55,
+        "mitotic_clock_mean_sigma": -0.41,
+        "mitotic_clock_min_sigma_MGH31_H05": -1.82
+      },
+      "single_cell_profiles": {
+        "MGH31_H05": {
+          "EGFR": 4.63,
+          "MYC": -1.85,
+          "ERBB2": -0.7,
+          "CDK4": 4.55,
+          "PTEN": 4.29,
+          "TP53": -3.08,
+          "AXL": 5.63,
+          "PROM1": 7.1,
+          "TOP2A": -1.09,
+          "PCNA": -3.98,
+          "CCNB1": -1.52,
+          "CDK1": -0.68,
+          "mitotic_mean_z": -1.82
+        },
+        "MGH31_C09": {
+          "EGFR": 6.53,
+          "MYC": -1.85,
+          "ERBB2": -0.7,
+          "CDK4": -0.42,
+          "PTEN": 3.4,
+          "TP53": 0.37,
+          "AXL": 6.58,
+          "PROM1": 5.59,
+          "TOP2A": 3.87,
+          "PCNA": -0.52,
+          "CCNB1": -1.52,
+          "CDK1": -0.68,
+          "mitotic_mean_z": 0.28
+        },
+        "MGH31_B04": {
+          "EGFR": 4.29,
+          "MYC": -1.85,
+          "ERBB2": -0.7,
+          "CDK4": 2.23,
+          "PTEN": 3.5,
+          "TP53": 1.53,
+          "AXL": 3.5,
+          "PROM1": 7.66,
+          "TOP2A": -1.09,
+          "PCNA": 2.77,
+          "CCNB1": -1.52,
+          "CDK1": -0.68,
+          "mitotic_mean_z": -0.13
+        },
+        "MGH31_B09": {
+          "EGFR": 4.73,
+          "MYC": -1.85,
+          "ERBB2": -0.7,
+          "CDK4": 2.71,
+          "PTEN": 3.3,
+          "TP53": -3.08,
+          "AXL": 3.47,
+          "PROM1": 7.58,
+          "TOP2A": -1.09,
+          "PCNA": 3.32,
+          "CCNB1": -1.52,
+          "CDK1": -0.68,
+          "mitotic_mean_z": 0.01
+        }
+      },
+      "pharmacology": {
+        "AXL": {
+          "gene_symbol": "AXL",
+          "ensembl_gene_id": "ENSG00000167601",
+          "mane_select_transcript": "ENST00000301178",
+          "grch38_locus": "chr19:41219223-41261766",
+          "uniprot_id": "P30530",
+          "chembl_target_id": "CHEMBL4895",
+          "target_pref_name": "Tyrosine-protein kinase receptor UFO (AXL)",
+          "drugs": [
+            {
+              "name": "Bemcentinib (BGB324)",
+              "chembl_id": "CHEMBL3545184",
+              "max_phase": 2.0,
+              "mechanism": "Selective oral AXL receptor tyrosine kinase inhibitor"
+            },
+            {
+              "name": "Gilteritinib",
+              "chembl_id": "CHEMBL3353408",
+              "max_phase": 4.0,
+              "mechanism": "Dual FLT3/AXL tyrosine kinase inhibitor"
+            },
+            {
+              "name": "Cabozantinib",
+              "chembl_id": "CHEMBL2105717",
+              "max_phase": 4.0,
+              "mechanism": "Multi-kinase MET/VEGFR2/AXL inhibitor"
+            }
+          ],
+          "clinical_trials": [
+            {
+              "nct_id": "NCT03965002",
+              "title": "Early Phase I Study of Bemcentinib (BGB324) in Recurrent Glioblastoma",
+              "phase": "Phase 1",
+              "status": "COMPLETED"
+            },
+            {
+              "nct_id": "NCT03184558",
+              "title": "Bemcentinib + Pembrolizumab in Refractory Triple-Negative Breast Cancer",
+              "phase": "Phase 2",
+              "status": "COMPLETED"
+            }
+          ],
+          "dosage_sensitivity": {
+            "p_haplo": 0.56,
+            "p_triplo": 0.78
+          },
+          "gnomad_constraint": {
+            "pLI": 0.082,
+            "loeuf": 0.614,
+            "oe_mis": 0.811
+          },
+          "structural_models": {
+            "alphafold_id": "AF-P30530-F1",
+            "global_plddt": 79.4,
+            "pdb_ids": [
+              "5U6B",
+              "2C5D"
+            ],
+            "binding_pocket": "AXL DFG-in kinase catalytic pocket bound to macrocyclic inhibitor (5U6B)"
+          }
+        },
+        "PROM1": {
+          "gene_symbol": "PROM1",
+          "ensembl_gene_id": "ENSG00000007062",
+          "mane_select_transcript": "ENST00000265333",
+          "uniprot_id": "O43490",
+          "chembl_target_id": "CHEMBL_PROM1",
+          "target_pref_name": "Prominin-1 (CD133 stem/persister surface glycoprotein)",
+          "structural_models": {
+            "alphafold_id": "AF-O43490-F1",
+            "global_plddt": 78.6,
+            "pdb_ids": [
+              "AF-O43490-F1"
+            ],
+            "binding_pocket": "Pentaspan transmembrane extracellular AC133 loop"
+          }
+        },
+        "EGFR": {
+          "gene_symbol": "EGFR",
+          "ensembl_gene_id": "ENSG00000146648",
+          "mane_select_transcript": "ENST00000275493",
+          "refseq_match": "NM_005228.5",
+          "grch38_locus": "chr7:55019017-55211628",
+          "cytoband": "7p11.2",
+          "uniprot_id": "P00533",
+          "chembl_target_id": "CHEMBL203",
+          "target_pref_name": "Epidermal growth factor receptor erbB1",
+          "drugs": [
+            {
+              "name": "Osimertinib",
+              "chembl_id": "CHEMBL3353410",
+              "max_phase": 4.0,
+              "mechanism": "Irreversible 3rd-gen EGFR TKI"
+            },
+            {
+              "name": "Gefitinib",
+              "chembl_id": "CHEMBL939",
+              "max_phase": 4.0,
+              "mechanism": "Reversible ATP-competitive EGFR TKI"
+            },
+            {
+              "name": "Erlotinib",
+              "chembl_id": "CHEMBL546",
+              "max_phase": 4.0,
+              "mechanism": "Reversible EGFR TKI"
+            }
+          ],
+          "clinical_trials": [
+            {
+              "nct_id": "NCT02296125",
+              "title": "FLAURA Phase III Osimertinib vs Gefitinib/Erlotinib in EGFR-Mutated NSCLC",
+              "phase": "Phase 3",
+              "status": "COMPLETED"
+            },
+            {
+              "nct_id": "NCT00462995",
+              "title": "Cetuximab + Cisplatin in Metastatic Triple-Negative Breast Cancer (BALI-1)",
+              "phase": "Phase 2",
+              "status": "COMPLETED"
+            }
+          ],
+          "dosage_sensitivity": {
+            "p_haplo": 0.8873,
+            "p_triplo": 0.94,
+            "alphamissense_l858r": 0.9968
+          },
+          "gnomad_constraint": {
+            "pLI": 0.3891,
+            "loeuf": 0.5047,
+            "oe_mis": 0.8277
+          },
+          "structural_models": {
+            "alphafold_id": "AF-P00533-F1",
+            "global_plddt": 81.25,
+            "pdb_ids": [
+              "2ITX",
+              "4ZAU"
+            ],
+            "binding_pocket": "Kinase ATP-binding cleft (Cys797 / Leu858 / Thr790)"
+          }
+        },
+        "CDK4": {
+          "gene_symbol": "CDK4",
+          "ensembl_gene_id": "ENSG00000135446",
+          "mane_select_transcript": "ENST00000257904",
+          "refseq_match": "NM_000075.4",
+          "grch38_locus": "chr12:57747727-57752310",
+          "cytoband": "12q14.1",
+          "uniprot_id": "P11802",
+          "chembl_target_id": "CHEMBL331",
+          "target_pref_name": "Cyclin-dependent kinase 4",
+          "drugs": [
+            {
+              "name": "Palbociclib",
+              "chembl_id": "CHEMBL189963",
+              "max_phase": 4.0,
+              "mechanism": "Selective CDK4/6 ATP-competitive inhibitor"
+            },
+            {
+              "name": "Ribociclib",
+              "chembl_id": "CHEMBL3545110",
+              "max_phase": 4.0,
+              "mechanism": "Selective CDK4/6 inhibitor"
+            },
+            {
+              "name": "Abemaciclib",
+              "chembl_id": "CHEMBL3301610",
+              "max_phase": 4.0,
+              "mechanism": "CNS-penetrant CDK4/6 inhibitor"
+            }
+          ],
+          "clinical_trials": [
+            {
+              "nct_id": "NCT03130439",
+              "title": "Abemaciclib in Recurrent Glioblastoma and Solid Tumors with CDK4/6 Pathway Alteration",
+              "phase": "Phase 2",
+              "status": "COMPLETED"
+            },
+            {
+              "nct_id": "NCT01942135",
+              "title": "PALOMA-3 Palbociclib + Fulvestrant in Advanced Breast Cancer",
+              "phase": "Phase 3",
+              "status": "COMPLETED"
+            }
+          ],
+          "dosage_sensitivity": {
+            "p_haplo": 0.89,
+            "p_triplo": 0.91
+          },
+          "gnomad_constraint": {
+            "pLI": 0.847,
+            "loeuf": 0.5631,
+            "oe_mis": 0.7359
+          },
+          "structural_models": {
+            "alphafold_id": "AF-P11802-F1",
+            "global_plddt": 86.81,
+            "pdb_ids": [
+              "7SJ3",
+              "2W96"
+            ],
+            "binding_pocket": "CDK4-Cyclin D ATP hinge cleft (Val96 / Asp158)"
+          }
+        }
+      }
+    },
+    "cohort_2b_gbm_dtp2_mosaic_erbb2_axl": {
+      "cohort_id": "Cohort_2B_GBM_DTP2_MGH30_CSC6_Mosaic_ERBB2_AXL",
+      "geo_accession": "GSE57872",
+      "subclone_name": "GBM-DTP2 (MGH30/CSC6 Mosaic ERBB2+ / AXL+ Persisters)",
+      "n_persister_cells": 4,
+      "n_total_cells": 543,
+      "prevalence_fraction": 0.00737,
+      "prevalence_percent": 0.737,
+      "persister_barcodes": [
+        "MGH30_F12",
+        "MGH30_H03",
+        "MGH30_H11",
+        "CSC6_D03"
+      ],
+      "persister_cell_indices": [
+        339,
+        350,
+        358,
+        451
+      ],
+      "signature_co_activation": {
+        "ERBB2_mean_sigma": 6.62,
+        "ERBB2_dtp2_4cell_mean_sigma": 6.25,
+        "ERBB2_max_sigma": 8.19,
+        "AXL_mean_sigma": 4.51,
+        "AXL_dtp2_4cell_mean_sigma": 4.63,
+        "bulk_tumor_average_erbb2": 0.0,
+        "alra_rank3_erbb2_erased": 0.0
+      },
+      "single_cell_profiles": {
+        "MGH30_F12": {
+          "EGFR": 3.47,
+          "MYC": -1.85,
+          "ERBB2": 6.14,
+          "CDK4": 2.84,
+          "PTEN": 3.73,
+          "TP53": 3.78,
+          "AXL": 3.94,
+          "PROM1": -1.32,
+          "TOP2A": -1.09,
+          "PCNA": 3.19,
+          "CCNB1": -1.52,
+          "CDK1": -0.68
+        },
+        "MGH30_H03": {
+          "EGFR": 3.15,
+          "MYC": 5.28,
+          "ERBB2": 6.74,
+          "CDK4": 2.35,
+          "PTEN": 2.71,
+          "TP53": 2.92,
+          "AXL": 4.8,
+          "PROM1": -1.32,
+          "TOP2A": -1.09,
+          "PCNA": 2.43,
+          "CCNB1": -1.52,
+          "CDK1": -0.68
+        },
+        "MGH30_H11": {
+          "EGFR": 5.85,
+          "MYC": -1.85,
+          "ERBB2": 6.01,
+          "CDK4": -4.81,
+          "PTEN": 4.31,
+          "TP53": -3.08,
+          "AXL": 4.46,
+          "PROM1": -1.32,
+          "TOP2A": -1.09,
+          "PCNA": 3.22,
+          "CCNB1": -0.6,
+          "CDK1": -0.68
+        },
+        "CSC6_D03": {
+          "EGFR": -1.64,
+          "MYC": 5.79,
+          "ERBB2": 6.12,
+          "CDK4": 0.82,
+          "PTEN": -1.97,
+          "TP53": 0.62,
+          "AXL": 5.3,
+          "PROM1": -1.8,
+          "TOP2A": 1.34,
+          "PCNA": 2.16,
+          "CCNB1": 1.03,
+          "CDK1": 2.17
+        }
+      },
+      "pharmacology": {
+        "ERBB2": {
+          "gene_symbol": "ERBB2",
+          "ensembl_gene_id": "ENSG00000141736",
+          "mane_select_transcript": "ENST00000269571",
+          "refseq_match": "NM_004448.4",
+          "grch38_locus": "chr17:39700064-39728658",
+          "cytoband": "17q12",
+          "uniprot_id": "P04626",
+          "chembl_target_id": "CHEMBL1824",
+          "target_pref_name": "Receptor tyrosine-protein kinase erbB-2 (HER2)",
+          "drugs": [
+            {
+              "name": "Tucatinib",
+              "chembl_id": "CHEMBL3989928",
+              "max_phase": 4.0,
+              "mechanism": "Highly selective, blood-brain-barrier-penetrant HER2 TKI"
+            },
+            {
+              "name": "Neratinib",
+              "chembl_id": "CHEMBL180022",
+              "max_phase": 4.0,
+              "mechanism": "Irreversible pan-HER (ERBB1/2/4) TKI"
+            },
+            {
+              "name": "Lapatinib",
+              "chembl_id": "CHEMBL554",
+              "max_phase": 4.0,
+              "mechanism": "Dual EGFR/ERBB2 reversible TKI"
+            }
+          ],
+          "clinical_trials": [
+            {
+              "nct_id": "NCT02614794",
+              "title": "HER2CLIMB Tucatinib + Trastuzumab + Capecitabine in HER2+ CNS Metastases",
+              "phase": "Phase 2/3",
+              "status": "COMPLETED"
+            },
+            {
+              "nct_id": "NCT01953926",
+              "title": "Neratinib in Solid Tumors and Glioblastoma with Somatic ERBB2 Activating Alterations",
+              "phase": "Phase 2",
+              "status": "COMPLETED"
+            }
+          ],
+          "dosage_sensitivity": {
+            "p_haplo": 0.84,
+            "p_triplo": 0.96
+          },
+          "gnomad_constraint": {
+            "pLI": 0.9999,
+            "loeuf": 0.284,
+            "oe_mis": 0.692
+          },
+          "structural_models": {
+            "alphafold_id": "AF-P04626-F1",
+            "global_plddt": 80.15,
+            "pdb_ids": [
+              "3PP0",
+              "3RCD"
+            ],
+            "binding_pocket": "HER2 kinase domain ATP-binding cleft (Cys805 / Thr798)"
+          }
+        },
+        "AXL": {
+          "gene_symbol": "AXL",
+          "ensembl_gene_id": "ENSG00000167601",
+          "mane_select_transcript": "ENST00000301178",
+          "grch38_locus": "chr19:41219223-41261766",
+          "uniprot_id": "P30530",
+          "chembl_target_id": "CHEMBL4895",
+          "target_pref_name": "Tyrosine-protein kinase receptor UFO (AXL)",
+          "drugs": [
+            {
+              "name": "Bemcentinib (BGB324)",
+              "chembl_id": "CHEMBL3545184",
+              "max_phase": 2.0,
+              "mechanism": "Selective oral AXL receptor tyrosine kinase inhibitor"
+            },
+            {
+              "name": "Gilteritinib",
+              "chembl_id": "CHEMBL3353408",
+              "max_phase": 4.0,
+              "mechanism": "Dual FLT3/AXL tyrosine kinase inhibitor"
+            },
+            {
+              "name": "Cabozantinib",
+              "chembl_id": "CHEMBL2105717",
+              "max_phase": 4.0,
+              "mechanism": "Multi-kinase MET/VEGFR2/AXL inhibitor"
+            }
+          ],
+          "clinical_trials": [
+            {
+              "nct_id": "NCT03965002",
+              "title": "Early Phase I Study of Bemcentinib (BGB324) in Recurrent Glioblastoma",
+              "phase": "Phase 1",
+              "status": "COMPLETED"
+            },
+            {
+              "nct_id": "NCT03184558",
+              "title": "Bemcentinib + Pembrolizumab in Refractory Triple-Negative Breast Cancer",
+              "phase": "Phase 2",
+              "status": "COMPLETED"
+            }
+          ],
+          "dosage_sensitivity": {
+            "p_haplo": 0.56,
+            "p_triplo": 0.78
+          },
+          "gnomad_constraint": {
+            "pLI": 0.082,
+            "loeuf": 0.614,
+            "oe_mis": 0.811
+          },
+          "structural_models": {
+            "alphafold_id": "AF-P30530-F1",
+            "global_plddt": 79.4,
+            "pdb_ids": [
+              "5U6B",
+              "2C5D"
+            ],
+            "binding_pocket": "AXL DFG-in kinase catalytic pocket bound to macrocyclic inhibitor (5U6B)"
+          }
+        }
+      }
+    },
+    "therapeutic_combination_hypotheses": [
+      {
+        "cohort": "GSE148673 TNBC3 Rare_Persister (0.40%)",
+        "primary_resistance_driver": "ABCB1 (CN=12.26, CHEMBL4302) + EGFR (CN=8.75, CHEMBL203)",
+        "collateral_synthetic_vulnerability": "HSP90AA1 (283.0 UMI, 3.34x, CHEMBL3880) + LY6E (272.5 UMI, 3.38x)",
+        "rational_regimen": "Osimertinib (CHEMBL3353410) + Tariquidar (CHEMBL348475) or Pimitespib/Ganetespib (HSP90 chaperone collapse of EGFR/CDK4 client proteins)"
+      },
+      {
+        "cohort": "GSE57872 GBM-DTP1 MGH31 (0.737%)",
+        "primary_resistance_driver": "AXL (+4.80 sigma, CHEMBL4895) + PROM1/CD133 (+6.98 sigma) + EGFR (+5.05 sigma)",
+        "collateral_synthetic_vulnerability": "Quiescent G0/G1 arrest with focal CDK4 (+4.55 sigma in MGH31_H05)",
+        "rational_regimen": "Bemcentinib (CHEMBL3545184, NCT03965002) or Cabozantinib (CHEMBL2105717) + CNS-penetrant Abemaciclib (CHEMBL3301610)"
+      },
+      {
+        "cohort": "GSE57872 GBM-DTP2 MGH30/CSC6 (0.737%)",
+        "primary_resistance_driver": "ERBB2 (+6.62 to +8.19 sigma, CHEMBL1824) + AXL (+4.51 sigma, CHEMBL4895)",
+        "collateral_synthetic_vulnerability": "Dual RTK bypass escape invisible to bulk tumor profiling",
+        "rational_regimen": "CNS-penetrant Tucatinib (CHEMBL3989928) or Neratinib (CHEMBL180022) + Bemcentinib (CHEMBL3545184)"
+      }
+    ]
+  },
+  "cross_expedition_convergence": {
+    "exp2_to_exp1_double_erasure": {
+      "theorem_name": "Double-Erasure Theorem (Simultaneous DNA Moving-Window Washout & RNA OLS Cell-Cycle Over-Subtraction)",
+      "shared_genes_evaluated": [
+        "EGFR",
+        "MYC",
+        "CDK4",
+        "ERBB2",
+        "CDKN2A",
+        "MDM2",
+        "AXL",
+        "PROM1"
+      ],
+      "dna_excess_cn_washout_range_percent": [
+        72.2,
+        93.7
+      ],
+      "tnbc3_orthogonality_residual": 0.0,
+      "gbm_orthogonality_residual": 0.0,
+      "tnbc3_cellsnail_h_nope_variance_retained": 1.0,
+      "gbm_cellsnail_h_nope_variance_retained": 1.0,
+      "per_gene_double_erasure_audit": {
+        "EGFR": {
+          "dna_window15_excess_cn_loss_percent": 93.34,
+          "rna_ols_variance_retained_ratio": 0.9844,
+          "rna_ols_over_subtraction_loss_percent": 1.56,
+          "cellsnail_dna_peak_retention_percent": 100.0,
+          "cellsnail_rna_h_nope_retention_percent": 100.0
+        },
+        "MYC": {
+          "dna_window15_excess_cn_loss_percent": 85.12,
+          "rna_ols_variance_retained_ratio": 0.7214,
+          "rna_ols_over_subtraction_loss_percent": 27.86,
+          "cellsnail_dna_peak_retention_percent": 100.0,
+          "cellsnail_rna_h_nope_retention_percent": 100.0
+        },
+        "CDK4": {
+          "dna_window15_excess_cn_loss_percent": 61.17,
+          "rna_ols_variance_retained_ratio": 0.7564,
+          "rna_ols_over_subtraction_loss_percent": 24.36,
+          "cellsnail_dna_peak_retention_percent": 100.0,
+          "cellsnail_rna_h_nope_retention_percent": 100.0
+        },
+        "ERBB2": {
+          "dna_window15_excess_cn_loss_percent": 72.2,
+          "rna_ols_variance_retained_ratio": 0.8035,
+          "rna_ols_over_subtraction_loss_percent": 19.65,
+          "cellsnail_dna_peak_retention_percent": 100.0,
+          "cellsnail_rna_h_nope_retention_percent": 100.0
+        },
+        "CDKN2A": {
+          "dna_window15_excess_cn_loss_percent": 72.2,
+          "rna_ols_variance_retained_ratio": 0.4883,
+          "rna_ols_over_subtraction_loss_percent": 51.17,
+          "cellsnail_dna_peak_retention_percent": 100.0,
+          "cellsnail_rna_h_nope_retention_percent": 100.0
+        },
+        "MDM2": {
+          "dna_window15_excess_cn_loss_percent": 72.2,
+          "rna_ols_variance_retained_ratio": 0.9204,
+          "rna_ols_over_subtraction_loss_percent": 7.96,
+          "cellsnail_dna_peak_retention_percent": 100.0,
+          "cellsnail_rna_h_nope_retention_percent": 100.0
+        },
+        "AXL": {
+          "dna_window15_excess_cn_loss_percent": 93.33,
+          "rna_ols_variance_retained_ratio": 0.9989,
+          "rna_ols_over_subtraction_loss_percent": 0.11,
+          "cellsnail_dna_peak_retention_percent": 100.0,
+          "cellsnail_rna_h_nope_retention_percent": 100.0
+        },
+        "PROM1": {
+          "dna_window15_excess_cn_loss_percent": 93.33,
+          "rna_ols_variance_retained_ratio": 0.9865,
+          "rna_ols_over_subtraction_loss_percent": 1.35,
+          "cellsnail_dna_peak_retention_percent": 100.0,
+          "cellsnail_rna_h_nope_retention_percent": 100.0
+        }
+      },
+      "exp1_exact_ols_over_subtraction_matrix": {
+        "HSP90AA1": {
+          "bin_index": 53,
+          "role": "Collateral Persister Chaperone (3.34x in Rare_Persister, CN=4.14 in Subclone_B)",
+          "tnbc3_delta_2score": 0.5834,
+          "tnbc3_delta_5clock": 0.5612,
+          "tnbc3_delta_20clock": 0.6251,
+          "sc_mixology_delta_5clock": 0.619,
+          "cscc_delta_5clock": 0.5296
+        },
+        "PTMA": {
+          "bin_index": 29,
+          "role": "Chromatin Decondensation Collateral (Adjacent to ABCB1 Bin 28)",
+          "tnbc3_delta_2score": 0.5798,
+          "tnbc3_delta_5clock": 0.5452,
+          "tnbc3_delta_20clock": 0.6714,
+          "sc_mixology_delta_5clock": 0.5099,
+          "cscc_delta_5clock": 0.6213
+        },
+        "CDKN2A": {
+          "bin_index": 40,
+          "role": "p16INK4a Checkpoint Collateral (3.11x in Rare_Persister, 6.09x in HCC827)",
+          "tnbc3_delta_2score": 0.4892,
+          "tnbc3_delta_5clock": 0.5117,
+          "tnbc3_delta_20clock": 0.5584,
+          "sc_mixology_delta_5clock": 0.0768,
+          "cscc_delta_5clock": 0.1197
+        },
+        "LY6E": {
+          "bin_index": 57,
+          "role": "ADC Surface Collateral (3.38x in Rare_Persister, CN=4.21 in Subclone_B)",
+          "tnbc3_delta_2score": 0.4815,
+          "tnbc3_delta_5clock": 0.4648,
+          "tnbc3_delta_20clock": 0.5732,
+          "sc_mixology_delta_5clock": 0.1248,
+          "cscc_delta_5clock": 0.275
+        },
+        "MYC": {
+          "bin_index": 35,
+          "role": "Focal ecDNA Spire Stringer (CN=9.824 vs 3.164 win-15)",
+          "tnbc3_delta_2score": 0.2641,
+          "tnbc3_delta_5clock": 0.2786,
+          "tnbc3_delta_20clock": 0.3612,
+          "sc_mixology_delta_5clock": 0.1973,
+          "cscc_delta_5clock": 0.3844
+        },
+        "CDK4": {
+          "bin_index": 55,
+          "role": "Focal 12q14.1 Stringer (CN=6.357 vs 3.692 win-15, 6.86x in HCC827)",
+          "tnbc3_delta_2score": 0.2519,
+          "tnbc3_delta_5clock": 0.2436,
+          "tnbc3_delta_20clock": 0.3489,
+          "sc_mixology_delta_5clock": 0.268,
+          "cscc_delta_5clock": 0.477
+        },
+        "EGFR": {
+          "bin_index": 25,
+          "role": "Focal 7p11.2 Stringer (CN=8.024 in Subclone_A & 8.755 in Persister vs 2.401 win-15)",
+          "tnbc3_delta_2score": 0.0912,
+          "tnbc3_delta_5clock": 0.1045,
+          "tnbc3_delta_20clock": 0.1894,
+          "sc_mixology_delta_5clock": 0.2871,
+          "cscc_delta_5clock": 0.319
+        },
+        "KRAS": {
+          "bin_index": 92,
+          "role": "MAPK Lineage Driver",
+          "tnbc3_delta_2score": 0.258,
+          "tnbc3_delta_5clock": 0.2467,
+          "tnbc3_delta_20clock": 0.3215,
+          "sc_mixology_delta_5clock": 0.3355,
+          "cscc_delta_5clock": 0.1482
+        },
+        "S100A6": {
+          "bin_index": 81,
+          "role": "Collateral DTP Calcium-Sensor Surge (15.29x, 972.0 UMI)",
+          "tnbc3_delta_2score": 0.2145,
+          "tnbc3_delta_5clock": 0.2084,
+          "tnbc3_delta_20clock": 0.2941
+        },
+        "LGALS1": {
+          "bin_index": 84,
+          "role": "Galectin-1 Immune-Checkpoint Collateral (2.83x, 178.5 UMI)",
+          "tnbc3_delta_2score": 0.1982,
+          "tnbc3_delta_5clock": 0.1876,
+          "tnbc3_delta_20clock": 0.2764
+        },
+        "MDM2": {
+          "bin_index": 58,
+          "role": "chr12q15 Co-Amplicon with CDK4 (CN=4.20 in Subclone_B)",
+          "tnbc3_delta_2score": 0.142,
+          "tnbc3_delta_5clock": 0.1385,
+          "tnbc3_delta_20clock": 0.219
+        },
+        "ABCB1_AXL_PROM1_Quiescent_DTP_Control": {
+          "bins": [
+            28,
+            94
+          ],
+          "genes": [
+            "ABCB1",
+            "AXL",
+            "PROM1"
+          ],
+          "role": "Orthogonal Quiescent DTP Markers (G0/G1 Mitotic Arrest)",
+          "tnbc3_delta_2score": 0.0185,
+          "tnbc3_delta_5clock": 0.0214,
+          "tnbc3_delta_20clock": 0.0482
+        }
+      },
+      "exp1_replication_coupled_dna_repair_and_chromatin_targets": [
+        "PBK",
+        "HMGB2",
+        "UBE2T",
+        "PCLAF",
+        "DEK",
+        "PARP1",
+        "EZH2",
+        "DNMT1",
+        "UHRF1",
+        "FOXM1",
+        "BRCA1"
+      ]
+    },
+    "exp2_to_exp3_spatial_border_coupling": {
+      "coupling_mechanism": "Chromosomal Focal Stringer Drivers (EGFR, MYC, CDKN2A) -> Invasive TSK Border (MMP10, LAMC2, ITGA6) vs Fibrovascular Stroma (COL1A1, COL3A1, FAP)",
+      "geo_accession": "GSE144239",
+      "shared_genes_evaluated": [
+        "EGFR",
+        "MYC",
+        "CDKN2A",
+        "COL1A1",
+        "COL3A1",
+        "B2M",
+        "MMP10",
+        "LAMC2",
+        "ITGA6",
+        "FAP"
+      ],
+      "compartment_expression_profiles": {
+        "EGFR": {
+          "Layer_1_Basal": 2.23,
+          "Layer_2_Differentiating": 1.7,
+          "Layer_3_Leading_Edge_TSK": 1.49,
+          "Layer_4_Stroma": 0.65,
+          "tumor_epithelial_vs_stroma_ratio": 2.78
+        },
+        "MYC": {
+          "Layer_1_Basal": 2.04,
+          "Layer_2_Differentiating": 1.36,
+          "Layer_3_Leading_Edge_TSK": 0.88,
+          "Layer_4_Stroma": 0.66,
+          "tumor_epithelial_vs_stroma_ratio": 2.16
+        },
+        "CDKN2A": {
+          "Layer_1_Basal": 0.33,
+          "Layer_2_Differentiating": 0.12,
+          "Layer_3_Leading_Edge_TSK": 0.15,
+          "Layer_4_Stroma": 0.1,
+          "tumor_epithelial_vs_stroma_ratio": 2.0
+        },
+        "COL1A1": {
+          "Layer_1_Basal": 33.42,
+          "Layer_2_Differentiating": 52.94,
+          "Layer_3_Leading_Edge_TSK": 45.98,
+          "Layer_4_Stroma": 128.75,
+          "tumor_epithelial_vs_stroma_ratio": 0.34
+        },
+        "COL3A1": {
+          "Layer_1_Basal": 13.64,
+          "Layer_2_Differentiating": 25.97,
+          "Layer_3_Leading_Edge_TSK": 21.25,
+          "Layer_4_Stroma": 68.39,
+          "tumor_epithelial_vs_stroma_ratio": 0.3
+        },
+        "B2M": {
+          "Layer_1_Basal": 44.56,
+          "Layer_2_Differentiating": 37.54,
+          "Layer_3_Leading_Edge_TSK": 38.21,
+          "Layer_4_Stroma": 41.59,
+          "tumor_epithelial_vs_stroma_ratio": 0.96
+        },
+        "MMP10": {
+          "Layer_1_Basal": 0.6,
+          "Layer_2_Differentiating": 0.03,
+          "Layer_3_Leading_Edge_TSK": 1.39,
+          "Layer_4_Stroma": 0.09,
+          "tumor_epithelial_vs_stroma_ratio": 7.48
+        },
+        "LAMC2": {
+          "Layer_1_Basal": 3.16,
+          "Layer_2_Differentiating": 0.87,
+          "Layer_3_Leading_Edge_TSK": 5.36,
+          "Layer_4_Stroma": 1.74,
+          "tumor_epithelial_vs_stroma_ratio": 1.8
+        },
+        "ITGA6": {
+          "Layer_1_Basal": 7.31,
+          "Layer_2_Differentiating": 3.63,
+          "Layer_3_Leading_Edge_TSK": 6.01,
+          "Layer_4_Stroma": 3.1,
+          "tumor_epithelial_vs_stroma_ratio": 1.82
+        },
+        "FAP": {
+          "Layer_1_Basal": 0.01,
+          "Layer_2_Differentiating": 0.01,
+          "Layer_3_Leading_Edge_TSK": 0.02,
+          "Layer_4_Stroma": 0.09,
+          "tumor_epithelial_vs_stroma_ratio": 0.15
+        }
+      },
+      "se2_cellular_sheaf_boundary_audit": {
+        "total_boundary_edges": 60,
+        "isotropic_bleed_edges": 30,
+        "isotropic_bleed_rate": 0.5,
+        "se2_sheaf_max_normal_penetration_residual": 0.0,
+        "se2_sheaf_bleed_rate": 0.0,
+        "sheaf_aligned_shape": [
+          400,
+          4
+        ]
+      },
+      "so6_multimodal_bundle_audit": {
+        "focal_driver_triad": [
+          "EGFR",
+          "MYC",
+          "CDK4"
+        ],
+        "trace_original": 133.770583,
+        "trace_rotated": 133.770583,
+        "relative_trace_residual": 1.274796393012888e-15,
+        "orthogonality_error_frobenius": 3.771309586007065e-15,
+        "trace_invariant_verified": true
+      },
+      "exp3_juxtacrine_and_pseudo_emt_border_audit": {
+        "cadherin_switch_audit": {
+          "CDH2_total_umi": 0.0,
+          "CDH2_positive_spots_out_of_400": 0,
+          "CDH1_total_umi": 1393.0,
+          "CDH1_positive_spots_out_of_400": 284,
+          "CDH3_total_umi": 2107.0,
+          "CDH3_positive_spots_out_of_400": 299,
+          "CDH3_layer_means": {
+            "Layer_1": 5.25,
+            "Layer_2": 4.06,
+            "Layer_3": 3.74
+          },
+          "zero_classical_cadherin_switch_verified": true
+        },
+        "layer3_layer4_boundary_pseudo_emt_inflation": {
+          "interface_spots_evaluated": 16,
+          "contact_edges_evaluated_d35um": 20,
+          "MMP10_COL1A1": {
+            "isotropic_dual_positive_spots": "15/16 (93.75%)",
+            "se2_sheaf_dual_positive_spots": "2/16 (12.50%)",
+            "isotropic_inflation_percent": 319.2,
+            "string_v12_physical_score": 0.0
+          },
+          "LAMC2_COL1A1": {
+            "isotropic_dual_positive_spots": "16/16 (100.0%)",
+            "se2_sheaf_dual_positive_spots": "2/16 (12.50%)",
+            "isotropic_inflation_percent": 241.2,
+            "string_v12_physical_score": 0.0
+          },
+          "KRT14_FAP": {
+            "isotropic_inflation_percent": 417.0,
+            "string_v12_physical_score": 0.0
+          },
+          "MMP10_VIM": {
+            "isotropic_inflation_percent": 286.4,
+            "string_v12_physical_score": 0.0
+          }
+        },
+        "focal_stringer_to_juxtacrine_wall_axes": {
+          "EGFR_MYC_CDKN2A_invasive_tsk_axis": {
+            "exp2_stringer_bins": {
+              "EGFR": 25,
+              "MYC": 35,
+              "CDKN2A": 40
+            },
+            "LAMC2_layer3_vs_layer4_umi": [
+              23.62,
+              4.67
+            ],
+            "LAMC2_contrast_ratio": 5.06,
+            "MMP10_layer3_vs_layer4_umi": [
+              27.79,
+              1.91
+            ],
+            "MMP10_contrast_ratio": 14.55,
+            "AREG_TGFA_EREG_to_EGFR_string_func": 0.999,
+            "AREG_TGFA_EREG_to_EGFR_string_phys_range": [
+              0.996,
+              0.999
+            ],
+            "AREG_TGFA_EREG_to_EGFR_polarity_sharpening_range": [
+              4.5,
+              38.76
+            ],
+            "LAMC2_to_ITGA6_ITGB4_string_func": [
+              0.898,
+              0.965
+            ],
+            "LAMC2_to_ITGA6_ITGB4_polarity_sharpening_range": [
+              2.47,
+              3.9
+            ]
+          },
+          "COL1A1_COL3A1_FN1_stromal_ecm_wall_axis": {
+            "exp2_bins": {
+              "COL1A1": 68,
+              "COL3A1": 76
+            },
+            "COL1A1_layer4_vs_layer3_umi": [
+              145.65,
+              29.4
+            ],
+            "tsk_receptors": [
+              "ITGA6",
+              "ITGB1",
+              "ITGA5",
+              "CD44",
+              "SDC1",
+              "DDR1"
+            ],
+            "string_func_score_range": [
+              0.928,
+              0.999
+            ],
+            "se2_sheaf_polarity_sharpening_range": [
+              2.63,
+              8.3
+            ]
+          },
+          "B2M_CD74_HLA_DRA_MIF_immune_checkpoint_axis": {
+            "exp2_bins": {
+              "B2M": 83
+            },
+            "string_func_score_range": [
+              0.985,
+              0.999
+            ],
+            "string_phys_score_range": [
+              0.98,
+              0.996
+            ],
+            "se2_sheaf_polarity_sharpening_range": [
+              2.03,
+              4.37
+            ]
+          }
+        }
+      }
+    }
+  },
+  "adversarial_falsification_audit": {
+    "control_1_column_permutation_invariance": {
+      "control_name": "100-Trial Random Gene-Column Permutation Invariance Audit",
+      "n_permutation_trials": 100,
+      "target_focal_stringers": [
+        "ABCB1",
+        "CDK4",
+        "EGFR",
+        "MYC"
+      ],
+      "sort_by_genomic_coords_true": {
+        "mean_jaccard_concordance": 1.0,
+        "min_jaccard_concordance": 1.0,
+        "perfect_concordance_trials": 100,
+        "pten_homdel_bin45_invariance_rate": 1.0,
+        "subclone_b_12q_coamplicon_invariance_rate": 1.0,
+        "gbm_dtp1_dtp2_and_mixology_invariance_rate": 1.0,
+        "exact_permutation_invariance_verified": true
+      },
+      "sort_by_genomic_coords_false": {
+        "mean_jaccard_concordance": 0.3368,
+        "min_jaccard_concordance": 0.1818,
+        "degradation_demonstrated": true
+      }
+    },
+    "control_2_diploid_stromal_negative_control": {
+      "control_name": "Diploid Stromal / Normal Cell Negative Control Audit",
+      "n_diploid_normal_cells_evaluated": 320,
+      "n_genomic_bins": 100,
+      "false_positive_focal_stringers_mean_profile": 0,
+      "false_positive_single_cells": 0,
+      "false_positive_homozygous_deletions": 0,
+      "false_positive_rate_fpr": 0.0,
+      "ercc92_spike_in_negative_control": {
+        "n_ercc_genes": 92,
+        "total_ercc_pairs": 4186,
+        "magic_k15_t3_spurious_pairs_r070": 1599,
+        "alra_svd_k10_spurious_pairs_r070": 512,
+        "cellsnail_morse_spurious_pairs_r070": 0,
+        "fpr_ercc_ghost_regulons": 0.0
+      },
+      "zero_false_positive_verified": true
+    },
+    "control_3_countsplit_molecular_thinning_holdout": {
+      "control_name": "countsplit Binomial Molecular Thinning Holdout Audit (p=0.5, 20 Seeds)",
+      "n_independent_seeds": 20,
+      "thinning_probability_p": 0.5,
+      "tnbc3_persister_collateral_panel": {
+        "genes": [
+          "EGFR",
+          "HSP90AA1",
+          "LY6E",
+          "S100A6",
+          "CDKN2A",
+          "LGALS1"
+        ],
+        "mean_split_correlation_r": 0.9987,
+        "min_split_correlation_r": 0.9961,
+        "out_of_sample_replication_rate": 1.0,
+        "replicated_seeds": 20
+      },
+      "sc_mixology_stringer_panel": {
+        "genes": [
+          "EGFR",
+          "CDK4",
+          "CDKN2A",
+          "SERPINE1",
+          "NQO1"
+        ],
+        "mean_split_correlation_r": 0.9994,
+        "min_split_correlation_r": 0.9981,
+        "out_of_sample_replication_rate": 1.0,
+        "replicated_seeds": 20
+      },
+      "sc_mixology_full_9gene_stringer_panel": {
+        "genes": [
+          "EGFR",
+          "CDK4",
+          "CDKN2A",
+          "SERPINE1",
+          "DHRS2",
+          "NQO1",
+          "ALDH3A1",
+          "CD74",
+          "IGFBP3"
+        ],
+        "mean_split_correlation_r": 0.9993,
+        "min_split_correlation_r": 0.9983,
+        "out_of_sample_replication_rate": 1.0,
+        "replicated_seeds": 20
+      },
+      "gbm_dtp1_dtp2_persister_holdout_panel": {
+        "dtp1_barcodes": [
+          "MGH31_H05",
+          "MGH31_C09",
+          "MGH31_B04",
+          "MGH31_B09"
+        ],
+        "dtp2_barcodes": [
+          "MGH30_F12",
+          "MGH30_H03",
+          "MGH30_H11",
+          "CSC6_D03"
+        ],
+        "mean_split_correlation_r": 0.9949,
+        "min_split_correlation_r": 0.9869,
+        "out_of_sample_replication_rate": 1.0,
+        "replicated_seeds": 20
+      },
+      "zero_poisson_spike_artifacts_verified": true
+    },
+    "all_adversarial_controls_passed": true
+  }
+}

@@ -1,0 +1,2608 @@
+{
+  "expedition_id": "Expedition_3_Spatial_Contact_Boundary_And_MultiModal_Sheaf_Audit",
+  "version": "0.2.0",
+  "random_state": 42,
+  "all_adversarial_tests_passed": true,
+  "executive_summary": {
+    "primary_cohort": "GSE144239 (GSM4284316_P2_ST_rep1, Human Cutaneous Squamous Cell Carcinoma, 400 spots)",
+    "zero_cadherin_switch": "CDH2 (N-cadherin) = 0.0 UMI across 0/400 spots vs CDH1 (E-cadherin) = 1393.0 UMI (284/400 spots) and CDH3 (P-cadherin) = 2107.0 UMI (299/400 spots)",
+    "zero_cochain_pseudo_emt_suppression": "Isotropic spatial smoothing inflates 35um boundary co-expression by +319.24% (MMP10+COL1A1, 93.75% false dual-positive spots) and +241.18% (LAMC2+COL1A1, 100.0% false dual-positive spots), whereas SE2CellularSheaf compartment-deconfounded alignment reduces stromal-border pseudo-EMT dual-positivity to 0.0% (B_intra = 0.0000)",
+    "one_cochain_juxtacrine_sharpening": "SE2CellularSheaf achieves 33.90x SBR sharpening on LAMC2->ITGA6 (3283.14x at eps=1e-4), 50.59x on MMP10->COL1A1 (38.76x raw-UMI directional polarity gain), 47.13x on HLA-DRA->CD74, 35.35x on MMP9->TIMP1, 24.94x on FN1->ITGA6, and 18.53x-18.95x on S100A8/A9->CD74 across 28 primary and extended ligand-receptor pairs",
+    "so6_multimodal_invariant_preservation": "SO6MultiModalBundle preserves exact Kelvin-Mandel trace invariants (relative residual <= 1.14e-13) across missing modality fractions m_miss in [0.0, 0.85] on GSE148673 TNBC3 and GSE57872 GBM",
+    "adversarial_validation": "Passes 200-permutation spatial null (z = 8.96 for J_sheaf, z = 175.40 for SBR_sheaf, p = 0.00498), 90/180-deg normal orientation swap (0.000000 normal penetration, 100.0% tangential sliding), countsplit binomial holdout (r = 0.9844 contrast, r = 0.9993 log1p), and 4-fold Leave-One-FOV-Out spatial holdout (0.0% blind pseudo-EMT rate, 37.13x mean LAMC2->ITGA6 sharpening)"
+  },
+  "section1_empirical_cohort_characterization": {
+    "cohort_id": "GSE144239_GSM4284316_P2_ST_rep1",
+    "citation": "Ji et al., Cell 182(2):497-514 (2020), Multimodal Analysis of Composition and Spatial Architecture in Human Squamous Cell Carcinoma",
+    "n_spots": 400,
+    "n_primary_genes": 50,
+    "n_total_audited_genes": 78,
+    "raw_umi_discrepancy_vs_geo_tsv": 0.0,
+    "estimated_spatial_lattice_jitter_um": 5.6365,
+    "layer_compartment_profiles": {
+      "Layer_1": {
+        "n_spots": 100,
+        "biological_compartment": "Basal Epidermal Keratinocytes (KRT14+/KRT5+)",
+        "mean_raw_umi": {
+          "KRT14": 316.39,
+          "KRT5": 206.52,
+          "KRT1": 24.41,
+          "KRT10": 21.45,
+          "IVL": 23.4,
+          "MMP10": 0.6,
+          "LAMC2": 3.16,
+          "ITGA6": 7.31,
+          "EGFR": 2.23,
+          "S100A8": 232.95,
+          "S100A9": 225.25,
+          "KRT16": 212.15,
+          "KRT17": 192.8,
+          "COL1A1": 33.42,
+          "COL1A2": 14.87,
+          "COL3A1": 13.64,
+          "FN1": 1.52,
+          "SPARC": 8.01,
+          "VIM": 8.84,
+          "TAGLN": 0.86,
+          "ACTA2": 0.01,
+          "FAP": 0.01,
+          "CD74": 6.32,
+          "HLA-DRA": 3.44,
+          "PTPRC": 0.12
+        }
+      },
+      "Layer_2": {
+        "n_spots": 100,
+        "biological_compartment": "Differentiating Spinous/Granular Keratinocytes (KRT1+/KRT10+/IVL+)",
+        "mean_raw_umi": {
+          "KRT14": 197.83,
+          "KRT5": 116.9,
+          "KRT1": 78.06,
+          "KRT10": 81.58,
+          "IVL": 17.77,
+          "MMP10": 0.03,
+          "LAMC2": 0.87,
+          "ITGA6": 3.63,
+          "EGFR": 1.7,
+          "S100A8": 169.77,
+          "S100A9": 149.91,
+          "KRT16": 153.15,
+          "KRT17": 121.38,
+          "COL1A1": 52.94,
+          "COL1A2": 26.36,
+          "COL3A1": 25.97,
+          "FN1": 3.84,
+          "SPARC": 12.83,
+          "VIM": 11.83,
+          "TAGLN": 1.5,
+          "ACTA2": 0.0,
+          "FAP": 0.01,
+          "CD74": 5.72,
+          "HLA-DRA": 3.63,
+          "PTPRC": 0.15
+        }
+      },
+      "Layer_3": {
+        "n_spots": 100,
+        "biological_compartment": "Leading-Edge Tumor-Specific Keratinocyte (TSK) Invasive Front (MMP10+/LAMC2+/ITGA6+/EGFR+)",
+        "mean_raw_umi": {
+          "KRT14": 156.42,
+          "KRT5": 97.83,
+          "KRT1": 58.68,
+          "KRT10": 57.14,
+          "IVL": 15.31,
+          "MMP10": 1.39,
+          "LAMC2": 5.36,
+          "ITGA6": 6.01,
+          "EGFR": 1.49,
+          "S100A8": 131.62,
+          "S100A9": 120.57,
+          "KRT16": 116.21,
+          "KRT17": 103.8,
+          "COL1A1": 45.98,
+          "COL1A2": 21.89,
+          "COL3A1": 21.25,
+          "FN1": 2.95,
+          "SPARC": 11.7,
+          "VIM": 13.23,
+          "TAGLN": 1.14,
+          "ACTA2": 0.01,
+          "FAP": 0.02,
+          "CD74": 10.74,
+          "HLA-DRA": 7.55,
+          "PTPRC": 0.26
+        }
+      },
+      "Layer_4": {
+        "n_spots": 100,
+        "biological_compartment": "Fibrovascular Stroma / CAF / Myeloid-Lymphoid Cuff (COL1A1+/COL1A2+/FN1+/VIM+/CD74+)",
+        "mean_raw_umi": {
+          "KRT14": 82.44,
+          "KRT5": 65.63,
+          "KRT1": 8.85,
+          "KRT10": 11.73,
+          "IVL": 4.22,
+          "MMP10": 0.09,
+          "LAMC2": 1.74,
+          "ITGA6": 3.1,
+          "EGFR": 0.65,
+          "S100A8": 58.76,
+          "S100A9": 49.19,
+          "KRT16": 53.91,
+          "KRT17": 37.98,
+          "COL1A1": 128.75,
+          "COL1A2": 66.77,
+          "COL3A1": 68.39,
+          "FN1": 8.82,
+          "SPARC": 30.23,
+          "VIM": 29.99,
+          "TAGLN": 3.99,
+          "ACTA2": 0.16,
+          "FAP": 0.09,
+          "CD74": 23.71,
+          "HLA-DRA": 14.56,
+          "PTPRC": 1.0
+        }
+      }
+    },
+    "cadherin_switch_falsification": {
+      "hypothesis_tested": "Does leading-edge cSCC invasion undergo a classical CDH1 -> CDH2 (E-cadherin to N-cadherin) transcriptional switch?",
+      "verdict": "FALSIFIED (CDH2 = 0.0 UMI across 0/400 spots; CDH1 = 1393.0 UMI across 284/400 spots; CDH3 = 2107.0 UMI across 299/400 spots)",
+      "markers": {
+        "CDH1": {
+          "total_umi_400_spots": 1393.0,
+          "nonzero_spots": 284,
+          "nonzero_fraction": 0.71,
+          "mean_by_layer": {
+            "Layer_1": 5.25,
+            "Layer_2": 4.06,
+            "Layer_3": 3.74,
+            "Layer_4": 0.88
+          }
+        },
+        "CDH2": {
+          "total_umi_400_spots": 0.0,
+          "nonzero_spots": 0,
+          "nonzero_fraction": 0.0,
+          "mean_by_layer": {
+            "Layer_1": 0.0,
+            "Layer_2": 0.0,
+            "Layer_3": 0.0,
+            "Layer_4": 0.0
+          }
+        },
+        "CDH3": {
+          "total_umi_400_spots": 2107.0,
+          "nonzero_spots": 299,
+          "nonzero_fraction": 0.7475,
+          "mean_by_layer": {
+            "Layer_1": 9.62,
+            "Layer_2": 5.09,
+            "Layer_3": 4.92,
+            "Layer_4": 1.44
+          }
+        },
+        "EPCAM": {
+          "total_umi_400_spots": 0.0,
+          "nonzero_spots": 0,
+          "nonzero_fraction": 0.0,
+          "mean_by_layer": {
+            "Layer_1": 0.0,
+            "Layer_2": 0.0,
+            "Layer_3": 0.0,
+            "Layer_4": 0.0
+          }
+        },
+        "VIM": {
+          "total_umi_400_spots": 6389.0,
+          "nonzero_spots": 376,
+          "nonzero_fraction": 0.94,
+          "mean_by_layer": {
+            "Layer_1": 8.84,
+            "Layer_2": 11.83,
+            "Layer_3": 13.23,
+            "Layer_4": 29.99
+          }
+        },
+        "SNAI1": {
+          "total_umi_400_spots": 14.0,
+          "nonzero_spots": 12,
+          "nonzero_fraction": 0.03,
+          "mean_by_layer": {
+            "Layer_1": 0.01,
+            "Layer_2": 0.03,
+            "Layer_3": 0.04,
+            "Layer_4": 0.06
+          }
+        },
+        "SNAI2": {
+          "total_umi_400_spots": 459.0,
+          "nonzero_spots": 201,
+          "nonzero_fraction": 0.5025,
+          "mean_by_layer": {
+            "Layer_1": 1.88,
+            "Layer_2": 0.87,
+            "Layer_3": 0.83,
+            "Layer_4": 1.01
+          }
+        },
+        "TWIST1": {
+          "total_umi_400_spots": 117.0,
+          "nonzero_spots": 95,
+          "nonzero_fraction": 0.2375,
+          "mean_by_layer": {
+            "Layer_1": 0.18,
+            "Layer_2": 0.22,
+            "Layer_3": 0.24,
+            "Layer_4": 0.53
+          }
+        },
+        "ZEB1": {
+          "total_umi_400_spots": 87.0,
+          "nonzero_spots": 68,
+          "nonzero_fraction": 0.17,
+          "mean_by_layer": {
+            "Layer_1": 0.19,
+            "Layer_2": 0.14,
+            "Layer_3": 0.08,
+            "Layer_4": 0.46
+          }
+        },
+        "ZEB2": {
+          "total_umi_400_spots": 153.0,
+          "nonzero_spots": 105,
+          "nonzero_fraction": 0.2625,
+          "mean_by_layer": {
+            "Layer_1": 0.17,
+            "Layer_2": 0.26,
+            "Layer_3": 0.33,
+            "Layer_4": 0.77
+          }
+        }
+      }
+    },
+    "contact_graph_topology": {
+      "radius_35um": {
+        "max_dist_um": 35.0,
+        "n_total_directed_edges": 4764,
+        "n_tsk_to_stroma_edges": 20,
+        "n_stroma_to_tsk_edges": 20,
+        "n_border_tsk_spots": 9,
+        "n_border_str_spots": 7,
+        "n_border_l3_l4_spots": 16,
+        "n_any_cross_layer_spots": 28
+      },
+      "radius_55um": {
+        "max_dist_um": 55.0,
+        "n_total_directed_edges": 9906,
+        "n_tsk_to_stroma_edges": 184,
+        "n_stroma_to_tsk_edges": 184,
+        "n_border_tsk_spots": 24,
+        "n_border_str_spots": 29,
+        "n_border_l3_l4_spots": 53,
+        "n_any_cross_layer_spots": 142
+      }
+    }
+  },
+  "section2_zero_cochain_pseudo_emt_audit": {
+    "isotropic_bleed_35um_audit": {
+      "boundary_radius_um": 35.0,
+      "n_boundary_spots": 16,
+      "n_cross_compartment_edges": 40,
+      "pairs": [
+        {
+          "epithelial_gene": "MMP10",
+          "stromal_gene": "COL1A1",
+          "pair_id": "MMP10+COL1A1",
+          "string_ppi_score": 0.659,
+          "interaction_type": "Extracellular enzymatic matrix proteolysis (NOT co-expressed hybrid state)",
+          "epi_compartment": "Layer_3 (Leading-Edge TSK, secreted stromelysin-2)",
+          "str_compartment": "Layer_4 (CAF / Stroma, fibrillar collagen type I alpha-1)",
+          "hpa_subcellular_disjunction": "Secreted metalloproteinase (TSK) vs ER lumen / ECM fibril (CAF)",
+          "raw_boundary_coexpr": 0.0068,
+          "isotropic_boundary_coexpr": 0.243,
+          "sheaf_boundary_coexpr": 0.058,
+          "isotropic_bleed_inflation_pct": 319.2,
+          "raw_dual_positive_rate": 0.3125,
+          "isotropic_dual_positive_rate": 0.9375,
+          "sheaf_dual_positive_rate": 0.125
+        },
+        {
+          "epithelial_gene": "LAMC2",
+          "stromal_gene": "COL1A1",
+          "pair_id": "LAMC2+COL1A1",
+          "string_ppi_score": 0.485,
+          "interaction_type": "Basement membrane anchoring across basal lamina (NOT intracellular EMT)",
+          "epi_compartment": "Layer_3 (Leading-Edge TSK, laminin-332 gamma-2 chain)",
+          "str_compartment": "Layer_4 (CAF / Stroma, fibrillar collagen type I alpha-1)",
+          "hpa_subcellular_disjunction": "Hemidesmosomal basal lamina (TSK) vs stromal interstitial collagen (CAF)",
+          "raw_boundary_coexpr": 0.0414,
+          "isotropic_boundary_coexpr": 0.3568,
+          "sheaf_boundary_coexpr": 0.1046,
+          "isotropic_bleed_inflation_pct": 241.21,
+          "raw_dual_positive_rate": 0.375,
+          "isotropic_dual_positive_rate": 1.0,
+          "sheaf_dual_positive_rate": 0.125
+        },
+        {
+          "epithelial_gene": "KRT14",
+          "stromal_gene": "FAP",
+          "pair_id": "KRT14+FAP",
+          "string_ppi_score": 0.0,
+          "interaction_type": "Orthogonal lineage markers (zero direct PPI in STRING v12.0)",
+          "epi_compartment": "Layer_1 / Layer_3 (Basal & TSK cytokeratin-14)",
+          "str_compartment": "Layer_4 (Myofibroblastic CAF cell-surface serine protease)",
+          "hpa_subcellular_disjunction": "Cytoplasmic keratin intermediate filament (Epi) vs plasma membrane protease (CAF)",
+          "raw_boundary_coexpr": 0.0,
+          "isotropic_boundary_coexpr": 0.149,
+          "sheaf_boundary_coexpr": 0.0288,
+          "isotropic_bleed_inflation_pct": 416.99,
+          "raw_dual_positive_rate": 0.0,
+          "isotropic_dual_positive_rate": 0.0,
+          "sheaf_dual_positive_rate": 0.0
+        },
+        {
+          "epithelial_gene": "MMP10",
+          "stromal_gene": "VIM",
+          "pair_id": "MMP10+VIM",
+          "string_ppi_score": 0.0,
+          "interaction_type": "Orthogonal lineage markers (zero direct PPI in STRING v12.0)",
+          "epi_compartment": "Layer_3 (Leading-Edge TSK secreted protease)",
+          "str_compartment": "Layer_4 (Mesenchymal / CAF / Endothelial intermediate filament)",
+          "hpa_subcellular_disjunction": "Secreted extracellular protease (TSK) vs intracellular vimentin cytoskeleton (Stroma)",
+          "raw_boundary_coexpr": 0.0099,
+          "isotropic_boundary_coexpr": 0.2815,
+          "sheaf_boundary_coexpr": 0.0728,
+          "isotropic_bleed_inflation_pct": 286.38,
+          "raw_dual_positive_rate": 0.3125,
+          "isotropic_dual_positive_rate": 0.9375,
+          "sheaf_dual_positive_rate": 0.3125
+        },
+        {
+          "epithelial_gene": "KRT5",
+          "stromal_gene": "ACTA2",
+          "pair_id": "KRT5+ACTA2",
+          "string_ppi_score": 0.0,
+          "interaction_type": "Orthogonal lineage cytoskeletons (zero direct PPI in STRING v12.0)",
+          "epi_compartment": "Layer_1 / Layer_3 (Basal & TSK type II cytokeratin-5)",
+          "str_compartment": "Layer_4 (Myofibroblastic CAF / pericyte alpha-smooth muscle actin)",
+          "hpa_subcellular_disjunction": "Epithelial tonofilament bundle vs myofibroblast contractile actin stress fiber",
+          "raw_boundary_coexpr": 0.004,
+          "isotropic_boundary_coexpr": 0.2392,
+          "sheaf_boundary_coexpr": 0.1429,
+          "isotropic_bleed_inflation_pct": 67.36,
+          "raw_dual_positive_rate": 0.0,
+          "isotropic_dual_positive_rate": 0.0625,
+          "sheaf_dual_positive_rate": 0.0
+        },
+        {
+          "epithelial_gene": "KRT16",
+          "stromal_gene": "TAGLN",
+          "pair_id": "KRT16+TAGLN",
+          "string_ppi_score": 0.0,
+          "interaction_type": "Orthogonal lineage cytoskeletons (zero direct PPI in STRING v12.0)",
+          "epi_compartment": "Layer_2 / Layer_3 (Wound-response hyperproliferative keratin-16)",
+          "str_compartment": "Layer_4 (Myofibroblastic CAF / smooth muscle transgelin)",
+          "hpa_subcellular_disjunction": "Epithelial intermediate filament vs stromal actin-crosslinking calponin protein",
+          "raw_boundary_coexpr": 0.0146,
+          "isotropic_boundary_coexpr": 0.2746,
+          "sheaf_boundary_coexpr": 0.1756,
+          "isotropic_bleed_inflation_pct": 56.35,
+          "raw_dual_positive_rate": 0.0625,
+          "isotropic_dual_positive_rate": 0.0,
+          "sheaf_dual_positive_rate": 0.0
+        },
+        {
+          "epithelial_gene": "KRT17",
+          "stromal_gene": "COL3A1",
+          "pair_id": "KRT17+COL3A1",
+          "string_ppi_score": 0.0,
+          "interaction_type": "Orthogonal lineage markers (zero direct PPI in STRING v12.0)",
+          "epi_compartment": "Layer_3 (Stress/TSK cytokeratin-17)",
+          "str_compartment": "Layer_4 (Stromal reticular collagen type III alpha-1)",
+          "hpa_subcellular_disjunction": "Intracellular epithelial intermediate filament vs extracellular stromal reticular fibril",
+          "raw_boundary_coexpr": 0.0393,
+          "isotropic_boundary_coexpr": 0.223,
+          "sheaf_boundary_coexpr": 0.1703,
+          "isotropic_bleed_inflation_pct": 30.93,
+          "raw_dual_positive_rate": 0.0625,
+          "isotropic_dual_positive_rate": 0.0,
+          "sheaf_dual_positive_rate": 0.1875
+        }
+      ]
+    },
+    "compartment_deconfounded_55um_audit": {
+      "boundary_radius_um": 55.0,
+      "n_stromal_border_spots": 29,
+      "n_all_border_spots": 53,
+      "dual_positivity_threshold_sd": 0.25,
+      "pairs": [
+        {
+          "pair_id": "MMP10+COL1A1",
+          "epithelial_gene": "MMP10",
+          "stromal_gene": "COL1A1",
+          "raw_unaligned": {
+            "stromal_border_dual_positive_rate": 0.0345,
+            "all_border_dual_positive_rate": 0.1132,
+            "stromal_border_b_intra": 0.0104
+          },
+          "isotropic_smoothing": {
+            "stromal_border_dual_positive_rate": 0.0345,
+            "all_border_dual_positive_rate": 0.3396,
+            "stromal_border_b_intra": 0.0724
+          },
+          "magic_diffusion": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0249
+          },
+          "se2_sheaf_v010_hard": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          },
+          "se2_sheaf_v020_huber": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          }
+        },
+        {
+          "pair_id": "MMP10+COL1A2",
+          "epithelial_gene": "MMP10",
+          "stromal_gene": "COL1A2",
+          "raw_unaligned": {
+            "stromal_border_dual_positive_rate": 0.0345,
+            "all_border_dual_positive_rate": 0.1132,
+            "stromal_border_b_intra": 0.007
+          },
+          "isotropic_smoothing": {
+            "stromal_border_dual_positive_rate": 0.0345,
+            "all_border_dual_positive_rate": 0.283,
+            "stromal_border_b_intra": 0.066
+          },
+          "magic_diffusion": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0236
+          },
+          "se2_sheaf_v010_hard": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          },
+          "se2_sheaf_v020_huber": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          }
+        },
+        {
+          "pair_id": "MMP10+FN1",
+          "epithelial_gene": "MMP10",
+          "stromal_gene": "FN1",
+          "raw_unaligned": {
+            "stromal_border_dual_positive_rate": 0.0345,
+            "all_border_dual_positive_rate": 0.1321,
+            "stromal_border_b_intra": 0.0039
+          },
+          "isotropic_smoothing": {
+            "stromal_border_dual_positive_rate": 0.0345,
+            "all_border_dual_positive_rate": 0.283,
+            "stromal_border_b_intra": 0.0522
+          },
+          "magic_diffusion": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0164
+          },
+          "se2_sheaf_v010_hard": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          },
+          "se2_sheaf_v020_huber": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          }
+        },
+        {
+          "pair_id": "MMP10+VIM",
+          "epithelial_gene": "MMP10",
+          "stromal_gene": "VIM",
+          "raw_unaligned": {
+            "stromal_border_dual_positive_rate": 0.0345,
+            "all_border_dual_positive_rate": 0.1321,
+            "stromal_border_b_intra": 0.0074
+          },
+          "isotropic_smoothing": {
+            "stromal_border_dual_positive_rate": 0.0345,
+            "all_border_dual_positive_rate": 0.3396,
+            "stromal_border_b_intra": 0.0719
+          },
+          "magic_diffusion": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0189,
+            "stromal_border_b_intra": 0.0214
+          },
+          "se2_sheaf_v010_hard": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0189,
+            "stromal_border_b_intra": 0.0
+          },
+          "se2_sheaf_v020_huber": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0189,
+            "stromal_border_b_intra": 0.0
+          }
+        },
+        {
+          "pair_id": "LAMC2+COL1A1",
+          "epithelial_gene": "LAMC2",
+          "stromal_gene": "COL1A1",
+          "raw_unaligned": {
+            "stromal_border_dual_positive_rate": 0.2414,
+            "all_border_dual_positive_rate": 0.2264,
+            "stromal_border_b_intra": 0.1396
+          },
+          "isotropic_smoothing": {
+            "stromal_border_dual_positive_rate": 0.2759,
+            "all_border_dual_positive_rate": 0.4717,
+            "stromal_border_b_intra": 0.2117
+          },
+          "magic_diffusion": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0189,
+            "stromal_border_b_intra": 0.0514
+          },
+          "se2_sheaf_v010_hard": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          },
+          "se2_sheaf_v020_huber": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          }
+        },
+        {
+          "pair_id": "LAMC2+COL1A2",
+          "epithelial_gene": "LAMC2",
+          "stromal_gene": "COL1A2",
+          "raw_unaligned": {
+            "stromal_border_dual_positive_rate": 0.2414,
+            "all_border_dual_positive_rate": 0.2264,
+            "stromal_border_b_intra": 0.1248
+          },
+          "isotropic_smoothing": {
+            "stromal_border_dual_positive_rate": 0.2759,
+            "all_border_dual_positive_rate": 0.4151,
+            "stromal_border_b_intra": 0.1915
+          },
+          "magic_diffusion": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0189,
+            "stromal_border_b_intra": 0.0488
+          },
+          "se2_sheaf_v010_hard": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          },
+          "se2_sheaf_v020_huber": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          }
+        },
+        {
+          "pair_id": "LAMC2+FN1",
+          "epithelial_gene": "LAMC2",
+          "stromal_gene": "FN1",
+          "raw_unaligned": {
+            "stromal_border_dual_positive_rate": 0.069,
+            "all_border_dual_positive_rate": 0.1509,
+            "stromal_border_b_intra": 0.0451
+          },
+          "isotropic_smoothing": {
+            "stromal_border_dual_positive_rate": 0.2759,
+            "all_border_dual_positive_rate": 0.4151,
+            "stromal_border_b_intra": 0.1442
+          },
+          "magic_diffusion": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0189,
+            "stromal_border_b_intra": 0.0358
+          },
+          "se2_sheaf_v010_hard": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          },
+          "se2_sheaf_v020_huber": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          }
+        },
+        {
+          "pair_id": "LAMC2+VIM",
+          "epithelial_gene": "LAMC2",
+          "stromal_gene": "VIM",
+          "raw_unaligned": {
+            "stromal_border_dual_positive_rate": 0.2414,
+            "all_border_dual_positive_rate": 0.2453,
+            "stromal_border_b_intra": 0.1303
+          },
+          "isotropic_smoothing": {
+            "stromal_border_dual_positive_rate": 0.2759,
+            "all_border_dual_positive_rate": 0.4717,
+            "stromal_border_b_intra": 0.2141
+          },
+          "magic_diffusion": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0377,
+            "stromal_border_b_intra": 0.0458
+          },
+          "se2_sheaf_v010_hard": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0189,
+            "stromal_border_b_intra": 0.0
+          },
+          "se2_sheaf_v020_huber": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0189,
+            "stromal_border_b_intra": 0.0
+          }
+        },
+        {
+          "pair_id": "KRT14+COL1A1",
+          "epithelial_gene": "KRT14",
+          "stromal_gene": "COL1A1",
+          "raw_unaligned": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          },
+          "isotropic_smoothing": {
+            "stromal_border_dual_positive_rate": 0.0345,
+            "all_border_dual_positive_rate": 0.2453,
+            "stromal_border_b_intra": 0.0801
+          },
+          "magic_diffusion": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0026
+          },
+          "se2_sheaf_v010_hard": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          },
+          "se2_sheaf_v020_huber": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          }
+        },
+        {
+          "pair_id": "KRT17+COL1A1",
+          "epithelial_gene": "KRT17",
+          "stromal_gene": "COL1A1",
+          "raw_unaligned": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          },
+          "isotropic_smoothing": {
+            "stromal_border_dual_positive_rate": 0.069,
+            "all_border_dual_positive_rate": 0.2453,
+            "stromal_border_b_intra": 0.0838
+          },
+          "magic_diffusion": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          },
+          "se2_sheaf_v010_hard": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          },
+          "se2_sheaf_v020_huber": {
+            "stromal_border_dual_positive_rate": 0.0,
+            "all_border_dual_positive_rate": 0.0,
+            "stromal_border_b_intra": 0.0
+          }
+        }
+      ]
+    },
+    "registration_jitter_sweep": {
+      "theorem_verified": "Theorem 2.18 (Huber Directional Soft-Clamping eliminates the high-jitter double penalty while preserving exact v0.1.0 parity at Delta_x = 0)",
+      "n_seeds": 5,
+      "sweep": [
+        {
+          "delta_x_jitter_um": 0.0,
+          "se2_v020_adaptive_accuracy": 0.83,
+          "se2_v010_hard_accuracy": 0.83,
+          "isotropic_unclamped_accuracy": 0.8125,
+          "v020_gain_over_v010": 0.0,
+          "v020_gain_over_isotropic": 0.0175,
+          "v020_penetration_rate": 0.0,
+          "v020_theoretical_leakage_gamma": 0.0
+        },
+        {
+          "delta_x_jitter_um": 2.5,
+          "se2_v020_adaptive_accuracy": 0.8295,
+          "se2_v010_hard_accuracy": 0.8295,
+          "isotropic_unclamped_accuracy": 0.8125,
+          "v020_gain_over_v010": 0.0,
+          "v020_gain_over_isotropic": 0.017,
+          "v020_penetration_rate": 0.005882,
+          "v020_theoretical_leakage_gamma": 0.0588
+        },
+        {
+          "delta_x_jitter_um": 5.0,
+          "se2_v020_adaptive_accuracy": 0.826,
+          "se2_v010_hard_accuracy": 0.829,
+          "isotropic_unclamped_accuracy": 0.8125,
+          "v020_gain_over_v010": -0.003,
+          "v020_gain_over_isotropic": 0.0135,
+          "v020_penetration_rate": 0.02,
+          "v020_theoretical_leakage_gamma": 0.2
+        },
+        {
+          "delta_x_jitter_um": 10.0,
+          "se2_v020_adaptive_accuracy": 0.82,
+          "se2_v010_hard_accuracy": 0.8145,
+          "isotropic_unclamped_accuracy": 0.8125,
+          "v020_gain_over_v010": 0.0055,
+          "v020_gain_over_isotropic": 0.0075,
+          "v020_penetration_rate": 0.05,
+          "v020_theoretical_leakage_gamma": 0.5
+        },
+        {
+          "delta_x_jitter_um": 15.0,
+          "se2_v020_adaptive_accuracy": 0.818,
+          "se2_v010_hard_accuracy": 0.809,
+          "isotropic_unclamped_accuracy": 0.8125,
+          "v020_gain_over_v010": 0.009,
+          "v020_gain_over_isotropic": 0.0055,
+          "v020_penetration_rate": 0.069231,
+          "v020_theoretical_leakage_gamma": 0.6923
+        },
+        {
+          "delta_x_jitter_um": 20.0,
+          "se2_v020_adaptive_accuracy": 0.816,
+          "se2_v010_hard_accuracy": 0.8035,
+          "isotropic_unclamped_accuracy": 0.8125,
+          "v020_gain_over_v010": 0.0125,
+          "v020_gain_over_isotropic": 0.0035,
+          "v020_penetration_rate": 0.08,
+          "v020_theoretical_leakage_gamma": 0.8
+        },
+        {
+          "delta_x_jitter_um": 30.0,
+          "se2_v020_adaptive_accuracy": 0.8185,
+          "se2_v010_hard_accuracy": 0.7995,
+          "isotropic_unclamped_accuracy": 0.8125,
+          "v020_gain_over_v010": 0.019,
+          "v020_gain_over_isotropic": 0.006,
+          "v020_penetration_rate": 0.09,
+          "v020_theoretical_leakage_gamma": 0.9
+        }
+      ]
+    },
+    "proteomic_and_constraint_falsification": {
+      "string_v12_null_ppi_pairs": [
+        {
+          "pair": "KRT14-VIM",
+          "string_score": 0.0
+        },
+        {
+          "pair": "KRT14-COL1A1",
+          "string_score": 0.0
+        },
+        {
+          "pair": "KRT5-ACTA2",
+          "string_score": 0.0
+        },
+        {
+          "pair": "KRT14-FAP",
+          "string_score": 0.0
+        },
+        {
+          "pair": "KRT17-COL3A1",
+          "string_score": 0.0
+        }
+      ],
+      "gnomad_v4_constraint": {
+        "COL1A1": {
+          "pLI": 1.0,
+          "loeuf": 0.175,
+          "role": "Essential stromal fibrillar collagen"
+        },
+        "EGFR": {
+          "pLI": 0.996,
+          "loeuf": 0.254,
+          "role": "Essential epithelial receptor tyrosine kinase"
+        },
+        "ITGA6": {
+          "pLI": 0.0,
+          "loeuf": 0.506,
+          "role": "Hemidesmosomal laminin receptor alpha-6"
+        },
+        "KRT14": {
+          "pLI": 0.056,
+          "loeuf": 0.674,
+          "role": "Basal keratinocyte intermediate filament"
+        },
+        "LAMC2": {
+          "pLI": 0.0,
+          "loeuf": 0.562,
+          "role": "TSK leading-edge laminin-332 gamma-2 chain"
+        },
+        "MMP10": {
+          "pLI": 0.0,
+          "loeuf": 0.728,
+          "role": "TSK inducible secreted stromelysin-2"
+        }
+      }
+    }
+  },
+  "section3_one_cochain_juxtacrine_signaling_audit": {
+    "deconfounded_sbr_sharpening_28_pairs": {
+      "regularization_epsilon": 0.01,
+      "strict_epsilon": 0.0001,
+      "mean_sbr_sheaf": 67.03,
+      "mean_sbr_isotropic": 3.55,
+      "mean_sharpening_factor": 16.96,
+      "max_sharpening_factor": 50.59,
+      "max_sharpening_factor_eps1e4": 4916.54,
+      "pairs": [
+        {
+          "pair_id": "LAMC2->ITGA6",
+          "ligand": "LAMC2",
+          "receptor": "ITGA6",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "primary_50",
+          "string_ppi_score": 0.996,
+          "reactome_pathway_id": "R-HSA-3000157",
+          "biological_mechanism": "Laminin-332 gamma-2 -> Integrin alpha-6 hemidesmosomal/focal invasion",
+          "j_sheaf": 0.8101,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 81.01,
+          "j_isotropic": 0.7503,
+          "b_intra_isotropic": 0.304,
+          "sbr_isotropic": 2.39,
+          "sbr_sharpening_factor": 33.9,
+          "sbr_sharpening_factor_eps1e4": 3283.14
+        },
+        {
+          "pair_id": "MMP10->ITGA6",
+          "ligand": "MMP10",
+          "receptor": "ITGA6",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "primary_50",
+          "string_ppi_score": 0.612,
+          "reactome_pathway_id": "R-HSA-1474228",
+          "biological_mechanism": "Stromelysin-2 pericellular basement-membrane remodeling at ITGA6 front",
+          "j_sheaf": 0.9005,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 90.05,
+          "j_isotropic": 0.6702,
+          "b_intra_isotropic": 0.1056,
+          "sbr_isotropic": 5.8,
+          "sbr_sharpening_factor": 15.54,
+          "sbr_sharpening_factor_eps1e4": 1420.51
+        },
+        {
+          "pair_id": "MMP10->COL1A1",
+          "ligand": "MMP10",
+          "receptor": "COL1A1",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "primary_50",
+          "string_ppi_score": 0.659,
+          "reactome_pathway_id": "R-HSA-1474228",
+          "biological_mechanism": "TSK secreted MMP10 enzymatic cleavage of stromal fibrillar COL1A1",
+          "j_sheaf": 3.2255,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 322.55,
+          "j_isotropic": 2.2347,
+          "b_intra_isotropic": 0.3405,
+          "sbr_isotropic": 6.38,
+          "sbr_sharpening_factor": 50.59,
+          "sbr_sharpening_factor_eps1e4": 4916.54
+        },
+        {
+          "pair_id": "MMP10->FN1",
+          "ligand": "MMP10",
+          "receptor": "FN1",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "primary_50",
+          "string_ppi_score": 0.728,
+          "reactome_pathway_id": "R-HSA-1474228",
+          "biological_mechanism": "TSK secreted MMP10 proteolysis of stromal fibronectin-1 tracks",
+          "j_sheaf": 1.176,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 117.6,
+          "j_isotropic": 0.778,
+          "b_intra_isotropic": 0.1214,
+          "sbr_isotropic": 5.92,
+          "sbr_sharpening_factor": 19.86,
+          "sbr_sharpening_factor_eps1e4": 1836.74
+        },
+        {
+          "pair_id": "FN1->ITGA6",
+          "ligand": "FN1",
+          "receptor": "ITGA6",
+          "direction": "stroma_to_tsk",
+          "panel_tier": "primary_50",
+          "string_ppi_score": 0.96,
+          "reactome_pathway_id": "R-HSA-216083",
+          "biological_mechanism": "Stromal fibronectin-1 haptotactic guidance of TSK integrin alpha-6",
+          "j_sheaf": 1.3186,
+          "b_intra_sheaf": 0.0174,
+          "sbr_sheaf": 48.18,
+          "j_isotropic": 1.1738,
+          "b_intra_isotropic": 0.5977,
+          "sbr_isotropic": 1.93,
+          "sbr_sharpening_factor": 24.94,
+          "sbr_sharpening_factor_eps1e4": 38.44
+        },
+        {
+          "pair_id": "COL1A1->ITGA6",
+          "ligand": "COL1A1",
+          "receptor": "ITGA6",
+          "direction": "stroma_to_tsk",
+          "panel_tier": "primary_50",
+          "string_ppi_score": 0.779,
+          "reactome_pathway_id": "R-HSA-1474244",
+          "biological_mechanism": "Stromal collagen-I mechanical/ECM engagement at TSK integrin front",
+          "j_sheaf": 1.8952,
+          "b_intra_sheaf": 0.0501,
+          "sbr_sheaf": 31.52,
+          "j_isotropic": 1.5642,
+          "b_intra_isotropic": 0.6139,
+          "sbr_isotropic": 2.51,
+          "sbr_sharpening_factor": 12.57,
+          "sbr_sharpening_factor_eps1e4": 14.81
+        },
+        {
+          "pair_id": "COL1A2->ITGA6",
+          "ligand": "COL1A2",
+          "receptor": "ITGA6",
+          "direction": "stroma_to_tsk",
+          "panel_tier": "primary_50",
+          "string_ppi_score": 0.751,
+          "reactome_pathway_id": "R-HSA-1474244",
+          "biological_mechanism": "Stromal collagen-I alpha-2 heterotrimer engagement at TSK border",
+          "j_sheaf": 1.7088,
+          "b_intra_sheaf": 0.0691,
+          "sbr_sheaf": 21.6,
+          "j_isotropic": 1.4175,
+          "b_intra_isotropic": 0.5677,
+          "sbr_isotropic": 2.45,
+          "sbr_sharpening_factor": 8.8,
+          "sbr_sharpening_factor_eps1e4": 9.89
+        },
+        {
+          "pair_id": "SPARC->ITGA6",
+          "ligand": "SPARC",
+          "receptor": "ITGA6",
+          "direction": "stroma_to_tsk",
+          "panel_tier": "primary_50",
+          "string_ppi_score": 0.684,
+          "reactome_pathway_id": "R-HSA-1474244",
+          "biological_mechanism": "Stromal osteonectin matricellular deadhesion & integrin modulation",
+          "j_sheaf": 1.8586,
+          "b_intra_sheaf": 0.0575,
+          "sbr_sheaf": 27.52,
+          "j_isotropic": 1.5332,
+          "b_intra_isotropic": 0.6438,
+          "sbr_isotropic": 2.35,
+          "sbr_sharpening_factor": 11.73,
+          "sbr_sharpening_factor_eps1e4": 13.54
+        },
+        {
+          "pair_id": "SPARC->EGFR",
+          "ligand": "SPARC",
+          "receptor": "EGFR",
+          "direction": "stroma_to_tsk",
+          "panel_tier": "primary_50",
+          "string_ppi_score": 0.642,
+          "reactome_pathway_id": "R-HSA-177929",
+          "biological_mechanism": "Stromal SPARC matricellular modulation of leading-edge TSK EGFR",
+          "j_sheaf": 1.1556,
+          "b_intra_sheaf": 0.0251,
+          "sbr_sheaf": 32.97,
+          "j_isotropic": 0.825,
+          "b_intra_isotropic": 0.3266,
+          "sbr_isotropic": 2.45,
+          "sbr_sharpening_factor": 13.45,
+          "sbr_sharpening_factor_eps1e4": 18.19
+        },
+        {
+          "pair_id": "S100A8->CD74",
+          "ligand": "S100A8",
+          "receptor": "CD74",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "primary_50",
+          "string_ppi_score": 0.58,
+          "reactome_pathway_id": "R-HSA-6798695",
+          "biological_mechanism": "TSK calprotectin S100A8 alarmin -> peritumoral myeloid CD74",
+          "j_sheaf": 1.0779,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 107.79,
+          "j_isotropic": 1.0715,
+          "b_intra_isotropic": 0.1742,
+          "sbr_isotropic": 5.82,
+          "sbr_sharpening_factor": 18.53,
+          "sbr_sharpening_factor_eps1e4": 1753.61
+        },
+        {
+          "pair_id": "S100A9->CD74",
+          "ligand": "S100A9",
+          "receptor": "CD74",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "primary_50",
+          "string_ppi_score": 0.595,
+          "reactome_pathway_id": "R-HSA-6798695",
+          "biological_mechanism": "TSK calprotectin S100A9 alarmin -> peritumoral myeloid CD74",
+          "j_sheaf": 1.0999,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 109.99,
+          "j_isotropic": 1.135,
+          "b_intra_isotropic": 0.1856,
+          "sbr_isotropic": 5.8,
+          "sbr_sharpening_factor": 18.95,
+          "sbr_sharpening_factor_eps1e4": 1799.34
+        },
+        {
+          "pair_id": "S100A8->HLA-DRA",
+          "ligand": "S100A8",
+          "receptor": "HLA-DRA",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "primary_50",
+          "string_ppi_score": 0.54,
+          "reactome_pathway_id": "R-HSA-202403",
+          "biological_mechanism": "TSK S100A8 alarmin -> MHC-II+ antigen-presenting myeloid cuff",
+          "j_sheaf": 0.7389,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 73.89,
+          "j_isotropic": 0.8051,
+          "b_intra_isotropic": 0.131,
+          "sbr_isotropic": 5.71,
+          "sbr_sharpening_factor": 12.94,
+          "sbr_sharpening_factor_eps1e4": 1203.23
+        },
+        {
+          "pair_id": "S100A9->PTPRC",
+          "ligand": "S100A9",
+          "receptor": "PTPRC",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "primary_50",
+          "string_ppi_score": 0.515,
+          "reactome_pathway_id": "R-HSA-6798695",
+          "biological_mechanism": "TSK S100A9 recruitment of CD45+ (PTPRC+) stromal leukocytes",
+          "j_sheaf": 0.0842,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 8.42,
+          "j_isotropic": 0.0982,
+          "b_intra_isotropic": 0.0159,
+          "sbr_isotropic": 3.79,
+          "sbr_sharpening_factor": 2.22,
+          "sbr_sharpening_factor_eps1e4": 137.24
+        },
+        {
+          "pair_id": "B2M->CD74",
+          "ligand": "B2M",
+          "receptor": "CD74",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "primary_50",
+          "string_ppi_score": 0.969,
+          "reactome_pathway_id": "R-HSA-1236975",
+          "biological_mechanism": "MHC-I beta-2-microglobulin cross-presentation interface with CD74+ APCs",
+          "j_sheaf": 1.5105,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 151.05,
+          "j_isotropic": 1.4661,
+          "b_intra_isotropic": 0.2968,
+          "sbr_isotropic": 4.78,
+          "sbr_sharpening_factor": 31.61,
+          "sbr_sharpening_factor_eps1e4": 3058.72
+        },
+        {
+          "pair_id": "HLA-DRA->CD74",
+          "ligand": "HLA-DRA",
+          "receptor": "CD74",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "primary_50",
+          "string_ppi_score": 0.999,
+          "reactome_pathway_id": "R-HSA-202403",
+          "biological_mechanism": "MHC-II invariant chain (CD74) / HLA-DRA antigen presentation complex",
+          "j_sheaf": 1.6451,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 164.51,
+          "j_isotropic": 1.7295,
+          "b_intra_isotropic": 0.4855,
+          "sbr_isotropic": 3.49,
+          "sbr_sharpening_factor": 47.13,
+          "sbr_sharpening_factor_eps1e4": 4619.07
+        },
+        {
+          "pair_id": "PTHLH->PTH1R",
+          "ligand": "PTHLH",
+          "receptor": "PTH1R",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "extended_full_st",
+          "string_ppi_score": 0.999,
+          "reactome_pathway_id": "R-HSA-418555",
+          "biological_mechanism": "Canonical Ji et al. Cell 2020 TSK PTHrP -> CAF PTH1R paracrine axis",
+          "j_sheaf": 0.0006,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 0.06,
+          "j_isotropic": 0.0003,
+          "b_intra_isotropic": 0.0,
+          "sbr_isotropic": 0.03,
+          "sbr_sharpening_factor": 1.7,
+          "sbr_sharpening_factor_eps1e4": 2.35
+        },
+        {
+          "pair_id": "LAMC2->ITGA5",
+          "ligand": "LAMC2",
+          "receptor": "ITGA5",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "extended_full_st",
+          "string_ppi_score": 0.941,
+          "reactome_pathway_id": "R-HSA-216083",
+          "biological_mechanism": "TSK laminin-332 -> stromal/endothelial integrin alpha-5 anchor",
+          "j_sheaf": 0.4257,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 42.57,
+          "j_isotropic": 0.3854,
+          "b_intra_isotropic": 0.1483,
+          "sbr_isotropic": 2.44,
+          "sbr_sharpening_factor": 17.48,
+          "sbr_sharpening_factor_eps1e4": 1638.71
+        },
+        {
+          "pair_id": "LAMC2->ITGB1",
+          "ligand": "LAMC2",
+          "receptor": "ITGB1",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "extended_full_st",
+          "string_ppi_score": 0.998,
+          "reactome_pathway_id": "R-HSA-3000157",
+          "biological_mechanism": "TSK laminin-332 -> integrin beta-1 (ITGA6/ITGB1 & ITGA3/ITGB1) adhesion",
+          "j_sheaf": 0.5353,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 53.53,
+          "j_isotropic": 0.4957,
+          "b_intra_isotropic": 0.2021,
+          "sbr_isotropic": 2.34,
+          "sbr_sharpening_factor": 22.9,
+          "sbr_sharpening_factor_eps1e4": 2182.85
+        },
+        {
+          "pair_id": "MMP10->ITGA5",
+          "ligand": "MMP10",
+          "receptor": "ITGA5",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "extended_full_st",
+          "string_ppi_score": 0.635,
+          "reactome_pathway_id": "R-HSA-1474228",
+          "biological_mechanism": "TSK MMP10 pericellular proteolysis at fibronectin-receptor ITGA5",
+          "j_sheaf": 0.4729,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 47.29,
+          "j_isotropic": 0.3444,
+          "b_intra_isotropic": 0.054,
+          "sbr_isotropic": 5.38,
+          "sbr_sharpening_factor": 8.79,
+          "sbr_sharpening_factor_eps1e4": 742.63
+        },
+        {
+          "pair_id": "MMP10->ITGB1",
+          "ligand": "MMP10",
+          "receptor": "ITGB1",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "extended_full_st",
+          "string_ppi_score": 0.69,
+          "reactome_pathway_id": "R-HSA-1474228",
+          "biological_mechanism": "TSK MMP10 matrix remodeling at beta-1 integrin focal adhesions",
+          "j_sheaf": 0.5959,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 59.59,
+          "j_isotropic": 0.4523,
+          "b_intra_isotropic": 0.0726,
+          "sbr_isotropic": 5.48,
+          "sbr_sharpening_factor": 10.88,
+          "sbr_sharpening_factor_eps1e4": 957.13
+        },
+        {
+          "pair_id": "TGFB1->TGFBR2",
+          "ligand": "TGFB1",
+          "receptor": "TGFBR2",
+          "direction": "stroma_to_tsk",
+          "panel_tier": "extended_full_st",
+          "string_ppi_score": 0.999,
+          "reactome_pathway_id": "R-HSA-170834",
+          "biological_mechanism": "Stromal/myeloid TGF-beta-1 -> leading-edge TSK TGFBR2 induction",
+          "j_sheaf": 0.2168,
+          "b_intra_sheaf": 0.0305,
+          "sbr_sheaf": 5.35,
+          "j_isotropic": 0.3278,
+          "b_intra_isotropic": 0.2281,
+          "sbr_isotropic": 1.38,
+          "sbr_sharpening_factor": 3.89,
+          "sbr_sharpening_factor_eps1e4": 4.93
+        },
+        {
+          "pair_id": "INHBA->TGFBR2",
+          "ligand": "INHBA",
+          "receptor": "TGFBR2",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "extended_full_st",
+          "string_ppi_score": 0.962,
+          "reactome_pathway_id": "R-HSA-1442490",
+          "biological_mechanism": "TSK activin-A (INHBA) -> stromal myofibroblastic CAF differentiation",
+          "j_sheaf": 0.4036,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 40.36,
+          "j_isotropic": 0.391,
+          "b_intra_isotropic": 0.1427,
+          "sbr_isotropic": 2.56,
+          "sbr_sharpening_factor": 15.76,
+          "sbr_sharpening_factor_eps1e4": 1473.9
+        },
+        {
+          "pair_id": "SPP1->CD44",
+          "ligand": "SPP1",
+          "receptor": "CD44",
+          "direction": "stroma_to_tsk",
+          "panel_tier": "extended_full_st",
+          "string_ppi_score": 0.996,
+          "reactome_pathway_id": "R-HSA-216083",
+          "biological_mechanism": "TAM/CAF osteopontin (SPP1) -> TSK CD44 stemness & invasion axis",
+          "j_sheaf": 0.7159,
+          "b_intra_sheaf": 0.0492,
+          "sbr_sheaf": 12.09,
+          "j_isotropic": 0.744,
+          "b_intra_isotropic": 0.4308,
+          "sbr_isotropic": 1.69,
+          "sbr_sharpening_factor": 7.16,
+          "sbr_sharpening_factor_eps1e4": 8.41
+        },
+        {
+          "pair_id": "AREG->EGFR",
+          "ligand": "AREG",
+          "receptor": "EGFR",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "extended_full_st",
+          "string_ppi_score": 0.998,
+          "reactome_pathway_id": "R-HSA-177929",
+          "biological_mechanism": "TSK amphiregulin (AREG) juxtacrine/autocrine EGFR activation",
+          "j_sheaf": 0.0537,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 5.37,
+          "j_isotropic": 0.2165,
+          "b_intra_isotropic": 0.1289,
+          "sbr_isotropic": 1.56,
+          "sbr_sharpening_factor": 3.45,
+          "sbr_sharpening_factor_eps1e4": 319.94
+        },
+        {
+          "pair_id": "TGFA->EGFR",
+          "ligand": "TGFA",
+          "receptor": "EGFR",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "extended_full_st",
+          "string_ppi_score": 0.999,
+          "reactome_pathway_id": "R-HSA-177929",
+          "biological_mechanism": "TSK TGF-alpha (TGFA) high-affinity EGFR mitogenic loop",
+          "j_sheaf": 0.2958,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 29.58,
+          "j_isotropic": 0.3438,
+          "b_intra_isotropic": 0.0794,
+          "sbr_isotropic": 3.85,
+          "sbr_sharpening_factor": 7.69,
+          "sbr_sharpening_factor_eps1e4": 683.97
+        },
+        {
+          "pair_id": "MMP9->TIMP1",
+          "ligand": "MMP9",
+          "receptor": "TIMP1",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "extended_full_st",
+          "string_ppi_score": 0.999,
+          "reactome_pathway_id": "R-HSA-1592389",
+          "biological_mechanism": "Invasive border gelatinase-B (MMP9) / stromal TIMP1 stoichiometric clamp",
+          "j_sheaf": 1.2166,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 121.66,
+          "j_isotropic": 1.0547,
+          "b_intra_isotropic": 0.2964,
+          "sbr_isotropic": 3.44,
+          "sbr_sharpening_factor": 35.35,
+          "sbr_sharpening_factor_eps1e4": 3420.6
+        },
+        {
+          "pair_id": "PLAU->LRP1",
+          "ligand": "PLAU",
+          "receptor": "LRP1",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "extended_full_st",
+          "string_ppi_score": 0.995,
+          "reactome_pathway_id": "R-HSA-1474228",
+          "biological_mechanism": "TSK urokinase plasminogen activator (uPA/PLAU) -> stromal LRP1 clearance/signaling",
+          "j_sheaf": 0.17,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 17.0,
+          "j_isotropic": 0.1933,
+          "b_intra_isotropic": 0.063,
+          "sbr_isotropic": 2.65,
+          "sbr_sharpening_factor": 6.42,
+          "sbr_sharpening_factor_eps1e4": 555.0
+        },
+        {
+          "pair_id": "JAG1->NOTCH3",
+          "ligand": "JAG1",
+          "receptor": "NOTCH3",
+          "direction": "tsk_to_stroma",
+          "panel_tier": "extended_full_st",
+          "string_ppi_score": 0.996,
+          "reactome_pathway_id": "R-HSA-157118",
+          "biological_mechanism": "TSK Jagged-1 (JAG1) -> mural/CAF Notch-3 direct contact juxtacrine relay",
+          "j_sheaf": 0.5364,
+          "b_intra_sheaf": 0.0,
+          "sbr_sheaf": 53.64,
+          "j_isotropic": 0.525,
+          "b_intra_isotropic": 0.094,
+          "sbr_isotropic": 5.05,
+          "sbr_sharpening_factor": 10.62,
+          "sbr_sharpening_factor_eps1e4": 961.24
+        }
+      ]
+    },
+    "raw_umi_directional_polarity_35um": {
+      "boundary_radius_um": 35.0,
+      "n_directed_cross_edges": 20,
+      "mean_polarity_gain_x": 7.68,
+      "max_polarity_gain_x": 38.76,
+      "pairs": [
+        {
+          "pair_id": "AREG->EGFR",
+          "direction": "tsk_to_stroma",
+          "raw_directional_polarity": 0.85,
+          "isotropic_directional_polarity": 0.019,
+          "sheaf_directional_polarity": 0.735,
+          "sheaf_over_isotropic_polarity_gain_x": 38.76,
+          "sheaf_active_boundary_edge_fraction": 1.0
+        },
+        {
+          "pair_id": "TGFA->EGFR",
+          "direction": "tsk_to_stroma",
+          "raw_directional_polarity": 0.75,
+          "isotropic_directional_polarity": 0.037,
+          "sheaf_directional_polarity": 0.281,
+          "sheaf_over_isotropic_polarity_gain_x": 7.62,
+          "sheaf_active_boundary_edge_fraction": 1.0
+        },
+        {
+          "pair_id": "JAG1->NOTCH3",
+          "direction": "tsk_to_stroma",
+          "raw_directional_polarity": 11.8,
+          "isotropic_directional_polarity": 0.801,
+          "sheaf_directional_polarity": 5.839,
+          "sheaf_over_isotropic_polarity_gain_x": 7.29,
+          "sheaf_active_boundary_edge_fraction": 1.0
+        },
+        {
+          "pair_id": "TGFB1->TGFBR2",
+          "direction": "stroma_to_tsk",
+          "raw_directional_polarity": 0.3,
+          "isotropic_directional_polarity": 0.049,
+          "sheaf_directional_polarity": 0.297,
+          "sheaf_over_isotropic_polarity_gain_x": 6.1,
+          "sheaf_active_boundary_edge_fraction": 1.0
+        },
+        {
+          "pair_id": "MMP10->ITGA6",
+          "direction": "tsk_to_stroma",
+          "raw_directional_polarity": 2.35,
+          "isotropic_directional_polarity": 1.066,
+          "sheaf_directional_polarity": 5.424,
+          "sheaf_over_isotropic_polarity_gain_x": 5.09,
+          "sheaf_active_boundary_edge_fraction": 1.0
+        },
+        {
+          "pair_id": "LAMC2->ITGB1",
+          "direction": "tsk_to_stroma",
+          "raw_directional_polarity": 13.8,
+          "isotropic_directional_polarity": 1.379,
+          "sheaf_directional_polarity": 3.544,
+          "sheaf_over_isotropic_polarity_gain_x": 2.57,
+          "sheaf_active_boundary_edge_fraction": 1.0
+        },
+        {
+          "pair_id": "LAMC2->ITGA6",
+          "direction": "tsk_to_stroma",
+          "raw_directional_polarity": 29.5,
+          "isotropic_directional_polarity": 1.761,
+          "sheaf_directional_polarity": 4.349,
+          "sheaf_over_isotropic_polarity_gain_x": 2.47,
+          "sheaf_active_boundary_edge_fraction": 1.0
+        },
+        {
+          "pair_id": "FN1->ITGA5",
+          "direction": "stroma_to_tsk",
+          "raw_directional_polarity": 15.95,
+          "isotropic_directional_polarity": 0.669,
+          "sheaf_directional_polarity": 1.759,
+          "sheaf_over_isotropic_polarity_gain_x": 2.63,
+          "sheaf_active_boundary_edge_fraction": 1.0
+        },
+        {
+          "pair_id": "FN1->ITGB1",
+          "direction": "stroma_to_tsk",
+          "raw_directional_polarity": 21.65,
+          "isotropic_directional_polarity": 2.659,
+          "sheaf_directional_polarity": 10.814,
+          "sheaf_over_isotropic_polarity_gain_x": 4.07,
+          "sheaf_active_boundary_edge_fraction": 1.0
+        },
+        {
+          "pair_id": "COL1A1->ITGB1",
+          "direction": "stroma_to_tsk",
+          "raw_directional_polarity": 382.65,
+          "isotropic_directional_polarity": 37.28,
+          "sheaf_directional_polarity": 214.209,
+          "sheaf_over_isotropic_polarity_gain_x": 5.75,
+          "sheaf_active_boundary_edge_fraction": 1.0
+        },
+        {
+          "pair_id": "COL1A1->CD44",
+          "direction": "stroma_to_tsk",
+          "raw_directional_polarity": 2705.25,
+          "isotropic_directional_polarity": 182.619,
+          "sheaf_directional_polarity": 1471.514,
+          "sheaf_over_isotropic_polarity_gain_x": 8.06,
+          "sheaf_active_boundary_edge_fraction": 1.0
+        },
+        {
+          "pair_id": "SPP1->CD44",
+          "direction": "stroma_to_tsk",
+          "raw_directional_polarity": 0.3,
+          "isotropic_directional_polarity": 0.126,
+          "sheaf_directional_polarity": 0.22,
+          "sheaf_over_isotropic_polarity_gain_x": 1.75,
+          "sheaf_active_boundary_edge_fraction": 1.0
+        }
+      ]
+    },
+    "synthetic_ground_truth_benchmark": {
+      "lateral_capture_bleed_eta": 0.18,
+      "ground_truth_j_flux": 3.9988,
+      "ground_truth_b_intra": 0.0,
+      "sheaf_j_flux": 4.9246,
+      "sheaf_b_intra": 0.0,
+      "sheaf_sbr": 4924.62,
+      "isotropic_j_flux": 3.185,
+      "isotropic_b_intra": 0.6574,
+      "isotropic_sbr": 4.84,
+      "magic_j_flux": 5.0433,
+      "magic_b_intra": 0.0624,
+      "magic_sbr": 79.5,
+      "sheaf_over_isotropic_sharpening_x": 1018.04,
+      "sheaf_over_magic_sharpening_x": 61.94
+    },
+    "epigenomic_and_clinical_tractability": {
+      "encode_screen_grch38_ccres": {
+        "LAMC2": {
+          "locus": "chr1:183185000-183190000",
+          "n_ccres": 25,
+          "promoter_accession": "EH38E1420319"
+        },
+        "MMP10": {
+          "locus": "chr11:102770000-102775000",
+          "n_ccres": 4,
+          "promoter_accession": "EH38E1563694"
+        },
+        "EGFR": {
+          "locus": "chr7:55017000-55022000",
+          "n_ccres": 61,
+          "promoter_accession": "EH38E2558250"
+        },
+        "ITGA6": {
+          "locus": "chr2:172425000-172430000",
+          "n_ccres": 29,
+          "promoter_accession": "EH38E2050449"
+        }
+      },
+      "chembl_opentargets_therapeutics": [
+        {
+          "target": "EGFR",
+          "drug": "Cetuximab",
+          "chembl_id": "CHEMBL1201577",
+          "max_phase": 4,
+          "indication": "Squamous Cell Carcinoma (HNSCC/cSCC)"
+        },
+        {
+          "target": "EGFR",
+          "drug": "Erlotinib",
+          "chembl_id": "CHEMBL553",
+          "max_phase": 4,
+          "indication": "EGFR+ Solid Tumors"
+        },
+        {
+          "target": "EGFR",
+          "drug": "Gefitinib",
+          "chembl_id": "CHEMBL939",
+          "max_phase": 4,
+          "indication": "EGFR+ Carcinoma"
+        },
+        {
+          "target": "EGFR",
+          "drug": "Afatinib",
+          "chembl_id": "CHEMBL1173655",
+          "max_phase": 4,
+          "indication": "Squamous NSCLC / HNSCC"
+        },
+        {
+          "target": "EGFR",
+          "drug": "Osimertinib",
+          "chembl_id": "CHEMBL3353410",
+          "max_phase": 4,
+          "indication": "EGFR-amplified / mutated carcinoma"
+        },
+        {
+          "target": "MMP10/MMP9",
+          "drug": "Marimastat",
+          "chembl_id": "CHEMBL89409",
+          "max_phase": 3,
+          "indication": "Stromelysin/Gelatinase ECM Invasion Blockade"
+        },
+        {
+          "target": "TGFB1",
+          "drug": "Fresolimumab",
+          "chembl_id": "CHEMBL2108724",
+          "max_phase": 2,
+          "indication": "Cutaneous Squamous Cell Carcinoma / Fibrosis"
+        },
+        {
+          "target": "CD74",
+          "drug": "Milatuzumab",
+          "chembl_id": "CHEMBL2108398",
+          "max_phase": 2,
+          "indication": "CD74+ Myeloid/B-cell Immune Modulation"
+        }
+      ]
+    }
+  },
+  "section4_multimodal_so6_and_cross_expedition_bridge": {
+    "so6_kelvin_mandel_missing_modality_audit": {
+      "theorem_verified": "Theorem 2.17 (Ledoit-Wolf Shrinkage + Kelvin-Mandel SO(6) Isometry preserves exact trace invariants under missing modalities up to m_miss = 0.85)",
+      "max_relative_trace_residual_across_all_tests": 1.5165e-15,
+      "tnbc3_gse148673_profiles": [
+        {
+          "cohort": "GSE148673_TNBC3",
+          "gene_symbol": "EGFR",
+          "rna_cnv_pearson_r": 0.2775,
+          "so6_anisotropy_index": 5.3761,
+          "max_relative_trace_residual": 6.0897e-16,
+          "missing_modality_sweep": [
+            {
+              "m_missing": 0.0,
+              "shrinkage_rho_star": 0.0025,
+              "trace_before": 29870.040772,
+              "trace_after": 29870.040772,
+              "relative_trace_residual": 6.0897e-16,
+              "min_eigenvalue": 12.522496,
+              "max_eigenvalue": 26709.442813
+            },
+            {
+              "m_missing": 0.25,
+              "shrinkage_rho_star": 0.2,
+              "trace_before": 29870.040772,
+              "trace_after": 29870.040772,
+              "relative_trace_residual": 2.4359e-16,
+              "min_eigenvalue": 995.668488,
+              "max_eigenvalue": 22407.060388
+            },
+            {
+              "m_missing": 0.5,
+              "shrinkage_rho_star": 0.3333,
+              "trace_before": 29870.040772,
+              "trace_after": 29870.040772,
+              "relative_trace_residual": 1.2179e-16,
+              "min_eigenvalue": 1659.447095,
+              "max_eigenvalue": 19502.273678
+            },
+            {
+              "m_missing": 0.7,
+              "shrinkage_rho_star": 0.4118,
+              "trace_before": 29870.040772,
+              "trace_after": 29870.040772,
+              "relative_trace_residual": 1.2179e-16,
+              "min_eigenvalue": 2049.905099,
+              "max_eigenvalue": 17793.575613
+            },
+            {
+              "m_missing": 0.85,
+              "shrinkage_rho_star": 0.4595,
+              "trace_before": 29870.040772,
+              "trace_after": 29870.040772,
+              "relative_trace_residual": 3.6538e-16,
+              "min_eigenvalue": 2287.345777,
+              "max_eigenvalue": 16754.502466
+            }
+          ]
+        },
+        {
+          "cohort": "GSE148673_TNBC3",
+          "gene_symbol": "MYC",
+          "rna_cnv_pearson_r": 0.0301,
+          "so6_anisotropy_index": 5.3571,
+          "max_relative_trace_residual": 1.0921e-15,
+          "missing_modality_sweep": [
+            {
+              "m_missing": 0.0,
+              "shrinkage_rho_star": 0.0025,
+              "trace_before": 29980.034397,
+              "trace_after": 29980.034397,
+              "relative_trace_residual": 8.4943e-16,
+              "min_eigenvalue": 12.590871,
+              "max_eigenvalue": 26712.942341
+            },
+            {
+              "m_missing": 0.25,
+              "shrinkage_rho_star": 0.2,
+              "trace_before": 29980.034397,
+              "trace_after": 29980.034397,
+              "relative_trace_residual": 1.0921e-15,
+              "min_eigenvalue": 999.33494,
+              "max_eigenvalue": 22413.574354
+            },
+            {
+              "m_missing": 0.5,
+              "shrinkage_rho_star": 0.3333,
+              "trace_before": 29980.034397,
+              "trace_after": 29980.034397,
+              "relative_trace_residual": 1.0921e-15,
+              "min_eigenvalue": 1665.55785,
+              "max_eigenvalue": 19510.757361
+            },
+            {
+              "m_missing": 0.7,
+              "shrinkage_rho_star": 0.4118,
+              "trace_before": 29980.034397,
+              "trace_after": 29980.034397,
+              "relative_trace_residual": 7.2808e-16,
+              "min_eigenvalue": 2057.453679,
+              "max_eigenvalue": 17803.217954
+            },
+            {
+              "m_missing": 0.85,
+              "shrinkage_rho_star": 0.4595,
+              "trace_before": 29980.034397,
+              "trace_after": 29980.034397,
+              "relative_trace_residual": 4.8539e-16,
+              "min_eigenvalue": 2295.768711,
+              "max_eigenvalue": 16764.849396
+            }
+          ]
+        },
+        {
+          "cohort": "GSE148673_TNBC3",
+          "gene_symbol": "CDK4",
+          "rna_cnv_pearson_r": 0.6835,
+          "so6_anisotropy_index": 5.3765,
+          "max_relative_trace_residual": 1.218e-15,
+          "missing_modality_sweep": [
+            {
+              "m_missing": 0.0,
+              "shrinkage_rho_star": 0.0025,
+              "trace_before": 29868.572616,
+              "trace_after": 29868.572616,
+              "relative_trace_residual": 0.0,
+              "min_eigenvalue": 12.521489,
+              "max_eigenvalue": 26709.791971
+            },
+            {
+              "m_missing": 0.25,
+              "shrinkage_rho_star": 0.2,
+              "trace_before": 29868.572616,
+              "trace_after": 29868.572616,
+              "relative_trace_residual": 4.872e-16,
+              "min_eigenvalue": 995.619615,
+              "max_eigenvalue": 22407.290316
+            },
+            {
+              "m_missing": 0.5,
+              "shrinkage_rho_star": 0.3333,
+              "trace_before": 29868.572616,
+              "trace_after": 29868.572616,
+              "relative_trace_residual": 1.218e-15,
+              "min_eigenvalue": 1659.365585,
+              "max_eigenvalue": 19502.424503
+            },
+            {
+              "m_missing": 0.7,
+              "shrinkage_rho_star": 0.4118,
+              "trace_before": 29868.572616,
+              "trace_after": 29868.572616,
+              "relative_trace_residual": 1.218e-15,
+              "min_eigenvalue": 2049.804391,
+              "max_eigenvalue": 17793.679907
+            },
+            {
+              "m_missing": 0.85,
+              "shrinkage_rho_star": 0.4595,
+              "trace_before": 29868.572616,
+              "trace_after": 29868.572616,
+              "relative_trace_residual": 8.526e-16,
+              "min_eigenvalue": 2287.233395,
+              "max_eigenvalue": 16754.578463
+            }
+          ]
+        },
+        {
+          "cohort": "GSE148673_TNBC3",
+          "gene_symbol": "CDKN2A",
+          "rna_cnv_pearson_r": 0.9851,
+          "so6_anisotropy_index": 5.33,
+          "max_relative_trace_residual": 1.4478e-15,
+          "missing_modality_sweep": [
+            {
+              "m_missing": 0.0,
+              "shrinkage_rho_star": 0.0025,
+              "trace_before": 30153.563414,
+              "trace_after": 30153.563414,
+              "relative_trace_residual": 8.4454e-16,
+              "min_eigenvalue": 12.693215,
+              "max_eigenvalue": 26731.33225
+            },
+            {
+              "m_missing": 0.25,
+              "shrinkage_rho_star": 0.2,
+              "trace_before": 30153.563414,
+              "trace_after": 30153.563414,
+              "relative_trace_residual": 1.2065e-16,
+              "min_eigenvalue": 1005.11878,
+              "max_eigenvalue": 22434.153631
+            },
+            {
+              "m_missing": 0.5,
+              "shrinkage_rho_star": 0.3333,
+              "trace_before": 30153.563414,
+              "trace_after": 30153.563414,
+              "relative_trace_residual": 1.2065e-15,
+              "min_eigenvalue": 1675.197967,
+              "max_eigenvalue": 19532.72701
+            },
+            {
+              "m_missing": 0.7,
+              "shrinkage_rho_star": 0.4118,
+              "trace_before": 30153.563414,
+              "trace_after": 30153.563414,
+              "relative_trace_residual": 1.3271e-15,
+              "min_eigenvalue": 2069.362195,
+              "max_eigenvalue": 17826.005468
+            },
+            {
+              "m_missing": 0.85,
+              "shrinkage_rho_star": 0.4595,
+              "trace_before": 30153.563414,
+              "trace_after": 30153.563414,
+              "relative_trace_residual": 1.4478e-15,
+              "min_eigenvalue": 2309.056658,
+              "max_eigenvalue": 16788.13426
+            }
+          ]
+        },
+        {
+          "cohort": "GSE148673_TNBC3",
+          "gene_symbol": "COL1A1",
+          "rna_cnv_pearson_r": 0.9859,
+          "so6_anisotropy_index": 4.2607,
+          "max_relative_trace_residual": 1.5006e-15,
+          "missing_modality_sweep": [
+            {
+              "m_missing": 0.0,
+              "shrinkage_rho_star": 0.0029,
+              "trace_before": 38788.359305,
+              "trace_after": 38788.359305,
+              "relative_trace_residual": 7.5032e-16,
+              "min_eigenvalue": 18.435517,
+              "max_eigenvalue": 27484.065712
+            },
+            {
+              "m_missing": 0.25,
+              "shrinkage_rho_star": 0.2,
+              "trace_before": 38788.359305,
+              "trace_after": 38788.359305,
+              "relative_trace_residual": 1.8758e-16,
+              "min_eigenvalue": 1292.94531,
+              "max_eigenvalue": 23328.287843
+            },
+            {
+              "m_missing": 0.5,
+              "shrinkage_rho_star": 0.3333,
+              "trace_before": 38788.359305,
+              "trace_after": 38788.359305,
+              "relative_trace_residual": 5.6274e-16,
+              "min_eigenvalue": 2154.90885,
+              "max_eigenvalue": 20517.694295
+            },
+            {
+              "m_missing": 0.7,
+              "shrinkage_rho_star": 0.4118,
+              "trace_before": 38788.359305,
+              "trace_after": 38788.359305,
+              "relative_trace_residual": 3.7516e-16,
+              "min_eigenvalue": 2661.946227,
+              "max_eigenvalue": 18864.403972
+            },
+            {
+              "m_missing": 0.85,
+              "shrinkage_rho_star": 0.4595,
+              "trace_before": 38788.359305,
+              "trace_after": 38788.359305,
+              "relative_trace_residual": 1.5006e-15,
+              "min_eigenvalue": 2970.279767,
+              "max_eigenvalue": 17859.024721
+            }
+          ]
+        },
+        {
+          "cohort": "GSE148673_TNBC3",
+          "gene_symbol": "COL3A1",
+          "rna_cnv_pearson_r": 0.9962,
+          "so6_anisotropy_index": 4.5082,
+          "max_relative_trace_residual": 7.9857e-16,
+          "missing_modality_sweep": [
+            {
+              "m_missing": 0.0,
+              "shrinkage_rho_star": 0.0028,
+              "trace_before": 36444.785679,
+              "trace_after": 36444.785679,
+              "relative_trace_residual": 7.9857e-16,
+              "min_eigenvalue": 16.801137,
+              "max_eigenvalue": 27324.268403
+            },
+            {
+              "m_missing": 0.25,
+              "shrinkage_rho_star": 0.2,
+              "trace_before": 36444.785679,
+              "trace_after": 36444.785679,
+              "relative_trace_residual": 0.0,
+              "min_eigenvalue": 1214.826189,
+              "max_eigenvalue": 23121.393897
+            },
+            {
+              "m_missing": 0.5,
+              "shrinkage_rho_star": 0.3333,
+              "trace_before": 36444.785679,
+              "trace_after": 36444.785679,
+              "relative_trace_residual": 1.9964e-16,
+              "min_eigenvalue": 2024.710315,
+              "max_eigenvalue": 20280.183405
+            },
+            {
+              "m_missing": 0.7,
+              "shrinkage_rho_star": 0.4118,
+              "trace_before": 36444.785679,
+              "trace_after": 36444.785679,
+              "relative_trace_residual": 1.9964e-16,
+              "min_eigenvalue": 2501.112743,
+              "max_eigenvalue": 18608.883116
+            },
+            {
+              "m_missing": 0.85,
+              "shrinkage_rho_star": 0.4595,
+              "trace_before": 36444.785679,
+              "trace_after": 36444.785679,
+              "relative_trace_residual": 0.0,
+              "min_eigenvalue": 2790.816921,
+              "max_eigenvalue": 17592.551859
+            }
+          ]
+        },
+        {
+          "cohort": "GSE148673_TNBC3",
+          "gene_symbol": "B2M",
+          "rna_cnv_pearson_r": 0.9808,
+          "so6_anisotropy_index": 4.8424,
+          "max_relative_trace_residual": 1.5165e-15,
+          "missing_modality_sweep": [
+            {
+              "m_missing": 0.0,
+              "shrinkage_rho_star": 0.0027,
+              "trace_before": 33584.822505,
+              "trace_after": 33584.822505,
+              "relative_trace_residual": 2.1664e-16,
+              "min_eigenvalue": 14.898829,
+              "max_eigenvalue": 27047.702845
+            },
+            {
+              "m_missing": 0.25,
+              "shrinkage_rho_star": 0.2,
+              "trace_before": 33584.822505,
+              "trace_after": 33584.822505,
+              "relative_trace_residual": 4.3329e-16,
+              "min_eigenvalue": 1119.494084,
+              "max_eigenvalue": 22803.453655
+            },
+            {
+              "m_missing": 0.5,
+              "shrinkage_rho_star": 0.3333,
+              "trace_before": 33584.822505,
+              "trace_after": 33584.822505,
+              "relative_trace_residual": 1.0832e-15,
+              "min_eigenvalue": 1865.823473,
+              "max_eigenvalue": 19935.789782
+            },
+            {
+              "m_missing": 0.7,
+              "shrinkage_rho_star": 0.4118,
+              "trace_before": 33584.822505,
+              "trace_after": 33584.822505,
+              "relative_trace_residual": 4.3329e-16,
+              "min_eigenvalue": 2304.84076,
+              "max_eigenvalue": 18248.92868
+            },
+            {
+              "m_missing": 0.85,
+              "shrinkage_rho_star": 0.4595,
+              "trace_before": 33584.822505,
+              "trace_after": 33584.822505,
+              "relative_trace_residual": 1.5165e-15,
+              "min_eigenvalue": 2571.810732,
+              "max_eigenvalue": 17223.134767
+            }
+          ]
+        }
+      ],
+      "gbm_gse57872_profiles": [
+        {
+          "cohort": "GSE57872_GBM",
+          "gene_symbol": "EGFR",
+          "n_gbm_cells": 543,
+          "max_relative_trace_residual": 2.4852e-16,
+          "missing_modality_sweep": [
+            {
+              "m_missing": 0.0,
+              "shrinkage_rho_star": 0.0025,
+              "trace_before": 57.181144,
+              "trace_after": 57.181144,
+              "relative_trace_residual": 0.0,
+              "min_eigenvalue": 0.024042,
+              "max_eigenvalue": 43.824855
+            },
+            {
+              "m_missing": 0.25,
+              "shrinkage_rho_star": 0.2,
+              "trace_before": 57.181144,
+              "trace_after": 57.181144,
+              "relative_trace_residual": 1.2426e-16,
+              "min_eigenvalue": 1.906038,
+              "max_eigenvalue": 37.035311
+            },
+            {
+              "m_missing": 0.5,
+              "shrinkage_rho_star": 0.3333,
+              "trace_before": 57.181144,
+              "trace_after": 57.181144,
+              "relative_trace_residual": 0.0,
+              "min_eigenvalue": 3.17673,
+              "max_eigenvalue": 32.451125
+            },
+            {
+              "m_missing": 0.7,
+              "shrinkage_rho_star": 0.4118,
+              "trace_before": 57.181144,
+              "trace_after": 57.181144,
+              "relative_trace_residual": 2.4852e-16,
+              "min_eigenvalue": 3.924196,
+              "max_eigenvalue": 29.754544
+            },
+            {
+              "m_missing": 0.85,
+              "shrinkage_rho_star": 0.4595,
+              "trace_before": 57.181144,
+              "trace_after": 57.181144,
+              "relative_trace_residual": 0.0,
+              "min_eigenvalue": 4.378736,
+              "max_eigenvalue": 28.114732
+            }
+          ]
+        },
+        {
+          "cohort": "GSE57872_GBM",
+          "gene_symbol": "MYC",
+          "n_gbm_cells": 543,
+          "max_relative_trace_residual": 2.0823e-16,
+          "missing_modality_sweep": [
+            {
+              "m_missing": 0.0,
+              "shrinkage_rho_star": 0.0029,
+              "trace_before": 34.122643,
+              "trace_after": 34.122643,
+              "relative_trace_residual": 0.0,
+              "min_eigenvalue": 0.016606,
+              "max_eigenvalue": 20.952187
+            },
+            {
+              "m_missing": 0.25,
+              "shrinkage_rho_star": 0.2,
+              "trace_before": 34.122643,
+              "trace_after": 34.122643,
+              "relative_trace_residual": 0.0,
+              "min_eigenvalue": 1.137421,
+              "max_eigenvalue": 17.934933
+            },
+            {
+              "m_missing": 0.5,
+              "shrinkage_rho_star": 0.3333,
+              "trace_before": 34.122643,
+              "trace_after": 34.122643,
+              "relative_trace_residual": 2.0823e-16,
+              "min_eigenvalue": 1.895702,
+              "max_eigenvalue": 15.893629
+            },
+            {
+              "m_missing": 0.7,
+              "shrinkage_rho_star": 0.4118,
+              "trace_before": 34.122643,
+              "trace_after": 34.122643,
+              "relative_trace_residual": 0.0,
+              "min_eigenvalue": 2.34175,
+              "max_eigenvalue": 14.692862
+            },
+            {
+              "m_missing": 0.85,
+              "shrinkage_rho_star": 0.4595,
+              "trace_before": 34.122643,
+              "trace_after": 34.122643,
+              "relative_trace_residual": 0.0,
+              "min_eigenvalue": 2.612995,
+              "max_eigenvalue": 13.962665
+            }
+          ]
+        },
+        {
+          "cohort": "GSE57872_GBM",
+          "gene_symbol": "ERBB2",
+          "n_gbm_cells": 543,
+          "max_relative_trace_residual": 1.178e-16,
+          "missing_modality_sweep": [
+            {
+              "m_missing": 0.0,
+              "shrinkage_rho_star": 0.0036,
+              "trace_before": 15.079341,
+              "trace_after": 15.079341,
+              "relative_trace_residual": 1.178e-16,
+              "min_eigenvalue": 0.009131,
+              "max_eigenvalue": 6.97961
+            },
+            {
+              "m_missing": 0.25,
+              "shrinkage_rho_star": 0.2,
+              "trace_before": 15.079341,
+              "trace_after": 15.079341,
+              "relative_trace_residual": 0.0,
+              "min_eigenvalue": 0.502645,
+              "max_eigenvalue": 6.099362
+            },
+            {
+              "m_missing": 0.5,
+              "shrinkage_rho_star": 0.3333,
+              "trace_before": 15.079341,
+              "trace_after": 15.079341,
+              "relative_trace_residual": 1.178e-16,
+              "min_eigenvalue": 0.837741,
+              "max_eigenvalue": 5.501672
+            },
+            {
+              "m_missing": 0.7,
+              "shrinkage_rho_star": 0.4118,
+              "trace_before": 15.079341,
+              "trace_after": 15.079341,
+              "relative_trace_residual": 0.0,
+              "min_eigenvalue": 1.034857,
+              "max_eigenvalue": 5.15009
+            },
+            {
+              "m_missing": 0.85,
+              "shrinkage_rho_star": 0.4595,
+              "trace_before": 15.079341,
+              "trace_after": 15.079341,
+              "relative_trace_residual": 0.0,
+              "min_eigenvalue": 1.154724,
+              "max_eigenvalue": 4.93629
+            }
+          ]
+        }
+      ]
+    },
+    "cross_expedition_convergence": {
+      "gse144239_cscc_cell_cycle_erasure_check": {
+        "KRT14": {
+          "linear_regression_variance_erasure_fraction": 0.9686,
+          "cellsnail_variance_retained_fraction": 1.0
+        },
+        "EGFR": {
+          "linear_regression_variance_erasure_fraction": 0.5433,
+          "cellsnail_variance_retained_fraction": 1.0
+        },
+        "KRT5": {
+          "linear_regression_variance_erasure_fraction": 0.8649,
+          "cellsnail_variance_retained_fraction": 1.0
+        },
+        "LAMC2": {
+          "linear_regression_variance_erasure_fraction": 0.1796,
+          "cellsnail_variance_retained_fraction": 1.0
+        },
+        "ITGA6": {
+          "linear_regression_variance_erasure_fraction": 0.4451,
+          "cellsnail_variance_retained_fraction": 1.0
+        },
+        "MMP10": {
+          "linear_regression_variance_erasure_fraction": 0.0586,
+          "cellsnail_variance_retained_fraction": 1.0
+        }
+      },
+      "compound_tri_modal_catastrophe_table": [
+        {
+          "locus_or_axis": "EGFR / AREG / TGFA / SPARC (7p11.2 -> Invasive Border RTK Axis)",
+          "expedition1_temporal_erasure": "EGFR Delta_5 = 0.3190 (GSE144239 cSCC) & 0.2738 (GSE148673 TNBC3) erased by linear S/G2M regression",
+          "expedition2_genomic_stringer": "7p11.2 EGFR focal ecDNA/HSR stringer (Bin 25 CN = 8.02 vs 2.40 under 100-gene window smoothing, 3.34x erasure)",
+          "expedition3_spatial_juxtacrine": "SPARC->EGFR (13.45x SBR sharpening), TGFA->EGFR (7.69x), AREG->EGFR (3.45x) across L3-L4 border",
+          "clinical_actionability": "Cetuximab (CHEMBL1201577, Phase IV), Afatinib (CHEMBL1173655, Phase IV), Erlotinib (CHEMBL553, Phase IV)"
+        },
+        {
+          "locus_or_axis": "LAMC2 / MMP10 -> ITGA6 / ITGB1 / COL1A1 (TSK Invasive Front Anchor & Matrix Proteolysis)",
+          "expedition1_temporal_erasure": "LAMC2 Delta_5 = 0.2019, ITGA6 Delta_5 = 0.1842, MMP10 Delta_5 = 0.1495 in cycling leading-edge TSKs",
+          "expedition2_genomic_stringer": "Coupled with 9p21.3 CDKN2A focal deletion (3.11x-6.09x recovery) licensing TSK invasion",
+          "expedition3_spatial_juxtacrine": "LAMC2->ITGA6 (33.90x SBR sharpening; 3283.14x at eps=1e-4), MMP10->COL1A1 (50.59x SBR sharpening; 38.76x polarity gain), 0.0% pseudo-EMT bleed",
+          "clinical_actionability": "Marimastat (CHEMBL89409, Phase III MMP inhibitor) + anti-EGFR combination"
+        },
+        {
+          "locus_or_axis": "MYC / PTMA / HSP90AA1 (8q24.21 Amplicon & Chaperone/Proliferative Driver)",
+          "expedition1_temporal_erasure": "PTMA Delta_5 = 0.6213 (90.5% variance loss), HSP90AA1 Delta_5 = 0.5296 (85.6% loss), MYC Delta_5 = 0.3844 (71.5% loss)",
+          "expedition2_genomic_stringer": "8q24.21 MYC focal stringer (Bin 35 CN = 9.82 in TNBC3, 6.23x recovery over HMMcopy/InferCNV)",
+          "expedition3_spatial_juxtacrine": "SO(6) Kelvin-Mandel bundle preserves MYC-CNV-RNA-spatial covariance (trace residual <= 1.14e-13)",
+          "clinical_actionability": "Bromodomain / MYC-chaperone synthetic lethality in 8q24-amplified clones"
+        },
+        {
+          "locus_or_axis": "CDK4 / CCND1 / CDKN2A (12q14.1 / 11q13.3 / 9p21.3 G1/S Restriction Point)",
+          "expedition1_temporal_erasure": "CDK4 Delta_5 = 0.4770 (82.8% loss), CCND1 Delta_5 = 0.4339 (79.7% loss), CDKN2A Delta_5 = 0.1197",
+          "expedition2_genomic_stringer": "12q14.1 CDK4 focal stringer (Bin 55 CN = 6.36) & 9p21.3 CDKN2A homozygous deletion (3.11x-6.09x recovery)",
+          "expedition3_spatial_juxtacrine": "SO(6) bundle couples CDK4/CDKN2A CNV state to invasive border proliferative niche",
+          "clinical_actionability": "Palbociclib / Abemaciclib / Ribociclib (Phase IV CDK4/6 inhibitors)"
+        },
+        {
+          "locus_or_axis": "S100A8 / S100A9 / B2M / HLA-DRA -> CD74 / PTPRC (Peritumoral Myeloid-Antigen Presentation Cuff)",
+          "expedition1_temporal_erasure": "LY6E Delta_5 = 0.2750, B2M & MHC-II variance preserved by orthogonal S/G2M projection",
+          "expedition2_genomic_stringer": "7q21.12 ABCB1 focal amplicon (Bin 28 CN = 12.26 in 0.40% rare persisters) & 10q23.31 PTEN loss (CN = 0.10-0.12)",
+          "expedition3_spatial_juxtacrine": "HLA-DRA->CD74 (47.13x SBR sharpening), B2M->CD74 (31.61x), S100A9->CD74 (18.95x), S100A8->CD74 (18.53x)",
+          "clinical_actionability": "Milatuzumab (CHEMBL2108398, Phase II anti-CD74) & PD-1/Cemiplimab checkpoint blockade"
+        }
+      ]
+    }
+  },
+  "section5_adversarial_falsification_suite": {
+    "test1_spot_label_permutation_null": {
+      "n_permutations": 200,
+      "observed_mean_j_sheaf": 1.347,
+      "null_mean_j_sheaf": 0.441,
+      "j_sheaf_z_score": 8.96,
+      "j_sheaf_empirical_p_value": 0.00498,
+      "observed_mean_sbr_sheaf": 92.58,
+      "null_mean_sbr_sheaf": 1.25,
+      "sbr_sheaf_z_score": 175.4,
+      "sbr_sheaf_empirical_p_value": 0.00498,
+      "passed": true,
+      "per_pair_permutation_audit": [
+        {
+          "pair_id": "LAMC2->ITGA6",
+          "observed_sbr": 81.01,
+          "null_mean_sbr": 0.93,
+          "null_sd_sbr": 0.39,
+          "z_score": 202.85,
+          "empirical_p_value": 0.00498
+        },
+        {
+          "pair_id": "MMP10->ITGA6",
+          "observed_sbr": 90.05,
+          "null_mean_sbr": 0.95,
+          "null_sd_sbr": 0.43,
+          "z_score": 205.74,
+          "empirical_p_value": 0.00498
+        },
+        {
+          "pair_id": "MMP10->COL1A1",
+          "observed_sbr": 322.55,
+          "null_mean_sbr": 1.23,
+          "null_sd_sbr": 0.56,
+          "z_score": 574.08,
+          "empirical_p_value": 0.00498
+        },
+        {
+          "pair_id": "MMP10->FN1",
+          "observed_sbr": 117.6,
+          "null_mean_sbr": 1.5,
+          "null_sd_sbr": 0.78,
+          "z_score": 148.52,
+          "empirical_p_value": 0.00498
+        },
+        {
+          "pair_id": "FN1->ITGA6",
+          "observed_sbr": 48.18,
+          "null_mean_sbr": 1.32,
+          "null_sd_sbr": 1.05,
+          "z_score": 44.68,
+          "empirical_p_value": 0.00498
+        },
+        {
+          "pair_id": "COL1A1->ITGA6",
+          "observed_sbr": 31.52,
+          "null_mean_sbr": 1.33,
+          "null_sd_sbr": 0.92,
+          "z_score": 32.85,
+          "empirical_p_value": 0.00498
+        },
+        {
+          "pair_id": "COL1A2->ITGA6",
+          "observed_sbr": 21.6,
+          "null_mean_sbr": 1.35,
+          "null_sd_sbr": 0.98,
+          "z_score": 20.64,
+          "empirical_p_value": 0.00498
+        },
+        {
+          "pair_id": "SPARC->ITGA6",
+          "observed_sbr": 27.52,
+          "null_mean_sbr": 1.31,
+          "null_sd_sbr": 0.92,
+          "z_score": 28.45,
+          "empirical_p_value": 0.00498
+        },
+        {
+          "pair_id": "SPARC->EGFR",
+          "observed_sbr": 32.97,
+          "null_mean_sbr": 1.81,
+          "null_sd_sbr": 1.23,
+          "z_score": 25.24,
+          "empirical_p_value": 0.00498
+        },
+        {
+          "pair_id": "S100A8->CD74",
+          "observed_sbr": 107.79,
+          "null_mean_sbr": 1.15,
+          "null_sd_sbr": 0.41,
+          "z_score": 260.31,
+          "empirical_p_value": 0.00498
+        },
+        {
+          "pair_id": "S100A9->CD74",
+          "observed_sbr": 109.99,
+          "null_mean_sbr": 1.16,
+          "null_sd_sbr": 0.42,
+          "z_score": 259.22,
+          "empirical_p_value": 0.00498
+        },
+        {
+          "pair_id": "S100A8->HLA-DRA",
+          "observed_sbr": 73.89,
+          "null_mean_sbr": 1.19,
+          "null_sd_sbr": 0.44,
+          "z_score": 163.93,
+          "empirical_p_value": 0.00498
+        },
+        {
+          "pair_id": "S100A9->PTPRC",
+          "observed_sbr": 8.42,
+          "null_mean_sbr": 1.49,
+          "null_sd_sbr": 0.67,
+          "z_score": 10.34,
+          "empirical_p_value": 0.00498
+        },
+        {
+          "pair_id": "B2M->CD74",
+          "observed_sbr": 151.05,
+          "null_mean_sbr": 1.06,
+          "null_sd_sbr": 0.49,
+          "z_score": 304.46,
+          "empirical_p_value": 0.00498
+        },
+        {
+          "pair_id": "HLA-DRA->CD74",
+          "observed_sbr": 164.51,
+          "null_mean_sbr": 0.9,
+          "null_sd_sbr": 0.47,
+          "z_score": 349.19,
+          "empirical_p_value": 0.00498
+        }
+      ]
+    },
+    "test2_normal_tangential_orientation_swap": {
+      "true_orientation_normal_penetration_residual": 0.0,
+      "true_orientation_tangential_preservation_fraction": 1.0,
+      "rotated_90deg_normal_leakage_fraction": 1.0,
+      "rotated_90deg_tangential_remaining_fraction": 0.0,
+      "flipped_180deg_normal_leakage_fraction": 1.0,
+      "graph_swap_stromal_bleed_mmp10_col1a1": 0.4242,
+      "graph_swap_stromal_bleed_lamc2_itga6": 0.4363,
+      "true_sheaf_stromal_bleed_mmp10_col1a1": 0.0,
+      "true_sheaf_stromal_bleed_lamc2_itga6": 0.0,
+      "passed": true
+    },
+    "test3_countsplit_binomial_holdout": {
+      "split_probability_p": 0.5,
+      "pearson_r_contrast_deconfounded_28_pairs": 0.9918,
+      "pearson_r_log1p_sheaf_28_pairs": 0.9995,
+      "target_threshold_r": 0.9,
+      "passed": true,
+      "pair_replications": [
+        {
+          "pair_id": "LAMC2->ITGA6",
+          "j_train_contrast": 0.2076,
+          "j_test_contrast": 0.1171,
+          "j_train_log1p": 1.058,
+          "j_test_log1p": 0.9439
+        },
+        {
+          "pair_id": "MMP10->ITGA6",
+          "j_train_contrast": 0.0355,
+          "j_test_contrast": 0.0383,
+          "j_train_log1p": 0.2495,
+          "j_test_log1p": 0.2593
+        },
+        {
+          "pair_id": "MMP10->COL1A1",
+          "j_train_contrast": 0.1396,
+          "j_test_contrast": 0.1401,
+          "j_train_log1p": 0.8703,
+          "j_test_log1p": 0.8946
+        },
+        {
+          "pair_id": "MMP10->FN1",
+          "j_train_contrast": 0.0547,
+          "j_test_contrast": 0.0547,
+          "j_train_log1p": 0.3565,
+          "j_test_log1p": 0.3585
+        },
+        {
+          "pair_id": "FN1->ITGA6",
+          "j_train_contrast": 1.0466,
+          "j_test_contrast": 1.0733,
+          "j_train_log1p": 1.9211,
+          "j_test_log1p": 1.9261
+        },
+        {
+          "pair_id": "COL1A1->ITGA6",
+          "j_train_contrast": 1.161,
+          "j_test_contrast": 1.1979,
+          "j_train_log1p": 4.6772,
+          "j_test_log1p": 4.7971
+        },
+        {
+          "pair_id": "COL1A2->ITGA6",
+          "j_train_contrast": 1.145,
+          "j_test_contrast": 1.1874,
+          "j_train_log1p": 3.9293,
+          "j_test_log1p": 4.0432
+        },
+        {
+          "pair_id": "SPARC->ITGA6",
+          "j_train_contrast": 1.1349,
+          "j_test_contrast": 1.1785,
+          "j_train_log1p": 3.0672,
+          "j_test_log1p": 3.211
+        },
+        {
+          "pair_id": "SPARC->EGFR",
+          "j_train_contrast": 0.6795,
+          "j_test_contrast": 0.6854,
+          "j_train_log1p": 1.8296,
+          "j_test_log1p": 1.8558
+        },
+        {
+          "pair_id": "S100A8->CD74",
+          "j_train_contrast": 1.0648,
+          "j_test_contrast": 1.1499,
+          "j_train_log1p": 9.4508,
+          "j_test_log1p": 9.5134
+        },
+        {
+          "pair_id": "S100A9->CD74",
+          "j_train_contrast": 1.072,
+          "j_test_contrast": 1.1425,
+          "j_train_log1p": 9.1674,
+          "j_test_log1p": 9.287
+        },
+        {
+          "pair_id": "S100A8->HLA-DRA",
+          "j_train_contrast": 0.8739,
+          "j_test_contrast": 0.9277,
+          "j_train_log1p": 7.7563,
+          "j_test_log1p": 7.688
+        },
+        {
+          "pair_id": "S100A9->PTPRC",
+          "j_train_contrast": 0.1081,
+          "j_test_contrast": 0.1518,
+          "j_train_log1p": 0.9403,
+          "j_test_log1p": 1.2489
+        },
+        {
+          "pair_id": "B2M->CD74",
+          "j_train_contrast": 0.6993,
+          "j_test_contrast": 0.9173,
+          "j_train_log1p": 6.0836,
+          "j_test_log1p": 6.2139
+        },
+        {
+          "pair_id": "HLA-DRA->CD74",
+          "j_train_contrast": 0.887,
+          "j_test_contrast": 1.03,
+          "j_train_log1p": 3.2857,
+          "j_test_log1p": 3.324
+        },
+        {
+          "pair_id": "PTHLH->PTH1R",
+          "j_train_contrast": 0.0145,
+          "j_test_contrast": 0.0006,
+          "j_train_log1p": 0.0157,
+          "j_test_log1p": 0.0009
+        },
+        {
+          "pair_id": "LAMC2->ITGA5",
+          "j_train_contrast": 0.0932,
+          "j_test_contrast": 0.0458,
+          "j_train_log1p": 0.4751,
+          "j_test_log1p": 0.3903
+        },
+        {
+          "pair_id": "LAMC2->ITGB1",
+          "j_train_contrast": 0.1577,
+          "j_test_contrast": 0.0765,
+          "j_train_log1p": 0.8106,
+          "j_test_log1p": 0.6128
+        },
+        {
+          "pair_id": "MMP10->ITGA5",
+          "j_train_contrast": 0.0155,
+          "j_test_contrast": 0.0175,
+          "j_train_log1p": 0.1119,
+          "j_test_log1p": 0.1078
+        },
+        {
+          "pair_id": "MMP10->ITGB1",
+          "j_train_contrast": 0.0279,
+          "j_test_contrast": 0.0246,
+          "j_train_log1p": 0.1914,
+          "j_test_log1p": 0.1682
+        },
+        {
+          "pair_id": "TGFB1->TGFBR2",
+          "j_train_contrast": 0.1323,
+          "j_test_contrast": 0.1107,
+          "j_train_log1p": 0.0854,
+          "j_test_log1p": 0.0977
+        },
+        {
+          "pair_id": "INHBA->TGFBR2",
+          "j_train_contrast": 0.0623,
+          "j_test_contrast": 0.0538,
+          "j_train_log1p": 0.1218,
+          "j_test_log1p": 0.1049
+        },
+        {
+          "pair_id": "SPP1->CD44",
+          "j_train_contrast": 0.5428,
+          "j_test_contrast": 0.4179,
+          "j_train_log1p": 0.0473,
+          "j_test_log1p": 0.0521
+        },
+        {
+          "pair_id": "AREG->EGFR",
+          "j_train_contrast": 0.0352,
+          "j_test_contrast": 0.0484,
+          "j_train_log1p": 0.0658,
+          "j_test_log1p": 0.0876
+        },
+        {
+          "pair_id": "TGFA->EGFR",
+          "j_train_contrast": 0.0756,
+          "j_test_contrast": 0.0744,
+          "j_train_log1p": 0.0714,
+          "j_test_log1p": 0.0979
+        },
+        {
+          "pair_id": "MMP9->TIMP1",
+          "j_train_contrast": 0.5154,
+          "j_test_contrast": 0.4496,
+          "j_train_log1p": 0.9983,
+          "j_test_log1p": 1.004
+        },
+        {
+          "pair_id": "PLAU->LRP1",
+          "j_train_contrast": 0.104,
+          "j_test_contrast": 0.03,
+          "j_train_log1p": 0.2165,
+          "j_test_log1p": 0.1518
+        },
+        {
+          "pair_id": "JAG1->NOTCH3",
+          "j_train_contrast": 0.2776,
+          "j_test_contrast": 0.2598,
+          "j_train_log1p": 0.6305,
+          "j_test_log1p": 0.5635
+        }
+      ]
+    },
+    "test4_leave_one_fov_out_spatial_holdout": {
+      "n_folds": 4,
+      "mean_held_out_sheaf_pseudo_emt_rate": 0.0,
+      "mean_held_out_lamc2_itga6_sbr_sheaf": 81.92,
+      "mean_held_out_lamc2_itga6_sharpening_x": 37.13,
+      "passed": true,
+      "folds": [
+        {
+          "fold_id": 1,
+          "n_train_spots": 290,
+          "n_test_spots": 110,
+          "n_test_stromal_border_spots": 6,
+          "n_test_border_edges": 21,
+          "sheaf_pseudo_emt_dual_pos_rate": 0.0,
+          "isotropic_pseudo_emt_dual_pos_rate": 0.0,
+          "sheaf_lamc2_itga6_sbr": 83.98,
+          "isotropic_lamc2_itga6_sbr": 2.73,
+          "lamc2_itga6_sharpening_x": 30.76
+        },
+        {
+          "fold_id": 2,
+          "n_train_spots": 361,
+          "n_test_spots": 39,
+          "n_test_stromal_border_spots": 9,
+          "n_test_border_edges": 29,
+          "sheaf_pseudo_emt_dual_pos_rate": 0.0,
+          "isotropic_pseudo_emt_dual_pos_rate": 0.0,
+          "sheaf_lamc2_itga6_sbr": 73.39,
+          "isotropic_lamc2_itga6_sbr": 2.63,
+          "lamc2_itga6_sharpening_x": 27.94
+        },
+        {
+          "fold_id": 3,
+          "n_train_spots": 361,
+          "n_test_spots": 39,
+          "n_test_stromal_border_spots": 7,
+          "n_test_border_edges": 25,
+          "sheaf_pseudo_emt_dual_pos_rate": 0.0,
+          "isotropic_pseudo_emt_dual_pos_rate": 0.1429,
+          "sheaf_lamc2_itga6_sbr": 84.5,
+          "isotropic_lamc2_itga6_sbr": 2.07,
+          "lamc2_itga6_sharpening_x": 40.74
+        },
+        {
+          "fold_id": 4,
+          "n_train_spots": 188,
+          "n_test_spots": 212,
+          "n_test_stromal_border_spots": 7,
+          "n_test_border_edges": 24,
+          "sheaf_pseudo_emt_dual_pos_rate": 0.0,
+          "isotropic_pseudo_emt_dual_pos_rate": 0.1429,
+          "sheaf_lamc2_itga6_sbr": 85.81,
+          "isotropic_lamc2_itga6_sbr": 1.75,
+          "lamc2_itga6_sharpening_x": 49.07
+        }
+      ]
+    }
+  }
+}

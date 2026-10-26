@@ -143,6 +143,10 @@ cellsnail/
 │   ├── operators.py                      # Reference mathematical operators & theorem verifiers
 │   ├── io.py                             # Streaming .h5ad, .mtx, .vcf, and .csv ingestion engine
 │   ├── discovery.py                      # 5 "New Light" empirical case studies & driver discovery engine
+│   ├── expeditions/                      # 3 Parallel Multi-Modal Discovery Expeditions (Exp 1, 2 & 3)
+│   │   ├── exp1_delta_hunt.py            # Expedition 1: Proliferation-Coupled Delta-Erasure Discovery
+│   │   ├── exp2_stringer_hunt.py         # Expedition 2: 1-3 Gene Focal Stringer & Relapse Persister Hunt
+│   │   └── exp3_spatial_border_audit.py  # Expedition 3: Spatial Border Hybrid & Juxtacrine Wall Audit
 │   ├── data/
 │   │   ├── cohorts.py                    # Empirical wet-lab cohort loaders & countsplit generators
 │   │   └── empirical/                    # Curated wet-lab datasets (wetlab_cohorts.npz & Ensembl/ClinVar JSON)
@@ -153,12 +157,18 @@ cellsnail/
 ├── docs/
 │   ├── ARXIV_LITERATURE_SYNTHESIS.md     # 1,053-line post-2020 SCDS synthesis (50 citations, 0 GFM errors)
 │   ├── CELLSNAIL_PREPRINT.md             # Flagship publication-grade preprint consolidating theory & empirical discoveries
+│   ├── EXPEDITION_1_DELTA_HUNT.md        # Expedition 1 Report: OLS Cell-Cycle Over-Erasure & Epigenetic/Repair Targets
+│   ├── EXPEDITION_2_STRINGER_HUNT.md     # Expedition 2 Report: Window-Invisible Focal Stringers & Persister Collaterals
+│   ├── EXPEDITION_3_SPATIAL_BORDER_AUDIT.md # Expedition 3 Report: Spatial Border Bleed & Juxtacrine Polarity Audit
 │   └── REFEREE_AUDIT_RESPONSE.md         # Point-by-point referee audit, crossover regimes & 5 case studies
 ├── formalization/
 │   └── OcclusionTriad.lean               # Golfed Lean 4 proofs for Theorems 2.1–2.19 (0 sorry, 1,180 lines)
 ├── results/
 │   ├── bcm2712_cache_receipts.json       # Broadcom BCM2712 50M-reference cache & zero-alloc receipt
-│   └── cellsnail_evaluation_summary.json # Complete Mode A, Mode B, Crossover & Discovery benchmark receipts
+│   ├── cellsnail_evaluation_summary.json # Complete Mode A, Mode B, Crossover & Discovery benchmark receipts
+│   ├── expedition1_delta_hunt.json       # Expedition 1 deterministic multi-cohort & 11-DB discovery receipt
+│   ├── expedition2_stringer_hunt.json    # Expedition 2 deterministic stringer & persister discovery receipt
+│   └── expedition3_spatial_border_audit.json # Expedition 3 deterministic spatial border & juxtacrine receipt
 ├── rust/cellsnail_rs/
 │   ├── Cargo.toml                        # #![no_std] Rust SIMD crate configuration
 │   ├── include/cellsnail_rs.h            # ANSI C99/C11 header with dual symbol exports
@@ -173,7 +183,7 @@ cellsnail/
 ├── studio/
 │   ├── cellsnail_portable_studio.html    # Zero-install single-file WebGL2 Single-Cell Studio (> 280 KB)
 │   └── screenshots/                      # Verified 1920x1080 Chrome & Firefox visual audit captures
-└── tests/                                # 156 unit, native parity, Mode A/B, crossover, adversarial & discovery tests
+└── tests/                                # 222 unit, native parity, Mode A/B, crossover, adversarial & expedition tests
 ```
 
 ### Reproducible Verification Suite
@@ -183,14 +193,14 @@ cellsnail/
 cargo test --manifest-path rust/cellsnail_rs/Cargo.toml --release
 cargo build --manifest-path rust/cellsnail_rs/Cargo.toml --release
 
-# 2. Run full 156-test pytest suite (unit, native parity, Mode A, Mode B, crossover, adversarial & discovery)
+# 2. Run full 222-test pytest suite (unit, native parity, Mode A, Mode B, crossover, adversarial & 3 expeditions)
 python -m pytest tests/ -v
 
 # 3. Verify Broadcom BCM2712 cache telemetry (< 0.100% LLd miss) & 0 dynamic heap allocations
 python scripts/verify_bcm2712_cache.py
 
 # 4. Audit GFM/KaTeX math compliance across all documentation (0 errors across 21 rules)
-python scripts/audit_gfm_math.py README.md docs/CELLSNAIL_PREPRINT.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md
+python scripts/audit_gfm_math.py README.md docs/CELLSNAIL_PREPRINT.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md docs/EXPEDITION_1_DELTA_HUNT.md docs/EXPEDITION_2_STRINGER_HUNT.md docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md
 ```
 
 ---
