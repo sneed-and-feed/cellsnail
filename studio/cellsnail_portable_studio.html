@@ -1216,20 +1216,21 @@ function renderQuad2() {
 
   const padLeft = 45;
   const padRight = 24;
-  const padTop = 64;
-  const padBottom = 24;
+  const padTop = 68;
+  const padBottom = 34;
   const treeWidth = (w - padLeft - padRight) * 0.40;
   const heatmapLeft = padLeft + treeWidth + 18;
   const heatmapWidth = w - heatmapLeft - padRight - 8;
   const rowHeight = (h - padTop - padBottom) / n;
 
-  // Molecular Clock Timeline Axis at Top
+  // Molecular Clock Timeline Axis at Bottom (zero collision with top-left HUD overlay)
   if (STATE.treeShowClock) {
+    const clockY = h - 18;
     ctx.strokeStyle = "rgba(148, 163, 184, 0.35)";
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(padLeft, padTop - 16);
-    ctx.lineTo(padLeft + treeWidth, padTop - 16);
+    ctx.moveTo(padLeft, clockY);
+    ctx.lineTo(padLeft + treeWidth, clockY);
     ctx.stroke();
 
     ctx.fillStyle = "#94a3b8";
@@ -1237,10 +1238,10 @@ function renderQuad2() {
     for (let t = 0; t <= 1.0; t += 0.25) {
       const x = padLeft + (1.0 - t) * treeWidth;
       ctx.beginPath();
-      ctx.moveTo(x, padTop - 19);
-      ctx.lineTo(x, padTop - 13);
+      ctx.moveTo(x, clockY - 4);
+      ctx.lineTo(x, clockY + 2);
       ctx.stroke();
-      ctx.fillText(t.toFixed(2) + " t_clock", x - 12, padTop - 22);
+      ctx.fillText(t.toFixed(2) + " t_clock", x - 16, clockY + 12);
     }
   }
 
@@ -1359,7 +1360,7 @@ function renderQuad3() {
 
   const padL = 38;
   const padR = 20;
-  const padT = 48;
+  const padT = 68;
   const padB = 30;
   const plotW = w - padL - padR;
   const plotH = h - padT - padB;
