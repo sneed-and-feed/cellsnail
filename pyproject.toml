@@ -29,7 +29,7 @@ where = ["."]
 include = ["cellsnail*"]
 
 [tool.setuptools.package-data]
-cellsnail = ["*.dll", "*.so", "*.dylib"]
+cellsnail = ["*.dll", "*.so", "*.dylib", "data/empirical/*.npz", "data/empirical/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

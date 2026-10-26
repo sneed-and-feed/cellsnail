@@ -9,3 +9,5 @@ __pycache__/
 *.dylib
 .pytest_cache/
 .pytest_cache
+*.egg-info/
+uv.lock

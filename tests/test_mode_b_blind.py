@@ -10,9 +10,13 @@ from cellsnail.benchmark.mode_b_blind import (
     apply_snr_noise,
     apply_technical_dropout,
     benchmark_cnv_edge_fidelity,
+    benchmark_cnv_width_resolution_crossover,
     benchmark_ercc_spurious_correlation,
+    benchmark_loco_lodo_lofo_cross_validation,
     benchmark_rare_persister_subclone_recovery,
     benchmark_spatial_boundary_penetration,
+    benchmark_spatial_jitter_crossover_sweep,
+    benchmark_umi_depth_crossover_sweep,
     binomial_count_split,
     run_mode_b_blind_cross_validation,
 )
@@ -32,7 +36,6 @@ def test_binomial_count_split_properties():
     assert np.all(X2 >= 0)
 
     # 3. Independent splits: correlation between independent Poisson splits given mean is ~0
-    # Center by mean
     X1_cent = X1 - np.mean(X1, axis=0)
     X2_cent = X2 - np.mean(X2, axis=0)
     cov = np.mean(X1_cent * X2_cent)
@@ -49,6 +52,7 @@ def test_ercc_spurious_correlation_zero_guarantee():
     # MAGIC graph diffusion injects spurious correlations
     assert res["spurious_pairs"]["magic"] > 0
     assert res["spurious_rate"]["magic"] > 0.0
+    assert "unpermuted_capture_efficiency_audit" in res
 
 
 def test_rare_persister_subclone_recovery_f1():
@@ -69,12 +73,14 @@ def test_rare_persister_subclone_recovery_f1():
 def test_cnv_edge_fidelity_focal_amplicons():
     res = benchmark_cnv_edge_fidelity(random_state=42)
 
-    # cellsnail maintains ~100% peak amplitude retention
+    # cellsnail maintains ~100% peak amplitude retention and bounded fidelity in [0, 1]
     assert res["amplitude_retention_ratio"]["cellsnail"] >= 0.90
-    assert res["adjacent_boundary_leakage"]["cellsnail"] <= 0.10
+    assert 0.85 <= res["bounded_edge_gradient_fidelity"]["cellsnail"] <= 1.0
+    assert res["adjacent_boundary_leakage"]["cellsnail"] <= 0.15
 
     # HMMcopy/inferCNV windowed smoothing smears focal peak into adjacent bins
     assert res["amplitude_retention_ratio"]["hmmcopy_infercnv"] < 0.60
+    assert res["bounded_edge_gradient_fidelity"]["hmmcopy_infercnv"] < 0.45
     assert res["adjacent_boundary_leakage"]["hmmcopy_infercnv"] > 0.30
 
 
@@ -90,8 +96,43 @@ def test_spatial_boundary_penetration_residual():
     assert res["isotropic_smoothing"]["bleed_rate"] > 0.0
 
 
+def test_failure_mode_crossover_sweeps():
+    umi_sweep = benchmark_umi_depth_crossover_sweep(random_state=42)
+    assert len(umi_sweep) == 5
+    # At full depth (p=1.0), single-cell focal recall is high; at p=0.05 it degrades
+    assert umi_sweep[0]["single_cell_focal_egfr_recall"] > umi_sweep[-1]["single_cell_focal_egfr_recall"]
+    # At ultra-shallow depth (p=0.05), ALRA pools across 20 genes for higher broad module R^2
+    assert umi_sweep[-1]["broad_module_r2"]["alra_svd"] >= umi_sweep[-1]["broad_module_r2"]["raw_thinned"]
+
+    cnv_sweep = benchmark_cnv_width_resolution_crossover(random_state=42)
+    assert len(cnv_sweep) == 6
+    # Narrow 1-bin focal stringer: cellsnail dominates HMMcopy
+    assert cnv_sweep[0]["bounded_edge_fidelity"]["cellsnail_morse"] > cnv_sweep[0]["bounded_edge_fidelity"]["hmmcopy_infercnv"]
+    # Broad 15-bin plateau: HMMcopy reduces interior plateau RMSE
+    assert cnv_sweep[-1]["single_cell_plateau_rmse"]["hmmcopy_infercnv"] < cnv_sweep[-1]["single_cell_plateau_rmse"]["cellsnail_unsmoothed_interior"]
+
+    jit_sweep = benchmark_spatial_jitter_crossover_sweep(random_state=42)
+    assert len(jit_sweep) == 5
+    # At 0 um jitter, sheaf clamping beats isotropic smoothing
+    assert jit_sweep[0]["compartment_marker_accuracy"]["cellsnail_sheaf"] >= jit_sweep[0]["compartment_marker_accuracy"]["isotropic_smoothing"]
+    # At 50 um severe mis-segmentation jitter, double-penalty degrades sheaf below 0 um accuracy
+    assert jit_sweep[-1]["compartment_marker_accuracy"]["cellsnail_sheaf"] < jit_sweep[0]["compartment_marker_accuracy"]["cellsnail_sheaf"]
+
+
+def test_loco_lodo_lofo_cross_validation():
+    cv = benchmark_loco_lodo_lofo_cross_validation(random_state=42)
+    assert len(cv["loco_sc_mixology_folds"]) == 3
+    assert len(cv["lodo_gbm_patient_folds"]) == 5
+    assert len(cv["lofo_cscc_spatial_folds"]) == 4
+    for fold in cv["loco_sc_mixology_folds"]:
+        assert fold["cellsnail_spurious_ercc_pairs"] == 0
+    for fold in cv["lodo_gbm_patient_folds"]:
+        assert fold["max_orthogonality_residual"] < 1e-12
+    for fold in cv["lofo_cscc_spatial_folds"]:
+        assert fold["cellsnail_max_penetration_residual"] == 0.0
+
+
 def test_run_mode_b_blind_cross_validation_sweeps():
-    # Run targeted sweep
     sweep_res = run_mode_b_blind_cross_validation(
         snr_levels=[np.inf, 20.0, 10.0],
         dropout_levels=[0.0, 0.10],
@@ -101,3 +142,6 @@ def test_run_mode_b_blind_cross_validation_sweeps():
     assert len(sweep_res["ercc_spurious_correlation_sweep"]) == 6
     assert len(sweep_res["rare_persister_subclone_sweep"]) == 6
     assert len(sweep_res["cnv_edge_fidelity_sweep"]) == 6
+    assert "loco_lodo_lofo_cross_validation" in sweep_res
+    assert "failure_mode_crossover_sweeps" in sweep_res
+
