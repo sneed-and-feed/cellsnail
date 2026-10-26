@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "cellsnail"
 version = "0.2.0"
 description = "cellsnail: Proof-carrying multi-omic single-cell data science spoke repository in the DarkSnail ecosystem"
-authors = [{ name = "DarkSnail Authors" }]
+authors = [{ name = "Noah Cohen" }]
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "CC0-1.0" }

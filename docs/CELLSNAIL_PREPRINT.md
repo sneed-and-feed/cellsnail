@@ -1,11 +1,11 @@
 # Proof-Carrying Multi-Omic Single-Cell Data Science via the Occlusion Triad: Resolving Post-2020 Circularity, Hardware SRAM Constraints, and Four Crossover Regimes
 
-**Authors**: Noah Cohen and the DarkSnail / CellSnail Research Consortium  
+**Author**: Noah Cohen  
 **Affiliation**: DarkSnail Ecosystem / Sneed and Feed Open-Source Initiative  
 **Repository**: `https://github.com/sneed-and-feed/cellsnail`  
 **License**: Creative Commons CC0 1.0 Universal (Dedicated to the Public Domain)  
 **Date**: October 2026  
-**Status**: Authoritative Flagship Preprint (v0.2.0 Campaign)  
+**Status**: Authoritative Flagship Preprint (v0.2.0)  
 **Machine-Checked Verification**: Lean 4 (Theorems 2.1–2.19, 0 sorry, 0 custom axioms, 0 warnings)  
 **Hardware Verification**: Broadcom BCM2712 Cortex-A76 Cache (0.03075% LLd miss, 0 dynamic allocations)  
 
@@ -25,7 +25,7 @@ Across four quantitative crossover sweeps, we demonstrate that `cellsnail` v0.2.
 - Spatial registration jitter: eliminating boundary double-penalties under severe registration jitter ($\Delta x_{\text{jitter}} = 50.0\;\mu\text{m}$) via Huber directional soft-clamping.
 - Modality missingness: raising multi-omic covariance recovery similarity from $0.2378$ to $0.4845$ under $85\%$ modality missingness with Ledoit-Wolf shrinkage while conserving trace to floating-point precision ($1.49 \times 10^{-15}$).
 
-Finally, we report five Tier-1 biological discovery tracks across empirical patient cohorts (`GSE118767`, `GSE54695`, `GSE148673`, `GSE57872`, `GSE144239`), isolating rare $0.40\%$ chemoresistant persisters, sharp sub-megabase amplicons, and un-attenuated lineage drivers, rigorously validated against authentic wet-lab databases (UniBind, JASPAR, ENCODE, Ensembl VEP, gnomAD, ClinVar, OpenTargets, ChEMBL, PDB, Reactome, STRING, HPA, GTEx, dbSNP, and AlphaGenome) and surviving an adversarial referee falsification audit across 156 passed test suites.
+Finally, we report five Tier-1 biological discovery tracks across empirical patient cohorts (`GSE118767`, `GSE54695`, `GSE148673`, `GSE57872`, `GSE144239`) and three deep multi-modal discovery expeditions, isolating rare $0.40\%$ chemoresistant persisters, sharp sub-megabase amplicons, un-attenuated proliferation-coupled lineage drivers, and deconfounded spatial basement-membrane juxtacrine walls, rigorously validated against authentic wet-lab databases (UniBind, JASPAR, ENCODE, Ensembl VEP, gnomAD, ClinVar, OpenTargets, ChEMBL, PDB, Reactome, STRING, HPA, GTEx, dbSNP, and AlphaGenome) and surviving an adversarial referee falsification audit across 222 passed test suites.
 
 ---
 
@@ -402,7 +402,7 @@ Automated cross-browser screenshot capture (`scripts/capture_studio_screenshots.
 All source code, Lean 4 proofs, Rust SIMD crates, empirical datasets, and verification scripts are open-source and reproducible:
 
 ```bash
-# 1. Run complete pytest test suite (156 passing tests)
+# 1. Run complete pytest test suite (222 passing tests)
 python -m pytest tests/ -v
 
 # 2. Run independent Adversarial Referee Falsification Audit
@@ -412,7 +412,7 @@ python scripts/referee_falsification_audit.py
 python scripts/verify_bcm2712_cache.py
 
 # 4. Verify 21-rule GFM and KaTeX mathematical compliance (0 errors)
-python scripts/audit_gfm_math.py README.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md docs/CELLSNAIL_PREPRINT.md
+python scripts/audit_gfm_math.py README.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md docs/CELLSNAIL_PREPRINT.md docs/EXPEDITION_1_DELTA_HUNT.md docs/EXPEDITION_2_STRINGER_HUNT.md docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md
 
 # 5. Compile and test #![no_std] Rust SIMD arena
 cargo test --manifest-path rust/cellsnail_rs/Cargo.toml --release
@@ -438,4 +438,19 @@ python scripts/capture_studio_screenshots.py
 11. Grün, D., et al. "Validation of noise models for single-cell transcriptomics." *Nature Methods* 11.6 (2014): 637-640.
 12. Ledoit, O., and Wolf, M. "A well-conditioned estimator for large-dimensional covariance matrices." *Journal of Multivariate Analysis* 88.2 (2004): 365-411.
 13. Cohen, N. "Project DarkSnail: Bi-Hemispheric x Ultrametric Triad Synthesis." *Zenodo* (2026). DOI: 10.5281/zenodo.23497692.
-14. DarkSnail Spoke Repositories: `triad-core`, `darksnail`, `robosnail`, `lob-triad`, `toposnail`, `stylo`, `g3vm`, `oatse`, `quakesnail`, and `cellsnail`.
+14. Cohen, N. "CellSnail: Proof-Carrying Multi-Omic Single-Cell Data Science Engine (v0.2.0)." GitHub repository, `https://github.com/sneed-and-feed/cellsnail` (2026).
+15. DarkSnail Spoke Repositories: `triad-core`, `darksnail`, `robosnail`, `lob-triad`, `toposnail`, `stylo`, `g3vm`, `oatse`, `quakesnail`, and `cellsnail`.
+
+---
+
+## 11. Citation
+
+```bibtex
+@software{cellsnail_2026,
+  author       = {Cohen, Noah},
+  title        = {CellSnail: Proof-Carrying Multi-Omic Single-Cell Data Science Engine},
+  year         = {2026},
+  version      = {0.2.0},
+  url          = {https://github.com/sneed-and-feed/cellsnail}
+}
+```

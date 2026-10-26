@@ -1,5 +1,6 @@
 # Expedition 1 Flagship Manuscript: The "Trash-Can" Delta-Hunt — Proliferation-Coupled Fate, Chromatin, DNA-Repair & Oncogenic Amplicon Drivers Erased by Linear OLS Cell-Cycle Regression
 
+**Author:** Noah Cohen  
 **Expedition ID:** `EXPEDITION_1_TRASH_CAN_DELTA_HUNT`  
 **Framework Version:** `cellsnail` v0.2.0 (`DeltaErasureDiscoveryPipeline`)  
 **Empirical Wet-Lab Cohorts:** GEO `GSE57872` (`Primary Human Glioblastoma & Stem-Sphere Cohort`, $n = 543$ cells $\times 43$ expanded genes), GEO `GSE148673` (`CopyKAT Triple-Negative Breast Cancer TNBC3`, $n = 500$ cells $\times 146$ expanded genes & $100$ paired DNA/RNA genomic bins), GEO `GSE118767` (`sc_mixology` Human Lung Adenocarcinoma Triad `HCC827`/`H1975`/`H2228`, $n = 300$ cells $\times 252$ expanded genes), and GEO `GSE144239` (`Human cSCC` Patient P2 Spatial Transcriptomics, $n = 400$ spots $\times 118$ expanded genes)  
@@ -368,4 +369,18 @@ All empirical analyses, cross-validation audits, and GFM compliance checks can b
 
 # 3. Verify 100% GFM / KaTeX math compliance across all 21 rules
 .\.venv\Scripts\python.exe scripts/audit_gfm_math.py docs/EXPEDITION_1_DELTA_HUNT.md
+```
+
+---
+
+## 8. Citation
+
+```bibtex
+@software{cellsnail_2026,
+  author       = {Cohen, Noah},
+  title        = {CellSnail: Proof-Carrying Multi-Omic Single-Cell Data Science Engine},
+  year         = {2026},
+  version      = {0.2.0},
+  url          = {https://github.com/sneed-and-feed/cellsnail}
+}
 ```

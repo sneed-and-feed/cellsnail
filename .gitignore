@@ -1,9 +1,15 @@
 .agents/
 .agents
 target/
+build/
+dist/
+release-assets/
 .lake/
+.venv/
+venv/
 __pycache__/
 *.pyc
+*.pyo
 *.dll
 *.so
 *.dylib

@@ -53,7 +53,7 @@ All Mode B blind evaluations and biological case studies execute on curated empi
 
 ## 3. Mathematical Foundations & Golfed Lean 4 Proofs (`formalization/OcclusionTriad.lean`)
 
-All 19 theorem families are formalized in [`formalization/OcclusionTriad.lean`](formalization/OcclusionTriad.lean) (`1,180` lines after dedicated subagent proof golfing, **`0 sorry`**, **`0` custom axioms**, **`0` compiler warnings**):
+All 19 theorem families are formalized in [`formalization/OcclusionTriad.lean`](formalization/OcclusionTriad.lean) (`1,180` lines, **`0 sorry`**, **`0` custom axioms**, **`0` compiler warnings**):
 
 ```math
 B_{W,k}(u, v) = \sum_{i=1}^C \sum_{j=1}^C u_i v_j (W_{i,j,k} - W_{i,k,j}), \qquad \langle v, B_W(u, v) \rangle = 0
@@ -136,7 +136,9 @@ assert abs(np.linalg.norm(v_traj) - 1.0) < 1e-12
 
 ```text
 cellsnail/
-├── .github/workflows/ci.yml              # Multi-OS CI (ubuntu-latest, macos-latest, windows-latest)
+├── .github/workflows/ci.yml              # Multi-OS CI & Release (ubuntu-latest, macos-latest, windows-latest)
+├── CITATION.cff                          # Citation metadata (Noah Cohen, v0.2.0)
+├── pyproject.toml                        # Python package & pytest configuration
 ├── cellsnail/
 │   ├── __init__.py                       # Dual canonical & bioinformatics API exports
 │   ├── _native.py                        # Zero-copy ctypes C-ABI bridge to cellsnail_rs
@@ -179,6 +181,7 @@ cellsnail/
 │   ├── capture_studio_screenshots.py     # Automated headless Chrome & Firefox screenshot verifier
 │   ├── generate_evaluation_summary.py    # Reproducible benchmark receipt generator
 │   ├── generate_portable_studio.py       # Single-file HTML5/WebGL2 studio builder
+│   ├── package_release.py                # Cross-platform release bundler (Linux, macOS, Windows)
 │   └── verify_bcm2712_cache.py           # Cycle-accurate BCM2712 cache simulator & binary import scanner
 ├── studio/
 │   ├── cellsnail_portable_studio.html    # Zero-install single-file WebGL2 Single-Cell Studio (> 280 KB)
@@ -205,6 +208,20 @@ python scripts/audit_gfm_math.py README.md docs/CELLSNAIL_PREPRINT.md docs/ARXIV
 
 ---
 
-## 7. License
+## 7. Citation
+
+```bibtex
+@software{cellsnail_2026,
+  author       = {Cohen, Noah},
+  title        = {CellSnail: Proof-Carrying Multi-Omic Single-Cell Data Science Engine},
+  year         = {2026},
+  version      = {0.2.0},
+  url          = {https://github.com/sneed-and-feed/cellsnail}
+}
+```
+
+---
+
+## 8. License
 
 Dedicated to the public domain under the [Creative Commons CC0 1.0 Universal](LICENSE) legal code.

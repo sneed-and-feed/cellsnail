@@ -1,5 +1,6 @@
 # Expedition 2 Flagship Manuscript: The Blind-Spot 1-to-5 Bin Focal Stringer & Relapse Persister Hunt
 
+**Author:** Noah Cohen  
 **Expedition ID:** `EXPEDITION_2_BLIND_SPOT_STRINGER_AND_PERSISTER_HUNT`  
 **Framework Version:** `cellsnail` v0.2.0 (`BlindSpotStringerHunter`)  
 **Empirical Wet-Lab Cohorts:** GEO `GSE148673` (`TNBC3`, $n = 500$ cells $\times 100$ genomic bins), GEO `GSE57872` (`Primary Human Glioblastoma`, $n = 543$ cells $\times 12$ driver genes), GEO `GSE118767` + `GSE54695` (`sc_mixology` CEL-seq2 Lung Adenocarcinoma Triad + `ERCC92` spike-ins, $n = 300$ cells $\times 292$ genes), and GEO `GSE144239` (`Human cSCC` Spatial Transcriptomics, $n = 400$ spots $\times 100$ genes)  
@@ -353,4 +354,18 @@ python -m pytest tests/test_expedition2_stringer_hunt.py -v
 
 # 3. Verify 0 GFM/KaTeX compliance errors across all 21 rules
 python scripts/audit_gfm_math.py docs/EXPEDITION_2_STRINGER_HUNT.md
+```
+
+---
+
+## Citation
+
+```bibtex
+@software{cellsnail_2026,
+  author       = {Cohen, Noah},
+  title        = {CellSnail: Proof-Carrying Multi-Omic Single-Cell Data Science Engine},
+  year         = {2026},
+  version      = {0.2.0},
+  url          = {https://github.com/sneed-and-feed/cellsnail}
+}
 ```

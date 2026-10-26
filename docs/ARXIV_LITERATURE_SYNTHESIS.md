@@ -1,10 +1,10 @@
 # Proof-Carrying Multi-Omic Single-Cell Data Science: A Mathematical Synthesis of the Eleven Grand Challenges and Post-2020 Advances (2020–2026)
 
-Author: Literature Synthesis Research Subagent  
-Affiliation: DarkSnail / triad-core Spoke Constellation  
-Target Architecture: cellsnail (https://github.com/sneed-and-feed/cellsnail)  
-Publication Date: October 2026  
-Document Classification: Exhaustive Post-2020 Research Synthesis and Formal Operator Specification  
+**Author**: Noah Cohen  
+**Affiliation**: DarkSnail / `triad-core` Spoke Constellation  
+**Target Architecture**: `cellsnail` (`https://github.com/sneed-and-feed/cellsnail`)  
+**Publication Date**: October 2026  
+**Document Classification**: Exhaustive Post-2020 Research Synthesis and Formal Operator Specification  
 
 ---
 
@@ -1050,3 +1050,17 @@ The cellsnail architecture replaces empirical heuristics with proof-carrying geo
 - $\mathrm{SO}(6)$ Kelvin-Mandel rotors factorize cross-modal genomic driver loci from buffered passenger genes with exact trace conservation.
 
 Together, these operators form the foundation of cellsnail: a mathematically sound, hardware-efficient, and biologically deconfounded spoke in the DarkSnail ecosystem.
+
+---
+
+## 14. Citation
+
+```bibtex
+@software{cellsnail_2026,
+  author       = {Cohen, Noah},
+  title        = {CellSnail: Proof-Carrying Multi-Omic Single-Cell Data Science Engine},
+  year         = {2026},
+  version      = {0.2.0},
+  url          = {https://github.com/sneed-and-feed/cellsnail}
+}
+```

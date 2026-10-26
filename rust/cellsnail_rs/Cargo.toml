@@ -2,7 +2,7 @@
 name = "cellsnail_rs"
 version = "0.2.0"
 edition = "2021"
-authors = ["Cellsnail Authors"]
+authors = ["Noah Cohen"]
 description = "#![no_std] Rust SIMD and C-ABI library for Cellsnail multi-omic single-cell arena"
 license = "CC0-1.0"
 

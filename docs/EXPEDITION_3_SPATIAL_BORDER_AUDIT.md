@@ -1,5 +1,6 @@
 # Expedition 3 Flagship Manuscript: Spatial Contact-Boundary & Multi-Modal Sheaf Audit — Falsifying 0-Cochain "Pseudo-EMT" Membrane Bleed and Recovering 1-Cochain Trans-Membrane Juxtacrine Polarity in Human Cutaneous Squamous Cell Carcinoma (`GSE144239`)
 
+**Author:** Noah Cohen  
 **Expedition ID:** `EXPEDITION_3_SPATIAL_CONTACT_BOUNDARY_AND_MULTIMODAL_SHEAF_AUDIT`  
 **Framework Version:** `cellsnail` v0.2.0 (`SE2CellularSheaf` & `SO6MultiModalBundle`)  
 **Primary Spatial Transcriptomics Cohort:** GEO `GSE144239` (`GSM4284316_P2_ST_rep1`, Human Cutaneous Squamous Cell Carcinoma `cSCC` Patient P2, Ji et al., *Cell* 182(2):497–514, 2020, PMID: `32579974`; $n = 400$ spatial spots across 4 histopathologically stratified compartments $\times 78$ audited genes from the 17,138-gene raw UMI transcriptome)  
@@ -483,4 +484,18 @@ pytest tests/test_expedition3_spatial_border_audit.py -v
 
 # 3. Verify 0 GFM/KaTeX compliance issues across all 21 rules
 python scripts/audit_gfm_math.py docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md
+```
+
+---
+
+## 8. Citation
+
+```bibtex
+@software{cellsnail_2026,
+  author       = {Cohen, Noah},
+  title        = {CellSnail: Proof-Carrying Multi-Omic Single-Cell Data Science Engine},
+  year         = {2026},
+  version      = {0.2.0},
+  url          = {https://github.com/sneed-and-feed/cellsnail}
+}
 ```

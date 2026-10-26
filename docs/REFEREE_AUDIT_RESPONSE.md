@@ -1,10 +1,11 @@
 # Referee Audit & Methodological Hardening Response (`cellsnail`)
 
+**Author**: Noah Cohen  
 **Target Spoke**: `cellsnail` (`https://github.com/sneed-and-feed/cellsnail`)  
 **Ecosystem**: DarkSnail / `triad-core` Spoke Constellation  
 **Date**: 2026-10-26  
 **Flagship Preprint**: See [CELLSNAIL_PREPRINT.md](CELLSNAIL_PREPRINT.md) for the complete consolidated research preprint covering all theory, formal proofs, hardware benchmarks, and empirical discoveries.  
-**Audit Status**: Methodologically Hardened — Real Empirical Wet-Lab Datasets Bundled (`GSE118767`, `GSE54695`, `GSE148673`, `GSE57872`, `GSE144239`, Ensembl `GRCh38` / `ClinVar` / `COSMIC`), Non-Circular `countsplit` & `LOCO`/`LODO`/`LOFO` Cross-Validation, Bounded `[0, 1]` Edge Fidelity, 4 Failure-Mode Crossover Sweeps, 5 Empirical Discovery Tracks with Authentic Cross-Validation, and Exhaustive Adversarial Referee Falsification Audit (`156/156` Passing Tests, `0` `sorry`, `0` GFM Errors)
+**Audit Status**: Methodologically Hardened — Real Empirical Wet-Lab Datasets Bundled (`GSE118767`, `GSE54695`, `GSE148673`, `GSE57872`, `GSE144239`, Ensembl `GRCh38` / `ClinVar` / `COSMIC`), Non-Circular `countsplit` & `LOCO`/`LODO`/`LOFO` Cross-Validation, Bounded `[0, 1]` Edge Fidelity, 4 Failure-Mode Crossover Sweeps, 5 Empirical Discovery Tracks with Authentic Cross-Validation, 3 Multi-Modal Discovery Expeditions, and Exhaustive Adversarial Referee Falsification Audit (`222/222` Passing Tests, `0` `sorry`, `0` GFM Errors)
 
 ---
 
@@ -404,7 +405,7 @@ The adversarial referee audit establishes the following surviving caveats and fu
 All datasets, benchmarks, failure-mode sweeps, adversarial referee audits, and GFM/KaTeX math compliance checks can be reproduced end-to-end:
 
 ```bash
-# 1. Run full unit, Mode A, Mode B, adversarial stress, and biological discovery test suite (156 tests)
+# 1. Run full unit, Mode A, Mode B, adversarial stress, biological discovery, and expedition test suite (222 tests)
 pytest tests/ -v
 
 # 2. Run independent Adversarial Referee Falsification Audit (Milestone 4)
@@ -421,7 +422,21 @@ python scripts/generate_evaluation_summary.py
 python scripts/verify_bcm2712_cache.py
 
 # 6. Audit GFM and KaTeX math compliance across all 21 rules (0 errors)
-python scripts/audit_gfm_math.py README.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md
+python scripts/audit_gfm_math.py README.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md docs/CELLSNAIL_PREPRINT.md docs/EXPEDITION_1_DELTA_HUNT.md docs/EXPEDITION_2_STRINGER_HUNT.md docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md
+```
+
+---
+
+## 8. Citation
+
+```bibtex
+@software{cellsnail_2026,
+  author       = {Cohen, Noah},
+  title        = {CellSnail: Proof-Carrying Multi-Omic Single-Cell Data Science Engine},
+  year         = {2026},
+  version      = {0.2.0},
+  url          = {https://github.com/sneed-and-feed/cellsnail}
+}
 ```
 
 
