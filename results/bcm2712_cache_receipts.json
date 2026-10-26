@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0.0",
+  "verifier": "Broadcom BCM2712 Cortex-A76 Hardware Cache Verifier (scripts/verify_bcm2712_cache.py)",
+  "timestamp_utc": "2026-10-26T12:09:08Z",
+  "hardware_target": "Broadcom BCM2712 (Raspberry Pi 5)",
+  "cpu_core": "ARM Cortex-A76 (ARMv8.2-A)",
+  "bcm2712_cache_geometry": {
+    "hardware_target": "Broadcom BCM2712 (Raspberry Pi 5)",
+    "cpu_core": "ARM Cortex-A76 (ARMv8.2-A)",
+    "clock_mhz": 2400,
+    "line_size_bytes": 64,
+    "l1d": {
+      "size_bytes": 65536,
+      "size_kb": 64,
+      "ways": 4,
+      "sets": 256,
+      "line_size_bytes": 64,
+      "policy": "Pseudo-LRU / Tree-PLRU (4-way)"
+    },
+    "l2": {
+      "size_bytes": 524288,
+      "size_kb": 512,
+      "ways": 8,
+      "sets": 1024,
+      "line_size_bytes": 64,
+      "policy": "Pseudo-LRU (8-way private per core)"
+    },
+    "l3": {
+      "size_bytes": 2097152,
+      "size_mb": 2.0,
+      "ways": 16,
+      "sets": 2048,
+      "line_size_bytes": 64,
+      "policy": "Pseudo-LRU / True LRU (16-way shared LLd)"
+    }
+  },
+  "arenas": {
+    "cellsnail": {
+      "arena_struct": "CellSnailArena",
+      "spoke": "cellsnail",
+      "description": "Multi-Omic Single-Cell Data Science #![no_std] SIMD Fixed SRAM Arena",
+      "arena_size_bytes": 983872,
+      "arena_size_kb": 960.8125,
+      "arena_max_ceiling_bytes": 2097152,
+      "arena_alignment_bytes": 64,
+      "total_references": 50000000,
+      "simulation_wall_time_sec": 1.4222,
+      "throughput_refs_per_sec": 35157100.9,
+      "l1d": {
+        "hits": 31544412,
+        "misses": 18455588,
+        "hit_rate_pct": 63.09
+      },
+      "l2": {
+        "hits": 15206093,
+        "misses": 3249495,
+        "hit_rate_pct": 82.39
+      },
+      "l3": {
+        "hits": 3234122,
+        "misses": 15373,
+        "hit_rate_pct": 99.53
+      },
+      "lld_miss_rate_pct": 0.03075,
+      "target_lld_miss_rate_pct": 0.1,
+      "target_achieved": true,
+      "allocator_static_audit": {
+        "audited": true,
+        "target_binary": "C:/Users/x/Documents/antigravity/cellsnail/rust/cellsnail_rs/target/release/cellsnail_rs.dll",
+        "heap_allocators_imported": [],
+        "stepping_symbols_verified": [
+          "beltrami_morse_gate_f32",
+          "continuity_clutter_filter_f32",
+          "skew_triad_step_f32",
+          "slow_fast_cascade_k16_f32",
+          "contact_sheaf_se2_step_f32",
+          "kelvin_mandel_so6_rotor_f32"
+        ],
+        "stealth_symbols_verified": [
+          "morse_dropout_filter_f32",
+          "cell_cycle_deconfounder_f32",
+          "genotype_tiebreaker_so10_f32",
+          "pseudotime_spherical_cascade_f32",
+          "spatial_tissue_sheaf_solver_f32",
+          "multiomic_covariance_rotor_f32"
+        ],
+        "dynamic_allocations_detected": 0,
+        "status": "ZERO_DYNAMIC_ALLOCATIONS_VERIFIED"
+      }
+    }
+  },
+  "summary": {
+    "total_arenas_verified": 1,
+    "total_references_simulated": 50000000,
+    "mean_lld_miss_rate_pct": 0.03075,
+    "max_lld_miss_rate_pct": 0.03075,
+    "target_threshold_pct": 0.1,
+    "all_cache_targets_passed": true,
+    "all_allocator_audits_passed": true,
+    "overall_verification_status": "PASS"
+  }
+}

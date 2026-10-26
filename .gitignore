@@ -1,0 +1,11 @@
+.agents/
+.agents
+target/
+.lake/
+__pycache__/
+*.pyc
+*.dll
+*.so
+*.dylib
+.pytest_cache/
+.pytest_cache

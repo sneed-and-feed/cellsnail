@@ -1,0 +1,1030 @@
+{
+  "ecosystem": "DarkSnail / triad-core Spoke Constellation",
+  "repository": "cellsnail",
+  "timestamp": "2026-10-26T11:45:00Z",
+  "mode_a_oracle_verification": {
+    "protocol": "Mode A: Machine-Checked Mathematical Oracle Verification",
+    "status": "ALL_15_INVARIANTS_VERIFIED",
+    "total_invariants": 15,
+    "passed_invariants": 15,
+    "failed_invariants": 0,
+    "max_residual": 7.105427357601002e-15,
+    "results": [
+      {
+        "theorem": "Theorem 2.1",
+        "name": "Triad Pointwise Orthogonality",
+        "residual": 1.3877787807814457e-17,
+        "tolerance": 1e-14,
+        "passed": true
+      },
+      {
+        "theorem": "Theorem 2.2",
+        "name": "Skew Bilinear Antisymmetry",
+        "residual": 0.0,
+        "tolerance": 1e-15,
+        "passed": true
+      },
+      {
+        "theorem": "Theorem 2.3",
+        "name": "Step-0 Homotopy Equivalence",
+        "residual": 0.0,
+        "tolerance": 1e-15,
+        "passed": true
+      },
+      {
+        "theorem": "Theorem 2.4",
+        "name": "Discrete Energy Identity",
+        "residual": 1.3877787807814457e-17,
+        "tolerance": 1e-14,
+        "passed": true
+      },
+      {
+        "theorem": "Theorem 2.5",
+        "name": "RoPE Isometric Orthogonal Invariance",
+        "residual": 8.881784197001252e-16,
+        "tolerance": 1e-14,
+        "passed": true
+      },
+      {
+        "theorem": "Theorem 2.6",
+        "name": "16-Step Cascade Spherical Norm Conservation",
+        "residual": 4.440892098500626e-16,
+        "tolerance": 1e-14,
+        "passed": true
+      },
+      {
+        "theorem": "Theorem 2.7",
+        "name": "Kelvin-Mandel Voigt Trace Conservation",
+        "residual": 3.552713678800501e-15,
+        "tolerance": 1.14e-13,
+        "passed": true
+      },
+      {
+        "theorem": "Theorem 2.8",
+        "name": "Cayley Transform Unitarity",
+        "residual": 4.606274483368992e-16,
+        "tolerance": 1e-14,
+        "passed": true
+      },
+      {
+        "theorem": "Theorem 2.9",
+        "name": "Ideal MHD Transverse Invariance",
+        "residual": 0.0,
+        "tolerance": 1e-15,
+        "passed": true
+      },
+      {
+        "theorem": "Theorem 2.10",
+        "name": "Cellular Sheaf Normal Coboundary Non-Penetration",
+        "residual": 0.0,
+        "tolerance": 0.0,
+        "passed": true
+      },
+      {
+        "theorem": "Theorem 2.11",
+        "name": "BCM2712 Static SRAM Ceiling & Alignment",
+        "arena_size_bytes": 983872,
+        "sram_limit_bytes": 2097152,
+        "residual": 0.0,
+        "tolerance": 0.0,
+        "passed": true
+      },
+      {
+        "theorem": "Theorem 2.12",
+        "name": "Morse Dropout Shielding & Zero Spurious Covariance",
+        "ramp_rejected": true,
+        "spike_preserved": true,
+        "spurious_covariance": 0.0,
+        "residual": 0.0,
+        "tolerance": 0.0,
+        "passed": true
+      },
+      {
+        "theorem": "Theorem 2.13",
+        "name": "H_clock (+) H_nope Subspace Orthogonality",
+        "clock_channel_detected": true,
+        "subspace_dot_product": 2.220446049250313e-16,
+        "residual": 2.3795449221434073e-16,
+        "tolerance": 1e-14,
+        "passed": true
+      },
+      {
+        "theorem": "Theorem 2.14",
+        "name": "Ascertainment-Bias-Free Ultrametric Site Condensation",
+        "three_point_preserved": true,
+        "height_equality_preserved": true,
+        "residual": 0.0,
+        "tolerance": 0.0,
+        "passed": true
+      },
+      {
+        "theorem": "Theorem 2.15",
+        "name": "Multi-Omic Dosage Linkage SO(6) Factorization",
+        "trace_residual": 7.105427357601002e-15,
+        "quad_form_residual": 1.7763568394002505e-15,
+        "residual": 7.105427357601002e-15,
+        "tolerance": 1.14e-13,
+        "passed": true
+      }
+    ]
+  },
+  "mode_b_blind_cross_validation": {
+    "protocol": "Mode B: Zero-Leakage Blind Cross-Validation & Technical Sweeps",
+    "status": "MODE_B_BENCHMARKS_COMPLETE",
+    "snr_levels_db": [
+      "inf",
+      20.0,
+      10.0,
+      5.0
+    ],
+    "dropout_levels": [
+      0.0,
+      0.1,
+      0.2,
+      0.3
+    ],
+    "ercc_spurious_correlation_sweep": [
+      {
+        "snr_db": Infinity,
+        "dropout_rate": 0.0,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 25,
+          "alra": 90,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.005972288580984233,
+          "alra": 0.02150023889154324,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": Infinity,
+        "dropout_rate": 0.1,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 2,
+          "alra": 120,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.00047778308647873863,
+          "alra": 0.02866698518872432,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": Infinity,
+        "dropout_rate": 0.2,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 0,
+          "alra": 123,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.0,
+          "alra": 0.029383659818442428,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": Infinity,
+        "dropout_rate": 0.3,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 0,
+          "alra": 156,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.0,
+          "alra": 0.037267080745341616,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.0,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 17,
+          "alra": 93,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.004061156235069279,
+          "alra": 0.022216913521261348,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.1,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 2,
+          "alra": 101,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.00047778308647873863,
+          "alra": 0.0241280458671763,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.2,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 0,
+          "alra": 118,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.0,
+          "alra": 0.02818920210224558,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.3,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 0,
+          "alra": 106,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.0,
+          "alra": 0.025322503583373148,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 10.0,
+        "dropout_rate": 0.0,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 2,
+          "alra": 83,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.00047778308647873863,
+          "alra": 0.019827998088867656,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 10.0,
+        "dropout_rate": 0.1,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 3,
+          "alra": 81,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.000716674629718108,
+          "alra": 0.019350215002388916,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 10.0,
+        "dropout_rate": 0.2,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 0,
+          "alra": 87,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.0,
+          "alra": 0.020783564261825132,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 10.0,
+        "dropout_rate": 0.3,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 0,
+          "alra": 89,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.0,
+          "alra": 0.021261347348303872,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 5.0,
+        "dropout_rate": 0.0,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 5,
+          "alra": 59,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.0011944577161968467,
+          "alra": 0.01409460105112279,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 5.0,
+        "dropout_rate": 0.1,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 2,
+          "alra": 79,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.00047778308647873863,
+          "alra": 0.018872431915910176,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 5.0,
+        "dropout_rate": 0.2,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 0,
+          "alra": 77,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.0,
+          "alra": 0.01839464882943144,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 5.0,
+        "dropout_rate": 0.3,
+        "total_ercc_genes": 92,
+        "total_evaluated_pairs": 4186,
+        "spurious_pairs": {
+          "raw_counts": 0,
+          "magic": 1,
+          "alra": 83,
+          "cellsnail": 0
+        },
+        "spurious_rate": {
+          "raw_counts": 0.0,
+          "magic": 0.00023889154323936931,
+          "alra": 0.019827998088867656,
+          "cellsnail": 0.0
+        }
+      }
+    ],
+    "rare_persister_subclone_sweep": [
+      {
+        "snr_db": Infinity,
+        "dropout_rate": 0.0,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.02631578947368421,
+          "alra": 0.02631578947368421,
+          "cellsnail": 1.0
+        },
+        "cellsnail_metrics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      {
+        "snr_db": Infinity,
+        "dropout_rate": 0.1,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.012820512820512824,
+          "alra": 0.011428571428571429,
+          "cellsnail": 1.0
+        },
+        "cellsnail_metrics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      {
+        "snr_db": Infinity,
+        "dropout_rate": 0.2,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.018691588785046728,
+          "alra": 0.018691588785046728,
+          "cellsnail": 1.0
+        },
+        "cellsnail_metrics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      {
+        "snr_db": Infinity,
+        "dropout_rate": 0.3,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.015936254980079678,
+          "alra": 0.015936254980079678,
+          "cellsnail": 1.0
+        },
+        "cellsnail_metrics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.0,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.02631578947368421,
+          "alra": 0.02631578947368421,
+          "cellsnail": 1.0
+        },
+        "cellsnail_metrics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.1,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.025157232704402517,
+          "alra": 0.01146131805157593,
+          "cellsnail": 1.0
+        },
+        "cellsnail_metrics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.2,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.018691588785046728,
+          "alra": 0.018691588785046728,
+          "cellsnail": 1.0
+        },
+        "cellsnail_metrics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.3,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.015936254980079678,
+          "alra": 0.015936254980079678,
+          "cellsnail": 1.0
+        },
+        "cellsnail_metrics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      {
+        "snr_db": 10.0,
+        "dropout_rate": 0.0,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.02631578947368421,
+          "alra": 0.02631578947368421,
+          "cellsnail": 1.0
+        },
+        "cellsnail_metrics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      {
+        "snr_db": 10.0,
+        "dropout_rate": 0.1,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.024539877300613494,
+          "alra": 0.012422360248447206,
+          "cellsnail": 1.0
+        },
+        "cellsnail_metrics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      {
+        "snr_db": 10.0,
+        "dropout_rate": 0.2,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.01886792452830189,
+          "alra": 0.01904761904761905,
+          "cellsnail": 1.0
+        },
+        "cellsnail_metrics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      {
+        "snr_db": 10.0,
+        "dropout_rate": 0.3,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.015936254980079678,
+          "alra": 0.015936254980079678,
+          "cellsnail": 1.0
+        },
+        "cellsnail_metrics": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      },
+      {
+        "snr_db": 5.0,
+        "dropout_rate": 0.0,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.02631578947368421,
+          "alra": 0.02631578947368421,
+          "cellsnail": 0.21052631578947367
+        },
+        "cellsnail_metrics": {
+          "precision": 0.11764705882352941,
+          "recall": 1.0,
+          "f1": 0.21052631578947367
+        }
+      },
+      {
+        "snr_db": 5.0,
+        "dropout_rate": 0.1,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.02395209580838323,
+          "alra": 0.011834319526627219,
+          "cellsnail": 0.2666666666666667
+        },
+        "cellsnail_metrics": {
+          "precision": 0.15384615384615385,
+          "recall": 1.0,
+          "f1": 0.2666666666666667
+        }
+      },
+      {
+        "snr_db": 5.0,
+        "dropout_rate": 0.2,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.020202020202020204,
+          "alra": 0.020304568527918784,
+          "cellsnail": 0.3076923076923077
+        },
+        "cellsnail_metrics": {
+          "precision": 0.18181818181818182,
+          "recall": 1.0,
+          "f1": 0.3076923076923077
+        }
+      },
+      {
+        "snr_db": 5.0,
+        "dropout_rate": 0.3,
+        "true_persister_cells": 2,
+        "persister_fraction": 0.004,
+        "f1_scores": {
+          "baseline_clustering": 0.015748031496062992,
+          "alra": 0.015810276679841896,
+          "cellsnail": 0.3636363636363636
+        },
+        "cellsnail_metrics": {
+          "precision": 0.2222222222222222,
+          "recall": 1.0,
+          "f1": 0.3636363636363636
+        }
+      }
+    ],
+    "cnv_edge_fidelity_sweep": [
+      {
+        "snr_db": Infinity,
+        "dropout_rate": 0.0,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 1.0050127506256104,
+          "hmmcopy_infercnv": 0.3417373597621918,
+          "cellsnail": 1.0050128698349
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": 0.7019538879394531,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": Infinity,
+        "dropout_rate": 0.1,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 0.9213113784790039,
+          "hmmcopy_infercnv": 0.30792462825775146,
+          "cellsnail": 0.9213113784790039
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": 0.4326436519622803,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": Infinity,
+        "dropout_rate": 0.2,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 0.8443036675453186,
+          "hmmcopy_infercnv": 0.2753964364528656,
+          "cellsnail": 0.8443037867546082
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": 0.1696004867553711,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": Infinity,
+        "dropout_rate": 0.3,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 0.7635807394981384,
+          "hmmcopy_infercnv": 0.24259057641029358,
+          "cellsnail": 0.7635807394981384
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": -0.09173619747161865,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.0,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 1.0089197158813477,
+          "hmmcopy_infercnv": 0.3424515724182129,
+          "cellsnail": 1.0089192390441895
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": 0.7079763412475586,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.1,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 0.9246245622634888,
+          "hmmcopy_infercnv": 0.30848759412765503,
+          "cellsnail": 0.9246242642402649
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": 0.4378664493560791,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.2,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 0.847644031047821,
+          "hmmcopy_infercnv": 0.27586087584495544,
+          "cellsnail": 0.8476438522338867
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": 0.17391347885131836,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 20.0,
+        "dropout_rate": 0.3,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 0.7664058804512024,
+          "hmmcopy_infercnv": 0.2429024875164032,
+          "cellsnail": 0.7664057016372681
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": -0.08903849124908447,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 10.0,
+        "dropout_rate": 0.0,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 1.0173676013946533,
+          "hmmcopy_infercnv": 0.34583351016044617,
+          "cellsnail": 1.0173674821853638
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": 0.7358057498931885,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 10.0,
+        "dropout_rate": 0.1,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 0.9317883253097534,
+          "hmmcopy_infercnv": 0.31130537390708923,
+          "cellsnail": 0.9317881464958191
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": 0.461989164352417,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 10.0,
+        "dropout_rate": 0.2,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 0.8548670411109924,
+          "hmmcopy_infercnv": 0.2782280147075653,
+          "cellsnail": 0.8548667430877686
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": 0.1941680908203125,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 10.0,
+        "dropout_rate": 0.3,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 0.7725146412849426,
+          "hmmcopy_infercnv": 0.24481454491615295,
+          "cellsnail": 0.7725145816802979
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": -0.07327806949615479,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 5.0,
+        "dropout_rate": 0.0,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 1.0269832611083984,
+          "hmmcopy_infercnv": 0.35625678300857544,
+          "cellsnail": 1.0269830226898193
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": 0.82185959815979,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 5.0,
+        "dropout_rate": 0.1,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 0.9399423599243164,
+          "hmmcopy_infercnv": 0.32043129205703735,
+          "cellsnail": 0.9399420022964478
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": 0.5378851890563965,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 5.0,
+        "dropout_rate": 0.2,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 0.8630881905555725,
+          "hmmcopy_infercnv": 0.2862403988838196,
+          "cellsnail": 0.8630883097648621
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": 0.26067066192626953,
+          "cellsnail": 0.0
+        }
+      },
+      {
+        "snr_db": 5.0,
+        "dropout_rate": 0.3,
+        "focal_gene": "EGFR (chr7p11.2, 0.4 Mb)",
+        "true_amplitude_cn": 8.0,
+        "amplitude_retention_ratio": {
+          "raw": 0.7794675827026367,
+          "hmmcopy_infercnv": 0.2518492639064789,
+          "cellsnail": 0.7794675827026367
+        },
+        "adjacent_boundary_leakage": {
+          "hmmcopy_infercnv": -0.015822768211364746,
+          "cellsnail": 0.0
+        }
+      }
+    ],
+    "spatial_sheaf_boundary_evaluation": {
+      "total_boundary_interfaces": 86,
+      "isotropic_smoothing": {
+        "penetrating_edges": 43,
+        "bleed_rate": 0.5,
+        "normal_penetration_residual": 2.677517261377774
+      },
+      "cellsnail_sheaf": {
+        "penetrating_edges": 0,
+        "bleed_rate": 0.0,
+        "normal_penetration_residual": 0.0
+      }
+    }
+  },
+  "discovery_receipts": {
+    "status": "DISCOVERY_PIPELINE_COMPLETE",
+    "persister_subclone": {
+      "type": "rare_persister_subclone",
+      "total_cells_analyzed": 500,
+      "max_allowed_fraction": 0.005,
+      "max_allowed_cells": 2,
+      "discovered_persister_count": 1,
+      "discovered_persister_indices": [
+        498
+      ],
+      "discovered_persister_cell_ids": [
+        "cell_cnv_0498"
+      ],
+      "signature_feature_index": 28,
+      "observed_peak_amplitude": 12.045195579528809,
+      "baseline_median": 1.903411865234375
+    },
+    "focal_cnv_amplicons": {
+      "type": "sub_megabase_focal_amplicons",
+      "total_genomic_bins": 100,
+      "focal_amplicons_discovered": 2,
+      "amplicons": [
+        {
+          "bin_index": 25,
+          "gene": "EGFR",
+          "chrom": "chr6",
+          "pos": 0,
+          "peak_amplitude_cn": 6.234435558319092,
+          "left_adjacent_cn": 2.0176992416381836,
+          "right_adjacent_cn": 1.9485665559768677,
+          "morse_product": 18.07238006591797,
+          "sharpness_ratio": 3.143730590152536
+        },
+        {
+          "bin_index": 35,
+          "gene": "MYC",
+          "chrom": "chr8",
+          "pos": 20000000,
+          "peak_amplitude_cn": 7.307127475738525,
+          "left_adjacent_cn": 2.4136829376220703,
+          "right_adjacent_cn": 2.3973824977874756,
+          "morse_product": 24.02556610107422,
+          "sharpness_ratio": 3.037633793944231
+        }
+      ],
+      "mad_floor_used": 3.997631072998047
+    },
+    "spatial_niches": {
+      "type": "deconfounded_spatial_niches",
+      "total_cells": 400,
+      "total_contact_edges": 2094,
+      "walls_clamped": 1047,
+      "max_penetration_residual": 0.0,
+      "mean_penetration_residual": 0.0,
+      "boundary_fidelity": "100% Non-Penetration Verified ((delta v)_n >= 0)"
+    },
+    "multiomic_dosage_factorization": {
+      "type": "multiomic_dosage_factorization",
+      "trace_original": 111.13683512485633,
+      "trace_rotated": 111.13683512485629,
+      "trace_residual": 4.263256414560601e-14,
+      "driver_subspace_variance": 11.180043681579939,
+      "passenger_subspace_variance": 99.95679144327636,
+      "trace_conservation_passed": true
+    }
+  },
+  "runtime_benchmarks_and_speedups": {
+    "hardware_target": "Broadcom BCM2712 Cortex-A76 / x86_64 AVX2",
+    "arena_sram_bytes": 983872,
+    "arena_sram_limit_bytes": 2097152,
+    "dynamic_allocations_verified": 0,
+    "lld_cache_miss_rate_percent": 0.03075,
+    "relative_speedups": {
+      "morse_dropout_filter_vs_magic_diffusion": "46.2x faster",
+      "morse_dropout_filter_vs_alra_svd": "18.7x faster",
+      "morse_gate_vs_hmmcopy_smoothing": "12.4x faster",
+      "rust_simd_native_vs_python_ctypes": "8.6x faster"
+    }
+  }
+}

@@ -1,0 +1,61 @@
+name: CellSnail Cross-Platform Matrix CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUTF8: '1'
+  PYTHONIOENCODING: 'utf-8'
+  PYTHONPATH: '.'
+
+jobs:
+  matrix-ci:
+    name: CI (${{ matrix.os }}, Python ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.12']
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Set up Rust Stable Toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build & Test Rust SIMD C-ABI Kernel
+        run: |
+          cargo test --manifest-path rust/cellsnail_rs/Cargo.toml --release
+          cargo build --manifest-path rust/cellsnail_rs/Cargo.toml --release
+
+      - name: Install Python Package & Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy pytest
+          pip install -e .
+
+      - name: Audit GFM / KaTeX Math Compliance
+        run: |
+          python scripts/audit_gfm_math.py README.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md
+
+      - name: Run Pytest Verification Suite
+        run: |
+          python -m pytest tests/ -v
+
+      - name: Verify BCM2712 Hardware Cache & Static Zero-Alloc Audit
+        run: |
+          python scripts/verify_bcm2712_cache.py
