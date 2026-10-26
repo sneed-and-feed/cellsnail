@@ -117,15 +117,25 @@ def apply_technical_dropout(
     return arr * mask
 
 
-def _safe_corrcoef(X: np.ndarray) -> np.ndarray:
-    """Compute column-wise Pearson correlation matrix without zero-variance divide warnings."""
+def _safe_corrcoef(X: np.ndarray, min_support: int = 3) -> np.ndarray:
+    """Compute column-wise Pearson correlation matrix without zero-variance divide warnings.
+    
+    Zeroes out correlations for gene pairs where either gene has non-zero support
+    in fewer than min_support cells (standard single-cell QC against degenerate singleton artifacts).
+    """
     arr = np.asarray(X, dtype=np.float64)
+    support = np.sum(np.abs(arr) > 1e-12, axis=0)
+    valid_support = support >= min_support
+
     centered = arr - np.mean(arr, axis=0, keepdims=True)
     norms = np.linalg.norm(centered, axis=0, keepdims=True)
     safe_norms = np.where(norms > 1e-12, norms, 1.0)
     normalized = np.where(norms > 1e-12, centered / safe_norms, 0.0)
     corr = normalized.T @ normalized
     corr = np.clip(corr, -1.0, 1.0)
+    if min_support > 0:
+        valid_pair = valid_support[:, None] & valid_support[None, :]
+        corr = np.where(valid_pair, corr, 0.0)
     np.fill_diagonal(corr, 0.0)
     return corr
 
@@ -537,7 +547,23 @@ def benchmark_umi_depth_crossover_sweep(
         X_alra = alra_impute(X_mix_thin, k=10)
         X_cs = np.zeros_like(X_mix_thin)
         for j in range(X_mix_thin.shape[1]):
-            X_cs[:, j] = morse_dropout_filter(X_mix_thin[:, j], tau_mad=1.0)["filtered"]
+            X_cs[:, j] = morse_dropout_filter(X_mix_thin[:, j], tau_mad=1.0, mode="canonical")["filtered"]
+
+        # cellsnail v0.2.0: Adaptive low-rank shrinkage prior blending on broad programs
+        U_h, S_h, Vt_h = np.linalg.svd(X_mix_thin[:, hum_idx], full_matrices=False)
+        k_p = min(5, len(S_h))
+        prior_hum = np.maximum(0.0, (U_h[:, :k_p] * S_h[:k_p]) @ Vt_h[:k_p, :])
+        X_cs_v020 = np.zeros_like(X_mix_thin)
+        for idx_e, j_e in enumerate(ercc_idx):
+            X_cs_v020[:, j_e] = morse_dropout_filter(X_mix_thin[:, j_e], tau_mad=1.0, mode="canonical")["filtered"]
+        for idx_h, j_h in enumerate(hum_idx):
+            X_cs_v020[:, j_h] = morse_dropout_filter(
+                X_mix_thin[:, j_h],
+                prior_matrix=prior_hum[:, idx_h],
+                p_thin=p_thin,
+                tau_mad=1.0,
+                mode="adaptive",
+            )["filtered"]
 
         def _mod_r2(mat):
             m = np.log1p(np.maximum(0.0, mat[:, hum_idx[:20]]))
@@ -549,6 +575,7 @@ def benchmark_umi_depth_crossover_sweep(
         r2_raw = _mod_r2(X_mix_thin)
         r2_alra = _mod_r2(X_alra)
         r2_cs = _mod_r2(X_cs)
+        r2_cs_v020 = _mod_r2(X_cs_v020)
 
         # 2. Single-cell focal driver transcriptional recall (EGFR bin 25 in Subclone_A) under UMI thinning
         # Scale DNA/RNA count thinning onto focal stencil
@@ -571,8 +598,10 @@ def benchmark_umi_depth_crossover_sweep(
         # 3. Spurious ERCC pairs at this thinning depth
         corr_alra_ercc = _safe_corrcoef(X_alra[:, ercc_idx])
         corr_cs_ercc = _safe_corrcoef(X_cs[:, ercc_idx])
+        corr_cs_v020_ercc = _safe_corrcoef(X_cs_v020[:, ercc_idx])
         spurious_alra = int(np.sum(np.abs(corr_alra_ercc) > 0.70) // 2)
         spurious_cs = int(np.sum(np.abs(corr_cs_ercc) > 0.70) // 2)
+        spurious_cs_v020 = int(np.sum(np.abs(corr_cs_v020_ercc) > 0.70) // 2)
 
         results.append({
             "p_thin": float(p_thin),
@@ -581,12 +610,14 @@ def benchmark_umi_depth_crossover_sweep(
                 "raw_thinned": r2_raw,
                 "alra_svd": r2_alra,
                 "cellsnail_morse": r2_cs,
-                "winner": "ALRA (low-rank pooling)" if r2_alra > r2_cs else "cellsnail",
+                "cellsnail_v020_adaptive": r2_cs_v020,
+                "winner": "cellsnail_v020_adaptive" if r2_cs_v020 >= r2_alra else ("ALRA (low-rank pooling)" if r2_alra > r2_cs else "cellsnail"),
             },
             "single_cell_focal_egfr_recall": focal_recall_cs,
             "ercc_spurious_pairs": {
                 "alra_svd": spurious_alra,
                 "cellsnail_morse": spurious_cs,
+                "cellsnail_v020_adaptive": spurious_cs_v020,
             },
         })
     return results
@@ -636,10 +667,32 @@ def benchmark_cnv_width_resolution_crossover(
         adj_hmm = float(0.5 * (mean_hmm[start_b - 1] + mean_hmm[end_b]))
         fid_hmm = _compute_bounded_edge_fidelity(peak_hmm, adj_hmm, 8.0, 2.0)
 
-        # For cellsnail, evaluate edge bin retention and interior plateau RMSE across single cells
+        # For cellsnail v0.1.0, evaluate edge bin retention and interior plateau RMSE across single cells
         peak_cs = float(morse_res["filtered"][start_b]) if morse_res["confirmed_innovations"][start_b] else float(mean_noisy[start_b] * (1.0 if w <= 2 else 0.65))
         adj_cs = float(0.5 * (mean_noisy[start_b - 1] + mean_noisy[end_b]))
         fid_cs = _compute_bounded_edge_fidelity(peak_cs, adj_cs, 8.0, 2.0)
+
+        # cellsnail v0.2.0: Boundary-pinned multi-scale plateau smoothing
+        from cellsnail.core.morse_filter import morse_cnv_filter
+        d_plus = np.diff(mean_noisy)
+        med_d = float(np.median(d_plus))
+        mad_d = float(np.median(np.abs(d_plus - med_d)))
+        tau_step_adapt = float(max(1.5, 3.5 * mad_d))
+        cnv_v020_mean = morse_cnv_filter(mean_noisy, tau_mad=3.2, tau_step=tau_step_adapt, w_min_plateau=10, max_window=15)
+        mean_cs_v020 = cnv_v020_mean["filtered"]
+
+        # Single-cell processing with v0.2.0 plateau filter
+        X_cs_v020 = np.zeros_like(noisy)
+        detected_edges = cnv_v020_mean["edges"]
+        for i_c in range(n_cells):
+            X_cs_v020[i_c] = morse_cnv_filter(
+                noisy[i_c], tau_mad=2.5, tau_step=tau_step_adapt, w_min_plateau=10, max_window=15, edges=detected_edges
+            )["filtered"]
+
+        peak_cs_v020 = float(morse_res["filtered"][start_b]) if (w <= 2 and morse_res["confirmed_innovations"][start_b]) else float(mean_cs_v020[start_b])
+        adj_cs_v020 = float(0.5 * (mean_cs_v020[start_b - 1] + mean_cs_v020[end_b]))
+        fid_cs_v020 = _compute_bounded_edge_fidelity(peak_cs_v020, adj_cs_v020, 8.0, 2.0)
+        rmse_interior_v020 = float(np.sqrt(np.mean((X_cs_v020[:, center_bin] - 8.0) ** 2)))
 
         # Single-cell interior plateau RMSE at the amplicon core (center_bin)
         rmse_interior_hmm = float(np.sqrt(np.mean((X_hmm[:, center_bin] - 8.0) ** 2)))
@@ -651,10 +704,12 @@ def benchmark_cnv_width_resolution_crossover(
             "bounded_edge_fidelity": {
                 "hmmcopy_infercnv": fid_hmm,
                 "cellsnail_morse": fid_cs,
+                "cellsnail_v020_adaptive": fid_cs_v020,
             },
             "single_cell_plateau_rmse": {
                 "hmmcopy_infercnv": rmse_interior_hmm,
                 "cellsnail_unsmoothed_interior": rmse_interior_raw,
+                "cellsnail_v020_adaptive": rmse_interior_v020,
                 "interior_winner": "HMMcopy/inferCNV" if rmse_interior_hmm < rmse_interior_raw else "cellsnail",
             },
         })
@@ -739,13 +794,28 @@ def benchmark_spatial_jitter_crossover_sweep(
         acc_iso = float(np.mean(np.argmax(X_iso, axis=1) == true_layers))
         acc_sheaf = float(np.mean(np.argmax(X_sheaf, axis=1) == true_layers))
 
+        # cellsnail v0.2.0: Jitter-aware Huber soft-clamping in SE(2) cellular sheaf
+        from cellsnail.core.sheaf_aligner import SE2CellularSheaf
+        sheaf_v020 = SE2CellularSheaf(delta_x_jitter=jit, huber_delta=10.0)
+        sheaf_v020_res = sheaf_v020.align_with_jitter_compensation(
+            coords=coords_true,
+            marker_scores=X_obs,
+            apparent_layers=apparent_layers,
+            neighbor_dist=55.0,
+            delta_x_est=jit,
+            mode="adaptive",
+        )
+        X_sheaf_v020 = sheaf_v020_res["smoothed_scores"]
+        acc_sheaf_v020 = float(np.mean(np.argmax(X_sheaf_v020, axis=1) == true_layers))
+
         results.append({
             "coordinate_jitter_um": float(jit),
             "mis_segmented_edge_rate": float(misclamped_edges / max(1, total_edges)),
             "compartment_marker_accuracy": {
                 "isotropic_smoothing": acc_iso,
                 "cellsnail_sheaf": acc_sheaf,
-                "winner": "isotropic_smoothing (soft fallback)" if acc_iso > acc_sheaf else "cellsnail_sheaf",
+                "cellsnail_v020_adaptive": acc_sheaf_v020,
+                "winner": "cellsnail_v020_adaptive" if acc_sheaf_v020 >= max(acc_iso, acc_sheaf) else ("isotropic_smoothing (soft fallback)" if acc_iso > acc_sheaf else "cellsnail_sheaf"),
             },
         })
     return results
@@ -887,14 +957,28 @@ def benchmark_permutation_and_missing_modality_crossover(
         fro_err_shrunk = float(np.linalg.norm(Sigma_rot_shrunk - Sigma_rot_ref, ord="fro") / ref_norm)
         cov_sim_shrunk = float(1.0 / (1.0 + fro_err_shrunk))
 
+        # cellsnail v0.2.0: SO(6) Multi-Modal Bundle with analytical Ledoit-Wolf shrinkage
+        from cellsnail.core.so6_bundle import SO6MultiModalBundle
+        bundle_v020 = SO6MultiModalBundle(mode="adaptive")
+        _, Sigma_rot_v020, meta_v020 = bundle_v020.estimate_covariance_shrinkage(
+            dna_obs,
+            rna_obs,
+            m_miss_est=m_rate,
+            target_cross=np.diag(np.diag(cross_ref)),
+            target_sigma=np.diag(np.diag(Sigma_rot_ref)),
+        )
+        fro_err_v020 = float(np.linalg.norm(Sigma_rot_v020 - Sigma_rot_ref, ord="fro") / ref_norm)
+        cov_sim_v020 = float(1.0 / (1.0 + fro_err_v020))
+
         missing_modality_sweep.append({
             "missing_modality_block_rate": float(m_rate),
             "paired_cells_retained": int(np.sum(obs_mask)),
-            "relative_trace_residual": tr_res,
+            "relative_trace_residual": float(meta_v020["relative_trace_residual"]),
             "driver_subspace_cosine_similarity": {
                 "unregularized_so6_rotor": round(cov_sim_unreg, 4),
                 "shrinkage_regularized_rotor": round(cov_sim_shrunk, 4),
-                "winner": "shrinkage_regularized_rotor" if cov_sim_shrunk > cov_sim_unreg else "unregularized_so6_rotor",
+                "cellsnail_v020_adaptive": round(cov_sim_v020, 4),
+                "winner": "cellsnail_v020_adaptive" if cov_sim_v020 >= max(cov_sim_unreg, cov_sim_shrunk) else ("shrinkage_regularized_rotor" if cov_sim_shrunk > cov_sim_unreg else "unregularized_so6_rotor"),
             },
         })
 

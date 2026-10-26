@@ -1,6 +1,6 @@
 [package]
 name = "cellsnail_rs"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Cellsnail Authors"]
 description = "#![no_std] Rust SIMD and C-ABI library for Cellsnail multi-omic single-cell arena"

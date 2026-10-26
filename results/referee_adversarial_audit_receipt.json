@@ -1,0 +1,282 @@
+{
+  "audit_timestamp": "2026-10-26T17:57:25Z",
+  "final_status": "ALL_CHECKS_PASSED",
+  "elapsed_seconds": 6.03,
+  "negative_controls": {
+    "column_permutations": {
+      "sorted_100_mean_recall": 1.0,
+      "unsorted_100_mean_recall": 0.9466666666666668,
+      "adversarial_sorted_recall": 1.0,
+      "adversarial_unsorted_recall": 0.3333333333333333,
+      "verdict": "PASS"
+    },
+    "shuffled_spike_ins": {
+      "trials_tested": 20,
+      "spurious_ercc_pairs_cellsnail": 0,
+      "spurious_ercc_pairs_magic": 2072,
+      "spurious_ercc_pairs_alra": 3335,
+      "unpermuted_mean_abs_r": 0.2522479226110618,
+      "unpermuted_pairs_gt_050": 658,
+      "verdict": "PASS"
+    },
+    "binomial_countsplit": {
+      "max_sum_diff": 0.0,
+      "negative_entries": 0,
+      "mean_inter_split_covariance": 879.0464924152999,
+      "verdict": "PASS"
+    },
+    "out_of_fold_generalization": {
+      "loco_folds": 3,
+      "loco_all_zero_spurious": true,
+      "lodo_folds": 5,
+      "lodo_all_subspace_orth": true,
+      "lofo_folds": 4,
+      "lofo_all_zero_bleed": true,
+      "verdict": "PASS"
+    },
+    "spatial_jitter": {
+      "sweep_levels": [
+        0.0,
+        1.0,
+        2.5,
+        5.0,
+        10.0,
+        15.0,
+        20.0,
+        30.0,
+        45.0,
+        60.0
+      ],
+      "results": [
+        {
+          "jitter_um": 0.0,
+          "edge_bleed_rate": 0.0,
+          "mean_penetration_residual": 0.0,
+          "max_penetration_residual": 0.0,
+          "accuracy_sheaf_v020": 1.0,
+          "accuracy_isotropic": 0.9975,
+          "accuracy_sheaf_v010": 1.0
+        },
+        {
+          "jitter_um": 1.0,
+          "edge_bleed_rate": 0.0,
+          "mean_penetration_residual": 1.2247147740396257e-16,
+          "max_penetration_residual": 1.2490009027033011e-15,
+          "accuracy_sheaf_v020": 1.0,
+          "accuracy_isotropic": 0.9966666666666667,
+          "accuracy_sheaf_v010": 1.0
+        },
+        {
+          "jitter_um": 2.5,
+          "edge_bleed_rate": 0.0,
+          "mean_penetration_residual": 1.2247147740396257e-16,
+          "max_penetration_residual": 1.2490009027033011e-15,
+          "accuracy_sheaf_v020": 1.0,
+          "accuracy_isotropic": 0.9975,
+          "accuracy_sheaf_v010": 1.0
+        },
+        {
+          "jitter_um": 5.0,
+          "edge_bleed_rate": 0.0,
+          "mean_penetration_residual": 1.2247147740396257e-16,
+          "max_penetration_residual": 1.2490009027033011e-15,
+          "accuracy_sheaf_v020": 0.9975,
+          "accuracy_isotropic": 0.9966666666666667,
+          "accuracy_sheaf_v010": 0.9958333333333332
+        },
+        {
+          "jitter_um": 10.0,
+          "edge_bleed_rate": 26.666666666666668,
+          "mean_penetration_residual": 0.14018859789691213,
+          "max_penetration_residual": 0.6950414964881777,
+          "accuracy_sheaf_v020": 0.9883333333333333,
+          "accuracy_isotropic": 0.9983333333333334,
+          "accuracy_sheaf_v010": 0.9816666666666666
+        },
+        {
+          "jitter_um": 15.0,
+          "edge_bleed_rate": 40.0,
+          "mean_penetration_residual": 0.30502266070786405,
+          "max_penetration_residual": 1.1727949489884444,
+          "accuracy_sheaf_v020": 0.9933333333333333,
+          "accuracy_isotropic": 0.9950000000000001,
+          "accuracy_sheaf_v010": 0.9683333333333333
+        },
+        {
+          "jitter_um": 20.0,
+          "edge_bleed_rate": 40.0,
+          "mean_penetration_residual": 0.37007775636984636,
+          "max_penetration_residual": 1.22056596492214,
+          "accuracy_sheaf_v020": 0.9966666666666667,
+          "accuracy_isotropic": 0.9983333333333334,
+          "accuracy_sheaf_v010": 0.965
+        },
+        {
+          "jitter_um": 30.0,
+          "edge_bleed_rate": 46.666666666666664,
+          "mean_penetration_residual": 0.32617451971291833,
+          "max_penetration_residual": 0.9675907647805484,
+          "accuracy_sheaf_v020": 0.9950000000000001,
+          "accuracy_isotropic": 0.9958333333333332,
+          "accuracy_sheaf_v010": 0.96
+        },
+        {
+          "jitter_um": 45.0,
+          "edge_bleed_rate": 46.666666666666664,
+          "mean_penetration_residual": 0.2180283631301897,
+          "max_penetration_residual": 0.6015263179768386,
+          "accuracy_sheaf_v020": 0.9983333333333334,
+          "accuracy_isotropic": 0.9983333333333334,
+          "accuracy_sheaf_v010": 0.9674999999999999
+        },
+        {
+          "jitter_um": 60.0,
+          "edge_bleed_rate": 46.666666666666664,
+          "mean_penetration_residual": 0.14351806040434703,
+          "max_penetration_residual": 0.3865520436299076,
+          "accuracy_sheaf_v020": 0.9975,
+          "accuracy_isotropic": 0.9975,
+          "accuracy_sheaf_v010": 0.9833333333333333
+        }
+      ],
+      "low_jitter_zero_bleed": true,
+      "double_penalty_avoided": true,
+      "verdict": "PASS"
+    }
+  },
+  "biological_discovery": {
+    "track_1_ghost_regulon": {
+      "false_regulon_incidents_100_perms": 0,
+      "max_r_across_100_perms": 0.4885486211220447,
+      "spurious_elimination_rate": "100.0%",
+      "egfr_enrichment_ratio": 8.33,
+      "unibind_myc_datasets": 137,
+      "phylop_score": 7.94217,
+      "verdict": "PASS"
+    },
+    "track_2_focal_amplicons": {
+      "persister_count": 2,
+      "signature_gene": "ABCB1",
+      "chembl_target_id": "CHEMBL4302",
+      "pdb_structure": "6QEX",
+      "waviness_survivals": [
+        {
+          "snr": Infinity,
+          "recovered_genes": [
+            "EGFR",
+            "MYC",
+            "CDK4"
+          ],
+          "all_3_found": true
+        },
+        {
+          "snr": 20.0,
+          "recovered_genes": [
+            "EGFR",
+            "MYC",
+            "CDK4"
+          ],
+          "all_3_found": true
+        },
+        {
+          "snr": 10.0,
+          "recovered_genes": [
+            "EGFR",
+            "MYC",
+            "CDK4"
+          ],
+          "all_3_found": true
+        },
+        {
+          "snr": 5.0,
+          "recovered_genes": [
+            "EGFR",
+            "MYC",
+            "CDK4"
+          ],
+          "all_3_found": true
+        }
+      ],
+      "verdict": "PASS"
+    },
+    "track_3_cell_cycle": {
+      "tnbc3_orthogonality_residual": 0.0,
+      "gbm_orthogonality_residual": 0.0,
+      "total_norm_conservation_ratio": 0.9999999999999999,
+      "naive_ols_variance_loss": 0.2492,
+      "individual_donor_max_residual": 0.0,
+      "individual_donor_min_variance": 1.0,
+      "verdict": "PASS"
+    },
+    "track_4_spatial_sheaf": {
+      "boundary_edges": 60,
+      "sheaf_bleed_percent": 0.0,
+      "isotropic_bleed_percent": 50.0,
+      "mean_penetration_residual": 0.0,
+      "max_penetration_residual": 0.0,
+      "mmp10_contrast_ratio": 15.44,
+      "verdict": "PASS"
+    },
+    "track_5_so6_rotor": {
+      "baseline_relative_trace_residual": 1.274796393012888e-15,
+      "max_trace_residual_missingness_sweep": 1.487262458515036e-15,
+      "max_trace_residual_ill_conditioned": 1.9808814413428796e-15,
+      "missingness_sweep_results": [
+        {
+          "m_miss": 0.0,
+          "relative_trace_residual": 1.274796393012888e-15,
+          "passed_1_6e15": true
+        },
+        {
+          "m_miss": 0.25,
+          "relative_trace_residual": 1.274796393012888e-15,
+          "passed_1_6e15": true
+        },
+        {
+          "m_miss": 0.5,
+          "relative_trace_residual": 1.274796393012888e-15,
+          "passed_1_6e15": true
+        },
+        {
+          "m_miss": 0.7,
+          "relative_trace_residual": 1.274796393012888e-15,
+          "passed_1_6e15": true
+        },
+        {
+          "m_miss": 0.85,
+          "relative_trace_residual": 1.487262458515036e-15,
+          "passed_1_6e15": true
+        },
+        {
+          "m_miss": 0.9,
+          "relative_trace_residual": 1.274796393012888e-15,
+          "passed_1_6e15": true
+        }
+      ],
+      "ill_conditioned_results": [
+        {
+          "condition_number": 100.0,
+          "relative_trace_residual": 1.2802571815497303e-16
+        },
+        {
+          "condition_number": 10000.0,
+          "relative_trace_residual": 1.9808814413428796e-15
+        },
+        {
+          "condition_number": 100000000.0,
+          "relative_trace_residual": 5.95986843109727e-16
+        },
+        {
+          "condition_number": 1000000000000.0,
+          "relative_trace_residual": 1.46484228515625e-15
+        },
+        {
+          "condition_number": 100000000000000.0,
+          "relative_trace_residual": 9.3749990625e-16
+        }
+      ],
+      "gtex_rsid": "rs79646167",
+      "verdict": "PASS"
+    }
+  }
+}

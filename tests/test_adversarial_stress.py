@@ -506,3 +506,126 @@ class TestMultiomicCovarianceRotorSingularAndIllConditioned:
             tr_rot_f32 = float(np.trace(c_rot_nat))
             nat_residual = abs(tr_rot_f32 - tr_orig_f32)
             assert nat_residual < 1e-4, f"Native float32 trace residual {nat_residual:.3e} for cond={condition_number}"
+
+
+# ==============================================================================
+# Challenge 6: Regime 3 Extreme Spatial Jitter & Huber Soft-Clamping Sweep
+# ==============================================================================
+
+class TestSpatialJitterHuberSoftClampingExtremeSweep:
+    """Stress tests SE2CellularSheaf under extreme spatial jitter sweeps Delta_x in [0, 60] um."""
+
+    @pytest.mark.parametrize("delta_jitter", [0.0, 2.5, 5.0, 15.0, 30.0, 60.0])
+    def test_spatial_jitter_extreme_sweep_and_boundary_bleed(self, delta_jitter: float):
+        from cellsnail.core.sheaf_aligner import SE2CellularSheaf, contact_sheaf_se2_step
+        from cellsnail.data import load_merfish_spatial
+
+        spatial = load_merfish_spatial(n_cells=400, random_state=42)
+        edges = spatial.uns["contact_edges"]
+        boundary_edges = [e for e in edges if e.get("is_boundary", False)]
+
+        # 1. Edge-level normal penetration residual
+        bleed_count = 0
+        normal_penetrations = []
+        for e in boundary_edges:
+            nx, ny = e["normal_x"], e["normal_y"]
+            dx, dy = 5.0, 5.0
+            out_dx, out_dy, tel = contact_sheaf_se2_step(
+                dx, dy, nx, ny, delta_x_jitter=delta_jitter, huber_delta=10.0
+            )
+            pen = max(0.0, out_dx * nx + out_dy * ny)
+            normal_penetrations.append(pen)
+            if pen > 1e-4:
+                bleed_count += 1
+
+        bleed_rate = bleed_count / max(1, len(boundary_edges))
+
+        # Under low jitter (<= 5 um), boundary bleed must be strictly < 1%
+        if delta_jitter <= 5.0:
+            assert bleed_rate < 0.01, f"Boundary bleed rate {bleed_rate*100:.2f}% exceeds 1% at Delta_x={delta_jitter} um"
+
+        # 2. Native Rust C-ABI parity if available
+        if is_native_available():
+            from cellsnail._native import native_spatial_tissue_sheaf_solver_huber
+            out_dx_nat, out_dy_nat, hit_nat = native_spatial_tissue_sheaf_solver_huber(
+                5.0, 5.0, 1.0, 0.0, delta_jitter=delta_jitter, huber_delta=10.0
+            )
+            out_norm_nat = float(np.sqrt(out_dx_nat ** 2 + out_dy_nat ** 2))
+            assert out_norm_nat <= float(np.sqrt(50.0)) * (1.0 + 1e-5), "Rust energy bound violated"
+
+
+# ==============================================================================
+# Challenge 7: Regime 4 Multi-Modal Missingness & Heavy-Tailed Soup Shrinkage
+# ==============================================================================
+
+class TestMultiModalMissingnessHeavySoupShrinkage:
+    """Stress tests SO6MultiModalBundle under missingness m in [0.50, 0.90] with heavy-tailed soup."""
+
+    @pytest.mark.parametrize("m_miss", [0.50, 0.70, 0.85, 0.90])
+    def test_missingness_heavy_soup_driver_preservation_and_trace(self, m_miss: float):
+        from cellsnail.core.so6_bundle import SO6MultiModalBundle
+        from cellsnail.data import load_paired_cnv_cohort
+
+        cnv_data = load_paired_cnv_cohort(n_cells=500, random_state=42)
+        X_dna = cnv_data["dna"].X.copy()
+        X_rna = cnv_data["rna"].X.copy()
+
+        drv_bins = [25, 35, 55]
+        dna_clean = X_dna[:, drv_bins].astype(np.float64)
+        rna_clean = np.log1p(X_rna[:, drv_bins]).astype(np.float64)
+
+        # Ground truth uncorrupted reference
+        c_dna_ref = np.cov(dna_clean, rowvar=False)
+        c_rna_ref = np.cov(rna_clean, rowvar=False)
+        c_cross_ref = np.cov(dna_clean, rna_clean, rowvar=False)[:3, 3:]
+        U_ref, _, Vt_ref = np.linalg.svd(c_cross_ref)
+        R_ref = U_ref @ Vt_ref
+        if np.linalg.det(R_ref) < 0:
+            U_ref[:, -1] *= -1
+            R_ref = U_ref @ Vt_ref
+        Sigma_ref_in = np.block([[c_dna_ref, c_cross_ref], [c_cross_ref.T, c_rna_ref]])
+        _, Sigma_rot_ref = kelvin_mandel_so6_rotor(R_ref, Sigma_ref_in, mode="canonical")
+        ref_norm = float(np.linalg.norm(Sigma_rot_ref, ord="fro") + 1e-12)
+
+        # Heavy-tailed log-normal soup (sigma_soup = 1.5)
+        rng = np.random.default_rng(1234 + int(m_miss * 100))
+        soup = rng.lognormal(mean=0.0, sigma=1.5, size=rna_clean.shape) * (0.25 + 1.15 * m_miss)
+        rna_noisy = rna_clean + soup
+
+        obs_mask = rng.uniform(0.0, 1.0, size=dna_clean.shape[0]) >= m_miss
+        if int(np.sum(obs_mask)) < 6:
+            obs_mask[:6] = True
+
+        dna_obs = dna_clean[obs_mask]
+        rna_obs = rna_noisy[obs_mask]
+
+        # 1. Unregularized cross-covariance
+        c_cross_obs = np.cov(dna_obs, rna_obs, rowvar=False)[:3, 3:]
+        U_o, S_o, Vt_o = np.linalg.svd(c_cross_obs)
+        R_o = U_o @ Vt_o
+        if np.linalg.det(R_o) < 0:
+            U_o[:, -1] *= -1
+            R_o = U_o @ Vt_o
+        Sigma_obs = np.block([[np.cov(dna_obs, rowvar=False), c_cross_obs], [c_cross_obs.T, np.cov(rna_obs, rowvar=False)]])
+        _, Sigma_rot_unreg = kelvin_mandel_so6_rotor(R_o, Sigma_obs, mode="canonical")
+        fro_unreg = float(np.linalg.norm(Sigma_rot_unreg - Sigma_rot_ref, ord="fro") / ref_norm)
+        cos_sim_unreg = 1.0 / (1.0 + fro_unreg)
+
+        # 2. cellsnail v0.2.0 adaptive shrinkage
+        bundle = SO6MultiModalBundle(mode="adaptive")
+        _, Sigma_rot_v020, meta = bundle.estimate_covariance_shrinkage(
+            dna_obs,
+            rna_obs,
+            m_miss_est=m_miss,
+            target_cross=np.diag(np.diag(c_cross_ref)),
+            target_sigma=np.diag(np.diag(Sigma_rot_ref)),
+        )
+        fro_v020 = float(np.linalg.norm(Sigma_rot_v020 - Sigma_rot_ref, ord="fro") / ref_norm)
+        cos_sim_v020 = 1.0 / (1.0 + fro_v020)
+
+        # Shrinkage preserves driver subspace better than unregularized
+        assert cos_sim_v020 >= cos_sim_unreg, f"Shrinkage ({cos_sim_v020:.4f}) failed to beat unregularized ({cos_sim_unreg:.4f}) at m={m_miss}"
+
+        # Relative trace conservation strictly < 1e-14
+        assert meta["relative_trace_residual"] < 1e-14, f"Relative trace residual {meta['relative_trace_residual']:.3e} exceeds 1e-14"
+

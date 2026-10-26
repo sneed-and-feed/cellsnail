@@ -156,6 +156,59 @@ def _setup_function_signatures(lib: ctypes.CDLL) -> None:
             ]
             func.restype = None
 
+    # v0.2.0 Adaptive C-ABI Signatures
+    for sym in ["morse_dropout_filter_adaptive_f32", "beltrami_morse_gate_adaptive_f32"]:
+        func = getattr(lib, sym, None)
+        if func:
+            func.argtypes = [
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.c_size_t,
+                ctypes.c_float,
+                ctypes.c_float,
+                ctypes.c_float,
+            ]
+            func.restype = None
+
+    func_plateau = getattr(lib, "morse_plateau_filter_f32", None)
+    if func_plateau:
+        func_plateau.argtypes = [
+            ctypes.POINTER(ctypes.c_float),
+            ctypes.POINTER(ctypes.c_float),
+            ctypes.c_size_t,
+            ctypes.c_size_t,
+        ]
+        func_plateau.restype = None
+
+    for sym in ["contact_sheaf_se2_step_adaptive_f32", "spatial_tissue_sheaf_solver_huber_f32"]:
+        func = getattr(lib, sym, None)
+        if func:
+            func.argtypes = [
+                ctypes.c_float,
+                ctypes.c_float,
+                ctypes.c_float,
+                ctypes.c_float,
+                ctypes.c_float,
+                ctypes.c_float,
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.POINTER(ctypes.c_uint8),
+            ]
+            func.restype = None
+
+    func_shrink = getattr(lib, "multiomic_covariance_rotor_shrinkage_f32", None)
+    if func_shrink:
+        func_shrink.argtypes = [
+            ctypes.POINTER(ctypes.c_float),
+            ctypes.POINTER(ctypes.c_float),
+            ctypes.c_float,
+            ctypes.POINTER(ctypes.c_float),
+            ctypes.POINTER(ctypes.c_float),
+        ]
+        func_shrink.restype = None
+
 
 def load_native_library() -> ctypes.CDLL:
     global _LIB
@@ -310,4 +363,102 @@ def native_multiomic_covariance_rotor(
         return rotor6.reshape(6, 6), cov_out.reshape(6, 6)
     else:
         lib.multiomic_covariance_rotor_f32(r_ptr, None, rotor_ptr, None)
+        return rotor6.reshape(6, 6), None
+
+
+def native_morse_dropout_filter_adaptive(
+    in_arr: np.ndarray,
+    prior_arr: Optional[np.ndarray] = None,
+    mad_floor: float = 0.0,
+    tau: float = 0.0,
+    lambda_blend: float = 0.0,
+) -> Tuple[np.ndarray, np.ndarray]:
+    lib = load_native_library()
+    arr = np.ascontiguousarray(in_arr, dtype=np.float32)
+    n = arr.size
+    out = np.zeros(n, dtype=np.float32)
+    sal = np.zeros(n, dtype=np.float32)
+
+    in_ptr = arr.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+    out_ptr = out.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+    sal_ptr = sal.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+
+    if prior_arr is not None:
+        p_arr = np.ascontiguousarray(prior_arr, dtype=np.float32)
+        prior_ptr = p_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+    else:
+        prior_ptr = None
+
+    lib.morse_dropout_filter_adaptive_f32(
+        in_ptr, prior_ptr, out_ptr, sal_ptr, n, float(mad_floor), float(tau), float(lambda_blend)
+    )
+    return out.reshape(arr.shape), sal.reshape(arr.shape)
+
+
+def native_morse_plateau_filter(
+    in_arr: np.ndarray,
+    window_size: int = 5,
+) -> np.ndarray:
+    lib = load_native_library()
+    arr = np.ascontiguousarray(in_arr, dtype=np.float32)
+    n = arr.size
+    out = np.zeros(n, dtype=np.float32)
+
+    in_ptr = arr.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+    out_ptr = out.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+
+    lib.morse_plateau_filter_f32(in_ptr, out_ptr, n, int(window_size))
+    return out.reshape(arr.shape)
+
+
+def native_spatial_tissue_sheaf_solver_huber(
+    dx: float,
+    dy: float,
+    nx: float,
+    ny: float,
+    delta_jitter: float = 0.0,
+    huber_delta: float = 10.0,
+) -> Tuple[float, float, bool]:
+    lib = load_native_library()
+    out_dx = ctypes.c_float(0.0)
+    out_dy = ctypes.c_float(0.0)
+    hit_wall = ctypes.c_uint8(0)
+
+    lib.spatial_tissue_sheaf_solver_huber_f32(
+        ctypes.c_float(dx),
+        ctypes.c_float(dy),
+        ctypes.c_float(nx),
+        ctypes.c_float(ny),
+        ctypes.c_float(delta_jitter),
+        ctypes.c_float(huber_delta),
+        ctypes.byref(out_dx),
+        ctypes.byref(out_dy),
+        ctypes.byref(hit_wall),
+    )
+    return float(out_dx.value), float(out_dy.value), bool(hit_wall.value)
+
+
+def native_multiomic_covariance_rotor_shrinkage(
+    rot3: np.ndarray,
+    cov6: Optional[np.ndarray] = None,
+    alpha_shrink: float = 0.0,
+) -> Tuple[np.ndarray, Optional[np.ndarray]]:
+    lib = load_native_library()
+    r_arr = np.ascontiguousarray(rot3, dtype=np.float32).ravel()
+    rotor6 = np.zeros(36, dtype=np.float32)
+
+    r_ptr = r_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+    rotor_ptr = rotor6.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+
+    if cov6 is not None:
+        c_arr = np.ascontiguousarray(cov6, dtype=np.float32).ravel()
+        cov_out = np.zeros(36, dtype=np.float32)
+        c_ptr = c_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+        cov_out_ptr = cov_out.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+        lib.multiomic_covariance_rotor_shrinkage_f32(
+            r_ptr, c_ptr, float(alpha_shrink), rotor_ptr, cov_out_ptr
+        )
+        return rotor6.reshape(6, 6), cov_out.reshape(6, 6)
+    else:
+        lib.multiomic_covariance_rotor_shrinkage_f32(r_ptr, None, float(alpha_shrink), rotor_ptr, None)
         return rotor6.reshape(6, 6), None

@@ -17,11 +17,21 @@ from cellsnail.operators import (
     rotate_stiffness_so6,
     # Stealth single-cell bioinformatics aliases
     morse_dropout_filter,
+    morse_cnv_filter,
     cell_cycle_deconfounder,
     genotype_tiebreaker_so10,
     pseudotime_spherical_cascade,
     spatial_tissue_sheaf_solver,
     multiomic_covariance_rotor,
+    # Adaptive estimators & classes
+    SE2CellularSheaf,
+    SO6MultiModalBundle,
+    estimate_umi_depth,
+    estimate_segment_widths,
+    estimate_spatial_jitter,
+    estimate_missingness,
+    ledoit_wolf_shrinkage_so6,
+    sigmoidal_shrinkage_weight,
 )
 from cellsnail.io import (
     SingleCellContainer,
@@ -44,7 +54,7 @@ from cellsnail.benchmark import (
     run_mode_b_blind_cross_validation,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __license__ = "CC0-1.0"
 
 __all__ = [
@@ -61,11 +71,20 @@ __all__ = [
     "rotate_stiffness_so6",
     # Stealth bioinformatics aliases
     "morse_dropout_filter",
+    "morse_cnv_filter",
     "cell_cycle_deconfounder",
     "genotype_tiebreaker_so10",
     "pseudotime_spherical_cascade",
     "spatial_tissue_sheaf_solver",
     "multiomic_covariance_rotor",
+    "SE2CellularSheaf",
+    "SO6MultiModalBundle",
+    "estimate_umi_depth",
+    "estimate_segment_widths",
+    "estimate_spatial_jitter",
+    "estimate_missingness",
+    "ledoit_wolf_shrinkage_so6",
+    "sigmoidal_shrinkage_weight",
     # I/O
     "SingleCellContainer",
     "read_mtx",

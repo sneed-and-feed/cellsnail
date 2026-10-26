@@ -835,6 +835,325 @@ pub extern "C" fn cellsnail_arena_global() -> *mut CellSnailArena {
 }
 
 // ============================================================================
+// v0.2.0 Adaptive C-ABI Exports & SIMD Kernels (Theorems 2.16–2.19)
+// ============================================================================
+
+/// Fast zero-alloc rational approximation to exp(-x / 20.0) for x >= 0 in #![no_std].
+#[inline(always)]
+fn exp_decay_20(x: f32) -> f32 {
+    if x <= 0.0 {
+        return 1.0;
+    }
+    let z = x * 0.05f32; // x / 20.0
+    let denom = 1.0 + z * (1.0 + z * (0.5 + z * (0.16666667 + z * 0.04166667)));
+    1.0 / denom
+}
+
+/// Adaptive Morse Dropout Filter with low-rank shrinkage prior blending (Theorem 2.16).
+/// In ultra-sparse regimes (lambda_blend > 0), blends non-focal positions with prior_ptr.
+/// Confirmed focal spikes hold lambda_blend = 0, preserving sharp peaks and zero false-positive ERCC pairs.
+#[no_mangle]
+pub unsafe extern "C" fn morse_dropout_filter_adaptive_f32(
+    in_ptr: *const f32,
+    prior_ptr: *const f32,
+    out_ptr: *mut f32,
+    salience_ptr: *mut f32,
+    n: usize,
+    mad_floor: f32,
+    tau: f32,
+    lambda_blend: f32,
+) {
+    if in_ptr.is_null() || out_ptr.is_null() || n == 0 {
+        return;
+    }
+
+    // 1. Run standard 3-point Morse gate
+    beltrami_morse_gate_f32(in_ptr, out_ptr, salience_ptr, n, mad_floor, tau);
+
+    // 2. Blend non-focal bins if lambda_blend > 0 and prior is present
+    if lambda_blend > 0.0 && !prior_ptr.is_null() {
+        let alpha = if lambda_blend > 1.0 { 1.0 } else { lambda_blend };
+        let mut i = 0usize;
+
+        #[cfg(target_arch = "x86_64")]
+        {
+            use core::arch::x86_64::*;
+            let v_zero = _mm256_setzero_ps();
+            let v_alpha = _mm256_set1_ps(alpha);
+
+            while i + 8 <= n {
+                let v_out = _mm256_loadu_ps(out_ptr.add(i));
+                let v_prior = _mm256_loadu_ps(prior_ptr.add(i));
+
+                let mask_zero = _mm256_cmp_ps(v_out, v_zero, _CMP_EQ_OQ);
+                let blended_prior = _mm256_mul_ps(v_alpha, v_prior);
+                let res = _mm256_blendv_ps(v_out, blended_prior, mask_zero);
+                _mm256_storeu_ps(out_ptr.add(i), res);
+                i += 8;
+            }
+        }
+
+        #[cfg(target_arch = "aarch64")]
+        {
+            use core::arch::aarch64::*;
+            let v_zero = vdupq_n_f32(0.0);
+            let v_alpha = vdupq_n_f32(alpha);
+
+            while i + 4 <= n {
+                let v_out = vld1q_f32(out_ptr.add(i));
+                let v_prior = vld1q_f32(prior_ptr.add(i));
+
+                let mask_zero = vceqq_f32(v_out, v_zero);
+                let blended_prior = vmulq_f32(v_alpha, v_prior);
+                let res = vbslq_f32(mask_zero, blended_prior, v_out);
+                vst1q_f32(out_ptr.add(i), res);
+                i += 4;
+            }
+        }
+
+        while i < n {
+            let cur_out = *out_ptr.add(i);
+            if cur_out == 0.0 {
+                let p = *prior_ptr.add(i);
+                *out_ptr.add(i) = alpha * p;
+            }
+            i += 1;
+        }
+    }
+}
+
+/// Stealth Single-Cell Domain Alias for [`morse_dropout_filter_adaptive_f32`].
+#[no_mangle]
+pub unsafe extern "C" fn beltrami_morse_gate_adaptive_f32(
+    in_ptr: *const f32,
+    prior_ptr: *const f32,
+    out_ptr: *mut f32,
+    salience_ptr: *mut f32,
+    n: usize,
+    mad_floor: f32,
+    tau: f32,
+    lambda_blend: f32,
+) {
+    morse_dropout_filter_adaptive_f32(
+        in_ptr, prior_ptr, out_ptr, salience_ptr, n, mad_floor, tau, lambda_blend,
+    );
+}
+
+/// Multi-scale plateau smoothing with boundary pinning on broad CNVs (Theorem 2.17).
+/// For broad amplicons, reduces interior WGA variance by boxcar averaging while
+/// pinning step transitions (zero boundary leakage).
+#[no_mangle]
+pub unsafe extern "C" fn morse_plateau_filter_f32(
+    in_ptr: *const f32,
+    out_ptr: *mut f32,
+    n: usize,
+    window_size: usize,
+) {
+    if in_ptr.is_null() || out_ptr.is_null() || n == 0 {
+        return;
+    }
+
+    if n <= 3 || window_size <= 1 {
+        for i in 0..n {
+            *out_ptr.add(i) = *in_ptr.add(i);
+        }
+        return;
+    }
+
+    let half_win = (window_size / 2).min(7);
+
+    // Adaptive step threshold: tau_step = max(1.5, 3.5 * MAD(Delta_+ v))
+    let num_diffs = n - 1;
+    let sample_count = num_diffs.min(256);
+    let mut diff_samples = [0.0f32; 256];
+    if num_diffs <= 256 {
+        for i in 0..num_diffs {
+            diff_samples[i] = *in_ptr.add(i + 1) - *in_ptr.add(i);
+        }
+    } else {
+        for i in 0..256 {
+            let idx = (i * 64) % num_diffs;
+            diff_samples[i] = *in_ptr.add(idx + 1) - *in_ptr.add(idx);
+        }
+    }
+    for i in 1..sample_count {
+        let key = diff_samples[i];
+        let mut j = i;
+        while j > 0 && diff_samples[j - 1] > key {
+            diff_samples[j] = diff_samples[j - 1];
+            j -= 1;
+        }
+        diff_samples[j] = key;
+    }
+    let med_d = diff_samples[sample_count / 2];
+
+    let mut dev_samples = [0.0f32; 256];
+    for i in 0..sample_count {
+        dev_samples[i] = abs_f32(diff_samples[i] - med_d);
+    }
+    for i in 1..sample_count {
+        let key = dev_samples[i];
+        let mut j = i;
+        while j > 0 && dev_samples[j - 1] > key {
+            dev_samples[j] = dev_samples[j - 1];
+            j -= 1;
+        }
+        dev_samples[j] = key;
+    }
+    let mad_d = dev_samples[sample_count / 2];
+    let tau_step = 1.5f32.max(3.5f32 * mad_d);
+
+    for i in 0..n {
+        *out_ptr.add(i) = *in_ptr.add(i);
+    }
+
+    let mut last_edge = 0usize;
+    for i in 1..n {
+        let diff = abs_f32(*in_ptr.add(i) - *in_ptr.add(i - 1));
+        let is_edge = diff > tau_step || i == n - 1;
+
+        if is_edge {
+            let seg_end = if i == n - 1 && diff <= tau_step { n } else { i };
+            let seg_len = seg_end - last_edge;
+
+            if seg_len >= 4 {
+                let m = half_win.min((seg_len - 2) / 4);
+                if m > 0 {
+                    let win_len = 2 * m + 1;
+                    let inv_len = 1.0f32 / (win_len as f32);
+
+                    for idx in (last_edge + m)..(seg_end.saturating_sub(m)) {
+                        let mut sum = 0.0f32;
+                        for k in (idx - m)..=(idx + m) {
+                            sum += *in_ptr.add(k);
+                        }
+                        *out_ptr.add(idx) = sum * inv_len;
+                    }
+                }
+            }
+            last_edge = i;
+        }
+    }
+}
+
+/// Canonical DarkSnail: SE(2) cellular sheaf coboundary solver with Huber soft-clamping (Theorem 2.18).
+#[no_mangle]
+pub unsafe extern "C" fn contact_sheaf_se2_step_adaptive_f32(
+    dx: f32,
+    dy: f32,
+    nx: f32,
+    ny: f32,
+    delta_jitter: f32,
+    huber_delta: f32,
+    out_dx: *mut f32,
+    out_dy: *mut f32,
+    hit_wall: *mut u8,
+) {
+    if out_dx.is_null() || out_dy.is_null() {
+        return;
+    }
+
+    if nx == 0.0 && ny == 0.0 {
+        *out_dx = dx;
+        *out_dy = dy;
+        if !hit_wall.is_null() {
+            *hit_wall = 0;
+        }
+        return;
+    }
+
+    let dot = dx * nx + dy * ny;
+    if dot <= 0.0 {
+        *out_dx = dx;
+        *out_dy = dy;
+        if !hit_wall.is_null() {
+            *hit_wall = 0;
+        }
+        return;
+    }
+
+    if !hit_wall.is_null() {
+        *hit_wall = 1;
+    }
+
+    if delta_jitter <= 0.0 {
+        *out_dx = 0.0;
+        *out_dy = 0.0;
+        return;
+    }
+
+    // Huber soft-clamping under spatial registration jitter
+    let delta_x0 = 15.0f32;
+    let j_sq = delta_jitter * delta_jitter;
+    let gamma = (j_sq / (j_sq + delta_x0 * delta_x0)).min(1.0);
+
+    let h_delta = if huber_delta > 0.0 { huber_delta } else { 10.0f32 };
+    let delta_h = h_delta * exp_decay_20(delta_jitter);
+
+    let psi = if dot <= delta_h {
+        dot
+    } else {
+        delta_h + gamma * (dot - delta_h)
+    };
+
+    *out_dx = dx - psi * nx;
+    *out_dy = dy - psi * ny;
+}
+
+/// Stealth Single-Cell Domain Alias for [`contact_sheaf_se2_step_adaptive_f32`].
+#[no_mangle]
+pub unsafe extern "C" fn spatial_tissue_sheaf_solver_huber_f32(
+    dx: f32,
+    dy: f32,
+    nx: f32,
+    ny: f32,
+    delta_jitter: f32,
+    huber_delta: f32,
+    out_dx: *mut f32,
+    out_dy: *mut f32,
+    hit_wall: *mut u8,
+) {
+    contact_sheaf_se2_step_adaptive_f32(
+        dx, dy, nx, ny, delta_jitter, huber_delta, out_dx, out_dy, hit_wall,
+    );
+}
+
+/// SO(6) Kelvin-Mandel rotor calculation with analytical Ledoit-Wolf shrinkage (Theorem 2.19).
+/// Conserves trace identically: Tr(cov6_shrunk) == Tr(cov6).
+#[no_mangle]
+pub unsafe extern "C" fn multiomic_covariance_rotor_shrinkage_f32(
+    rot3: *const f32,
+    cov6: *const f32,
+    alpha_shrink: f32,
+    rotor6: *mut f32,
+    cov6_out: *mut f32,
+) {
+    if rot3.is_null() {
+        return;
+    }
+
+    // 1. Compute standard Kelvin-Mandel rotor and rotated covariance
+    kelvin_mandel_so6_rotor_f32(rot3, cov6, rotor6, cov6_out);
+
+    // 2. If alpha_shrink > 0 and cov6_out is provided, apply trace-preserving shrinkage
+    if !cov6_out.is_null() && alpha_shrink > 0.0 {
+        let alpha = if alpha_shrink > 1.0 { 1.0 } else { alpha_shrink };
+        let tr = *cov6_out.add(0) + *cov6_out.add(7) + *cov6_out.add(14)
+               + *cov6_out.add(21) + *cov6_out.add(28) + *cov6_out.add(35);
+        let f_iso = tr / 6.0;
+
+        for i in 0..6 {
+            for j in 0..6 {
+                let idx = i * 6 + j;
+                let cur = *cov6_out.add(idx);
+                let target = if i == j { f_iso } else { 0.0 };
+                *cov6_out.add(idx) = (1.0 - alpha) * cur + alpha * target;
+            }
+        }
+    }
+}
+
+// ============================================================================
 // Synchronous Unit Tests
 // ============================================================================
 
@@ -978,5 +1297,118 @@ mod tests {
         }
         let diff = abs_f32(tr_out - tr_orig);
         assert!(diff < 1e-6, "Trace difference {} exceeds tolerance", diff);
+    }
+
+    #[test]
+    fn test_morse_dropout_filter_adaptive_blending() {
+        let spike = [0.1f32, 5.0, 0.1];
+        let prior = [2.0f32, 2.0, 2.0];
+        let mut out = [0.0f32; 3];
+
+        unsafe {
+            morse_dropout_filter_adaptive_f32(
+                spike.as_ptr(),
+                prior.as_ptr(),
+                out.as_mut_ptr(),
+                core::ptr::null_mut(),
+                3,
+                1.0,
+                1.0,
+                0.5,
+            );
+        }
+
+        // Focal peak at index 1 held at 100% Morse spike (5.0)
+        assert_eq!(out[1], 5.0, "Focal spike must be preserved at 100%");
+        // Non-focal bins at index 0 and 2 receive lambda_blend * prior = 0.5 * 2.0 = 1.0
+        assert_eq!(out[0], 1.0, "Non-focal bin 0 must blend prior");
+        assert_eq!(out[2], 1.0, "Non-focal bin 2 must blend prior");
+    }
+
+    #[test]
+    fn test_morse_plateau_smoothing_variance_reduction() {
+        // 12-bin profile with noisy broad plateau in bins 2..10 (true level 8.0)
+        let mut profile = [2.0f32; 12];
+        profile[2] = 8.4;
+        profile[3] = 7.6;
+        profile[4] = 8.3;
+        profile[5] = 7.7;
+        profile[6] = 8.2;
+        profile[7] = 7.8;
+        profile[8] = 8.1;
+        profile[9] = 7.9;
+        let mut out = [0.0f32; 12];
+
+        unsafe {
+            morse_plateau_filter_f32(profile.as_ptr(), out.as_mut_ptr(), 12, 5);
+        }
+
+        // Step edges at 0, 1, 10, 11 preserved
+        assert_eq!(out[0], 2.0);
+        assert_eq!(out[1], 2.0);
+        // Interior bins smoothed: variance reduced toward 8.0
+        let interior_err_in = abs_f32(profile[5] - 8.0); // 0.3
+        let interior_err_out = abs_f32(out[5] - 8.0);
+        assert!(interior_err_out <= interior_err_in, "Interior plateau error must be reduced");
+    }
+
+    #[test]
+    fn test_contact_sheaf_huber_soft_clamping_energy() {
+        let mut out_dx = 0.0f32;
+        let mut out_dy = 0.0f32;
+        let mut hit = 0u8;
+
+        // 1. Zero jitter: hard clamp
+        unsafe {
+            contact_sheaf_se2_step_adaptive_f32(
+                10.0, 0.0, 1.0, 0.0, 0.0, 10.0, &mut out_dx, &mut out_dy, &mut hit,
+            );
+        }
+        assert_eq!(hit, 1);
+        assert_eq!(out_dx, 0.0);
+
+        // 2. High jitter (30 um): Huber soft clamp allows soft leakage
+        unsafe {
+            contact_sheaf_se2_step_adaptive_f32(
+                10.0, 0.0, 1.0, 0.0, 30.0, 5.0, &mut out_dx, &mut out_dy, &mut hit,
+            );
+        }
+        assert_eq!(hit, 1);
+        assert!(out_dx > 0.0, "High jitter must allow soft leakage");
+        assert!(out_dx <= 10.0, "Energy cannot exceed initial displacement");
+    }
+
+    #[test]
+    fn test_multiomic_covariance_rotor_shrinkage_trace() {
+        let rot3 = [
+            1.0f32, 0.0, 0.0,
+            0.0, 1.0, 0.0,
+            0.0, 0.0, 1.0,
+        ];
+        let mut cov6 = [0.0f32; 36];
+        for i in 0..6 {
+            cov6[i * 6 + i] = (i + 1) as f32; // Tr = 21.0
+        }
+        let mut rotor6 = [0.0f32; 36];
+        let mut cov6_out = [0.0f32; 36];
+
+        unsafe {
+            multiomic_covariance_rotor_shrinkage_f32(
+                rot3.as_ptr(),
+                cov6.as_ptr(),
+                0.6,
+                rotor6.as_mut_ptr(),
+                cov6_out.as_mut_ptr(),
+            );
+        }
+
+        let mut tr_orig = 0.0f32;
+        let mut tr_out = 0.0f32;
+        for i in 0..6 {
+            tr_orig += cov6[i * 6 + i];
+            tr_out += cov6_out[i * 6 + i];
+        }
+        let diff = abs_f32(tr_out - tr_orig);
+        assert!(diff < 1e-5, "Shrinkage must conserve exact trace: diff={}", diff);
     }
 }

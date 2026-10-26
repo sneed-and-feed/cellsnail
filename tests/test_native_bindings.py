@@ -233,3 +233,38 @@ def test_cellsnail_engine_unification():
     assert np.allclose(m, np.eye(6))
 
     assert engine.step_count > 0
+
+
+def test_v020_adaptive_native_operators():
+    from cellsnail._native import (
+        native_morse_dropout_filter_adaptive,
+        native_morse_plateau_filter,
+        native_spatial_tissue_sheaf_solver_huber,
+        native_multiomic_covariance_rotor_shrinkage,
+    )
+
+    # 1. Morse adaptive blending
+    spike = np.array([0.1, 5.0, 0.1], dtype=np.float32)
+    prior = np.array([2.0, 2.0, 2.0], dtype=np.float32)
+    out, sal = native_morse_dropout_filter_adaptive(spike, prior, mad_floor=1.0, tau=1.0, lambda_blend=0.5)
+    assert out[1] == 5.0, "Focal spike must be preserved"
+    assert out[0] == 1.0 and out[2] == 1.0, "Non-focal bins must blend prior"
+
+    # 2. Morse plateau smoothing
+    prof = np.array([2.0, 2.0, 8.4, 7.6, 8.3, 7.7, 8.2, 7.8, 8.1, 7.9, 2.0, 2.0], dtype=np.float32)
+    out_p = native_morse_plateau_filter(prof, window_size=5)
+    assert out_p[0] == 2.0 and out_p[1] == 2.0, "Plateau boundary step edges must be pinned"
+    assert abs(out_p[5] - 8.0) <= abs(prof[5] - 8.0), "Plateau interior variance must be reduced"
+
+    # 3. Spatial sheaf Huber soft-clamping
+    ox, oy, hit = native_spatial_tissue_sheaf_solver_huber(10.0, 0.0, 1.0, 0.0, delta_jitter=0.0)
+    assert hit and ox == 0.0, "Zero jitter must enforce hard clamp"
+    ox_leak, oy_leak, hit_leak = native_spatial_tissue_sheaf_solver_huber(10.0, 0.0, 1.0, 0.0, delta_jitter=30.0, huber_delta=5.0)
+    assert hit_leak and 0.0 < ox_leak <= 10.0, "High jitter must allow Huber soft leakage"
+
+    # 4. Multi-omic covariance rotor Ledoit-Wolf shrinkage
+    rot3 = np.eye(3, dtype=np.float32)
+    cov6 = np.diag(np.arange(1, 7, dtype=np.float32))
+    m6, cov_out = native_multiomic_covariance_rotor_shrinkage(rot3, cov6, alpha_shrink=0.5)
+    assert abs(np.trace(cov_out) - np.trace(cov6)) < 1e-4, "Shrinkage must conserve exact trace"
+

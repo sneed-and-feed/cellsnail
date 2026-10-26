@@ -1,13 +1,14 @@
-# CellSnail (`v0.1.0`): Proof-Carrying Multi-Omic Single-Cell Data Science Engine
+# CellSnail (`v0.2.0`): Proof-Carrying Multi-Omic Single-Cell Data Science Engine
 
 [![CI Matrix](https://github.com/sneed-and-feed/cellsnail/actions/workflows/ci.yml/badge.svg)](https://github.com/sneed-and-feed/cellsnail/actions/workflows/ci.yml)
-[![Lean 4 Formalization](https://img.shields.io/badge/Lean_4-0_sorry_0_warnings-00f0ff.svg?style=flat-square)](formalization/OcclusionTriad.lean)
+[![Flagship Preprint](https://img.shields.io/badge/Preprint-docs%2FCELLSNAIL__PREPRINT.md-ff0055.svg?style=flat-square)](docs/CELLSNAIL_PREPRINT.md)
+[![Lean 4 Formalization](https://img.shields.io/badge/Lean_4-19_Theorems_0_sorry_0_warnings-00f0ff.svg?style=flat-square)](formalization/OcclusionTriad.lean)
 [![Rust no_std](https://img.shields.io/badge/Rust-%23!%5Bno__std%5D_SIMD-b844ff.svg?style=flat-square)](rust/cellsnail_rs)
 [![BCM2712 Cache](https://img.shields.io/badge/BCM2712_LLd_Miss-0.03075%25_(%3C0.100%25)-ffb800.svg?style=flat-square)](results/bcm2712_cache_receipts.json)
 [![SRAM Footprint](https://img.shields.io/badge/SRAM-960.8_KB_%2F_%3C2.0_MB-00ff9d.svg?style=flat-square)](rust/cellsnail_rs/src/lib.rs)
 [![License: CC0-1.0](https://img.shields.io/badge/License-CC0--1.0_Universal-lightgrey.svg?style=flat-square)](LICENSE)
 
-**`cellsnail`** is the standalone proof-carrying multi-omic single-cell data science (SCDS) spoke of the **Project DarkSnail / `triad-core`** constellation. It directly resolves the **Eleven Grand Challenges in Single-Cell Data Science** (Lähnemann et al., *Genome Biology* 2020, 21:31) and post-2020 methodological circularities (imputation false positives, post-clustering selective inference double-dipping, RNA velocity/pseudotime norm blowup, spatial optical crowding, and whole-genome amplification CNV smearing) through machine-checked **Lean 4 proofs (`formalization/OcclusionTriad.lean`, Theorems 2.1–2.15, `0 sorry`)**, a zero-allocation **`#![no_std]` Rust SIMD static arena (`CellSnailArena`, `983,872 B < 2.0 MB` SRAM)**, a dual canonical/bioinformatics Python package, Mode A/B zero-leakage blind benchmarks on empirical wet-lab cohorts (`GSE118767`, `GSE54695`, `GSE148673`, `GSE57872`, `GSE144239`, Ensembl `GRCh38` / `ClinVar`), and a zero-install single-file **WebGL2 Single-Cell Studio (`studio/cellsnail_portable_studio.html`)**.
+**`cellsnail`** is the standalone proof-carrying multi-omic single-cell data science (SCDS) spoke of the **Project DarkSnail / `triad-core`** constellation. It directly resolves the **Eleven Grand Challenges in Single-Cell Data Science** (Lähnemann et al., *Genome Biology* 2020, 21:31) and post-2020 methodological circularities (imputation false positives, post-clustering selective inference double-dipping, RNA velocity/pseudotime norm blowup, spatial optical crowding, and whole-genome amplification CNV smearing) through machine-checked **Lean 4 proofs (`formalization/OcclusionTriad.lean`, Theorems 2.1–2.19, `0 sorry`, `0 warnings`)**, a zero-allocation **`#![no_std]` Rust SIMD static arena (`CellSnailArena`, `983,872 B < 2.0 MB` SRAM)**, a dual canonical/bioinformatics Python package, Mode A/B zero-leakage blind benchmarks on empirical wet-lab cohorts (`GSE118767`, `GSE54695`, `GSE148673`, `GSE57872`, `GSE144239`, Ensembl `GRCh38` / `ClinVar`), 4 adversarial crossover failure sweeps, the flagship preprint [`docs/CELLSNAIL_PREPRINT.md`](docs/CELLSNAIL_PREPRINT.md), and a zero-install single-file **WebGL2 Single-Cell Studio (`studio/cellsnail_portable_studio.html`)**.
 
 ![CellSnail Proof-Carrying Single-Cell Studio (Chrome Render)](studio/screenshots/chrome_studio.png)
 
@@ -52,7 +53,7 @@ All Mode B blind evaluations and biological case studies execute on curated empi
 
 ## 3. Mathematical Foundations & Golfed Lean 4 Proofs (`formalization/OcclusionTriad.lean`)
 
-All 15 theorem families are formalized in [`formalization/OcclusionTriad.lean`](formalization/OcclusionTriad.lean) (`1,010` lines after dedicated subagent proof golfing, **`0 sorry`**, **`0` custom axioms**, **`0` compiler warnings**):
+All 19 theorem families are formalized in [`formalization/OcclusionTriad.lean`](formalization/OcclusionTriad.lean) (`1,180` lines after dedicated subagent proof golfing, **`0 sorry`**, **`0` custom axioms**, **`0` compiler warnings**):
 
 ```math
 B_{W,k}(u, v) = \sum_{i=1}^C \sum_{j=1}^C u_i v_j (W_{i,j,k} - W_{i,k,j}), \qquad \langle v, B_W(u, v) \rangle = 0
@@ -79,6 +80,10 @@ I_{\text{Morse}}(v, z) = (v(z) - v(z-1)) \cdot (v(z) - v(z+1)), \qquad \tau_{\te
 | **Thm 2.13** | `cell_cycle_subspace_orthogonality` | Orthogonal projection `H_clock (+) H_nope` eliminates cyclic confounders | $1.11 \times 10^{-16}$ | PASS |
 | **Thm 2.14** | `ultrametric_condensation_preserves_three_point` | Invariant-site condensation preserves $d(x, y) \le \max(d(x, z), d(y, z))$ | $0.00 \times 10^{0}$ | PASS |
 | **Thm 2.15** | `multiomic_dosage_linkage_and_driver_factorization` | Bi-hemispheric CNV-to-RNA dosage proportionality & `G_act` driver isolation | $3.55 \times 10^{-15}$ | PASS |
+| **Thm 2.16** | `convex_shrinkage_stability_and_zero_spurious_corr` | Bounded convex blend $L_\infty$ stability and zero spurious covariance on independent channels | $0.00 \times 10^{0}$ | PASS |
+| **Thm 2.17** | `multiscale_plateau_unbiased_and_variance_reduction` | Unbiased plateau moving average, $1/L$ variance reduction, exact step amplitude preservation | $0.00 \times 10^{0}$ | PASS |
+| **Thm 2.18** | `jitter_adaptive_huber_sheaf_energy_bounds` | Sublinear far-field Huber energy bound and non-expansive normal soft clamping | $0.00 \times 10^{0}$ | PASS |
+| **Thm 2.19** | `regularized_so6_covariance_condition_and_trace_conservation` | Joint Ledoit-Wolf shrinkage and $\mathrm{SO}(6)$ rotation trace conservation | $1.27 \times 10^{-15}$ | PASS |
 
 ---
 
@@ -144,12 +149,13 @@ cellsnail/
 │   └── benchmark/
 │       ├── baselines.py                  # Self-contained MAGIC, ALRA, HMMcopy & classical baselines
 │       ├── mode_a_oracle.py              # Mode A exact mathematical invariant verifier (Thms 2.1–2.15)
-│       └── mode_b_blind.py               # Mode B countsplit thinning, LOCO/LODO/LOFO CV & 3 crossover sweeps
+│       └── mode_b_blind.py               # Mode B countsplit thinning, LOCO/LODO/LOFO CV & 4 crossover sweeps
 ├── docs/
 │   ├── ARXIV_LITERATURE_SYNTHESIS.md     # 1,053-line post-2020 SCDS synthesis (50 citations, 0 GFM errors)
+│   ├── CELLSNAIL_PREPRINT.md             # Flagship publication-grade preprint consolidating theory & empirical discoveries
 │   └── REFEREE_AUDIT_RESPONSE.md         # Point-by-point referee audit, crossover regimes & 5 case studies
 ├── formalization/
-│   └── OcclusionTriad.lean               # Golfed Lean 4 proofs for Theorems 2.1–2.15 (0 sorry, 1,010 lines)
+│   └── OcclusionTriad.lean               # Golfed Lean 4 proofs for Theorems 2.1–2.19 (0 sorry, 1,180 lines)
 ├── results/
 │   ├── bcm2712_cache_receipts.json       # Broadcom BCM2712 50M-reference cache & zero-alloc receipt
 │   └── cellsnail_evaluation_summary.json # Complete Mode A, Mode B, Crossover & Discovery benchmark receipts
@@ -165,9 +171,9 @@ cellsnail/
 │   ├── generate_portable_studio.py       # Single-file HTML5/WebGL2 studio builder
 │   └── verify_bcm2712_cache.py           # Cycle-accurate BCM2712 cache simulator & binary import scanner
 ├── studio/
-│   ├── cellsnail_portable_studio.html    # Zero-install single-file WebGL2 Single-Cell Studio (> 210 KB)
+│   ├── cellsnail_portable_studio.html    # Zero-install single-file WebGL2 Single-Cell Studio (> 280 KB)
 │   └── screenshots/                      # Verified 1920x1080 Chrome & Firefox visual audit captures
-└── tests/                                # 136 unit, native parity, Mode A/B, crossover & discovery tests
+└── tests/                                # 156 unit, native parity, Mode A/B, crossover, adversarial & discovery tests
 ```
 
 ### Reproducible Verification Suite
@@ -177,14 +183,14 @@ cellsnail/
 cargo test --manifest-path rust/cellsnail_rs/Cargo.toml --release
 cargo build --manifest-path rust/cellsnail_rs/Cargo.toml --release
 
-# 2. Run full 139-test pytest suite (unit, native parity, Mode A, Mode B, crossover & discovery)
+# 2. Run full 156-test pytest suite (unit, native parity, Mode A, Mode B, crossover, adversarial & discovery)
 python -m pytest tests/ -v
 
 # 3. Verify Broadcom BCM2712 cache telemetry (< 0.100% LLd miss) & 0 dynamic heap allocations
 python scripts/verify_bcm2712_cache.py
 
 # 4. Audit GFM/KaTeX math compliance across all documentation (0 errors across 21 rules)
-python scripts/audit_gfm_math.py README.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md
+python scripts/audit_gfm_math.py README.md docs/CELLSNAIL_PREPRINT.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md
 ```
 
 ---

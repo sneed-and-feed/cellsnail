@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cellsnail"
-version = "0.1.0"
+version = "0.2.0"
 description = "cellsnail: Proof-carrying multi-omic single-cell data science spoke repository in the DarkSnail ecosystem"
 authors = [{ name = "DarkSnail Authors" }]
 readme = "README.md"
