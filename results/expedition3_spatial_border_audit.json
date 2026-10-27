@@ -1586,21 +1586,21 @@
   "section4_multimodal_so6_and_cross_expedition_bridge": {
     "so6_kelvin_mandel_missing_modality_audit": {
       "theorem_verified": "Theorem 2.17 (Ledoit-Wolf Shrinkage + Kelvin-Mandel SO(6) Isometry preserves exact trace invariants under missing modalities up to m_miss = 0.85)",
-      "max_relative_trace_residual_across_all_tests": 1.6882e-15,
+      "max_relative_trace_residual_across_all_tests": 1.5165e-15,
       "tnbc3_gse148673_profiles": [
         {
           "cohort": "GSE148673_TNBC3",
           "gene_symbol": "EGFR",
           "rna_cnv_pearson_r": 0.2775,
           "so6_anisotropy_index": 5.3761,
-          "max_relative_trace_residual": 8.5255e-16,
+          "max_relative_trace_residual": 6.0897e-16,
           "missing_modality_sweep": [
             {
               "m_missing": 0.0,
               "shrinkage_rho_star": 0.0025,
               "trace_before": 29870.040772,
               "trace_after": 29870.040772,
-              "relative_trace_residual": 8.5255e-16,
+              "relative_trace_residual": 6.0897e-16,
               "min_eigenvalue": 12.522496,
               "max_eigenvalue": 26709.442813
             },
@@ -1627,7 +1627,7 @@
               "shrinkage_rho_star": 0.4118,
               "trace_before": 29870.040772,
               "trace_after": 29870.040772,
-              "relative_trace_residual": 4.8717e-16,
+              "relative_trace_residual": 1.2179e-16,
               "min_eigenvalue": 2049.905099,
               "max_eigenvalue": 17793.575613
             },
@@ -1636,7 +1636,7 @@
               "shrinkage_rho_star": 0.4595,
               "trace_before": 29870.040772,
               "trace_after": 29870.040772,
-              "relative_trace_residual": 1.2179e-16,
+              "relative_trace_residual": 3.6538e-16,
               "min_eigenvalue": 2287.345777,
               "max_eigenvalue": 16754.502466
             }
@@ -1647,14 +1647,14 @@
           "gene_symbol": "MYC",
           "rna_cnv_pearson_r": 0.0301,
           "so6_anisotropy_index": 5.3571,
-          "max_relative_trace_residual": 1.5775e-15,
+          "max_relative_trace_residual": 1.0921e-15,
           "missing_modality_sweep": [
             {
               "m_missing": 0.0,
               "shrinkage_rho_star": 0.0025,
               "trace_before": 29980.034397,
               "trace_after": 29980.034397,
-              "relative_trace_residual": 2.4269e-16,
+              "relative_trace_residual": 8.4943e-16,
               "min_eigenvalue": 12.590871,
               "max_eigenvalue": 26712.942341
             },
@@ -1663,7 +1663,7 @@
               "shrinkage_rho_star": 0.2,
               "trace_before": 29980.034397,
               "trace_after": 29980.034397,
-              "relative_trace_residual": 1.5775e-15,
+              "relative_trace_residual": 1.0921e-15,
               "min_eigenvalue": 999.33494,
               "max_eigenvalue": 22413.574354
             },
@@ -1672,7 +1672,7 @@
               "shrinkage_rho_star": 0.3333,
               "trace_before": 29980.034397,
               "trace_after": 29980.034397,
-              "relative_trace_residual": 6.0673e-16,
+              "relative_trace_residual": 1.0921e-15,
               "min_eigenvalue": 1665.55785,
               "max_eigenvalue": 19510.757361
             },
@@ -1681,7 +1681,7 @@
               "shrinkage_rho_star": 0.4118,
               "trace_before": 29980.034397,
               "trace_after": 29980.034397,
-              "relative_trace_residual": 1.2135e-16,
+              "relative_trace_residual": 7.2808e-16,
               "min_eigenvalue": 2057.453679,
               "max_eigenvalue": 17803.217954
             },
@@ -1690,7 +1690,7 @@
               "shrinkage_rho_star": 0.4595,
               "trace_before": 29980.034397,
               "trace_after": 29980.034397,
-              "relative_trace_residual": 6.0673e-16,
+              "relative_trace_residual": 4.8539e-16,
               "min_eigenvalue": 2295.768711,
               "max_eigenvalue": 16764.849396
             }
@@ -1726,7 +1726,7 @@
               "shrinkage_rho_star": 0.3333,
               "trace_before": 29868.572616,
               "trace_after": 29868.572616,
-              "relative_trace_residual": 1.0962e-15,
+              "relative_trace_residual": 1.218e-15,
               "min_eigenvalue": 1659.365585,
               "max_eigenvalue": 19502.424503
             },
@@ -1744,7 +1744,7 @@
               "shrinkage_rho_star": 0.4595,
               "trace_before": 29868.572616,
               "trace_after": 29868.572616,
-              "relative_trace_residual": 3.654e-16,
+              "relative_trace_residual": 8.526e-16,
               "min_eigenvalue": 2287.233395,
               "max_eigenvalue": 16754.578463
             }
@@ -1755,14 +1755,14 @@
           "gene_symbol": "CDKN2A",
           "rna_cnv_pearson_r": 0.9851,
           "so6_anisotropy_index": 5.33,
-          "max_relative_trace_residual": 1.5684e-15,
+          "max_relative_trace_residual": 1.4478e-15,
           "missing_modality_sweep": [
             {
               "m_missing": 0.0,
               "shrinkage_rho_star": 0.0025,
               "trace_before": 30153.563414,
               "trace_after": 30153.563414,
-              "relative_trace_residual": 3.6195e-16,
+              "relative_trace_residual": 8.4454e-16,
               "min_eigenvalue": 12.693215,
               "max_eigenvalue": 26731.33225
             },
@@ -1780,7 +1780,7 @@
               "shrinkage_rho_star": 0.3333,
               "trace_before": 30153.563414,
               "trace_after": 30153.563414,
-              "relative_trace_residual": 9.6519e-16,
+              "relative_trace_residual": 1.2065e-15,
               "min_eigenvalue": 1675.197967,
               "max_eigenvalue": 19532.72701
             },
@@ -1789,7 +1789,7 @@
               "shrinkage_rho_star": 0.4118,
               "trace_before": 30153.563414,
               "trace_after": 30153.563414,
-              "relative_trace_residual": 1.5684e-15,
+              "relative_trace_residual": 1.3271e-15,
               "min_eigenvalue": 2069.362195,
               "max_eigenvalue": 17826.005468
             },
@@ -1798,7 +1798,7 @@
               "shrinkage_rho_star": 0.4595,
               "trace_before": 30153.563414,
               "trace_after": 30153.563414,
-              "relative_trace_residual": 9.6519e-16,
+              "relative_trace_residual": 1.4478e-15,
               "min_eigenvalue": 2309.056658,
               "max_eigenvalue": 16788.13426
             }
@@ -1809,7 +1809,7 @@
           "gene_symbol": "COL1A1",
           "rna_cnv_pearson_r": 0.9859,
           "so6_anisotropy_index": 4.2607,
-          "max_relative_trace_residual": 1.6882e-15,
+          "max_relative_trace_residual": 1.5006e-15,
           "missing_modality_sweep": [
             {
               "m_missing": 0.0,
@@ -1825,7 +1825,7 @@
               "shrinkage_rho_star": 0.2,
               "trace_before": 38788.359305,
               "trace_after": 38788.359305,
-              "relative_trace_residual": 3.7516e-16,
+              "relative_trace_residual": 1.8758e-16,
               "min_eigenvalue": 1292.94531,
               "max_eigenvalue": 23328.287843
             },
@@ -1843,7 +1843,7 @@
               "shrinkage_rho_star": 0.4118,
               "trace_before": 38788.359305,
               "trace_after": 38788.359305,
-              "relative_trace_residual": 7.5032e-16,
+              "relative_trace_residual": 3.7516e-16,
               "min_eigenvalue": 2661.946227,
               "max_eigenvalue": 18864.403972
             },
@@ -1852,7 +1852,7 @@
               "shrinkage_rho_star": 0.4595,
               "trace_before": 38788.359305,
               "trace_after": 38788.359305,
-              "relative_trace_residual": 1.6882e-15,
+              "relative_trace_residual": 1.5006e-15,
               "min_eigenvalue": 2970.279767,
               "max_eigenvalue": 17859.024721
             }
@@ -1924,7 +1924,7 @@
               "shrinkage_rho_star": 0.0027,
               "trace_before": 33584.822505,
               "trace_after": 33584.822505,
-              "relative_trace_residual": 4.3329e-16,
+              "relative_trace_residual": 2.1664e-16,
               "min_eigenvalue": 14.898829,
               "max_eigenvalue": 27047.702845
             },

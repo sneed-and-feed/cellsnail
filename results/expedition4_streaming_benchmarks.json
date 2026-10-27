@@ -1,0 +1,1550 @@
+{
+  "expedition": "Expedition 4: Systems & Whole-Transcriptome Streaming Scale-Up (`WholeGenomeArenaStreamer`)",
+  "version": "cellsnail v0.2.0",
+  "author": "Noah Cohen",
+  "arena_geometry_verification": {
+    "theorem": "Theorem 2.11",
+    "arena_base_address_hex": "0x7fff99f3a0c0",
+    "arena_size_bytes": 983872,
+    "arena_size_kb": 960.8125,
+    "arena_size_mb": 0.938293,
+    "sram_ceiling_bytes": 2097152,
+    "sram_headroom_bytes": 1113280,
+    "sram_utilization_pct": 46.9147,
+    "cache_line_alignment_bytes": 64,
+    "base_address_64b_aligned": true,
+    "contiguous_field_layout_verified": true,
+    "zero_dynamic_heap_allocations": true,
+    "bcm2712_cortex_a76_hardware_profile": {
+      "l1d_cache_bytes": 65536,
+      "l2_cache_bytes": 524288,
+      "l3_shared_cache_bytes": 2097152,
+      "l3_cache_hit_rate_pct": 99.53,
+      "lld_miss_rate_pct": 0.03075,
+      "spatial_slot_fits_l1d_exactly": true,
+      "ring_buffer_fits_l2_exactly": true,
+      "full_arena_fits_l3_sram": true
+    },
+    "passed": true,
+    "fields": {
+      "spatial_input": {
+        "offset": 0,
+        "bytes": 65536,
+        "elem_count": 16384,
+        "elem_bytes": 4
+      },
+      "spatial_output": {
+        "offset": 65536,
+        "bytes": 65536,
+        "elem_count": 16384,
+        "elem_bytes": 4
+      },
+      "salience_map": {
+        "offset": 131072,
+        "bytes": 65536,
+        "elem_count": 16384,
+        "elem_bytes": 4
+      },
+      "curl_buffer": {
+        "offset": 196608,
+        "bytes": 65536,
+        "elem_count": 16384,
+        "elem_bytes": 4
+      },
+      "ring_buffer": {
+        "offset": 262144,
+        "bytes": 524288,
+        "elem_count": 131072,
+        "elem_bytes": 4
+      },
+      "cell_cycle_mask": {
+        "offset": 786432,
+        "bytes": 65536,
+        "elem_count": 16384,
+        "elem_bytes": 4
+      },
+      "genotype_tensor": {
+        "offset": 851968,
+        "bytes": 640,
+        "elem_count": 160,
+        "elem_bytes": 4
+      },
+      "trajectory_buffer": {
+        "offset": 852608,
+        "bytes": 65536,
+        "elem_count": 16384,
+        "elem_bytes": 4
+      },
+      "sheaf_coboundary": {
+        "offset": 918144,
+        "bytes": 65536,
+        "elem_count": 16384,
+        "elem_bytes": 4
+      },
+      "multiomic_cov": {
+        "offset": 983680,
+        "bytes": 144,
+        "elem_count": 36,
+        "elem_bytes": 4
+      },
+      "_pad": {
+        "offset": 983824,
+        "bytes": 48,
+        "elem_count": 48,
+        "elem_bytes": 1
+      }
+    }
+  },
+  "numerical_parity_audits": {
+    "operator1_morse_1halo_parity": [
+      {
+        "n_genes": 2000,
+        "n_tiles_1d": 1,
+        "halo_width": 1,
+        "max_abs_diff_filtered_vs_full_native": 0.0,
+        "max_abs_diff_salience_vs_full_native": 0.0,
+        "max_abs_diff_adaptive_vs_full_native": 0.0,
+        "max_abs_diff_vectorized_vs_native": 0.0,
+        "bit_exact_parity": true
+      },
+      {
+        "n_genes": 5948,
+        "n_tiles_1d": 1,
+        "halo_width": 1,
+        "max_abs_diff_filtered_vs_full_native": 0.0,
+        "max_abs_diff_salience_vs_full_native": 0.0,
+        "max_abs_diff_adaptive_vs_full_native": 0.0,
+        "max_abs_diff_vectorized_vs_native": 0.0,
+        "bit_exact_parity": true
+      },
+      {
+        "n_genes": 10000,
+        "n_tiles_1d": 1,
+        "halo_width": 1,
+        "max_abs_diff_filtered_vs_full_native": 0.0,
+        "max_abs_diff_salience_vs_full_native": 0.0,
+        "max_abs_diff_adaptive_vs_full_native": 0.0,
+        "max_abs_diff_vectorized_vs_native": 0.0,
+        "bit_exact_parity": true
+      },
+      {
+        "n_genes": 17138,
+        "n_tiles_1d": 2,
+        "halo_width": 1,
+        "max_abs_diff_filtered_vs_full_native": 0.0,
+        "max_abs_diff_salience_vs_full_native": 0.0,
+        "max_abs_diff_adaptive_vs_full_native": 0.0,
+        "max_abs_diff_vectorized_vs_native": 0.0,
+        "bit_exact_parity": true
+      },
+      {
+        "n_genes": 25000,
+        "n_tiles_1d": 2,
+        "halo_width": 1,
+        "max_abs_diff_filtered_vs_full_native": 0.0,
+        "max_abs_diff_salience_vs_full_native": 0.0,
+        "max_abs_diff_adaptive_vs_full_native": 0.0,
+        "max_abs_diff_vectorized_vs_native": 0.0,
+        "bit_exact_parity": true
+      },
+      {
+        "n_genes": 33694,
+        "n_tiles_1d": 3,
+        "halo_width": 1,
+        "max_abs_diff_filtered_vs_full_native": 0.0,
+        "max_abs_diff_salience_vs_full_native": 0.0,
+        "max_abs_diff_adaptive_vs_full_native": 0.0,
+        "max_abs_diff_vectorized_vs_native": 0.0,
+        "bit_exact_parity": true
+      }
+    ],
+    "operator1_halo_boundary_ablation": {
+      "n_genes": 33694,
+      "tile_core_size": 16382,
+      "halo_1_max_abs_diff_vs_full": 0.0,
+      "halo_0_max_abs_diff_vs_full": 5.0,
+      "halo_0_false_positive_at_tile_boundary_16381": 5.0,
+      "halo_1_exact_rejection_at_tile_boundary_16381": 0.0,
+      "ground_truth_at_16381": 0.0
+    },
+    "operator2_deconfounder_column_tile_parity": [
+      {
+        "n_cells": 500,
+        "n_genes": 2000,
+        "genes_per_arena_tile_B_G": 131,
+        "n_column_tiles": 16,
+        "active_ring_buffer_bytes_per_tile": 524000,
+        "n_clock_channels_detected": 100,
+        "max_abs_diff_vs_full_native": 0.0,
+        "max_abs_diff_vectorized_vs_native": 0.0,
+        "mask_mismatches_vs_full_native": 0,
+        "bit_exact_parity": true
+      },
+      {
+        "n_cells": 500,
+        "n_genes": 5948,
+        "genes_per_arena_tile_B_G": 131,
+        "n_column_tiles": 46,
+        "active_ring_buffer_bytes_per_tile": 524000,
+        "n_clock_channels_detected": 298,
+        "max_abs_diff_vs_full_native": 0.0,
+        "max_abs_diff_vectorized_vs_native": 0.0,
+        "mask_mismatches_vs_full_native": 0,
+        "bit_exact_parity": true
+      },
+      {
+        "n_cells": 500,
+        "n_genes": 10000,
+        "genes_per_arena_tile_B_G": 131,
+        "n_column_tiles": 77,
+        "active_ring_buffer_bytes_per_tile": 524000,
+        "n_clock_channels_detected": 500,
+        "max_abs_diff_vs_full_native": 0.0,
+        "max_abs_diff_vectorized_vs_native": 0.0,
+        "mask_mismatches_vs_full_native": 0,
+        "bit_exact_parity": true
+      },
+      {
+        "n_cells": 500,
+        "n_genes": 17138,
+        "genes_per_arena_tile_B_G": 131,
+        "n_column_tiles": 131,
+        "active_ring_buffer_bytes_per_tile": 524000,
+        "n_clock_channels_detected": 857,
+        "max_abs_diff_vs_full_native": 0.0,
+        "max_abs_diff_vectorized_vs_native": 0.0,
+        "mask_mismatches_vs_full_native": 0,
+        "bit_exact_parity": true
+      },
+      {
+        "n_cells": 500,
+        "n_genes": 25000,
+        "genes_per_arena_tile_B_G": 131,
+        "n_column_tiles": 191,
+        "active_ring_buffer_bytes_per_tile": 524000,
+        "n_clock_channels_detected": 1250,
+        "max_abs_diff_vs_full_native": 0.0,
+        "max_abs_diff_vectorized_vs_native": 0.0,
+        "mask_mismatches_vs_full_native": 0,
+        "bit_exact_parity": true
+      },
+      {
+        "n_cells": 500,
+        "n_genes": 33694,
+        "genes_per_arena_tile_B_G": 131,
+        "n_column_tiles": 258,
+        "active_ring_buffer_bytes_per_tile": 524000,
+        "n_clock_channels_detected": 1685,
+        "max_abs_diff_vs_full_native": 0.0,
+        "max_abs_diff_vectorized_vs_native": 0.0,
+        "mask_mismatches_vs_full_native": 0,
+        "bit_exact_parity": true
+      }
+    ],
+    "operator5_spatial_sheaf_tile_parity": [
+      {
+        "n_spots": 400,
+        "n_genes": 2000,
+        "genes_per_arena_tile_B_G": 163,
+        "n_column_tiles": 13,
+        "max_abs_diff_vs_full_slide": 0.0,
+        "boundary_contacts_audited": 120,
+        "bit_exact_parity": true
+      },
+      {
+        "n_spots": 400,
+        "n_genes": 5948,
+        "genes_per_arena_tile_B_G": 163,
+        "n_column_tiles": 37,
+        "max_abs_diff_vs_full_slide": 0.0,
+        "boundary_contacts_audited": 120,
+        "bit_exact_parity": true
+      },
+      {
+        "n_spots": 400,
+        "n_genes": 10000,
+        "genes_per_arena_tile_B_G": 163,
+        "n_column_tiles": 62,
+        "max_abs_diff_vs_full_slide": 0.0,
+        "boundary_contacts_audited": 120,
+        "bit_exact_parity": true
+      },
+      {
+        "n_spots": 400,
+        "n_genes": 17138,
+        "genes_per_arena_tile_B_G": 163,
+        "n_column_tiles": 106,
+        "max_abs_diff_vs_full_slide": 0.0,
+        "boundary_contacts_audited": 120,
+        "bit_exact_parity": true
+      }
+    ],
+    "operator6_so6_multiomic_triad_parity": [
+      {
+        "n_genes": 2000,
+        "n_triads_streamed": 667,
+        "trace_in_total": 1380.846,
+        "trace_out_total": 1380.8461,
+        "max_relative_trace_residual_f32": 2.3416582405997642e-07,
+        "arena_slot_bytes": 144,
+        "trace_conserved_within_1e5": true
+      },
+      {
+        "n_genes": 5948,
+        "n_triads_streamed": 1983,
+        "trace_in_total": 4077.1255,
+        "trace_out_total": 4077.1256,
+        "max_relative_trace_residual_f32": 2.380290433517536e-07,
+        "arena_slot_bytes": 144,
+        "trace_conserved_within_1e5": true
+      },
+      {
+        "n_genes": 10000,
+        "n_triads_streamed": 3334,
+        "trace_in_total": 6864.6444,
+        "trace_out_total": 6864.6447,
+        "max_relative_trace_residual_f32": 2.369562402248146e-07,
+        "arena_slot_bytes": 144,
+        "trace_conserved_within_1e5": true
+      },
+      {
+        "n_genes": 17138,
+        "n_triads_streamed": 5713,
+        "trace_in_total": 11757.0443,
+        "trace_out_total": 11757.0448,
+        "max_relative_trace_residual_f32": 2.3855382943305777e-07,
+        "arena_slot_bytes": 144,
+        "trace_conserved_within_1e5": true
+      },
+      {
+        "n_genes": 25000,
+        "n_triads_streamed": 8334,
+        "trace_in_total": 17172.1477,
+        "trace_out_total": 17172.1484,
+        "max_relative_trace_residual_f32": 2.521874741507839e-07,
+        "arena_slot_bytes": 144,
+        "trace_conserved_within_1e5": true
+      },
+      {
+        "n_genes": 33694,
+        "n_triads_streamed": 11232,
+        "trace_in_total": 23145.2593,
+        "trace_out_total": 23145.2602,
+        "max_relative_trace_residual_f32": 2.438313116466514e-07,
+        "arena_slot_bytes": 144,
+        "trace_conserved_within_1e5": true
+      }
+    ]
+  },
+  "scaling_benchmarks": {
+    "gene_dimension_sweep_N500": [
+      {
+        "n_cells": 500,
+        "n_genes": 2000,
+        "total_entries": 1000000,
+        "raw_matrix_mb": 3.815,
+        "latency_ms": {
+          "cellsnail_simd_morse_op1": 13.815,
+          "cellsnail_simd_deconf_op2": 6.822,
+          "cellsnail_vec_morse_op1": 8.508,
+          "cellsnail_vec_deconf_op2": 6.162,
+          "magic_impute": 159.42,
+          "alra_impute": 6348.1,
+          "hmmcopy_w15": 45.893,
+          "ols_5clock_regression": 32.74
+        },
+        "throughput_entries_per_sec": {
+          "cellsnail_simd_morse_op1": 72387184.6,
+          "cellsnail_simd_deconf_op2": 146591025.5,
+          "magic_impute": 6272738.7,
+          "alra_impute": 157527.4,
+          "hmmcopy_w15": 21789578.0,
+          "ols_5clock_regression": 30543490.9
+        },
+        "speedup_cellsnail_simd_morse_vs": {
+          "magic_impute": 11.54,
+          "alra_impute": 459.52,
+          "hmmcopy_w15": 3.32
+        },
+        "speedup_cellsnail_simd_deconf_vs_ols": 4.8,
+        "working_memory_mb": {
+          "cellsnail_arena_sram": 0.9383,
+          "magic_heap": 8.583,
+          "alra_heap": 12.398,
+          "ols_heap": 22.907
+        }
+      },
+      {
+        "n_cells": 500,
+        "n_genes": 5948,
+        "total_entries": 2974000,
+        "raw_matrix_mb": 11.345,
+        "latency_ms": {
+          "cellsnail_simd_morse_op1": 37.894,
+          "cellsnail_simd_deconf_op2": 21.157,
+          "cellsnail_vec_morse_op1": 26.231,
+          "cellsnail_vec_deconf_op2": 18.77,
+          "magic_impute": 509.143,
+          "alra_impute": 21412.6,
+          "hmmcopy_w15": 142.185,
+          "ols_5clock_regression": 129.723
+        },
+        "throughput_entries_per_sec": {
+          "cellsnail_simd_morse_op1": 78481460.3,
+          "cellsnail_simd_deconf_op2": 140570126.8,
+          "magic_impute": 5841188.0,
+          "alra_impute": 138890.2,
+          "hmmcopy_w15": 20916411.7,
+          "ols_5clock_regression": 22925772.6
+        },
+        "speedup_cellsnail_simd_morse_vs": {
+          "magic_impute": 13.44,
+          "alra_impute": 565.06,
+          "hmmcopy_w15": 3.75
+        },
+        "speedup_cellsnail_simd_deconf_vs_ols": 6.13,
+        "working_memory_mb": {
+          "cellsnail_arena_sram": 0.9383,
+          "magic_heap": 16.113,
+          "alra_heap": 34.988,
+          "ols_heap": 68.089
+        }
+      },
+      {
+        "n_cells": 500,
+        "n_genes": 10000,
+        "total_entries": 5000000,
+        "raw_matrix_mb": 19.073,
+        "latency_ms": {
+          "cellsnail_simd_morse_op1": 81.229,
+          "cellsnail_simd_deconf_op2": 43.963,
+          "cellsnail_vec_morse_op1": 37.865,
+          "cellsnail_vec_deconf_op2": 42.899,
+          "magic_impute": 835.4,
+          "alra_impute": 36284.5,
+          "hmmcopy_w15": 246.685,
+          "ols_5clock_regression": 268.777
+        },
+        "throughput_entries_per_sec": {
+          "cellsnail_simd_morse_op1": 61554674.1,
+          "cellsnail_simd_deconf_op2": 113732260.6,
+          "magic_impute": 5985156.8,
+          "alra_impute": 137799.9,
+          "hmmcopy_w15": 20268763.8,
+          "ols_5clock_regression": 18602782.2
+        },
+        "speedup_cellsnail_simd_morse_vs": {
+          "magic_impute": 10.28,
+          "alra_impute": 446.7,
+          "hmmcopy_w15": 3.04
+        },
+        "speedup_cellsnail_simd_deconf_vs_ols": 6.11,
+        "working_memory_mb": {
+          "cellsnail_arena_sram": 0.9383,
+          "magic_heap": 23.842,
+          "alra_heap": 58.174,
+          "ols_heap": 114.46
+        }
+      },
+      {
+        "n_cells": 500,
+        "n_genes": 17138,
+        "total_entries": 8569000,
+        "raw_matrix_mb": 32.688,
+        "latency_ms": {
+          "cellsnail_simd_morse_op1": 124.032,
+          "cellsnail_simd_deconf_op2": 64.755,
+          "cellsnail_vec_morse_op1": 71.608,
+          "cellsnail_vec_deconf_op2": 50.938,
+          "magic_impute": 1448.2,
+          "alra_impute": 62190.4,
+          "hmmcopy_w15": 493.772,
+          "ols_5clock_regression": 357.322
+        },
+        "throughput_entries_per_sec": {
+          "cellsnail_simd_morse_op1": 69086898.4,
+          "cellsnail_simd_deconf_op2": 132328732.5,
+          "magic_impute": 5917000.4,
+          "alra_impute": 137786.5,
+          "hmmcopy_w15": 17354163.5,
+          "ols_5clock_regression": 23981171.0
+        },
+        "speedup_cellsnail_simd_morse_vs": {
+          "magic_impute": 11.68,
+          "alra_impute": 501.41,
+          "hmmcopy_w15": 3.98
+        },
+        "speedup_cellsnail_simd_deconf_vs_ols": 5.52,
+        "working_memory_mb": {
+          "cellsnail_arena_sram": 0.9383,
+          "magic_heap": 37.457,
+          "alra_heap": 99.018,
+          "ols_heap": 196.148
+        }
+      },
+      {
+        "n_cells": 500,
+        "n_genes": 25000,
+        "total_entries": 12500000,
+        "raw_matrix_mb": 47.684,
+        "latency_ms": {
+          "cellsnail_simd_morse_op1": 173.972,
+          "cellsnail_simd_deconf_op2": 85.938,
+          "cellsnail_vec_morse_op1": 93.66,
+          "cellsnail_vec_deconf_op2": 89.874,
+          "magic_impute": 2124.8,
+          "alra_impute": 91045.2,
+          "hmmcopy_w15": 439.938,
+          "ols_5clock_regression": 471.619
+        },
+        "throughput_entries_per_sec": {
+          "cellsnail_simd_morse_op1": 71850849.1,
+          "cellsnail_simd_deconf_op2": 145453360.7,
+          "magic_impute": 5882906.6,
+          "alra_impute": 137294.4,
+          "hmmcopy_w15": 28413094.6,
+          "ols_5clock_regression": 26504445.3
+        },
+        "speedup_cellsnail_simd_morse_vs": {
+          "magic_impute": 12.21,
+          "alra_impute": 523.33,
+          "hmmcopy_w15": 2.53
+        },
+        "speedup_cellsnail_simd_deconf_vs_ols": 5.49,
+        "working_memory_mb": {
+          "cellsnail_arena_sram": 0.9383,
+          "magic_heap": 52.452,
+          "alra_heap": 144.005,
+          "ols_heap": 286.121
+        }
+      },
+      {
+        "n_cells": 500,
+        "n_genes": 33694,
+        "total_entries": 16847000,
+        "raw_matrix_mb": 64.266,
+        "latency_ms": {
+          "cellsnail_simd_morse_op1": 236.975,
+          "cellsnail_simd_deconf_op2": 124.808,
+          "cellsnail_vec_morse_op1": 137.201,
+          "cellsnail_vec_deconf_op2": 144.39,
+          "magic_impute": 2877.121,
+          "alra_impute": 122693.92,
+          "hmmcopy_w15": 571.968,
+          "ols_5clock_regression": 645.151
+        },
+        "throughput_entries_per_sec": {
+          "cellsnail_simd_morse_op1": 71091767.3,
+          "cellsnail_simd_deconf_op2": 134983875.2,
+          "magic_impute": 5855506.3,
+          "alra_impute": 137309.2,
+          "hmmcopy_w15": 29454445.0,
+          "ols_5clock_regression": 26113266.5
+        },
+        "speedup_cellsnail_simd_morse_vs": {
+          "magic_impute": 12.14,
+          "alra_impute": 517.75,
+          "hmmcopy_w15": 2.41
+        },
+        "speedup_cellsnail_simd_deconf_vs_ols": 5.17,
+        "working_memory_mb": {
+          "cellsnail_arena_sram": 0.9383,
+          "magic_heap": 69.035,
+          "alra_heap": 193.752,
+          "ols_heap": 385.616
+        }
+      }
+    ],
+    "cell_cohort_sweep_G2000": [
+      {
+        "n_cells": 300,
+        "n_genes": 2000,
+        "total_entries": 600000,
+        "genes_per_arena_tile_B_G": 218,
+        "latency_ms": {
+          "cellsnail_simd_morse_op1": 9.842,
+          "cellsnail_simd_deconf_op2": 4.747,
+          "magic_impute": 64.18,
+          "alra_impute": 2315.4,
+          "hmmcopy_w15": 30.063,
+          "ols_5clock_regression": 109.593
+        },
+        "speedup_cellsnail_simd_morse_vs_magic": 6.52,
+        "speedup_cellsnail_simd_morse_vs_alra": 235.26,
+        "speedup_cellsnail_simd_deconf_vs_ols": 23.09,
+        "working_memory_mb": {
+          "cellsnail_arena_sram": 0.9383,
+          "magic_heap": 4.005,
+          "alra_heap": 7.21,
+          "ols_heap": 13.744
+        }
+      },
+      {
+        "n_cells": 400,
+        "n_genes": 2000,
+        "total_entries": 800000,
+        "genes_per_arena_tile_B_G": 163,
+        "latency_ms": {
+          "cellsnail_simd_morse_op1": 11.378,
+          "cellsnail_simd_deconf_op2": 5.621,
+          "magic_impute": 104.85,
+          "alra_impute": 3890.2,
+          "hmmcopy_w15": 52.189,
+          "ols_5clock_regression": 120.994
+        },
+        "speedup_cellsnail_simd_morse_vs_magic": 9.21,
+        "speedup_cellsnail_simd_morse_vs_alra": 341.89,
+        "speedup_cellsnail_simd_deconf_vs_ols": 21.52,
+        "working_memory_mb": {
+          "cellsnail_arena_sram": 0.9383,
+          "magic_heap": 6.104,
+          "alra_heap": 9.766,
+          "ols_heap": 18.326
+        }
+      },
+      {
+        "n_cells": 500,
+        "n_genes": 2000,
+        "total_entries": 1000000,
+        "genes_per_arena_tile_B_G": 131,
+        "latency_ms": {
+          "cellsnail_simd_morse_op1": 13.163,
+          "cellsnail_simd_deconf_op2": 7.341,
+          "magic_impute": 159.42,
+          "alra_impute": 6348.1,
+          "hmmcopy_w15": 63.829,
+          "ols_5clock_regression": 40.7
+        },
+        "speedup_cellsnail_simd_morse_vs_magic": 12.11,
+        "speedup_cellsnail_simd_morse_vs_alra": 482.28,
+        "speedup_cellsnail_simd_deconf_vs_ols": 5.54,
+        "working_memory_mb": {
+          "cellsnail_arena_sram": 0.9383,
+          "magic_heap": 8.583,
+          "alra_heap": 12.398,
+          "ols_heap": 22.907
+        }
+      },
+      {
+        "n_cells": 543,
+        "n_genes": 2000,
+        "total_entries": 1086000,
+        "genes_per_arena_tile_B_G": 120,
+        "latency_ms": {
+          "cellsnail_simd_morse_op1": 13.947,
+          "cellsnail_simd_deconf_op2": 6.407,
+          "magic_impute": 186.4,
+          "alra_impute": 7412.8,
+          "hmmcopy_w15": 54.614,
+          "ols_5clock_regression": 26.003
+        },
+        "speedup_cellsnail_simd_morse_vs_magic": 13.36,
+        "speedup_cellsnail_simd_morse_vs_alra": 531.48,
+        "speedup_cellsnail_simd_deconf_vs_ols": 4.06,
+        "working_memory_mb": {
+          "cellsnail_arena_sram": 0.9383,
+          "magic_heap": 9.767,
+          "alra_heap": 13.553,
+          "ols_heap": 24.877
+        }
+      },
+      {
+        "n_cells": 1000,
+        "n_genes": 2000,
+        "total_entries": 2000000,
+        "genes_per_arena_tile_B_G": 65,
+        "latency_ms": {
+          "cellsnail_simd_morse_op1": 26.793,
+          "cellsnail_simd_deconf_op2": 17.436,
+          "magic_impute": 512.3,
+          "alra_impute": 14820.5,
+          "hmmcopy_w15": 114.105,
+          "ols_5clock_regression": 42.577
+        },
+        "speedup_cellsnail_simd_morse_vs_magic": 19.12,
+        "speedup_cellsnail_simd_morse_vs_alra": 553.14,
+        "speedup_cellsnail_simd_deconf_vs_ols": 2.44,
+        "working_memory_mb": {
+          "cellsnail_arena_sram": 0.9383,
+          "magic_heap": 26.703,
+          "alra_heap": 26.703,
+          "ols_heap": 45.815
+        }
+      },
+      {
+        "n_cells": 2000,
+        "n_genes": 2000,
+        "total_entries": 4000000,
+        "genes_per_arena_tile_B_G": 32,
+        "latency_ms": {
+          "cellsnail_simd_morse_op1": 53.945,
+          "cellsnail_simd_deconf_op2": 42.184,
+          "magic_impute": 1385.6,
+          "alra_impute": 25640.8,
+          "hmmcopy_w15": 281.625,
+          "ols_5clock_regression": 319.757
+        },
+        "speedup_cellsnail_simd_morse_vs_magic": 25.69,
+        "speedup_cellsnail_simd_morse_vs_alra": 475.31,
+        "speedup_cellsnail_simd_deconf_vs_ols": 7.58,
+        "working_memory_mb": {
+          "cellsnail_arena_sram": 0.9383,
+          "magic_heap": 91.553,
+          "alra_heap": 61.035,
+          "ols_heap": 91.629
+        }
+      },
+      {
+        "n_cells": 5000,
+        "n_genes": 2000,
+        "total_entries": 10000000,
+        "genes_per_arena_tile_B_G": 13,
+        "latency_ms": {
+          "cellsnail_simd_morse_op1": 139.362,
+          "cellsnail_simd_deconf_op2": 165.169,
+          "magic_impute": 5056.414,
+          "alra_impute": 51341.021,
+          "hmmcopy_w15": 505.724,
+          "ols_5clock_regression": 377.577
+        },
+        "speedup_cellsnail_simd_morse_vs_magic": 36.28,
+        "speedup_cellsnail_simd_morse_vs_alra": 368.4,
+        "speedup_cellsnail_simd_deconf_vs_ols": 2.29,
+        "working_memory_mb": {
+          "cellsnail_arena_sram": 0.9383,
+          "magic_heap": 514.984,
+          "alra_heap": 129.7,
+          "ols_heap": 229.073
+        }
+      }
+    ],
+    "atlas_full_transcriptome_targets": [
+      {
+        "cohort": "GSE57872_GBM_Full",
+        "n_cells": 543,
+        "n_genes": 5948,
+        "total_entries": 3229764,
+        "raw_matrix_mb": 12.32,
+        "arena_working_sram_mb": 0.9383,
+        "memory_compression_ratio_vs_raw": 13.13,
+        "morse_1halo_tiles": 198,
+        "deconfounder_column_tiles": 50,
+        "deconfounder_B_G": 120,
+        "cellsnail_simd_morse_latency_ms": 48.38,
+        "cellsnail_simd_deconf_latency_ms": 23.04,
+        "cellsnail_simd_morse_throughput_m_entries_per_sec": 66.76,
+        "cellsnail_simd_deconf_throughput_m_entries_per_sec": 140.19
+      },
+      {
+        "cohort": "GSE144239_cSCC_Spatial_Full",
+        "n_cells": 400,
+        "n_genes": 17138,
+        "total_entries": 6855200,
+        "raw_matrix_mb": 26.15,
+        "arena_working_sram_mb": 0.9383,
+        "memory_compression_ratio_vs_raw": 27.87,
+        "morse_1halo_tiles": 419,
+        "deconfounder_column_tiles": 106,
+        "deconfounder_B_G": 163,
+        "cellsnail_simd_morse_latency_ms": 109.79,
+        "cellsnail_simd_deconf_latency_ms": 52.41,
+        "cellsnail_simd_morse_throughput_m_entries_per_sec": 62.44,
+        "cellsnail_simd_deconf_throughput_m_entries_per_sec": 130.79
+      },
+      {
+        "cohort": "GSE148673_TNBC3_GRCh38_Full",
+        "n_cells": 500,
+        "n_genes": 33694,
+        "total_entries": 16847000,
+        "raw_matrix_mb": 64.27,
+        "arena_working_sram_mb": 0.9383,
+        "memory_compression_ratio_vs_raw": 68.49,
+        "morse_1halo_tiles": 1029,
+        "deconfounder_column_tiles": 258,
+        "deconfounder_B_G": 131,
+        "cellsnail_simd_morse_latency_ms": 247.53,
+        "cellsnail_simd_deconf_latency_ms": 143.26,
+        "cellsnail_simd_morse_throughput_m_entries_per_sec": 68.06,
+        "cellsnail_simd_deconf_throughput_m_entries_per_sec": 117.6
+      },
+      {
+        "cohort": "Atlas_2k_Cells_GRCh38_Full",
+        "n_cells": 2000,
+        "n_genes": 33694,
+        "total_entries": 67388000,
+        "raw_matrix_mb": 257.06,
+        "arena_working_sram_mb": 0.9383,
+        "memory_compression_ratio_vs_raw": 273.97,
+        "morse_1halo_tiles": 4114,
+        "deconfounder_column_tiles": 1053,
+        "deconfounder_B_G": 32,
+        "cellsnail_simd_morse_latency_ms": 1001.41,
+        "cellsnail_simd_deconf_latency_ms": 842.34,
+        "cellsnail_simd_morse_throughput_m_entries_per_sec": 67.29,
+        "cellsnail_simd_deconf_throughput_m_entries_per_sec": 80.0
+      },
+      {
+        "cohort": "Atlas_5k_Cells_GRCh38_Full",
+        "n_cells": 5000,
+        "n_genes": 33694,
+        "total_entries": 168470000,
+        "raw_matrix_mb": 642.66,
+        "arena_working_sram_mb": 0.9383,
+        "memory_compression_ratio_vs_raw": 684.93,
+        "morse_1halo_tiles": 10284,
+        "deconfounder_column_tiles": 2592,
+        "deconfounder_B_G": 13,
+        "cellsnail_simd_morse_latency_ms": 2374.84,
+        "cellsnail_simd_deconf_latency_ms": 2687.8,
+        "cellsnail_simd_morse_throughput_m_entries_per_sec": 70.94,
+        "cellsnail_simd_deconf_throughput_m_entries_per_sec": 62.68
+      },
+      {
+        "cohort": "GSE148673_MultiPatient_TNBC1_to_5_Autosomal",
+        "n_cells": 8944,
+        "n_genes": 19589,
+        "total_entries": 175204016,
+        "raw_matrix_mb": 668.35,
+        "arena_working_sram_mb": 0.9383,
+        "memory_compression_ratio_vs_raw": 712.3,
+        "morse_1halo_tiles": 10695,
+        "deconfounder_column_tiles": 2799,
+        "deconfounder_B_G": 7,
+        "cellsnail_simd_morse_latency_ms": 2456.93,
+        "cellsnail_simd_deconf_latency_ms": 3436.57,
+        "cellsnail_simd_morse_throughput_m_entries_per_sec": 71.31,
+        "cellsnail_simd_deconf_throughput_m_entries_per_sec": 50.98
+      }
+    ],
+    "memory_scaling_projection_33694_genes": [
+      {
+        "n_cells": 500,
+        "n_genes": 33694,
+        "scanpy_seurat_centered_f64_plus_knn_mb": 130.44,
+        "magic_diffusion_f32_mb": 130.44,
+        "alra_svd_dense_f32_mb": 160.67,
+        "ols_5clock_f64_mb": 385.62,
+        "cellsnail_static_arena_sram_mb": 0.9383,
+        "cellsnail_memory_reduction_fold_vs_scanpy": 139.0,
+        "cellsnail_memory_reduction_fold_vs_ols": 411.0
+      },
+      {
+        "n_cells": 5000,
+        "n_genes": 33694,
+        "scanpy_seurat_centered_f64_plus_knn_mb": 1476.06,
+        "magic_diffusion_f32_mb": 1476.06,
+        "alra_svd_dense_f32_mb": 1606.66,
+        "ols_5clock_f64_mb": 3856.2,
+        "cellsnail_static_arena_sram_mb": 0.9383,
+        "cellsnail_memory_reduction_fold_vs_scanpy": 1573.1,
+        "cellsnail_memory_reduction_fold_vs_ols": 4109.8
+      },
+      {
+        "n_cells": 50000,
+        "n_genes": 33694,
+        "scanpy_seurat_centered_f64_plus_knn_mb": 31926.73,
+        "magic_diffusion_f32_mb": 31926.73,
+        "alra_svd_dense_f32_mb": 16066.55,
+        "ols_5clock_f64_mb": 38562.01,
+        "cellsnail_static_arena_sram_mb": 0.9383,
+        "cellsnail_memory_reduction_fold_vs_scanpy": 34026.4,
+        "cellsnail_memory_reduction_fold_vs_ols": 41097.7
+      },
+      {
+        "n_cells": 100000,
+        "n_genes": 33694,
+        "scanpy_seurat_centered_f64_plus_knn_mb": 102000.43,
+        "magic_diffusion_f32_mb": 102000.43,
+        "alra_svd_dense_f32_mb": 32133.1,
+        "ols_5clock_f64_mb": 77124.02,
+        "cellsnail_static_arena_sram_mb": 0.9383,
+        "cellsnail_memory_reduction_fold_vs_scanpy": 108708.4,
+        "cellsnail_memory_reduction_fold_vs_ols": 82195.5
+      }
+    ]
+  },
+  "hvg2000_and_metacell50_blindspot_audit": {
+    "empirical_cohorts_hvg2000_discard_summary": {
+      "GSE148673_TNBC3": {
+        "geo_accession": "GSE148673 (GSM4476488)",
+        "citation": "Gao et al., Nature Biotechnology 39:599-608 (2021)",
+        "assay_platform": "10x Genomics Chromium Single-Cell 3' RNA-seq (GRCh38 reference)",
+        "n_cells_raw_file": 532,
+        "n_cells_paired_cohort": 500,
+        "n_genes_total": 33694,
+        "n_genes_expressed_532_cells": 22400,
+        "n_genes_expressed_500_cells": 22294,
+        "zero_inflation_sparsity_pct_all_genes": 85.1769,
+        "zero_inflation_sparsity_pct_expressed_genes": 77.5971,
+        "hvg_top_k": 2000,
+        "genes_discarded_by_hvg2000": 31694,
+        "expressed_genes_discarded_by_hvg2000": 20400,
+        "fraction_discarded_total_pct": 94.0642,
+        "fraction_discarded_expressed_pct": 91.0714,
+        "dense_matrix_bytes_f32_500x33694": 67388000,
+        "dense_matrix_bytes_f64_500x33694": 134776000
+      },
+      "GSE144239_cSCC": {
+        "geo_accession": "GSE144239 (GSM4284316_P2_ST_rep1 + 6-slide 4-patient series)",
+        "citation": "Ji et al., Cell 182(2):497-514 (2020)",
+        "assay_platform": "Spatial Transcriptomics (100 um spot diameter, 200 um center-to-center pitch)",
+        "n_spots_raw_array": 1933,
+        "n_spots_tissue_selection": 666,
+        "n_spots_stratified_cohort": 400,
+        "n_spots_6slide_series": 4293,
+        "n_genes_total": 17138,
+        "n_genes_clean_biological": 16929,
+        "n_genes_expressed_666_spots": 16772,
+        "n_genes_clean_expressed_666_spots": 16120,
+        "n_genes_expressed_400_spots": 16326,
+        "top2000_hvg_slots_wasted_on_rpl_rps_mt_artifacts": 123,
+        "zero_inflation_sparsity_pct_all_genes": 79.1312,
+        "hvg_top_k": 2000,
+        "genes_discarded_by_hvg2000": 15138,
+        "clean_expressed_genes_discarded_by_hvg2000": 14243,
+        "fraction_discarded_total_pct": 88.33,
+        "fraction_discarded_expressed_pct": 88.0754,
+        "fraction_discarded_clean_expressed_pct": 88.3561,
+        "dense_matrix_bytes_f32_666x17138": 45655632,
+        "dense_matrix_bytes_f64_666x17138": 91311264
+      },
+      "GSE57872_GBM": {
+        "geo_accession": "GSE57872",
+        "citation": "Patel et al., Science 344(6190):1396-1401 (2014)",
+        "assay_platform": "Smart-seqFull-Length Single-Cell RNA-seq (5 primary glioblastomas + 2 gliomasphere lines)",
+        "n_cells_cohort": 543,
+        "n_genes_total": 5948,
+        "n_genes_expressed_543_cells": 5948,
+        "hvg_top_k": 2000,
+        "genes_discarded_by_hvg2000": 3948,
+        "fraction_discarded_total_pct": 66.3753,
+        "dense_matrix_bytes_f32_543x5948": 12919056,
+        "dense_matrix_bytes_f64_543x5948": 25838112
+      }
+    },
+    "orchestrator2_exp5_delta_erasure_blindspot": {
+      "core_13_ddr_chromatin_panel_loss_summary": {
+        "GSE148673_TNBC3": {
+          "n_panel_present": 13,
+          "n_dropped_by_hvg2000": 11,
+          "pct_dropped_by_hvg2000": 84.6154,
+          "dropped_genes_with_hvg_ranks": {
+            "RAD51": 10121,
+            "BRCA2": 9424,
+            "FANCD2": 8455,
+            "XRCC2": 8264,
+            "BRCA1": 8237,
+            "CHEK1": 8151,
+            "FANCI": 8115,
+            "UHRF1": 5584,
+            "HELLS": 4554,
+            "WEE1": 4399,
+            "EZH2": 3940
+          },
+          "retained_genes_with_hvg_ranks": {
+            "PARP1": 943,
+            "DNMT1": 967
+          }
+        },
+        "GSE144239_cSCC": {
+          "n_panel_present": 13,
+          "n_dropped_by_hvg2000": 13,
+          "pct_dropped_by_hvg2000": 100.0,
+          "dropped_genes_with_hvg_ranks": {
+            "XRCC2": 13103,
+            "BRCA2": 11791,
+            "HELLS": 11430,
+            "RAD51": 11068,
+            "FANCI": 10248,
+            "FANCD2": 10242,
+            "BRCA1": 9311,
+            "UHRF1": 9145,
+            "EZH2": 7587,
+            "CHEK1": 7479,
+            "WEE1": 3695,
+            "DNMT1": 2873,
+            "PARP1": 2727
+          }
+        },
+        "GSE57872_GBM": {
+          "n_panel_present": 8,
+          "n_dropped_by_hvg2000": 7,
+          "pct_dropped_by_hvg2000": 87.5,
+          "dropped_genes_with_hvg_ranks": {
+            "HELLS": 5466,
+            "FANCI": 5309,
+            "RAD51": 5276,
+            "CHEK1": 5192,
+            "BRCA1": 4969,
+            "DNMT1": 3439,
+            "PARP1": 2679
+          },
+          "retained_genes_with_hvg_ranks": {
+            "EZH2": 581
+          }
+        }
+      },
+      "whole_transcriptome_delta_census_loss_tnbc3": {
+        "total_genes_with_delta_5clock_ge_0_10": 1491,
+        "dropped_by_hvg2000_delta_5clock_ge_0_10": 894,
+        "pct_dropped_delta_5clock_ge_0_10": 59.9598,
+        "total_genes_with_delta_5clock_ge_0_20": 623,
+        "dropped_by_hvg2000_delta_5clock_ge_0_20": 329,
+        "pct_dropped_delta_5clock_ge_0_20": 52.809
+      },
+      "newly_uncovered_tier_a_dark_genome_30_hits": [
+        "DNAJC9",
+        "VRK1",
+        "PKMYT1",
+        "TRIP13",
+        "CHAF1A",
+        "ASF1B",
+        "RNASEH2A",
+        "MND1",
+        "TFDP1",
+        "SSRP1",
+        "MORF4L1",
+        "ALYREF",
+        "LMNB1",
+        "DNPH1",
+        "NR2F6",
+        "RACGAP1",
+        "HMGB3",
+        "KCTD1",
+        "FAM83D",
+        "FAM83H",
+        "ARHGAP11A",
+        "SAPCD2",
+        "MIS18A",
+        "POC1A",
+        "DEPDC1",
+        "BOP1",
+        "SEPHS1",
+        "NELFCD",
+        "POLQ",
+        "BARD1"
+      ],
+      "headline_tier_a_double_killed_drivers": [
+        {
+          "gene": "DNAJC9",
+          "mechanism": "Histone H3-H4 Co-Chaperone & Replication Chromatin Loader",
+          "tnbc3_hvg_rank": 2351,
+          "tnbc3_delta_20clock": 0.668,
+          "tnbc3_delta_5clock": 0.577,
+          "cscc_hvg_rank": 3837,
+          "cscc_delta_20clock": 0.436,
+          "dropped_by_hvg2000_in_tnbc3_and_cscc": true
+        },
+        {
+          "gene": "VRK1",
+          "mechanism": "Vaccinia-Related Chromatin Kinase 1 (BANF1 & H3T3 Kinase; synthetic lethal in VRK2-methylated GBM)",
+          "tnbc3_hvg_rank": 2856,
+          "tnbc3_delta_20clock": 0.661,
+          "tnbc3_delta_5clock": 0.582,
+          "cscc_hvg_rank": 6174,
+          "cscc_delta_20clock": 0.323,
+          "dropped_by_hvg2000_in_tnbc3_and_cscc": true
+        },
+        {
+          "gene": "PKMYT1",
+          "mechanism": "Membrane-Associated Tyr14/Thr15 Wee1-Family G2/M Kinase (Lunresertib / RP-6306 target; Triple-Erased across Exp 4, Exp 5, Exp 6)",
+          "tnbc3_hvg_rank": 6146,
+          "tnbc3_delta_20clock": 0.59,
+          "tnbc3_delta_5clock": 0.521,
+          "cscc_hvg_rank": 6182,
+          "cscc_delta_20clock": 0.384,
+          "dropped_by_hvg2000_in_tnbc3_and_cscc": true
+        },
+        {
+          "gene": "TRIP13",
+          "mechanism": "AAA+ ATPase Shieldin/REV7 Remodeler driving HR restoration & PARP inhibitor resistance",
+          "tnbc3_hvg_rank": 3583,
+          "tnbc3_delta_20clock": 0.71,
+          "tnbc3_delta_5clock": 0.641,
+          "cscc_hvg_rank": 7530,
+          "cscc_delta_20clock": 0.256,
+          "dropped_by_hvg2000_in_tnbc3_and_cscc": true
+        },
+        {
+          "gene": "RACGAP1",
+          "mechanism": "Centralspindlin RhoA/STAT3 Invasion Hub (Dropped by HVG-2000 in ALL 3 cohorts)",
+          "tnbc3_hvg_rank": 6032,
+          "tnbc3_delta_20clock": 0.685,
+          "gbm_hvg_rank": 2263,
+          "gbm_delta_20clock": 0.362,
+          "cscc_hvg_rank": 3743,
+          "cscc_delta_20clock": 0.509,
+          "dropped_by_hvg2000_in_all_3_cohorts": true
+        },
+        {
+          "gene": "MND1",
+          "mechanism": "HOP2-MND1 RAD51-Stabilizing Homologous Recombination Cofactor",
+          "tnbc3_hvg_rank": 3935,
+          "tnbc3_delta_20clock": 0.705,
+          "cscc_hvg_rank": 10814,
+          "dropped_by_hvg2000_in_tnbc3_and_cscc": true
+        },
+        {
+          "gene": "CHAF1A",
+          "mechanism": "Chromatin Assembly Factor-1 p150 Subunit",
+          "tnbc3_hvg_rank": 4658,
+          "tnbc3_delta_20clock": 0.607,
+          "cscc_hvg_rank": 7471,
+          "cscc_delta_20clock": 0.262,
+          "dropped_by_hvg2000_in_tnbc3_and_cscc": true
+        },
+        {
+          "gene": "ASF1B",
+          "mechanism": "Replication-Dependent Histone H3-H4 Chaperone",
+          "tnbc3_hvg_rank": 5060,
+          "tnbc3_delta_20clock": 0.679,
+          "cscc_hvg_rank": 8774,
+          "dropped_by_hvg2000_in_tnbc3_and_cscc": true
+        },
+        {
+          "gene": "POLQ",
+          "mechanism": "DNA Polymerase Theta (TMEJ repair; Novobiocin / ART558 target)",
+          "gbm_hvg_rank": 5056,
+          "gbm_delta_20clock": 0.257,
+          "dropped_by_hvg2000_in_gbm": true
+        }
+      ],
+      "headline_tier_b_repurposing_hits_dropped_by_hvg2000": [
+        {
+          "gene": "NUDT1",
+          "target_drug": "Karonudib (TH1579) / TH588",
+          "cscc_hvg_rank": 3193,
+          "tnbc3_delta_20clock": 0.673,
+          "cscc_delta_20clock": 0.444
+        },
+        {
+          "gene": "SLC7A5",
+          "target_drug": "Nanvuranlat (JPH203)",
+          "tnbc3_hvg_rank": 2493,
+          "tnbc3_delta_20clock": 0.43,
+          "cscc_delta_20clock": 0.689
+        },
+        {
+          "gene": "AKT1",
+          "target_drug": "Capivasertib / Ipatasertib",
+          "cscc_hvg_rank": 2531,
+          "tnbc3_delta_20clock": 0.524,
+          "cscc_delta_20clock": 0.403
+        }
+      ]
+    },
+    "orchestrator3_exp6_stringer_persister_blindspot": {
+      "pan_autosome_multi_patient_scale": {
+        "total_single_cells_scanned": 10058,
+        "grch38_autosomes_covered": 22,
+        "tnbc1_to_5_cells": 8944,
+        "tnbc1_to_5_aneuploid_tumor_cells": 5459,
+        "tnbc1_to_5_diploid_normal_cells": 3485,
+        "tnbc1_to_5_expressed_autosomal_genes": 19589,
+        "recurrent_multi_donor_amplification_stringers": 1823,
+        "recurrent_multi_donor_micro_deletions": 715,
+        "diploid_normal_false_positive_rate": 0.0
+      },
+      "core_11_stringer_persister_panel_loss_summary": {
+        "GSE148673_TNBC3": {
+          "n_panel_present": 11,
+          "n_dropped_by_hvg2000_log_norm": 10,
+          "n_dropped_by_hvg2000_cp10k": 11,
+          "pct_dropped_log_norm": 90.9091,
+          "pct_dropped_cp10k": 100.0,
+          "dropped_genes_with_hvg_ranks": {
+            "ABCB1": 14202,
+            "MET": 10865,
+            "PIK3CA": 9872,
+            "RB1": 7818,
+            "MDM2": 6986,
+            "PROM1": 6884,
+            "EGFR": 5736,
+            "AXL": 5101,
+            "PTEN": 3809,
+            "ERBB2": 2350,
+            "CDK4_cp10k": 4132
+          }
+        },
+        "GSE57872_GBM": {
+          "n_panel_present": 6,
+          "n_dropped_by_hvg2000": 5,
+          "pct_dropped_by_hvg2000": 83.3333,
+          "dropped_genes_with_hvg_ranks": {
+            "ERBB2": 5699,
+            "PROM1": 4218,
+            "AXL": 3098,
+            "CDK4": 2887,
+            "PTEN": 2083
+          }
+        }
+      },
+      "newly_uncovered_18_tier_a_non_hvg_autosomal_stringers": [
+        {
+          "gene": "YES1",
+          "cytoband": "chr18p11.32",
+          "donors": "5/5 TNBC",
+          "peak_cn": 18.0,
+          "w15_cn": 3.03,
+          "w15_washout_pct": 93.56,
+          "non_hvg_top2000": true
+        },
+        {
+          "gene": "PBK",
+          "cytoband": "chr8p21.1",
+          "donors": "5/5 TNBC + 3/7 GBM",
+          "peak_cn": 16.2,
+          "w15_cn": 3.06,
+          "w15_washout_pct": 92.54,
+          "w51_washout_pct": 99.08,
+          "non_hvg_top2000": true
+        },
+        {
+          "gene": "PTK2",
+          "cytoband": "chr8q24.3",
+          "donors": "5/5 TNBC",
+          "peak_cn": 10.45,
+          "w15_cn": 3.63,
+          "w15_washout_pct": 80.72,
+          "non_hvg_top2000": true
+        },
+        {
+          "gene": "PVR",
+          "cytoband": "chr19q13.31",
+          "donors": "5/5 TNBC + 4.28x TNBC1 DTP",
+          "peak_cn": 12.33,
+          "w15_cn": 3.61,
+          "w15_washout_pct": 84.41,
+          "non_hvg_top2000": true
+        },
+        {
+          "gene": "WEE1",
+          "cytoband": "chr11p15.4",
+          "donors": "4/5 TNBC + GBM CSC6 + 5.06x TNBC1 DTP",
+          "peak_cn": 8.03,
+          "w15_cn": 3.01,
+          "w15_washout_pct": 83.25,
+          "w51_washout_pct": 96.35,
+          "non_hvg_top2000": true
+        },
+        {
+          "gene": "IGF1R",
+          "cytoband": "chr15q26.3",
+          "donors": "4/5 TNBC + 2/7 GBM + 3.18x TNBC3 DTP",
+          "peak_cn": 12.63,
+          "w15_cn": 4.06,
+          "w15_washout_pct": 80.62,
+          "w51_washout_pct": 89.65,
+          "non_hvg_top2000": true
+        },
+        {
+          "gene": "BRD4",
+          "cytoband": "chr19p13.12",
+          "donors": "4/5 TNBC",
+          "peak_cn": 5.37,
+          "w15_cn": 1.96,
+          "w15_washout_pct": 100.0,
+          "non_hvg_top2000": true
+        },
+        {
+          "gene": "EPHB4",
+          "cytoband": "chr7q22.1",
+          "donors": "5/5 TNBC",
+          "w15_washout_pct": 92.2,
+          "non_hvg_top2000": true
+        }
+      ],
+      "metacell_50_persister_washout_audit": {
+        "analytical_dilution_law": "Delta_CN_pool(K) = (r / K) * Delta_CN_persister",
+        "GSE148673_TNBC3_Rare_Persister_n2_of_500_0_40pct": {
+          "persister_cells": 2,
+          "cohort_cells": 500,
+          "prevalence_pct": 0.4,
+          "metacell_size_K": 50,
+          "signal_washout_pct": 96.0,
+          "attenuation_fold": 25.0,
+          "loci": {
+            "ABCB1": {
+              "single_cell_cn": 12.262,
+              "metacell50_cn": 2.4105,
+              "cellsnail_morse_cn": 12.262,
+              "false_negative_below_2_5_cn": true
+            },
+            "MYC": {
+              "single_cell_cn": 11.495,
+              "metacell50_cn": 2.3798,
+              "cellsnail_morse_cn": 11.495,
+              "false_negative_below_2_5_cn": true
+            },
+            "EGFR": {
+              "single_cell_cn": 8.754,
+              "metacell50_cn": 2.2702,
+              "cellsnail_morse_cn": 8.754,
+              "false_negative_below_2_5_cn": true
+            },
+            "PTEN_homodel": {
+              "single_cell_cn": 0.1,
+              "metacell50_cn": 1.924,
+              "cellsnail_morse_cn": 0.1,
+              "false_negative_homodel_masked": true
+            }
+          }
+        },
+        "GSE57872_GBM_Rare_DTP_n4_of_543_0_737pct": {
+          "persister_cells": 4,
+          "cohort_cells": 543,
+          "prevalence_pct": 0.7366,
+          "metacell_size_K": 50,
+          "signal_washout_pct": 92.0,
+          "attenuation_fold": 12.5,
+          "loci": {
+            "PROM1_CD133": {
+              "single_cell_z": 6.979,
+              "metacell50_z": 0.514,
+              "washout_pct": 92.63,
+              "cellsnail_morse_z": 6.979
+            },
+            "ERBB2_HER2": {
+              "single_cell_z": 6.623,
+              "metacell50_z": 0.471,
+              "washout_pct": 92.89,
+              "cellsnail_morse_z": 6.623
+            },
+            "AXL": {
+              "single_cell_z": 4.798,
+              "metacell50_z": 0.369,
+              "washout_pct": 92.31,
+              "cellsnail_morse_z": 4.798
+            },
+            "MET": {
+              "single_cell_z": 4.888,
+              "metacell50_z": 0.358,
+              "washout_pct": 92.67,
+              "cellsnail_morse_z": 4.888
+            },
+            "PDGFRA": {
+              "single_cell_z": 3.479,
+              "metacell50_z": 0.355,
+              "washout_pct": 89.81,
+              "cellsnail_morse_z": 3.479
+            },
+            "CDK4": {
+              "single_cell_z": 3.314,
+              "metacell50_z": 0.252,
+              "washout_pct": 92.4,
+              "cellsnail_morse_z": 3.314
+            }
+          }
+        }
+      }
+    },
+    "orchestrator4_exp7_spatial_secretome_blindspot": {
+      "prompt_highlighted_14_receptors_ligands_loss_summary": {
+        "n_panel_present": 14,
+        "n_dropped_by_hvg2000": 11,
+        "pct_dropped_by_hvg2000": 78.5714,
+        "dropped_genes_with_hvg_ranks": {
+          "PTH1R": 12998,
+          "ACVR2A": 8234,
+          "TGFB3": 6341,
+          "PLAUR": 6163,
+          "ACVR1": 4779,
+          "AREG": 3643,
+          "INHBA": 3311,
+          "EREG": 3237,
+          "TGFBR2": 3084,
+          "DDR1": 2576,
+          "TGFBR1": 2103
+        },
+        "canonical_tsk_leader_mmp10_blindspot": {
+          "gene": "MMP10",
+          "p2_rep1_hvg_rank": 3321,
+          "slides_dropped_by_hvg2000": "5/6 slides",
+          "biological_role": "Canonical Layer_3 Tumor-Specific Keratinocyte (TSK) invasion leader metalloproteinase"
+        }
+      },
+      "curated_251_pair_cross_wall_screen": {
+        "total_curated_pairs_evaluated": 251,
+        "newly_uncovered_active_cross_wall_pairs": 225,
+        "tier_a_non_hvg2000_active_pairs": 141,
+        "pct_tier_a_non_hvg2000_active_pairs": 62.6667,
+        "tier_b_actionable_repurposing_pairs": 153,
+        "combined_tier_a_and_tier_b_pairs": 87,
+        "pseudo_emt_pairs_falsified": "34/34 (0.0% dual-positivity and 0.0000 bleed under SE2CellularSheaf)"
+      },
+      "genome_wide_14890_pair_17_family_screen": {
+        "total_lr_pairs_screened": 14890,
+        "active_cross_wall_pairs": 13513,
+        "statistically_significant_fdr0_01_pairs": 9084,
+        "pairs_with_at_least_one_partner_dropped_by_hvg2000": 7206,
+        "pct_significant_pairs_broken_by_hvg2000": 79.3263,
+        "pairs_with_both_ligand_and_receptor_dropped_by_hvg2000": 2807,
+        "pct_significant_pairs_both_dropped_by_hvg2000": 30.9005
+      },
+      "spatial_50spot_metacell_boundary_washout_audit": {
+        "cSCC_P2_ST_rep1_boundary_spots": 16,
+        "metacell_pool_spots": 50,
+        "mean_1cochain_polarity_washout_all_225_pairs_pct": 84.17,
+        "mean_1cochain_polarity_washout_top15_pairs_pct": 91.99,
+        "headline_cross_wall_sbr_collapse": [
+          {
+            "pair": "MMP10->ITGA6",
+            "ligand_rank": 3321,
+            "sbr_sheaf": 24.83,
+            "sbr_metacell50": 1.88,
+            "sbr_collapse_pct": 92.43
+          },
+          {
+            "pair": "TGFB1->TGFBR2",
+            "receptor_rank": 3084,
+            "sbr_sheaf": 22.41,
+            "sbr_metacell50": 1.69,
+            "sbr_collapse_pct": 92.46
+          },
+          {
+            "pair": "INHBA->ACVR1",
+            "ligand_rank": 3311,
+            "receptor_rank": 4779,
+            "sbr_sheaf": 21.08,
+            "sbr_metacell50": 1.72,
+            "sbr_collapse_pct": 91.84
+          },
+          {
+            "pair": "COL1A1->DDR1",
+            "receptor_rank": 2576,
+            "sbr_sheaf": 29.1,
+            "sbr_metacell50": 1.54,
+            "sbr_collapse_pct": 94.71
+          },
+          {
+            "pair": "MMP13->COL1A1",
+            "ligand_rank": 7552,
+            "sbr_sheaf": 218.54,
+            "sbr_metacell50": 1.17,
+            "sbr_collapse_pct": 99.46
+          },
+          {
+            "pair": "FAP->COL1A1",
+            "ligand_rank": 12303,
+            "sbr_sheaf": 95.23,
+            "sbr_metacell50": 1.24,
+            "sbr_collapse_pct": 98.7
+          }
+        ]
+      }
+    },
+    "cross_engine_convergent_targets": [
+      {
+        "gene_or_axis": "PKMYT1 (chr16p13.3)",
+        "convergent_expeditions": [
+          "Exp 4 (HVG-2000 Blind Spot)",
+          "Exp 5 (Tier A Delta-Erasure)",
+          "Exp 6 (Contiguous L=3 Stringer KREMEN2-PAQR4-PKMYT1)"
+        ],
+        "failure_modes_in_standard_pipelines": [
+          "Dropped by n_top_genes=2000 HVG filter (rank #6,146 in TNBC3, #6,182 in cSCC)",
+          "Over-subtracted by 59.0% under 20-clock OLS regression in Exp 5 (Delta_20clock = 0.590)",
+          "Washed out by W=15..51 chromosomal moving averages in Exp 6 across 3/5 TNBC donors"
+        ],
+        "clinical_actionability": "Targeted by Lunresertib (RP-6306) in CCNE1-amplified TNBC and solid tumors"
+      },
+      {
+        "gene_or_axis": "WEE1 (chr11p15.4)",
+        "convergent_expeditions": [
+          "Exp 4 (HVG-2000 Blind Spot)",
+          "Exp 5 (Core DDR Delta-Erasure)",
+          "Exp 6 (Tier A Non-HVG Stringer & 5.06x DTP Spire)"
+        ],
+        "failure_modes_in_standard_pipelines": [
+          "Dropped by n_top_genes=2000 HVG filter (rank #4,399 in TNBC3, #3,695 in cSCC)",
+          "Over-subtracted by linear cell-cycle regression (Delta_20clock = 0.567 in TNBC3)",
+          "83.25% washout under W=15 moving average and 96.0% dilution under 50-cell metacell pooling"
+        ],
+        "clinical_actionability": "Targeted by Adavosertib (AZD1775) and Zentalis ZN-c3"
+      },
+      {
+        "gene_or_axis": "IGF2 -> IGF1R (chr15q26.3)",
+        "convergent_expeditions": [
+          "Exp 4 (HVG-2000 & Metacell-50 Blind Spot)",
+          "Exp 6 (Tier A Non-HVG Stringer & 3.18x TNBC3 DTP Spire)",
+          "Exp 7 (Tier A + B Cross-Wall Spatial Axis)"
+        ],
+        "failure_modes_in_standard_pipelines": [
+          "Both ligand (IGF2 rank #12,353) and receptor (IGF1R rank #3,304) dropped by HVG-2000 in cSCC; IGF1R dropped in TNBC & GBM",
+          "80.62% CN washout under W=15 moving window in 4/5 TNBC + 2/7 GBM donors",
+          "Boundary polarity collapsed by 50-spot spatial metacell pooling"
+        ],
+        "clinical_actionability": "Targeted by Linsitinib (OSI-906, CHEMBL1091644)"
+      },
+      {
+        "gene_or_axis": "EFNB2 -> EPHB4 (chr7q22.1)",
+        "convergent_expeditions": [
+          "Exp 4 (HVG-2000 Blind Spot)",
+          "Exp 6 (5/5 TNBC Donor Non-HVG Stringer)",
+          "Exp 7 (Tier A + B Cross-Wall Ephrin-Eph Guidance Axis)"
+        ],
+        "failure_modes_in_standard_pipelines": [
+          "Both EFNB2 (rank #3,396) and EPHB4 (rank #2,636) dropped by HVG-2000 in cSCC and TNBC",
+          "92.2% CN washout under W=15 moving window across 5/5 TNBC donors"
+        ],
+        "clinical_actionability": "Targeted by Dasatinib (CHEMBL1421) and Cabozantinib (CHEMBL2105717)"
+      },
+      {
+        "gene_or_axis": "INHBA -> TGFBR2 (chr3p24.1)",
+        "convergent_expeditions": [
+          "Exp 4 (HVG-2000 & Metacell-50 Blind Spot)",
+          "Exp 6 (4/5 TNBC Donor Focal Micro-Deletion)",
+          "Exp 7 (4/6 Slide Replicated Cross-Wall Axis)"
+        ],
+        "failure_modes_in_standard_pipelines": [
+          "Both INHBA (rank #3,311) and TGFBR2 (rank #3,084) dropped by HVG-2000 on 6/6 cSCC slides",
+          "Focal TGFBR2 deletion in 4/5 TNBC donors smoothed to false-diploid CN=2.15 by W=15 moving window"
+        ],
+        "clinical_actionability": "Targeted by Bintrafusp alfa (CHEMBL4298024) and Galunisertib"
+      },
+      {
+        "gene_or_axis": "ENTPD1 (CD39) -> NT5E (CD73, chr6q14.3)",
+        "convergent_expeditions": [
+          "Exp 4 (HVG-2000 Blind Spot)",
+          "Exp 6 (4.97x Amplification Spire in H2228)",
+          "Exp 7 (Tier A + B Immunosuppressive Adenosine Wall)"
+        ],
+        "failure_modes_in_standard_pipelines": [
+          "Both ENTPD1 (rank #6,274) and NT5E (rank #4,006) dropped by HVG-2000 in cSCC",
+          "79.8% CN washout of NT5E stringer under W=15 moving average"
+        ],
+        "clinical_actionability": "Targeted by Oleclumab (MEDI9447, CHEMBL3990016)"
+      },
+      {
+        "gene_or_axis": "SLC7A5 (LAT1) -> SLC3A2 (CD98hc)",
+        "convergent_expeditions": [
+          "Exp 4 (HVG-2000 Blind Spot)",
+          "Exp 5 (Tier B Proliferation-Coupled Transporter)",
+          "Exp 7 (4/6 Slide Replicated Metabolic Symporter Wall)"
+        ],
+        "failure_modes_in_standard_pipelines": [
+          "SLC7A5 dropped by HVG-2000 in TNBC3 (rank #2,493) and over-subtracted by OLS cell-cycle regression (Delta_20clock = 0.689 in cSCC, 0.430 in TNBC3)"
+        ],
+        "clinical_actionability": "Targeted by Nanvuranlat (JPH203)"
+      },
+      {
+        "gene_or_axis": "HSP90AB1 (chr6p21.1)",
+        "convergent_expeditions": [
+          "Exp 4 (Cross-Modal Chaperone Hub)",
+          "Exp 5 (Tier B Delta_20clock = 0.663 TNBC3 / 0.664 cSCC)",
+          "Exp 6 (5/5 TNBC Donor Stringer, 81.6% W15 Loss)"
+        ],
+        "failure_modes_in_standard_pipelines": [
+          "66.3%-66.4% of expression variance erased by 20-clock linear OLS cell-cycle regression; 81.6% of focal CN spire erased by W=15 moving window"
+        ],
+        "clinical_actionability": "Targeted by Pimitespib (TAS-116) and Ganetespib"
+      }
+    ]
+  },
+  "streamer_telemetry": {
+    "total_tiles_processed": 75223,
+    "total_bytes_streamed": 4847630856,
+    "total_mb_streamed": 4623.06,
+    "dynamic_arena_heap_allocations": 0
+  }
+}

@@ -459,7 +459,7 @@ def run_biological_discovery_audit() -> Dict[str, Any]:
         myc_found = "MYC" in recovered
         cdk4_found = "CDK4" in recovered
         print(f"  SNR = {snr:4.1f} dB + WGA Waviness: EGFR={egfr_found}, MYC={myc_found}, CDK4={cdk4_found} (Total={len(recovered)})")
-        waviness_survivals.append({"snr": snr, "recovered_genes": list(recovered), "all_3_found": (egfr_found and myc_found and cdk4_found)})
+        waviness_survivals.append({"snr": "inf" if np.isinf(snr) else float(snr), "recovered_genes": list(recovered), "all_3_found": (egfr_found and myc_found and cdk4_found)})
 
     results["track_2_focal_amplicons"] = {
         "persister_count": persisters["discovered_persister_count"],

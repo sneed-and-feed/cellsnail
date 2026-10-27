@@ -2,13 +2,15 @@
 
 [![CI Matrix](https://github.com/sneed-and-feed/cellsnail/actions/workflows/ci.yml/badge.svg)](https://github.com/sneed-and-feed/cellsnail/actions/workflows/ci.yml)
 [![Flagship Preprint](https://img.shields.io/badge/Preprint-docs%2FCELLSNAIL__PREPRINT.md-ff0055.svg?style=flat-square)](docs/CELLSNAIL_PREPRINT.md)
+[![Whole-Genome Atlas](https://img.shields.io/badge/Whole--Genome_Atlas-docs%2FWHOLE__GENOME__DISCOVERY__ATLAS.md-ff6600.svg?style=flat-square)](docs/WHOLE_GENOME_DISCOVERY_ATLAS.md)
 [![Lean 4 Formalization](https://img.shields.io/badge/Lean_4-19_Theorems_0_sorry_0_warnings-00f0ff.svg?style=flat-square)](formalization/OcclusionTriad.lean)
 [![Rust no_std](https://img.shields.io/badge/Rust-%23!%5Bno__std%5D_SIMD-b844ff.svg?style=flat-square)](rust/cellsnail_rs)
 [![BCM2712 Cache](https://img.shields.io/badge/BCM2712_LLd_Miss-0.03075%25_(%3C0.100%25)-ffb800.svg?style=flat-square)](results/bcm2712_cache_receipts.json)
 [![SRAM Footprint](https://img.shields.io/badge/SRAM-960.8_KB_%2F_%3C2.0_MB-00ff9d.svg?style=flat-square)](rust/cellsnail_rs/src/lib.rs)
+[![Pytest Suite](https://img.shields.io/badge/Tests-309%2F309_Passing-00e676.svg?style=flat-square)](tests/)
 [![License: CC0-1.0](https://img.shields.io/badge/License-CC0--1.0_Universal-lightgrey.svg?style=flat-square)](LICENSE)
 
-**`cellsnail`** is the standalone proof-carrying multi-omic single-cell data science (SCDS) spoke of the **Project DarkSnail / `triad-core`** constellation. It directly resolves the **Eleven Grand Challenges in Single-Cell Data Science** (Lähnemann et al., *Genome Biology* 2020, 21:31) and post-2020 methodological circularities (imputation false positives, post-clustering selective inference double-dipping, RNA velocity/pseudotime norm blowup, spatial optical crowding, and whole-genome amplification CNV smearing) through machine-checked **Lean 4 proofs (`formalization/OcclusionTriad.lean`, Theorems 2.1–2.19, `0 sorry`, `0 warnings`)**, a zero-allocation **`#![no_std]` Rust SIMD static arena (`CellSnailArena`, `983,872 B < 2.0 MB` SRAM)**, a dual canonical/bioinformatics Python package, Mode A/B zero-leakage blind benchmarks on empirical wet-lab cohorts (`GSE118767`, `GSE54695`, `GSE148673`, `GSE57872`, `GSE144239`, Ensembl `GRCh38` / `ClinVar`), 4 adversarial crossover failure sweeps, the flagship preprint [`docs/CELLSNAIL_PREPRINT.md`](docs/CELLSNAIL_PREPRINT.md), and a zero-install single-file **WebGL2 Single-Cell Studio (`studio/cellsnail_portable_studio.html`)**.
+**`cellsnail`** is the standalone proof-carrying multi-omic single-cell data science (SCDS) spoke of the **Project DarkSnail / `triad-core`** constellation. It directly resolves the **Eleven Grand Challenges in Single-Cell Data Science** (Lähnemann et al., *Genome Biology* 2020, 21:31) and post-2020 methodological circularities (imputation false positives, post-clustering selective inference double-dipping, RNA velocity/pseudotime norm blowup, spatial optical crowding, and whole-genome amplification CNV smearing) through machine-checked **Lean 4 proofs (`formalization/OcclusionTriad.lean`, Theorems 2.1–2.19, `0 sorry`, `0 warnings`)**, a zero-allocation **`#![no_std]` Rust SIMD static arena (`CellSnailArena`, `983,872 B < 2.0 MB` SRAM)**, a dual canonical/bioinformatics Python package, Mode A/B zero-leakage blind benchmarks on empirical wet-lab cohorts (`GSE118767`, `GSE54695`, `GSE148673`, `GSE57872`, `GSE144239`, Ensembl `GRCh38` / `ClinVar`), 4 adversarial crossover failure sweeps, the flagship preprint [`docs/CELLSNAIL_PREPRINT.md`](docs/CELLSNAIL_PREPRINT.md), the 33,694-gene / 22-autosome **Whole-Genome & Multi-Patient Discovery Atlas [`docs/WHOLE_GENOME_DISCOVERY_ATLAS.md`](docs/WHOLE_GENOME_DISCOVERY_ATLAS.md) (`Exp 1`–`Exp 7`, `309/309` tests passing)**, and a zero-install single-file **WebGL2 Single-Cell Studio (`studio/cellsnail_portable_studio.html`)**.
 
 ![CellSnail Proof-Carrying Single-Cell Studio (Chrome Render)](studio/screenshots/chrome_studio.png)
 
@@ -36,11 +38,23 @@ All Mode B blind evaluations and biological case studies execute on curated empi
 
 | Empirical Cohort / Accession | Assay & Biological System | Dimensions | Primary Benchmark & "New Light" Case Study Role |
 | :--- | :--- | :--- | :--- |
-| **`GSE118767` (`sc_mixology`)** | CEL-seq2 `HCC827` / `H1975` / `H2228` + `ERCC92` (Tian et al., *Nature Methods* 2019) | $300 \times 292$ | `countsplit` molecular thinning, `LOCO` cross-validation, Case Study 1 (Ghost Regulons) |
+| **`GSE118767` (`sc_mixology`)** | CEL-seq2 `HCC827` / `H1975` / `H2228` / `H838` / `A549` + `ERCC92` (Tian et al., *Nature Methods* 2019) | $571 \times 12,409$ (`300 x 292` core) | `countsplit` molecular thinning, `LOCO` CV, Case Study 1 & `Exp 6` 5-lineage stringers |
 | **`GSE54695` (`Grün et al.`)** | Empty-droplet technical `ERCC92` capture-efficiency benchmark (*Nature Methods* 2014) | $300 \times 92$ | Unpermuted technical capture-efficiency negative control (`0` false ERCC pairs) |
-| **`GSE148673` (`TNBC3`)** | Primary human triple-negative breast cancer CopyKAT/paired CNV+RNA (Gao et al., *Nat. Biotech.* 2021) | $500 \times 100$ | Bounded CNV edge fidelity ($\mathcal F_{\text{edge}} = 0.996$), Case Studies 2, 3 & 4 |
-| **`GSE57872` (`Patel et al.`)** | Primary human glioblastoma (`MGH26`–`MGH31`) with *EGFR*/*CDK4*/*PDGFRA* mosaicism (*Science* 2014) | $543 \times 12$ | `LODO` multi-patient cross-validation, Case Studies 2 & 3 |
-| **`GSE144239` (`Ji et al.`)** | Human cutaneous squamous cell carcinoma (`cSCC`) spatial transcriptomics (*Cell* 2020) | $400 \times 50$ | `LOFO` spatial FOV cross-validation, Case Study 5 (`TSK` Leading-Edge vs. Stroma) |
+| **`GSE148673` (`TNBC1`–`TNBC5`)** | Primary human triple-negative breast cancer CopyKAT/paired CNV+RNA (Gao et al., *Nat. Biotech.* 2021) | $8,944 \times 33,694$ (`19,589` autosome) | Whole-genome streaming (`Exp 4`), $\Delta$-census (`Exp 5`), Pan-autosome stringers (`Exp 6`) |
+| **`GSE57872` (`Patel et al.`)** | Primary human glioblastoma (`MGH26`–`MGH31`, `CSC6`, `CSC8`) (*Science* 2014) | $543 \times 5,948$ (`5,543` autosome) | `LODO` multi-patient cross-validation, Case Studies 2 & 3, `Exp 5` & `Exp 6` |
+| **`GSE144239` (`Ji et al.`)** | Human cutaneous squamous cell carcinoma (`cSCC`) 6 spatial slides (*Cell* 2020) | $4,293 \times 17,138$ (`1,003` border edges) | `LOFO` spatial FOV CV, Case Study 5, `Exp 3` & `Exp 7` whole-slide secretome wall scan |
+
+### Whole-Genome & Multi-Patient Discovery Atlas (`docs/WHOLE_GENOME_DISCOVERY_ATLAS.md`, Expeditions 1–7)
+
+| Expedition | Manuscript & JSON Receipt | Scale & Architecture | Key Quantitative & Therapeutic Discoveries |
+| :--- | :--- | :--- | :--- |
+| **`Exp 1`: Delta-Hunt** | [`docs/EXPEDITION_1_DELTA_HUNT.md`](docs/EXPEDITION_1_DELTA_HUNT.md) / [`expedition1_delta_hunt.json`](results/expedition1_delta_hunt.json) | `1,743` cells/spots across 4 cohorts | Standard OLS cell-cycle regression erases `53%`–`85%` of $\mathcal H_{\text{nope}}$ fork-repair drivers (*PBK*, *UBE2T*, *PCLAF*, *HSP90AA1*, *PARP1*, *DNMT1*, *UHRF1*, *EZH2*). |
+| **`Exp 2`: Stringer-Hunt** | [`docs/EXPEDITION_2_STRINGER_HUNT.md`](docs/EXPEDITION_2_STRINGER_HUNT.md) / [`expedition2_stringer_hunt.json`](results/expedition2_stringer_hunt.json) | `38`-gene `chr7/8/17` pilot (`TNBC3` & `GBM`) | Proves $\mathcal{W}(W,L) = \max(1, W/L)$; isolates 1-bin *PTEN* homozygous deletion (`89.6%` W15 washout) and `0.40%` `TNBC3` (*HSP90AA1*/*LY6E*) & `0.74%` `GBM` persisters. |
+| **`Exp 3`: Spatial Border Audit** | [`docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md`](docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md) / [`expedition3_spatial_border_audit.json`](results/expedition3_spatial_border_audit.json) | `400` spots, `60` boundary edges (`cSCC`) | Falsifies classical cadherin switch (`CDH2 = 0.0 UMI`); eliminates pseudo-EMT bleed (`0.0%`) while sharpening 28 juxtacrine walls by `16.96x` mean (up to `50.59x` `SBR`). |
+| **`Exp 4`: Whole-Genome Streamer** | [`docs/EXPEDITION_4_STREAMING_THROUGHPUT.md`](docs/EXPEDITION_4_STREAMING_THROUGHPUT.md) / [`expedition4_streaming_benchmarks.json`](results/expedition4_streaming_benchmarks.json) | `33,694` genes, `175.20M` entries (`0.938 MB` SRAM) | Halo-tiled `WholeGenomeArenaStreamer` (`tile_core_size = 16,382`, `halo = 1`) achieves `72.5M`–`148.1M` entries/s (`11.3x` vs `MAGIC`, `481.6x` vs `ALRA`, `0.00000000` drift); proves `HVG-2000` (`94.06%` dropped) & `Metacell-50` (`92%`–`96%` DTP loss) blind spots. |
+| **`Exp 5`: Dark-Genome Delta-Census** | [`docs/EXPEDITION_5_WHOLE_GENOME_DELTA_CENSUS.md`](docs/EXPEDITION_5_WHOLE_GENOME_DELTA_CENSUS.md) / [`expedition5_whole_genome_delta_census.json`](results/expedition5_whole_genome_delta_census.json) | `33,694` genes, `10,799` cells/spots, `119,145` tests | `81.89%` (`8,680 / 10,599`) of 20-clock OLS-erased genes lie outside `HVG-2000` (`0` monotonicity violations); discovers Tier A *PKMYT1*, *DNAJC9*, *VRK1*, *TRIP13*, *ASF1B*, *CHAF1A*, *RACGAP1*, *SSRP1*, *POLQ* & Tier B *NUDT1*, *SLC7A5*, *VCP*. |
+| **`Exp 6`: Pan-Autosome Stringer Atlas** | [`docs/EXPEDITION_6_PAN_AUTOSOME_STRINGER_ATLAS.md`](docs/EXPEDITION_6_PAN_AUTOSOME_STRINGER_ATLAS.md) / [`expedition6_pan_autosome_stringer_atlas.json`](results/expedition6_pan_autosome_stringer_atlas.json) | `22` autosomes (`44,544` ref / `19,589` expr genes), `10,058` cells, `17` groups | `1,823` recurrent amplification stringers & `715` micro-deletions (`89.79%` non-HVG); 18 Tier A (*YES1*, *PBK*, *PTK2*, *PVR*, *WEE1*, *IGF1R*, *EPHB4*...) + 18 Tier B (*NECTIN4*/*TACSTD2*/*TOP1*, *HSP90AB1*...) + `L=3` `KREMEN2`–`PAQR4`–`PKMYT1` + 8 micro-deletions (*TGFBR2*, *BCL2*, *ARID1A*, *MTAP*, *STK11*); `88.79%` LODO, `0.0000` diploid FPR (`3,485` normal cells). |
+| **`Exp 7`: Whole-Slide Secretome Scan** | [`docs/EXPEDITION_7_WHOLE_SLIDE_SPATIAL_SECRETOME.md`](docs/EXPEDITION_7_WHOLE_SLIDE_SPATIAL_SECRETOME.md) / [`expedition7_whole_slide_spatial_secretome.json`](results/expedition7_whole_slide_spatial_secretome.json) | `17,138` genes, `6` slides (`4,293` spots, `1,003` edges), `14,890` L-R pairs | `79.33%` (`7,206 / 9,084`) of active boundary pairs have $\ge 1$ partner dropped by `HVG-2000` (`30.90%` both dropped); `CDH1+CDH3` vs `CDH2` = `2,429.0x`; `34/34` pseudo-EMT pairs purged; 225 cross-wall axes (*LOXL2* $\to$ *COL1A1* `150.59x`, *LAMA4* $\to$ *SDC1* `118.82x`, *THBS1* $\to$ *CD47* `44.19x`, *EFNB2* $\to$ *EPHB4* `3.82x` / `308.94x`). |
 
 ### Summary of the 4 Failure-Mode Crossover Sweeps (`docs/REFEREE_AUDIT_RESPONSE.md`)
 
@@ -145,10 +159,14 @@ cellsnail/
 │   ├── operators.py                      # Reference mathematical operators & theorem verifiers
 │   ├── io.py                             # Streaming .h5ad, .mtx, .vcf, and .csv ingestion engine
 │   ├── discovery.py                      # 5 "New Light" empirical case studies & driver discovery engine
-│   ├── expeditions/                      # 3 Parallel Multi-Modal Discovery Expeditions (Exp 1, 2 & 3)
+│   ├── expeditions/                      # 7 Multi-Modal & Whole-Genome Discovery Expeditions (Exp 1–7)
 │   │   ├── exp1_delta_hunt.py            # Expedition 1: Proliferation-Coupled Delta-Erasure Discovery
 │   │   ├── exp2_stringer_hunt.py         # Expedition 2: 1-3 Gene Focal Stringer & Relapse Persister Hunt
-│   │   └── exp3_spatial_border_audit.py  # Expedition 3: Spatial Border Hybrid & Juxtacrine Wall Audit
+│   │   ├── exp3_spatial_border_audit.py  # Expedition 3: Spatial Border Hybrid & Juxtacrine Wall Audit
+│   │   ├── exp4_whole_genome_streamer.py # Expedition 4: Zero-Alloc Halo-Tiled Streamer & HVG/Metacell Blind-Spot Proof
+│   │   ├── exp5_whole_genome_delta_census.py # Expedition 5: Unbiased 33,694-Gene "Dark Genome" Delta-Erasure Census
+│   │   ├── exp6_pan_autosome_stringer_atlas.py # Expedition 6: Pan-Autosome GRCh38 (chr1-chr22) Stringer & Persister Atlas
+│   │   └── exp7_whole_slide_spatial_secretome.py # Expedition 7: Whole-Slide 17,138-Gene Spatial Secretome & Wall Scan
 │   ├── data/
 │   │   ├── cohorts.py                    # Empirical wet-lab cohort loaders & countsplit generators
 │   │   └── empirical/                    # Curated wet-lab datasets (wetlab_cohorts.npz & Ensembl/ClinVar JSON)
@@ -158,10 +176,15 @@ cellsnail/
 │       └── mode_b_blind.py               # Mode B countsplit thinning, LOCO/LODO/LOFO CV & 4 crossover sweeps
 ├── docs/
 │   ├── ARXIV_LITERATURE_SYNTHESIS.md     # 1,053-line post-2020 SCDS synthesis (50 citations, 0 GFM errors)
-│   ├── CELLSNAIL_PREPRINT.md             # Flagship publication-grade preprint consolidating theory & empirical discoveries
+│   ├── CELLSNAIL_PREPRINT.md             # Flagship publication-grade preprint consolidating theory & Exp 1–7
+│   ├── WHOLE_GENOME_DISCOVERY_ATLAS.md   # Unified Whole-Genome & Multi-Patient Discovery Atlas (Exp 4–7 synthesis)
 │   ├── EXPEDITION_1_DELTA_HUNT.md        # Expedition 1 Report: OLS Cell-Cycle Over-Erasure & Epigenetic/Repair Targets
 │   ├── EXPEDITION_2_STRINGER_HUNT.md     # Expedition 2 Report: Window-Invisible Focal Stringers & Persister Collaterals
 │   ├── EXPEDITION_3_SPATIAL_BORDER_AUDIT.md # Expedition 3 Report: Spatial Border Bleed & Juxtacrine Polarity Audit
+│   ├── EXPEDITION_4_STREAMING_THROUGHPUT.md # Expedition 4 Report: Zero-Allocation Streaming & HVG-2000/Metacell-50 Proof
+│   ├── EXPEDITION_5_WHOLE_GENOME_DELTA_CENSUS.md # Expedition 5 Report: 33,694-Gene Dark-Genome Delta-Erasure Census
+│   ├── EXPEDITION_6_PAN_AUTOSOME_STRINGER_ATLAS.md # Expedition 6 Report: Pan-Autosome chr1-chr22 Stringer & Persister Atlas
+│   ├── EXPEDITION_7_WHOLE_SLIDE_SPATIAL_SECRETOME.md # Expedition 7 Report: 6-Slide Spatial Secretome & Receptome Wall Scan
 │   └── REFEREE_AUDIT_RESPONSE.md         # Point-by-point referee audit, crossover regimes & 5 case studies
 ├── formalization/
 │   └── OcclusionTriad.lean               # Golfed Lean 4 proofs for Theorems 2.1–2.19 (0 sorry, 1,180 lines)
@@ -170,7 +193,11 @@ cellsnail/
 │   ├── cellsnail_evaluation_summary.json # Complete Mode A, Mode B, Crossover & Discovery benchmark receipts
 │   ├── expedition1_delta_hunt.json       # Expedition 1 deterministic multi-cohort & 11-DB discovery receipt
 │   ├── expedition2_stringer_hunt.json    # Expedition 2 deterministic stringer & persister discovery receipt
-│   └── expedition3_spatial_border_audit.json # Expedition 3 deterministic spatial border & juxtacrine receipt
+│   ├── expedition3_spatial_border_audit.json # Expedition 3 deterministic spatial border & juxtacrine receipt
+│   ├── expedition4_streaming_benchmarks.json # Expedition 4 whole-genome streaming & HVG/Metacell blind-spot receipt
+│   ├── expedition5_whole_genome_delta_census.json # Expedition 5 33,694-gene Dark-Genome Delta-Erasure receipt
+│   ├── expedition6_pan_autosome_stringer_atlas.json # Expedition 6 pan-autosome chr1-chr22 stringer & DTP receipt
+│   └── expedition7_whole_slide_spatial_secretome.json # Expedition 7 6-slide 17,138-gene spatial secretome receipt
 ├── rust/cellsnail_rs/
 │   ├── Cargo.toml                        # #![no_std] Rust SIMD crate configuration
 │   ├── include/cellsnail_rs.h            # ANSI C99/C11 header with dual symbol exports
@@ -186,7 +213,7 @@ cellsnail/
 ├── studio/
 │   ├── cellsnail_portable_studio.html    # Zero-install single-file WebGL2 Single-Cell Studio (> 280 KB)
 │   └── screenshots/                      # Verified 1920x1080 Chrome & Firefox visual audit captures
-└── tests/                                # 222 unit, native parity, Mode A/B, crossover, adversarial & expedition tests
+└── tests/                                # 309 unit, native parity, Mode A/B, crossover, adversarial & Exp 1–7 tests
 ```
 
 ### Reproducible Verification Suite
@@ -196,14 +223,14 @@ cellsnail/
 cargo test --manifest-path rust/cellsnail_rs/Cargo.toml --release
 cargo build --manifest-path rust/cellsnail_rs/Cargo.toml --release
 
-# 2. Run full 222-test pytest suite (unit, native parity, Mode A, Mode B, crossover, adversarial & 3 expeditions)
+# 2. Run full 309-test pytest suite (unit, native parity, Mode A, Mode B, crossover, adversarial & Expeditions 1-7)
 python -m pytest tests/ -v
 
 # 3. Verify Broadcom BCM2712 cache telemetry (< 0.100% LLd miss) & 0 dynamic heap allocations
 python scripts/verify_bcm2712_cache.py
 
 # 4. Audit GFM/KaTeX math compliance across all documentation (0 errors across 21 rules)
-python scripts/audit_gfm_math.py README.md docs/CELLSNAIL_PREPRINT.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md docs/EXPEDITION_1_DELTA_HUNT.md docs/EXPEDITION_2_STRINGER_HUNT.md docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md
+python scripts/audit_gfm_math.py README.md docs/CELLSNAIL_PREPRINT.md docs/WHOLE_GENOME_DISCOVERY_ATLAS.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md docs/EXPEDITION_1_DELTA_HUNT.md docs/EXPEDITION_2_STRINGER_HUNT.md docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md docs/EXPEDITION_4_STREAMING_THROUGHPUT.md docs/EXPEDITION_5_WHOLE_GENOME_DELTA_CENSUS.md docs/EXPEDITION_6_PAN_AUTOSOME_STRINGER_ATLAS.md docs/EXPEDITION_7_WHOLE_SLIDE_SPATIAL_SECRETOME.md
 ```
 
 ---

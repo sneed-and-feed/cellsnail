@@ -161,7 +161,7 @@
       "pdb_structure": "6QEX",
       "waviness_survivals": [
         {
-          "snr": Infinity,
+          "snr": "inf",
           "recovered_genes": [
             "EGFR",
             "MYC",
