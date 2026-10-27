@@ -67,9 +67,9 @@ jobs:
 
       - name: Audit 21-Rule GFM / KaTeX Math Compliance
         run: |
-          python scripts/audit_gfm_math.py README.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md docs/CELLSNAIL_PREPRINT.md docs/EXPEDITION_1_DELTA_HUNT.md docs/EXPEDITION_2_STRINGER_HUNT.md docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md
+          python scripts/audit_gfm_math.py README.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md docs/CELLSNAIL_PREPRINT.md docs/WHOLE_GENOME_DISCOVERY_ATLAS.md docs/EXPEDITION_1_DELTA_HUNT.md docs/EXPEDITION_2_STRINGER_HUNT.md docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md docs/EXPEDITION_4_STREAMING_THROUGHPUT.md docs/EXPEDITION_5_WHOLE_GENOME_DELTA_CENSUS.md docs/EXPEDITION_6_PAN_AUTOSOME_STRINGER_ATLAS.md docs/EXPEDITION_7_WHOLE_SLIDE_SPATIAL_SECRETOME.md
 
-      - name: Run 222-Test Pytest Verification Suite
+      - name: Run 309-Test Pytest Verification Suite
         run: |
           python -m pytest tests/ -v
 
@@ -96,6 +96,10 @@ jobs:
             results/expedition1_delta_hunt.json
             results/expedition2_stringer_hunt.json
             results/expedition3_spatial_border_audit.json
+            results/expedition4_streaming_benchmarks.json
+            results/expedition5_whole_genome_delta_census.json
+            results/expedition6_pan_autosome_stringer_atlas.json
+            results/expedition7_whole_slide_spatial_secretome.json
 
   release:
     name: Publish GitHub Release

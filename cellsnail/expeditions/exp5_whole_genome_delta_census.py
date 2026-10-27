@@ -387,9 +387,20 @@ def run_expedition5_whole_genome_delta_census(
     output_path: Optional[Path] = DEFAULT_RESULTS_PATH,
 ) -> Dict[str, Any]:
     """Assemble and validate the complete Expedition 5 whole-genome Delta-erasure census."""
-    if not MINING_REPORT_PATH.exists() and output_path and Path(output_path).exists():
-        with open(output_path, "r", encoding="utf-8") as f:
-            return json.load(f)
+    if not MINING_REPORT_PATH.exists():
+        src_path = (
+            Path(output_path)
+            if (output_path is not None and Path(output_path).exists())
+            else DEFAULT_RESULTS_PATH
+        )
+        with open(src_path, "r", encoding="utf-8") as f:
+            payload = json.load(f)
+        if output_path is not None and Path(output_path) != src_path:
+            out_p = Path(output_path)
+            out_p.parent.mkdir(parents=True, exist_ok=True)
+            with open(out_p, "w", encoding="utf-8") as f:
+                json.dump(payload, f, indent=2, allow_nan=False)
+        return payload
 
     with open(MINING_REPORT_PATH, "r", encoding="utf-8") as f:
         mining_report = json.load(f)
