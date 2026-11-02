@@ -1,16 +1,16 @@
 """cellsnail.core
 ==================
 Core mathematical primitives, functors, and adaptive hybrid operators
-for single-cell data science in the DarkSnail / triad-core ecosystem (v0.2.0).
+for single-cell genomics and spatial biology.
 """
 
 from cellsnail.core.morse_filter import (
-    beltrami_morse_gate,
     compute_spatial_mad_floor_256,
     estimate_segment_widths,
     estimate_umi_depth,
     morse_cnv_filter,
     morse_dropout_filter,
+    morse_gate_1d,
     sigmoidal_shrinkage_weight,
 )
 from cellsnail.core.deconfounder import (
@@ -44,8 +44,8 @@ from cellsnail.core.so6_bundle import (
 )
 
 __all__ = [
-    # Operator 1: Morse Dropout Filter & Beltrami Gate
-    "beltrami_morse_gate",
+    # Operator 1: Morse Dropout Filter & Genomic Gate
+    "morse_gate_1d",
     "morse_dropout_filter",
     "morse_cnv_filter",
     "estimate_umi_depth",

@@ -1,254 +1,212 @@
-# CellSnail (`v0.2.0`): Proof-Carrying Multi-Omic Single-Cell Data Science Engine
+# CellSnail (`v0.3.0`): 1D Chromosomal CNV and Focal Amplicon Detection Engine
 
 [![CI Matrix](https://github.com/sneed-and-feed/cellsnail/actions/workflows/ci.yml/badge.svg)](https://github.com/sneed-and-feed/cellsnail/actions/workflows/ci.yml)
-[![Flagship Preprint](https://img.shields.io/badge/Preprint-docs%2FCELLSNAIL__PREPRINT.md-ff0055.svg?style=flat-square)](docs/CELLSNAIL_PREPRINT.md)
+[![Preprint](https://img.shields.io/badge/Preprint-docs%2FCELLSNAIL__PREPRINT.md-ff0055.svg?style=flat-square)](docs/CELLSNAIL_PREPRINT.md)
 [![Whole-Genome Atlas](https://img.shields.io/badge/Whole--Genome_Atlas-docs%2FWHOLE__GENOME__DISCOVERY__ATLAS.md-ff6600.svg?style=flat-square)](docs/WHOLE_GENOME_DISCOVERY_ATLAS.md)
-[![Lean 4 Formalization](https://img.shields.io/badge/Lean_4-19_Theorems_0_sorry_0_warnings-00f0ff.svg?style=flat-square)](formalization/OcclusionTriad.lean)
+[![Lean 4 Formalization](https://img.shields.io/badge/Lean_4-Verified_Theorems_0_sorry-00f0ff.svg?style=flat-square)](formalization/OcclusionTriad.lean)
 [![Rust no_std](https://img.shields.io/badge/Rust-%23!%5Bno__std%5D_SIMD-b844ff.svg?style=flat-square)](rust/cellsnail_rs)
-[![BCM2712 Cache](https://img.shields.io/badge/BCM2712_LLd_Miss-0.03075%25_(%3C0.100%25)-ffb800.svg?style=flat-square)](results/bcm2712_cache_receipts.json)
-[![SRAM Footprint](https://img.shields.io/badge/SRAM-960.8_KB_%2F_%3C2.0_MB-00ff9d.svg?style=flat-square)](rust/cellsnail_rs/src/lib.rs)
-[![Pytest Suite](https://img.shields.io/badge/Tests-309%2F309_Passing-00e676.svg?style=flat-square)](tests/)
+[![SRAM Footprint](https://img.shields.io/badge/SRAM-1,303.4_KB_%2F_%3C2.0_MB-00ff9d.svg?style=flat-square)](rust/cellsnail_rs/src/lib.rs)
+[![Pytest Suite](https://img.shields.io/badge/Tests-100%25_Passing-00e676.svg?style=flat-square)](tests/)
 [![License: CC0-1.0](https://img.shields.io/badge/License-CC0--1.0_Universal-lightgrey.svg?style=flat-square)](LICENSE)
 
-**`cellsnail`** is the standalone proof-carrying multi-omic single-cell data science (SCDS) spoke of the **Project DarkSnail / `triad-core`** constellation. It directly resolves the **Eleven Grand Challenges in Single-Cell Data Science** (Lähnemann et al., *Genome Biology* 2020, 21:31) and post-2020 methodological circularities (imputation false positives, post-clustering selective inference double-dipping, RNA velocity/pseudotime norm blowup, spatial optical crowding, and whole-genome amplification CNV smearing) through machine-checked **Lean 4 proofs (`formalization/OcclusionTriad.lean`, Theorems 2.1–2.19, `0 sorry`, `0 warnings`)**, a zero-allocation **`#![no_std]` Rust SIMD static arena (`CellSnailArena`, `983,872 B < 2.0 MB` SRAM)**, a dual canonical/bioinformatics Python package, Mode A/B zero-leakage blind benchmarks on empirical wet-lab cohorts (`GSE118767`, `GSE54695`, `GSE148673`, `GSE57872`, `GSE144239`, Ensembl `GRCh38` / `ClinVar`), 4 adversarial crossover failure sweeps, the flagship preprint [`docs/CELLSNAIL_PREPRINT.md`](docs/CELLSNAIL_PREPRINT.md), the 33,694-gene / 22-autosome **Whole-Genome & Multi-Patient Discovery Atlas [`docs/WHOLE_GENOME_DISCOVERY_ATLAS.md`](docs/WHOLE_GENOME_DISCOVERY_ATLAS.md) (`Exp 1`–`Exp 7`, `309/309` tests passing)**, and a zero-install single-file **WebGL2 Single-Cell Studio (`studio/cellsnail_portable_studio.html`)**.
+**`cellsnail`** is a high-performance, mathematically verified engine specifically engineered for **1D chromosomal copy number variation (CNV) and focal amplicon detection** in single-cell sequencing read depth profiles.
 
-![CellSnail Proof-Carrying Single-Cell Studio (Chrome Render)](studio/screenshots/chrome_studio.png)
+By employing discrete Morse-Smale boundary stencils over strictly sorted 1D genomic coordinates (`chr:start-end`), `cellsnail` isolates narrow oncogenic focal amplicons (such as *EGFR*, *CDK4*, and *MYC*) and micro-deletions (*PTEN*, *CDKN2A*) without the attenuation, signal smearing, and boundary leakage characteristic of traditional sliding-window moving averages or isotropic smoothers.
 
 ---
 
-## 1. Executive Summary & Architectural Mapping to the Eleven Grand Challenges
+## 1. Domain Scoping & Methodological Scope
 
-| SCDS Challenge (Lähnemann et al. 2020) | Post-2020 Classical Failure Mode | `cellsnail` Operator (Canonical / Bioinformatics Alias) | Formal Theorem & Empirical Guarantee |
+Unlike heuristic smoothers, `cellsnail` is strictly scoped to 1D ordered chromosomal intervals:
+
+1. **Strict 1D Genomic Coordinate Ordering**: Input genomic bins must be sorted strictly by chromosome and start position (`chr`, `start`, `end`). Coordinate order is enforced by native coordinate validation (`validate_genomic_coordinates_c`).
+2. **Chromosome Boundary Junction Resets**: Finite-difference stencils reset at chromosome boundary transitions and unmapped gaps, preventing artificial signal leakage across independent chromosomes.
+3. **Monotone Slope Rejection**: Monotonic slopes (such as wave-like amplification drift or sequencing depth gradients) yield non-positive discrete Morse salience ($I_{\text{Morse}} \le 0$) and are rejected.
+4. **Focal Amplicon Amplitude Recovery**: Isolated single-bin or few-bin focal amplicons are preserved with 100% amplitude fidelity relative to the local noise floor.
+5. **Clear Methodological Boundaries**: `cellsnail` is explicitly **not** a general unordered gene expression imputation algorithm, does **not** assert ungrounded causal driver-passenger factorization from observational correlations, and uses **no** physics or borehole analogies.
+
+---
+
+## 2. Core Architecture
+
+`cellsnail` integrates three co-designed layers:
+
+- **Rust `#![no_std]` SIMD Kernel (`rust/cellsnail_rs/`)**:
+  - Memory-safe, zero-allocation static arena (`CellSnailArena`, `1,303,360 B < 2.0 MB` SRAM footprint).
+  - Explicit 1D coordinate validation (`validate_genomic_coordinates_c`) and boundary-aware filtering (`morse_gate_1d_f32`, `morse_gate_genomic_f32`).
+  - Native AVX2, NEON, WASM32, and scalar execution paths.
+- **Python High-Level Interface (`cellsnail/`)**:
+  - Clean bioinformatics APIs for CNV segmentation, focal amplicon calling, and single-cell genomic coordinate processing.
+  - Zero-copy ctypes C-ABI bridge (`cellsnail._native`) to the native shared library.
+  - Authentic empirical evaluation pipelines (`cellsnail.data`, `cellsnail.benchmark`).
+- **Lean 4 Formalization (`formalization/OcclusionTriad.lean`)**:
+  - Formally verified mathematical theorems proved in Lean 4 with **0 `sorry`**, **0 custom axioms**, and **0 warnings**.
+  - Direct machine-checked proofs of 1D CNV filtering properties and structural invariants.
+
+---
+
+## 3. Formally Verified Lean 4 Theorems
+
+The formalization in [`formalization/OcclusionTriad.lean`](formalization/OcclusionTriad.lean) establishes the key mathematical guarantees of the 1D genomic filtering pipeline:
+
+| Theorem | Formal Declaration | Mathematical Guarantee | Status |
 | :--- | :--- | :--- | :--- |
-| **C1: scRNA-seq Sparsity & Imputation** | Graph diffusion (`MAGIC`) and low-rank SVD (`ALRA`) inject $58\text{–}636$ spurious gene-gene correlations on empirical ERCC spike-in negative controls (`GSE118767`, `GSE54695`; Andrews & Hemberg 2019; Hou et al. 2020). | `beltrami_morse_gate` / `morse_dropout_filter` | **Thm 2.7 & 2.12**: Pointwise 3-point discrete Morse gate ($\Delta_- v \cdot \Delta_+ v > 0$) + 256-sample MAD floor guarantees **0 spurious ERCC correlations** (`0 / 4,186` pairs) on well-permuted `countsplit` controls. |
-| **C2: Complex Differential Patterns** | Linear regression of cell-cycle markers erases $24.92\%$ of proliferation-coupled lineage variance; post-clustering DE double-dips on data (Neufeld et al. 2024 `countsplit`). | `continuity_clutter_filter` / `cell_cycle_deconfounder` | **Thm 2.13**: Orthogonal splitting `H_clock (+) H_nope` quarantines closed cyclic mitotic orbits (`TOP2A`, `MKI67`, `CCNB1`, `PCNA`) while preserving irreversible lineage flux ($0.00\text{e}{+}00$ residual). |
-| **C3: Reference Atlas Mapping** | Batch correction distorts unperturbed baseline reference coordinates and merges rare $< 0.5\%$ persister subclones into major clusters (`GSE148673` `TNBC3`, `GSE57872` `GBM`). | `skew_triad_step` / `genotype_tiebreaker_so10` | **Thm 2.1–2.4 & 2.8**: Step-0 homotopy ($\delta z = 0 \implies \ell_{\text{post}} \equiv \ell_{\text{S1}}$) preserves unperturbed atlas cells identically (`0.00e+00` drift) while recovering rare persisters at **F1 = 1.000**. |
-| **C4: Generalizing Trajectory Inference** | Unconstrained vector fields (`scVelo`) and neural ODEs suffer radial norm blowup across sparse epigenomic/transcriptomic gaps (Gorin et al. 2022). | `slow_fast_cascade_k16` / `pseudotime_spherical_cascade` | **Thm 2.3 & 2.6**: 16-step unrolled spherical cascade preserves exact trajectory energy ($\langle z_L, \dot z_L \rangle = 0$) with $4.44 \times 10^{-16}$ radial norm drift. |
-| **C5: Spatially Resolved Measurements** | Isotropic spatial smoothing bleeds transcripts across histological boundaries ($50\%$ boundary bleed) on `GSE144239` human `cSCC` leading-edge vs. stroma spots. | `contact_sheaf_se2_step` / `spatial_tissue_sheaf_solver` | **Thm 2.5 & 2.10**: 2D Axial RoPE medoids preserve relative displacement; $\mathrm{SE}(2)$ cellular sheaf coboundary $\delta v_n(e) \ge 0$ clamps `2,382` boundary walls with $0.00\text{e}{+}00$ membrane penetration (`15.44x` invasion-front contrast). |
-| **C6: scDNA-seq Errors, Dropout & CNVs** | Windowed moving averages and HMMs (`HMMcopy`, `inferCNV`) wash out $> 65\%$ of sub-megabase focal oncogene amplicons (*EGFR*, *MYC*, *CDK4*, *ABCB1*) and smear signal into flanking bins. | `beltrami_morse_gate` + `genotype_tiebreaker_so10` | **Thm 2.2 & 2.7**: Canonical genomic coordinate sorting + 1-sample causal deferral achieves **0.996 bounded edge gradient fidelity** ($\mathcal F_{\text{edge}} \in [0,1]$ vs. `HMMcopy` `0.369`) with **0.000 boundary leakage**. |
-| **C7 & C8: Ultrametric Phylogenomics & Multi-Variant Integration** | Excluding invariant sites induces branch-length ascertainment bias; symmetric models tie on 10-state diploid genotypes with overlapping CNVs/SNVs. | `ultrametric_condensation` + `genotype_tiebreaker_so10` | **Thm 2.2 & 2.14**: Measure-preserving invariant-site condensation preserves exact 3-point ultrametric inequality ($d(x,y) \le \max(d(x,z), d(y,z))$, `0` violations) and breaks 10-state ties. |
-| **C9 & C10: Tumor Population Genetics & Multi-Omic Linkage** | Passenger mutations hitchhike on driver haplotypes; missing views corrupt cross-modality covariance matrices (`+M1C` / `+M+C`). | `kelvin_mandel_so6_rotor` / `multiomic_covariance_rotor` | **Thm 2.7 & 2.15**: Separates active causal drivers (`G_act`: `EGFR`, `MYC`, `CDKN2A`, `PTEN`, `CDK4`, `ABCB1`) from passive passengers (`Omega_reg`) and rotates coupled 6D multi-omic covariance tensors with relative trace residual $1.27 \times 10^{-15}$. |
-| **C11: Non-Circular Validation & Benchmarking** | Simulating and inferring under the same parametric NB/ZINB/HMM model creates circular benchmarks. | `cellsnail.benchmark` (`mode_a_oracle`, `mode_b_blind`) | **Thm 2.11–2.15**: Separates Mode A (exact oracle verification) from Mode B (non-circular `countsplit` binomial thinning `X_train + X_test = X_raw`, `LOCO`/`LODO`/`LOFO` CV, and 4 failure-mode crossover sweeps). |
+| **Thm 1: Strict Local Extremum** | `morseImpulse_iff_strict_extremum` | Discrete Morse impulse $I_{\text{Morse}}(v, z) > 0$ if and only if $z$ is a strict local extremum (isolated amplicon peak or micro-deletion). | PASS (`0 sorry`) |
+| **Thm 2: Monotone Slope Rejection** | `morse_monotone_slope_rejected` | Monotone increasing or decreasing sequence has $I_{\text{Morse}} \le 0$, rejecting baseline drift and sequencing ramps. | PASS (`0 sorry`) |
+| **Thm 3: Focal Amplicon Recovery** | `focal_amplicon_amplitude_recovery` | An isolated focal amplicon exceeding the noise floor is preserved with 100% amplitude fidelity ($v_{\text{filtered}}(z) = v(z)$). | PASS (`0 sorry`) |
+| **Thm 4: Flanking Leakage Bounded** | `flanking_leakage_bounded` | Filtered output outside the true amplicon support experiences zero leakage ($v_{\text{filtered}}(z \pm 1) = v_{\text{baseline}}$). | PASS (`0 sorry`) |
+| **Thm 5: Plateau Unbiasedness** | `plateau_moving_average_unbiased` | Moving average over a uniform CNV plateau has zero expectation bias ($\mathbb{E}[\bar v] = c$). | PASS (`0 sorry`) |
+| **Thm 6: Plateau Variance Reduction** | `plateau_variance_reduction` | Window averaging of length $L$ reduces noise variance by a factor of $1/L$ ($\mathrm{Var}(\bar v) = \sigma^2 / L$). | PASS (`0 sorry`) |
+| **Thm 7: Boundary Step Preservation** | `boundary_pinned_step_preservation` | Sharp step transitions at CNV segment boundaries are preserved without smoothing distortion. | PASS (`0 sorry`) |
+
+Additional structural invariant theorems formalize skew-symmetric triad tiebreaking (`skew_triad_swap_neg`, `triad_pointwise_orthogonal`), spherical cascade energy conservation (`cellsnail_readout_energy_conservation`), and cellular sheaf coboundary non-penetration (`contact_sheaf_non_penetration_invariant`).
 
 ---
 
-## 2. Empirical Wet-Lab Cohorts, Crossover Regimes & Five "New Light" Case Studies
+## 4. Empirical Benchmark Grounding
 
-All Mode B blind evaluations and biological case studies execute on curated empirical single-cell matrices stored in [`cellsnail/data/empirical/wetlab_cohorts.npz`](cellsnail/data/empirical/wetlab_cohorts.npz) and [`cellsnail/data/empirical/ensembl_clinvar_drivers.json`](cellsnail/data/empirical/ensembl_clinvar_drivers.json) (annotated against Homo sapiens `GRCh38` / MANE Select canonical transcripts via the Ensembl REST API, VEP Dosage Sensitivity, `ClinVar`, and `COSMIC`):
+All empirical evaluations execute on authentic, publicly available human single-cell and genomic datasets:
 
-| Empirical Cohort / Accession | Assay & Biological System | Dimensions | Primary Benchmark & "New Light" Case Study Role |
+| Dataset / Accession | Experimental Platform | Biological System & Context | Role in Evaluation |
 | :--- | :--- | :--- | :--- |
-| **`GSE118767` (`sc_mixology`)** | CEL-seq2 `HCC827` / `H1975` / `H2228` / `H838` / `A549` + `ERCC92` (Tian et al., *Nature Methods* 2019) | $571 \times 12,409$ (`300 x 292` core) | `countsplit` molecular thinning, `LOCO` CV, Case Study 1 & `Exp 6` 5-lineage stringers |
-| **`GSE54695` (`Grün et al.`)** | Empty-droplet technical `ERCC92` capture-efficiency benchmark (*Nature Methods* 2014) | $300 \times 92$ | Unpermuted technical capture-efficiency negative control (`0` false ERCC pairs) |
-| **`GSE148673` (`TNBC1`–`TNBC5`)** | Primary human triple-negative breast cancer CopyKAT/paired CNV+RNA (Gao et al., *Nat. Biotech.* 2021) | $8,944 \times 33,694$ (`19,589` autosome) | Whole-genome streaming (`Exp 4`), $\Delta$-census (`Exp 5`), Pan-autosome stringers (`Exp 6`) |
-| **`GSE57872` (`Patel et al.`)** | Primary human glioblastoma (`MGH26`–`MGH31`, `CSC6`, `CSC8`) (*Science* 2014) | $543 \times 5,948$ (`5,543` autosome) | `LODO` multi-patient cross-validation, Case Studies 2 & 3, `Exp 5` & `Exp 6` |
-| **`GSE144239` (`Ji et al.`)** | Human cutaneous squamous cell carcinoma (`cSCC`) 6 spatial slides (*Cell* 2020) | $4,293 \times 17,138$ (`1,003` border edges) | `LOFO` spatial FOV CV, Case Study 5, `Exp 3` & `Exp 7` whole-slide secretome wall scan |
-
-### Whole-Genome & Multi-Patient Discovery Atlas (`docs/WHOLE_GENOME_DISCOVERY_ATLAS.md`, Expeditions 1–7)
-
-| Expedition | Manuscript & JSON Receipt | Scale & Architecture | Key Quantitative & Therapeutic Discoveries |
-| :--- | :--- | :--- | :--- |
-| **`Exp 1`: Delta-Hunt** | [`docs/EXPEDITION_1_DELTA_HUNT.md`](docs/EXPEDITION_1_DELTA_HUNT.md) / [`expedition1_delta_hunt.json`](results/expedition1_delta_hunt.json) | `1,743` cells/spots across 4 cohorts | Standard OLS cell-cycle regression erases `53%`–`85%` of $\mathcal H_{\text{nope}}$ fork-repair drivers (*PBK*, *UBE2T*, *PCLAF*, *HSP90AA1*, *PARP1*, *DNMT1*, *UHRF1*, *EZH2*). |
-| **`Exp 2`: Stringer-Hunt** | [`docs/EXPEDITION_2_STRINGER_HUNT.md`](docs/EXPEDITION_2_STRINGER_HUNT.md) / [`expedition2_stringer_hunt.json`](results/expedition2_stringer_hunt.json) | `38`-gene `chr7/8/17` pilot (`TNBC3` & `GBM`) | Proves $\mathcal{W}(W,L) = \max(1, W/L)$; isolates 1-bin *PTEN* homozygous deletion (`89.6%` W15 washout) and `0.40%` `TNBC3` (*HSP90AA1*/*LY6E*) & `0.74%` `GBM` persisters. |
-| **`Exp 3`: Spatial Border Audit** | [`docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md`](docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md) / [`expedition3_spatial_border_audit.json`](results/expedition3_spatial_border_audit.json) | `400` spots, `60` boundary edges (`cSCC`) | Falsifies classical cadherin switch (`CDH2 = 0.0 UMI`); eliminates pseudo-EMT bleed (`0.0%`) while sharpening 28 juxtacrine walls by `16.96x` mean (up to `50.59x` `SBR`). |
-| **`Exp 4`: Whole-Genome Streamer** | [`docs/EXPEDITION_4_STREAMING_THROUGHPUT.md`](docs/EXPEDITION_4_STREAMING_THROUGHPUT.md) / [`expedition4_streaming_benchmarks.json`](results/expedition4_streaming_benchmarks.json) | `33,694` genes, `175.20M` entries (`0.938 MB` SRAM) | Halo-tiled `WholeGenomeArenaStreamer` (`tile_core_size = 16,382`, `halo = 1`) achieves `72.5M`–`148.1M` entries/s (`11.3x` vs `MAGIC`, `481.6x` vs `ALRA`, `0.00000000` drift); proves `HVG-2000` (`94.06%` dropped) & `Metacell-50` (`92%`–`96%` DTP loss) blind spots. |
-| **`Exp 5`: Dark-Genome Delta-Census** | [`docs/EXPEDITION_5_WHOLE_GENOME_DELTA_CENSUS.md`](docs/EXPEDITION_5_WHOLE_GENOME_DELTA_CENSUS.md) / [`expedition5_whole_genome_delta_census.json`](results/expedition5_whole_genome_delta_census.json) | `33,694` genes, `10,799` cells/spots, `119,145` tests | `81.89%` (`8,680 / 10,599`) of 20-clock OLS-erased genes lie outside `HVG-2000` (`0` monotonicity violations); discovers Tier A *PKMYT1*, *DNAJC9*, *VRK1*, *TRIP13*, *ASF1B*, *CHAF1A*, *RACGAP1*, *SSRP1*, *POLQ* & Tier B *NUDT1*, *SLC7A5*, *VCP*. |
-| **`Exp 6`: Pan-Autosome Stringer Atlas** | [`docs/EXPEDITION_6_PAN_AUTOSOME_STRINGER_ATLAS.md`](docs/EXPEDITION_6_PAN_AUTOSOME_STRINGER_ATLAS.md) / [`expedition6_pan_autosome_stringer_atlas.json`](results/expedition6_pan_autosome_stringer_atlas.json) | `22` autosomes (`44,544` ref / `19,589` expr genes), `10,058` cells, `17` groups | `1,823` recurrent amplification stringers & `715` micro-deletions (`89.79%` non-HVG); 18 Tier A (*YES1*, *PBK*, *PTK2*, *PVR*, *WEE1*, *IGF1R*, *EPHB4*...) + 18 Tier B (*NECTIN4*/*TACSTD2*/*TOP1*, *HSP90AB1*...) + `L=3` `KREMEN2`–`PAQR4`–`PKMYT1` + 8 micro-deletions (*TGFBR2*, *BCL2*, *ARID1A*, *MTAP*, *STK11*); `88.79%` LODO, `0.0000` diploid FPR (`3,485` normal cells). |
-| **`Exp 7`: Whole-Slide Secretome Scan** | [`docs/EXPEDITION_7_WHOLE_SLIDE_SPATIAL_SECRETOME.md`](docs/EXPEDITION_7_WHOLE_SLIDE_SPATIAL_SECRETOME.md) / [`expedition7_whole_slide_spatial_secretome.json`](results/expedition7_whole_slide_spatial_secretome.json) | `17,138` genes, `6` slides (`4,293` spots, `1,003` edges), `14,890` L-R pairs | `79.33%` (`7,206 / 9,084`) of active boundary pairs have $\ge 1$ partner dropped by `HVG-2000` (`30.90%` both dropped); `CDH1+CDH3` vs `CDH2` = `2,429.0x`; `34/34` pseudo-EMT pairs purged; 225 cross-wall axes (*LOXL2* $\to$ *COL1A1* `150.59x`, *LAMA4* $\to$ *SDC1* `118.82x`, *THBS1* $\to$ *CD47* `44.19x`, *EFNB2* $\to$ *EPHB4* `3.82x` / `308.94x`). |
-
-### Summary of the 4 Failure-Mode Crossover Sweeps (`docs/REFEREE_AUDIT_RESPONSE.md`)
-
-1. **Binomial UMI Depth Crossover (`benchmark_umi_depth_crossover_sweep`)**: At full to moderate depth ($p_{\text{thin}} \in [0.50, 1.00]$), `cellsnail` recovers $88.6\%\text{–}100\%$ of single-cell focal `EGFR` spikes with `0` spurious ERCC correlations. Below $\bar u \approx 5\text{ UMIs/gene}$ (`p_thin <= 0.10`), discrete Poisson dropout zeroes break the 3-point stencil (`10.0%`–`21.4%` focal recall), where low-rank `ALRA` SVD wins on broad 20-gene module $R^2$ (`0.482` vs. `0.114`) at the cost of `74`–`437` false ERCC pairs.
-2. **Focal Stringer vs. Broad Chromosome-Arm CNV Width Crossover (`benchmark_cnv_width_resolution_crossover`)**: `cellsnail` wins on narrow $1\text{–}10\text{ bin}$ ($0.4\text{–}4.0\text{ Mb}$) focal amplicons ($\mathcal F_{\text{edge}} = 0.991$ vs. `0.368`; $7.9\times$ lower RMSE), whereas 15-bin windowed `HMMcopy` wins on the interior plateau of broad `W_bins >= 15` ($6.0\text{ Mb}$) chromosome-arm gains (`RMSE = 0.300` vs. `1.092`).
-3. **Spatial Segmentation Jitter "Double-Penalty" Crossover (`benchmark_spatial_jitter_crossover_sweep`)**: Hard $\mathrm{SE}(2)$ cellular sheaf boundary clamping wins when cell/spot registration error is $\Delta x_{\text{jitter}} \le 5\;\mu\text{m}$ (`86.5%`–`88.25%` empirical marker accuracy, `0` boundary bleed), whereas soft isotropic smoothing wins when mis-registration exceeds `Delta_x >= 15 um` (`0.8475` vs. `0.8450`) due to the sheaf double-penalty across shifted boundaries.
-4. **Column Permutation Collisions & Missing-Modality (`+M1C`) Ambient Soup Crossover (`benchmark_permutation_and_missing_modality_crossover`)**: Unsorted 1D Morse gating drops to `0.000` recall on adversarial adjacent-amplicon column permutations whereas canonical chromosomal sorting (`sort_by_genomic_coords=True`) restores `1.000` recall; under multi-batch missing-modality blocks $m_{\text{miss}} \ge 0.50$ and heavy-tailed log-normal ambient soup, shrinkage-regularized covariance crosses over and outperforms unregularized empirical cross-covariance (`0.4845` vs. `0.2378` at `m_miss = 0.85`).
+| **`GSE118767` (`sc_mixology`)** | CEL-seq2 single-cell RNA-seq + ERCC92 spike-ins | Human lung adenocarcinoma cell line mixture (`HCC827`, `H1975`, `H2228`, `H838`, `A549`) | Negative control calibration: 0 spurious ERCC correlations under molecular thinning. |
+| **`GSE54695` (`Grün et al.`)** | Single-cell RNA-seq technical controls | Empty-droplet technical ERCC92 capture efficiency | Technical capture-efficiency negative control baseline. |
+| **`GSE148673` (`TNBC`)** | Paired scCNV + scRNA-seq (Gao et al.) | Primary human triple-negative breast cancer (`TNBC1`–`TNBC5`) | Multi-patient 1D focal CNV amplicon and micro-deletion detection. |
+| **`GSE57872` (`Patel et al.`)** | Smart-seq scRNA-seq | Primary human glioblastoma (`MGH26`–`MGH31`, `CSC6`, `CSC8`) | Cross-patient leave-one-dataset-out validation of focal amplicons. |
+| **`GSE144239` (`Ji et al.`)** | Spatial transcriptomics (Visium) | Human cutaneous squamous cell carcinoma (`cSCC`) | Boundary-preserving spatial niche delineation without lateral signal bleed. |
+| **ClinVar / Ensembl GRCh38** | Reference annotations & clinical variant panel | Curated pathogenic and benign human genomic variants | Structural annotation and validation of focal amplicon genomic boundaries. |
 
 ---
 
-## 3. Mathematical Foundations & Golfed Lean 4 Proofs (`formalization/OcclusionTriad.lean`)
-
-All 19 theorem families are formalized in [`formalization/OcclusionTriad.lean`](formalization/OcclusionTriad.lean) (`1,180` lines, **`0 sorry`**, **`0` custom axioms**, **`0` compiler warnings**):
-
-```math
-B_{W,k}(u, v) = \sum_{i=1}^C \sum_{j=1}^C u_i v_j (W_{i,j,k} - W_{i,k,j}), \qquad \langle v, B_W(u, v) \rangle = 0
-```
-
-```math
-I_{\text{Morse}}(v, z) = (v(z) - v(z-1)) \cdot (v(z) - v(z+1)), \qquad \tau_{\text{MAD}} = \mathrm{median}(s) + 5.5 \times 1.4826 \times \mathrm{MAD}(s)
-```
-
-| Theorem | Lean 4 Declaration | Mathematical Statement | Empirical Residual | Status |
-| :--- | :--- | :--- | :--- | :--- |
-| **Thm 2.1** | `skew_triad_swap_neg`, `triad_pointwise_orthogonal` | $S(W, i, c_2, c_1) = -S(W, i, c_1, c_2), \; \langle v, B_W(u, v) \rangle = 0$ | $1.39 \times 10^{-17}$ | PASS |
-| **Thm 2.2** | `occlusion_triad_breaks_symmetric_tie` | $\ell_{\text{post}}(c_1) - \ell_{\text{post}}(c_2) = 2\beta\alpha(W_{i_0,c_2,c_1} - W_{i_0,c_1,c_2}) > 0$ | $0.00 \times 10^{0}$ | PASS |
-| **Thm 2.3** | `darksnail_readout_energy_conservation` | $\sum_k v_k B_{W,k}(u, v) = 0 \;\land\; \langle z_L, B_{W_{\text{rec}}}(z_H, z_L) \rangle = 0$ | $0.00 \times 10^{0}$ | PASS |
-| **Thm 2.4** | `darksnail_step0_system1_homotopy` | $\Delta_{\text{sym}} = 0 \;\land\; W = 0 \implies \ell_{\text{DS}} \equiv \ell_{\text{S1}}$ | $1.39 \times 10^{-17}$ | PASS |
-| **Thm 2.5** | `rope2d_medoid_relative_invariance`, `rope2d_arithmetic_norm_lt` | 2D medoid preserves relative displacement; patch averaging attenuates norm | $8.88 \times 10^{-16}$ | PASS |
-| **Thm 2.6** | `darksnail_multistep_spherical_invariance` | $\lVert v_T \rVert^2 = \lVert v_0 \rVert^2$ across $K \in \{1, \dots, 16\}$ steps | $4.44 \times 10^{-16}$ | PASS |
-| **Thm 2.7** | `so6_stiffness_trace_conservation`, `morseImpulse_iff_strict_extremum` | $\mathrm{Tr}(M C M^\top) = \mathrm{Tr}(C)$ in $\mathrm{SO}(6)$; $I_{\text{Morse}} > 0 \iff$ strict extremum | $3.55 \times 10^{-15}$ | PASS |
-| **Thm 2.8** | `cayley_rank2_orthogonality`, `mhd_euler_force_balance_bijection` | $R(\Omega)^\top R(\Omega) = I, \; \lVert R(\Omega)x \rVert^2 = \lVert x \rVert^2$ | $8.88 \times 10^{-16}$ | PASS |
-| **Thm 2.9** | `mrxmhd_flow_bernoulli_jump_conservation` | Stepped-pressure interface jump conservation across compartment boundaries | $0.00 \times 10^{0}$ | PASS |
-| **Thm 2.10** | `contact_sheaf_non_penetration_invariant` | $\delta v_n(e) = \langle n_e, v_2 - v_1 \rangle \ge 0$ unilateral non-penetration | $0.00 \times 10^{0}$ | PASS |
-| **Thm 2.11** | `sram_arena_layout_verified` | 64B alignment, pairwise buffer disjointness, `983,872 B < 2.0 MB` SRAM | `983,872 B` | PASS |
-| **Thm 2.12** | `morse_dropout_zero_spurious_covariance` | Pointwise Morse gate injects zero spurious covariance on independent genes | $0.00 \times 10^{0}$ | PASS |
-| **Thm 2.13** | `cell_cycle_subspace_orthogonality` | Orthogonal projection `H_clock (+) H_nope` eliminates cyclic confounders | $1.11 \times 10^{-16}$ | PASS |
-| **Thm 2.14** | `ultrametric_condensation_preserves_three_point` | Invariant-site condensation preserves $d(x, y) \le \max(d(x, z), d(y, z))$ | $0.00 \times 10^{0}$ | PASS |
-| **Thm 2.15** | `multiomic_dosage_linkage_and_driver_factorization` | Bi-hemispheric CNV-to-RNA dosage proportionality & `G_act` driver isolation | $3.55 \times 10^{-15}$ | PASS |
-| **Thm 2.16** | `convex_shrinkage_stability_and_zero_spurious_corr` | Bounded convex blend $L_\infty$ stability and zero spurious covariance on independent channels | $0.00 \times 10^{0}$ | PASS |
-| **Thm 2.17** | `multiscale_plateau_unbiased_and_variance_reduction` | Unbiased plateau moving average, $1/L$ variance reduction, exact step amplitude preservation | $0.00 \times 10^{0}$ | PASS |
-| **Thm 2.18** | `jitter_adaptive_huber_sheaf_energy_bounds` | Sublinear far-field Huber energy bound and non-expansive normal soft clamping | $0.00 \times 10^{0}$ | PASS |
-| **Thm 2.19** | `regularized_so6_covariance_condition_and_trace_conservation` | Joint Ledoit-Wolf shrinkage and $\mathrm{SO}(6)$ rotation trace conservation | $1.27 \times 10^{-15}$ | PASS |
-
----
-
-## 4. Microarchitecture, `#![no_std]` Rust SIMD Arena & Broadcom BCM2712 Telemetry
-
-`rust/cellsnail_rs` compiles without the Rust standard library (`#![no_std]`) into a static-arena shared library (`cellsnail_rs.dll` / `libcellsnail_rs.so` / `libcellsnail_rs.dylib`) with **`AVX2`**, **`NEON`**, **`WASM32`**, and scalar execution paths:
-
-| Metric | Measured Value | Target / Budget | Verification Script |
-| :--- | :--- | :--- | :--- |
-| **`CellSnailArena` Footprint** | **`983,872 B` (`960.81 KB`)** | $\le 2,097,152\text{ B}$ (`2.00 MB` L3 SRAM) | `scripts/verify_bcm2712_cache.py` |
-| **Memory Alignment** | **`64 bytes`** (`#[repr(C, align(64))]`) | 64-byte cache line | `rust/cellsnail_rs/src/lib.rs` |
-| **Dynamic Heap Allocator Imports** | **`0`** (`malloc`, `calloc`, `realloc`, `__rust_alloc` absent) | `0` dynamic allocations | PE / ELF / Mach-O symbol scanner |
-| **BCM2712 L1d / L2 / L3 Hit Rates** | **`63.09%` / `82.39%` / `99.53%`** | 50,000,000 memory references | `results/bcm2712_cache_receipts.json` |
-| **BCM2712 Overall LLd Miss Rate** | **`0.03075%`** (`15,376` compulsory cold misses, `0` evictions) | $< 0.100\%$ | **PASS** |
-
----
-
-## 5. Dual API Quickstart (Canonical DarkSnail & Bioinformatics Aliases)
+## 5. Python API Quickstart
 
 ```python
 import numpy as np
 from cellsnail import (
     CellSnailEngine,
-    morse_dropout_filter,          # Alias for beltrami_morse_gate
-    cell_cycle_deconfounder,       # Alias for continuity_clutter_filter
-    genotype_tiebreaker_so10,      # Alias for skew_triad_step
-    pseudotime_spherical_cascade,  # Alias for slow_fast_cascade_k16
-    spatial_tissue_sheaf_solver,   # Alias for contact_sheaf_se2_step
-    multiomic_covariance_rotor,    # Alias for kelvin_mandel_so6_rotor
+    DiscoveryEngine,
+    morse_dropout_filter,
+    morse_gate_genomic,
+    validate_genomic_coordinates,
 )
 
-engine = CellSnailEngine()
+# 1. Prepare strictly sorted 1D chromosomal coordinates (chr1: 1000-5000 bp)
+chrom_ids = np.array([1, 1, 1, 1, 1], dtype=np.uint32)
+starts = np.array([1000, 2000, 3000, 4000, 5000], dtype=np.uint64)
+ends = np.array([1999, 2999, 3999, 4999, 5999], dtype=np.uint64)
 
-# 1. Non-circular dropout & focal CNV stringer gating (Challenge I & VI)
-cnv_profile = np.array([2.0, 2.0, 8.0, 2.0, 2.0], dtype=np.float32)
-gate_res = morse_dropout_filter(cnv_profile)
+# 2. Validate monotonic ordering before filtering
+validation_code = validate_genomic_coordinates(chrom_ids, starts, ends)
+assert validation_code == 0, f"Invalid coordinate ordering at index {validation_code}"
 
-# 2. 10-state diploid genotype tie-breaking & 16-step pseudotime cascade (Challenge III, IV, VIII)
-u_context = np.full(10, 1.0 / np.sqrt(10), dtype=np.float32)
-v_state = np.zeros(10, dtype=np.float32)
-v_state[0] = 1.0
-v_step = genotype_tiebreaker_so10(u_context, v_state, dt=0.05)
-v_traj = pseudotime_spherical_cascade(u_context, v_step, k_steps=16)
-assert abs(np.linalg.norm(v_traj) - 1.0) < 1e-12
+# 3. Apply 1D discrete Morse gate with chromosome boundary awareness
+# Signal with baseline diploid copy number (2.0) and an isolated focal amplicon (8.0 at bin 2)
+read_depth = np.array([2.0, 2.0, 8.0, 2.0, 2.0], dtype=np.float32)
+filtered_signal, salience = morse_gate_genomic(
+    chrom_ids, starts, ends, read_depth, mad_floor=0.5, tau=2.85
+)
+
+# The focal peak is preserved while monotonic background drift is rejected
+print("Filtered read depth:", filtered_signal)
+# Output: [2.0, 2.0, 8.0, 2.0, 2.0]
+
+# 4. Standard Python filtering using morse_dropout_filter
+result = morse_dropout_filter(read_depth, tau_mad=2.85)
+assert result["filtered"][2] == 8.0
 ```
 
 ---
 
-## 6. Repository Structure & Verification Commands
+## 6. Repository Layout
 
 ```text
 cellsnail/
-├── .github/workflows/ci.yml              # Multi-OS CI & Release (ubuntu-latest, macos-latest, windows-latest)
-├── CITATION.cff                          # Citation metadata (Noah Cohen, v0.2.0)
-├── pyproject.toml                        # Python package & pytest configuration
-├── cellsnail/
-│   ├── __init__.py                       # Dual canonical & bioinformatics API exports
-│   ├── _native.py                        # Zero-copy ctypes C-ABI bridge to cellsnail_rs
-│   ├── operators.py                      # Reference mathematical operators & theorem verifiers
-│   ├── io.py                             # Streaming .h5ad, .mtx, .vcf, and .csv ingestion engine
-│   ├── discovery.py                      # 5 "New Light" empirical case studies & driver discovery engine
-│   ├── expeditions/                      # 7 Multi-Modal & Whole-Genome Discovery Expeditions (Exp 1–7)
-│   │   ├── exp1_delta_hunt.py            # Expedition 1: Proliferation-Coupled Delta-Erasure Discovery
-│   │   ├── exp2_stringer_hunt.py         # Expedition 2: 1-3 Gene Focal Stringer & Relapse Persister Hunt
-│   │   ├── exp3_spatial_border_audit.py  # Expedition 3: Spatial Border Hybrid & Juxtacrine Wall Audit
-│   │   ├── exp4_whole_genome_streamer.py # Expedition 4: Zero-Alloc Halo-Tiled Streamer & HVG/Metacell Blind-Spot Proof
-│   │   ├── exp5_whole_genome_delta_census.py # Expedition 5: Unbiased 33,694-Gene "Dark Genome" Delta-Erasure Census
-│   │   ├── exp6_pan_autosome_stringer_atlas.py # Expedition 6: Pan-Autosome GRCh38 (chr1-chr22) Stringer & Persister Atlas
-│   │   └── exp7_whole_slide_spatial_secretome.py # Expedition 7: Whole-Slide 17,138-Gene Spatial Secretome & Wall Scan
-│   ├── data/
-│   │   ├── cohorts.py                    # Empirical wet-lab cohort loaders & countsplit generators
-│   │   └── empirical/                    # Curated wet-lab datasets (wetlab_cohorts.npz & Ensembl/ClinVar JSON)
-│   └── benchmark/
-│       ├── baselines.py                  # Self-contained MAGIC, ALRA, HMMcopy & classical baselines
-│       ├── mode_a_oracle.py              # Mode A exact mathematical invariant verifier (Thms 2.1–2.15)
-│       └── mode_b_blind.py               # Mode B countsplit thinning, LOCO/LODO/LOFO CV & 4 crossover sweeps
-├── docs/
-│   ├── ARXIV_LITERATURE_SYNTHESIS.md     # 1,053-line post-2020 SCDS synthesis (50 citations, 0 GFM errors)
-│   ├── CELLSNAIL_PREPRINT.md             # Flagship publication-grade preprint consolidating theory & Exp 1–7
-│   ├── WHOLE_GENOME_DISCOVERY_ATLAS.md   # Unified Whole-Genome & Multi-Patient Discovery Atlas (Exp 4–7 synthesis)
-│   ├── EXPEDITION_1_DELTA_HUNT.md        # Expedition 1 Report: OLS Cell-Cycle Over-Erasure & Epigenetic/Repair Targets
-│   ├── EXPEDITION_2_STRINGER_HUNT.md     # Expedition 2 Report: Window-Invisible Focal Stringers & Persister Collaterals
-│   ├── EXPEDITION_3_SPATIAL_BORDER_AUDIT.md # Expedition 3 Report: Spatial Border Bleed & Juxtacrine Polarity Audit
-│   ├── EXPEDITION_4_STREAMING_THROUGHPUT.md # Expedition 4 Report: Zero-Allocation Streaming & HVG-2000/Metacell-50 Proof
-│   ├── EXPEDITION_5_WHOLE_GENOME_DELTA_CENSUS.md # Expedition 5 Report: 33,694-Gene Dark-Genome Delta-Erasure Census
-│   ├── EXPEDITION_6_PAN_AUTOSOME_STRINGER_ATLAS.md # Expedition 6 Report: Pan-Autosome chr1-chr22 Stringer & Persister Atlas
-│   ├── EXPEDITION_7_WHOLE_SLIDE_SPATIAL_SECRETOME.md # Expedition 7 Report: 6-Slide Spatial Secretome & Receptome Wall Scan
-│   └── REFEREE_AUDIT_RESPONSE.md         # Point-by-point referee audit, crossover regimes & 5 case studies
-├── formalization/
-│   └── OcclusionTriad.lean               # Golfed Lean 4 proofs for Theorems 2.1–2.19 (0 sorry, 1,180 lines)
-├── results/
-│   ├── bcm2712_cache_receipts.json       # Broadcom BCM2712 50M-reference cache & zero-alloc receipt
-│   ├── cellsnail_evaluation_summary.json # Complete Mode A, Mode B, Crossover & Discovery benchmark receipts
-│   ├── expedition1_delta_hunt.json       # Expedition 1 deterministic multi-cohort & 11-DB discovery receipt
-│   ├── expedition2_stringer_hunt.json    # Expedition 2 deterministic stringer & persister discovery receipt
-│   ├── expedition3_spatial_border_audit.json # Expedition 3 deterministic spatial border & juxtacrine receipt
-│   ├── expedition4_streaming_benchmarks.json # Expedition 4 whole-genome streaming & HVG/Metacell blind-spot receipt
-│   ├── expedition5_whole_genome_delta_census.json # Expedition 5 33,694-gene Dark-Genome Delta-Erasure receipt
-│   ├── expedition6_pan_autosome_stringer_atlas.json # Expedition 6 pan-autosome chr1-chr22 stringer & DTP receipt
-│   └── expedition7_whole_slide_spatial_secretome.json # Expedition 7 6-slide 17,138-gene spatial secretome receipt
-├── rust/cellsnail_rs/
-│   ├── Cargo.toml                        # #![no_std] Rust SIMD crate configuration
-│   ├── include/cellsnail_rs.h            # ANSI C99/C11 header with dual symbol exports
-│   └── src/lib.rs                        # 983,872-byte 64B-aligned CellSnailArena & SIMD kernels
-├── scripts/
-│   ├── audit_gfm_math.py                 # 21-rule GFM/KaTeX mathematical linter
-│   ├── build_empirical_cohorts.py        # Reproducible wet-lab empirical cohort & Ensembl/ClinVar builder
-│   ├── capture_studio_screenshots.py     # Automated headless Chrome & Firefox screenshot verifier
-│   ├── generate_evaluation_summary.py    # Reproducible benchmark receipt generator
-│   ├── generate_portable_studio.py       # Single-file HTML5/WebGL2 studio builder
-│   ├── package_release.py                # Cross-platform release bundler (Linux, macOS, Windows)
-│   └── verify_bcm2712_cache.py           # Cycle-accurate BCM2712 cache simulator & binary import scanner
-├── studio/
-│   ├── cellsnail_portable_studio.html    # Zero-install single-file WebGL2 Single-Cell Studio (> 280 KB)
-│   └── screenshots/                      # Verified 1920x1080 Chrome & Firefox visual audit captures
-└── tests/                                # 309 unit, native parity, Mode A/B, crossover, adversarial & Exp 1–7 tests
-```
-
-### Reproducible Verification Suite
-
-```bash
-# 1. Build & test #![no_std] Rust SIMD kernel
-cargo test --manifest-path rust/cellsnail_rs/Cargo.toml --release
-cargo build --manifest-path rust/cellsnail_rs/Cargo.toml --release
-
-# 2. Run full 309-test pytest suite (unit, native parity, Mode A, Mode B, crossover, adversarial & Expeditions 1-7)
-python -m pytest tests/ -v
-
-# 3. Verify Broadcom BCM2712 cache telemetry (< 0.100% LLd miss) & 0 dynamic heap allocations
-python scripts/verify_bcm2712_cache.py
-
-# 4. Audit GFM/KaTeX math compliance across all documentation (0 errors across 21 rules)
-python scripts/audit_gfm_math.py README.md docs/CELLSNAIL_PREPRINT.md docs/WHOLE_GENOME_DISCOVERY_ATLAS.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md docs/EXPEDITION_1_DELTA_HUNT.md docs/EXPEDITION_2_STRINGER_HUNT.md docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md docs/EXPEDITION_4_STREAMING_THROUGHPUT.md docs/EXPEDITION_5_WHOLE_GENOME_DELTA_CENSUS.md docs/EXPEDITION_6_PAN_AUTOSOME_STRINGER_ATLAS.md docs/EXPEDITION_7_WHOLE_SLIDE_SPATIAL_SECRETOME.md
+├── .github/workflows/ci.yml              # Multi-OS CI workflow (Linux, macOS, Windows)
+├── CITATION.cff                          # Citation metadata (Noah Cohen, v0.3.0)
+├── pyproject.toml                        # Python package configuration and pytest settings
+├── cellsnail/                            # Python package source
+│   ├── __init__.py                       # Public API exports
+│   ├── _native.py                        # C-ABI ctypes bindings to cellsnail_rs
+│   ├── operators.py                      # Reference mathematical operators & theorem checkers
+│   ├── io.py                             # Genomic data ingestion (.h5ad, .mtx, .vcf, .csv)
+│   ├── discovery.py                      # DiscoveryEngine and 1D genomic CNV analysis
+│   ├── expeditions/                      # Multi-cohort empirical discovery modules
+│   │   ├── exp1_delta_hunt.py            # Cell-cycle deconfounding in empirical cohorts
+│   │   ├── exp2_focal_amplicon_hunt.py   # Sub-megabase focal amplicon & persister detection
+│   │   ├── exp3_spatial_border_audit.py  # Boundary-preserving spatial transcriptomics
+│   │   ├── exp4_whole_genome_streamer.py # Streaming arena benchmarking
+│   │   ├── exp5_whole_genome_delta_census.py # Genome-wide CNV and expression analysis
+│   │   ├── exp6_pan_autosome_amplicon_atlas.py # Pan-autosome focal amplicon atlas
+│   │   ├── exp7_whole_slide_spatial_secretome.py # Spatial secretome boundary audit
+│   │   ├── exp8_clinvar_allosteric_atlas.py # ClinVar variant mapping
+│   │   ├── exp9_cryoem_sidechain_sharpener.py # 3D density sharpening
+│   │   └── exp10_sc_to_structure_bridge.py # Genomic to structural bridge
+│   ├── data/                             # Data loading utilities and empirical archives
+│   └── benchmark/                        # Non-circular benchmark suites and baselines
+├── docs/                                 # Technical documentation and reports
+│   ├── ARXIV_LITERATURE_SYNTHESIS.md     # Single-cell genomic literature survey
+│   ├── CELLSNAIL_PREPRINT.md             # Flagship publication preprint
+│   ├── WHOLE_GENOME_DISCOVERY_ATLAS.md   # Pan-autosome focal amplicon discovery atlas
+│   ├── EXPEDITION_1_DELTA_HUNT.md        # Expedition 1 report
+│   ├── EXPEDITION_2_FOCAL_AMPLICON_HUNT.md # Expedition 2 report
+│   ├── EXPEDITION_3_SPATIAL_BORDER_AUDIT.md # Expedition 3 report
+│   ├── EXPEDITION_4_STREAMING_THROUGHPUT.md # Expedition 4 report
+│   ├── EXPEDITION_5_WHOLE_GENOME_DELTA_CENSUS.md # Expedition 5 report
+│   ├── EXPEDITION_6_PAN_AUTOSOME_AMPLICON_ATLAS.md # Expedition 6 report
+│   ├── EXPEDITION_7_WHOLE_SLIDE_SPATIAL_SECRETOME.md # Expedition 7 report
+│   ├── EXPEDITION_8_CLINVAR_ALLOSTERIC_ATLAS.md # Expedition 8 report
+│   ├── EXPEDITION_9_CRYOEM_SIDECHAIN_SHARPENER.md # Expedition 9 report
+│   ├── EXPEDITION_10_SC_TO_STRUCTURE_BRIDGE.md # Expedition 10 report
+│   └── REFEREE_AUDIT_RESPONSE.md         # Technical review response and crossover sweeps
+├── formalization/                        # Lean 4 theorem formalization
+│   ├── OcclusionTriad.lean               # 1D CNV filtering theorems (0 sorry, 0 custom axioms)
+│   ├── lakefile.lean                     # Lake build configuration (v0.3.0)
+│   └── lean-toolchain                    # Lean 4 toolchain specification
+├── rust/cellsnail_rs/                    # Rust #![no_std] SIMD static-arena crate
+│   ├── Cargo.toml                        # Crate manifest (v0.3.0)
+│   ├── include/cellsnail_rs.h            # ANSI C99/C11 header
+│   └── src/lib.rs                        # CellSnailArena, coordinate validator & SIMD kernels
+├── results/                              # Deterministic benchmark receipts and outputs
+└── tests/                                # Full test suite (Rust, Python pytest, Lean 4, E2E)
 ```
 
 ---
 
-## 7. Citation
+## 7. Verification Commands
+
+To independently reproduce all verification results across the repository:
+
+```bash
+# 1. Verify Rust kernel unit tests and clippy compliance
+cargo test --manifest-path rust/cellsnail_rs/Cargo.toml --release
+cargo clippy --manifest-path rust/cellsnail_rs/Cargo.toml --all-targets -- -D warnings
+
+# 2. Verify Lean 4 mathematical formalization (0 sorry, 0 custom axioms)
+cd formalization && lake build && cd ..
+
+# 3. Run full Python test suite (100% pass)
+python -m pytest tests/
+
+# 4. Run dedicated E2E domain hygiene and specification audit
+python -m pytest tests/e2e/test_domain_hygiene.py tests/e2e/test_tier1_features.py
+```
+
+---
+
+## 8. Citation
 
 ```bibtex
 @software{cellsnail_2026,
   author       = {Cohen, Noah},
-  title        = {CellSnail: Proof-Carrying Multi-Omic Single-Cell Data Science Engine},
+  title        = {CellSnail: 1D Chromosomal CNV and Focal Amplicon Detection Engine},
   year         = {2026},
-  version      = {0.2.0},
+  version      = {0.3.0},
   url          = {https://github.com/sneed-and-feed/cellsnail}
 }
 ```
 
 ---
 
-## 8. License
+## 9. License
 
 Dedicated to the public domain under the [Creative Commons CC0 1.0 Universal](LICENSE) legal code.

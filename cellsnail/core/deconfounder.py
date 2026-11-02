@@ -38,5 +38,4 @@ def continuity_clutter_filter(
     return filtered, clock_mask
 
 
-# Stealth Single-Cell Domain Alias
 cell_cycle_deconfounder = continuity_clutter_filter

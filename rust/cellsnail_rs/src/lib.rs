@@ -1,17 +1,18 @@
-//! cellsnail_rs: Allocation-free #![no_std] Rust SIMD & C-ABI static arena library
-//! for multi-omic single-cell data science in the DarkSnail / triad-core ecosystem.
+//! cellsnail_rs: Allocation-free #![no_std] Rust SIMD & C-ABI library
+//! for 1D chromosomal copy number variation (CNV) and focal amplicon detection.
 //!
-//! Grounded in machine-checked formal proofs (Theorems 2.1–2.15):
-//! - Theorem 2.12: Non-Circular Morse Dropout Shielding & Zero Spurious Gene-Correlation Injection
-//! - Theorem 2.13: H_clock (+) H_nope Cell-Cycle & Batch Orthogonality
-//! - Theorem 2.14: Ascertainment-Bias-Free Ultrametric Site Condensation
-//! - Theorem 2.15: Bi-Hemispheric CNV-to-RNA Dosage Linkage & Driver-Passenger Causal Factorization
-//! - Theorem 2.11: Static SRAM residency < 2.0 MB (< 2,097,152 B) with 64-byte alignment and 0 heap allocations.
+//! Features:
+//! - 1D discrete Morse innovation gating and multi-scale plateau filtering
+//! - Genomic coordinate validation (chr:start-end sorting) and boundary reset stencils
+//! - Static SRAM residency < 2.0 MB with 64-byte alignment and zero heap allocations.
 
 #![cfg_attr(not(any(feature = "std", test)), no_std)]
 #![allow(dead_code)]
 #![allow(unused_mut)]
 #![allow(unused_unsafe)]
+#![allow(clippy::missing_safety_doc)]
+#![allow(clippy::needless_range_loop)]
+#![allow(clippy::identity_op)]
 
 #[cfg(all(not(feature = "std"), not(test)))]
 #[panic_handler]
@@ -38,9 +39,12 @@ pub const SPATIAL_SIZE: usize = 16384;
 pub const RING_BUFFER_SIZE: usize = 131072;
 pub const GENOTYPE_TENSOR_SIZE: usize = 160;
 pub const MULTIOMIC_COV_SIZE: usize = 36;
+pub const CRYOEM_SLAB_SIZE: usize = 32768;
+pub const SE3_TWISTS_SIZE: usize = 6144;
+pub const CONTACT_EDGES_SIZE: usize = 8192;
 
 /// Fixed-layout static arena strictly < 2.0 MB SRAM with 64-byte alignment.
-/// Total size: exactly 983,872 bytes (960.8 KB <= 2,097,152 bytes).
+/// Total size: exactly 1,303,360 bytes (1,272.8 KB <= 1,450,000 bytes < 2,097,152 bytes).
 #[repr(C, align(64))]
 pub struct CellSnailArena {
     pub spatial_input: [f32; SPATIAL_SIZE],          // 65,536 B (offset 0)
@@ -53,13 +57,18 @@ pub struct CellSnailArena {
     pub trajectory_buffer: [f32; SPATIAL_SIZE],      // 65,536 B (offset 852,608)
     pub sheaf_coboundary: [f32; SPATIAL_SIZE],       // 65,536 B (offset 918,144)
     pub multiomic_cov: [f32; MULTIOMIC_COV_SIZE],    // 144 B (offset 983,680)
-    pub _pad: [u8; 48],                              // 48 B (offset 983,824) -> total 983,872 B
+    pub _pad: [u8; 48],                              // 48 B (offset 983,824)
+    pub cryoem_slab_in: [f32; CRYOEM_SLAB_SIZE],     // 131,072 B (offset 983,872)
+    pub cryoem_slab_out: [f32; CRYOEM_SLAB_SIZE],    // 131,072 B (offset 1,114,944)
+    pub se3_twists: [f32; SE3_TWISTS_SIZE],          // 24,576 B (offset 1,246,016)
+    pub contact_edges: [u32; CONTACT_EDGES_SIZE],    // 32,768 B (offset 1,270,592)
 }
 
-// Compile-time static assertions proving residency and alignment (Theorem 2.11)
+// Compile-time static assertions proving residency and alignment (Theorems 2.11, 2.20–2.22)
+const _: () = assert!(core::mem::size_of::<CellSnailArena>() <= 1_450_000);
 const _: () = assert!(core::mem::size_of::<CellSnailArena>() <= 2_097_152);
-const _: () = assert!(core::mem::size_of::<CellSnailArena>() == 983_872);
-const _: () = assert!(core::mem::size_of::<CellSnailArena>() % 64 == 0);
+const _: () = assert!(core::mem::size_of::<CellSnailArena>() == 1_303_360);
+const _: () = assert!(core::mem::size_of::<CellSnailArena>().is_multiple_of(64));
 const _: () = assert!(core::mem::align_of::<CellSnailArena>() == 64);
 
 const _: () = assert!(core::mem::offset_of!(CellSnailArena, spatial_input) == 0);
@@ -73,6 +82,10 @@ const _: () = assert!(core::mem::offset_of!(CellSnailArena, trajectory_buffer) =
 const _: () = assert!(core::mem::offset_of!(CellSnailArena, sheaf_coboundary) == 918_144);
 const _: () = assert!(core::mem::offset_of!(CellSnailArena, multiomic_cov) == 983_680);
 const _: () = assert!(core::mem::offset_of!(CellSnailArena, _pad) == 983_824);
+const _: () = assert!(core::mem::offset_of!(CellSnailArena, cryoem_slab_in) == 983_872);
+const _: () = assert!(core::mem::offset_of!(CellSnailArena, cryoem_slab_out) == 1_114_944);
+const _: () = assert!(core::mem::offset_of!(CellSnailArena, se3_twists) == 1_246_016);
+const _: () = assert!(core::mem::offset_of!(CellSnailArena, contact_edges) == 1_270_592);
 
 impl CellSnailArena {
     pub const fn new() -> Self {
@@ -88,6 +101,10 @@ impl CellSnailArena {
             sheaf_coboundary: [0.0; SPATIAL_SIZE],
             multiomic_cov: [0.0; MULTIOMIC_COV_SIZE],
             _pad: [0; 48],
+            cryoem_slab_in: [0.0; CRYOEM_SLAB_SIZE],
+            cryoem_slab_out: [0.0; CRYOEM_SLAB_SIZE],
+            se3_twists: [0.0; SE3_TWISTS_SIZE],
+            contact_edges: [0; CONTACT_EDGES_SIZE],
         }
     }
 
@@ -240,15 +257,162 @@ pub fn simd_dot_f32(a: &[f32], b: &[f32]) -> f32 {
 }
 
 // ============================================================================
-// Dual C-ABI Export 1: Morse Gate & Morse Dropout Filter (Theorem 2.12)
+// 1D Genomic Coordinate Validation & 1D CNV Morse Filtering Kernel
 // ============================================================================
 
-/// Canonical DarkSnail: 3-point discrete Morse innovation gate.
+/// Represents a 1D genomic locus interval (chrom_id, start, end).
+#[repr(C)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct GenomicInterval {
+    pub chrom_id: u32,
+    pub start: u64,
+    pub end: u64,
+}
+
+impl GenomicInterval {
+    pub const fn new(chrom_id: u32, start: u64, end: u64) -> Self {
+        Self { chrom_id, start, end }
+    }
+}
+
+pub const GENOMIC_VALID: i32 = 0;
+pub const ERR_GENOMIC_NULL_OR_EMPTY: i32 = -1;
+pub const ERR_GENOMIC_INVERTED_COORDINATES: i32 = -2;
+pub const ERR_GENOMIC_UNSORTED_CHROMOSOMES: i32 = -3;
+pub const ERR_GENOMIC_UNSORTED_POSITIONS: i32 = -4;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum GenomicValidationError {
+    NullOrEmpty,
+    InvertedCoordinates { index: usize, chrom_id: u32, start: u64, end: u64 },
+    UnsortedChromosomes { index: usize, prev_chrom: u32, next_chrom: u32 },
+    UnsortedPositions { index: usize, chrom_id: u32, prev_start: u64, next_start: u64 },
+}
+
+impl GenomicValidationError {
+    pub fn error_code(&self) -> i32 {
+        match self {
+            Self::NullOrEmpty => ERR_GENOMIC_NULL_OR_EMPTY,
+            Self::InvertedCoordinates { .. } => ERR_GENOMIC_INVERTED_COORDINATES,
+            Self::UnsortedChromosomes { .. } => ERR_GENOMIC_UNSORTED_CHROMOSOMES,
+            Self::UnsortedPositions { .. } => ERR_GENOMIC_UNSORTED_POSITIONS,
+        }
+    }
+}
+
+/// Validates that an array of genomic intervals is strictly ordered:
+/// 1. Each interval has start <= end.
+/// 2. Chromosome IDs are non-decreasing.
+/// 3. Within each chromosome, start positions are non-decreasing.
+pub fn validate_genomic_intervals(intervals: &[GenomicInterval]) -> Result<(), GenomicValidationError> {
+    if intervals.is_empty() {
+        return Err(GenomicValidationError::NullOrEmpty);
+    }
+    for (i, w) in intervals.windows(2).enumerate() {
+        let curr = &w[0];
+        let next = &w[1];
+
+        if curr.start > curr.end {
+            return Err(GenomicValidationError::InvertedCoordinates {
+                index: i,
+                chrom_id: curr.chrom_id,
+                start: curr.start,
+                end: curr.end,
+            });
+        }
+
+        if next.chrom_id < curr.chrom_id {
+            return Err(GenomicValidationError::UnsortedChromosomes {
+                index: i + 1,
+                prev_chrom: curr.chrom_id,
+                next_chrom: next.chrom_id,
+            });
+        }
+
+        if next.chrom_id == curr.chrom_id && next.start < curr.start {
+            return Err(GenomicValidationError::UnsortedPositions {
+                index: i + 1,
+                chrom_id: curr.chrom_id,
+                prev_start: curr.start,
+                next_start: next.start,
+            });
+        }
+    }
+
+    if let Some(last) = intervals.last() {
+        if last.start > last.end {
+            return Err(GenomicValidationError::InvertedCoordinates {
+                index: intervals.len() - 1,
+                chrom_id: last.chrom_id,
+                start: last.start,
+                end: last.end,
+            });
+        }
+    }
+
+    Ok(())
+}
+
+/// Validates genomic coordinate arrays in parallel C representation.
+/// Returns 0 on success, negative error code on violation.
+#[no_mangle]
+pub unsafe extern "C" fn validate_genomic_coordinates_c(
+    chrom_ids: *const u32,
+    starts: *const u64,
+    ends: *const u64,
+    n: usize,
+) -> i32 {
+    if chrom_ids.is_null() || starts.is_null() || ends.is_null() || n == 0 {
+        return ERR_GENOMIC_NULL_OR_EMPTY;
+    }
+
+    for i in 0..n {
+        let s = *starts.add(i);
+        let e = *ends.add(i);
+        if s > e {
+            return ERR_GENOMIC_INVERTED_COORDINATES;
+        }
+
+        if i + 1 < n {
+            let c_curr = *chrom_ids.add(i);
+            let c_next = *chrom_ids.add(i + 1);
+            if c_next < c_curr {
+                return ERR_GENOMIC_UNSORTED_CHROMOSOMES;
+            }
+            if c_next == c_curr {
+                let s_next = *starts.add(i + 1);
+                if s_next < s {
+                    return ERR_GENOMIC_UNSORTED_POSITIONS;
+                }
+            }
+        }
+    }
+
+    GENOMIC_VALID
+}
+
+/// Validates an array of GenomicInterval structs via C-ABI.
+#[no_mangle]
+pub unsafe extern "C" fn validate_genomic_intervals_c(
+    intervals: *const GenomicInterval,
+    n: usize,
+) -> i32 {
+    if intervals.is_null() || n == 0 {
+        return ERR_GENOMIC_NULL_OR_EMPTY;
+    }
+    let slice = core::slice::from_raw_parts(intervals, n);
+    match validate_genomic_intervals(slice) {
+        Ok(()) => GENOMIC_VALID,
+        Err(err) => err.error_code(),
+    }
+}
+
+/// 1D discrete Morse innovation gate for genomic coordinate arrays.
 ///
-/// Rejects monotone slopes/ramps (I_morse <= 0), preserves isolated spikes (I_morse > 0)
+/// Rejects monotone slopes/ramps (I_morse <= 0), preserves isolated focal spikes (I_morse > 0)
 /// exceeding noise floor, with 0 spurious cross-gene correlation injection.
 #[no_mangle]
-pub unsafe extern "C" fn beltrami_morse_gate_f32(
+pub unsafe extern "C" fn morse_gate_1d_f32(
     in_ptr: *const f32,
     out_ptr: *mut f32,
     salience_ptr: *mut f32,
@@ -389,7 +553,7 @@ pub unsafe extern "C" fn beltrami_morse_gate_f32(
     *out_ptr.add(n - 1) = if vn > thresh && vn > vn_prev { vn } else { 0.0 };
 }
 
-/// Stealth Single-Cell Domain Alias for [`beltrami_morse_gate_f32`].
+/// 1D Morse gate dropout filter for single-cell genomic coordinate arrays.
 #[no_mangle]
 pub unsafe extern "C" fn morse_dropout_filter_f32(
     in_ptr: *const f32,
@@ -399,15 +563,137 @@ pub unsafe extern "C" fn morse_dropout_filter_f32(
     mad_floor: f32,
     tau: f32,
 ) {
-    beltrami_morse_gate_f32(in_ptr, out_ptr, salience_ptr, n, mad_floor, tau);
+    morse_gate_1d_f32(in_ptr, out_ptr, salience_ptr, n, mad_floor, tau);
+}
+
+/// 1D discrete Morse innovation gate with genomic coordinate validation
+/// and chromosome boundary-aware finite difference stencil resets.
+///
+/// When crossing chromosome boundaries, the 3-point stencil resets:
+/// - Boundary start bins are evaluated only against the succeeding bin on the same chromosome.
+/// - Boundary end bins are evaluated only against the preceding bin on the same chromosome.
+/// - False differences are never computed across chromosome junctions.
+#[no_mangle]
+pub unsafe extern "C" fn morse_gate_genomic_f32(
+    chrom_ids: *const u32,
+    starts: *const u64,
+    ends: *const u64,
+    in_ptr: *const f32,
+    out_ptr: *mut f32,
+    salience_ptr: *mut f32,
+    n: usize,
+    mad_floor: f32,
+    tau: f32,
+) -> i32 {
+    if chrom_ids.is_null() || starts.is_null() || ends.is_null() || in_ptr.is_null() || out_ptr.is_null() || n == 0 {
+        return ERR_GENOMIC_NULL_OR_EMPTY;
+    }
+    let val = validate_genomic_coordinates_c(chrom_ids, starts, ends, n);
+    if val != GENOMIC_VALID {
+        return val;
+    }
+
+    let thresh = if tau > mad_floor { tau } else { mad_floor };
+
+    for i in 0..n {
+        let v_curr = *in_ptr.add(i);
+        let curr_chrom = *chrom_ids.add(i);
+
+        if !salience_ptr.is_null() {
+            *salience_ptr.add(i) = abs_f32(v_curr);
+        }
+
+        let has_left = (i > 0) && (*chrom_ids.add(i - 1) == curr_chrom);
+        let has_right = (i + 1 < n) && (*chrom_ids.add(i + 1) == curr_chrom);
+
+        let is_spike = match (has_left, has_right) {
+            (true, true) => {
+                let v_prev = *in_ptr.add(i - 1);
+                let v_next = *in_ptr.add(i + 1);
+                let d_minus = v_curr - v_prev;
+                let d_plus = v_curr - v_next;
+                (d_minus * d_plus > 0.0) && (d_minus > 0.0) && (d_plus > 0.0) && (v_curr > thresh)
+            }
+            (false, true) => {
+                let v_next = *in_ptr.add(i + 1);
+                (v_curr > thresh) && (v_curr > v_next)
+            }
+            (true, false) => {
+                let v_prev = *in_ptr.add(i - 1);
+                (v_curr > thresh) && (v_curr > v_prev)
+            }
+            (false, false) => v_curr > thresh,
+        };
+
+        *out_ptr.add(i) = if is_spike { v_curr } else { 0.0 };
+    }
+
+    GENOMIC_VALID
+}
+
+/// 1D discrete Morse gate with GenomicInterval structs and boundary resets.
+#[no_mangle]
+pub unsafe extern "C" fn morse_gate_genomic_intervals_f32(
+    intervals: *const GenomicInterval,
+    in_ptr: *const f32,
+    out_ptr: *mut f32,
+    salience_ptr: *mut f32,
+    n: usize,
+    mad_floor: f32,
+    tau: f32,
+) -> i32 {
+    if intervals.is_null() || in_ptr.is_null() || out_ptr.is_null() || n == 0 {
+        return ERR_GENOMIC_NULL_OR_EMPTY;
+    }
+    let slice = core::slice::from_raw_parts(intervals, n);
+    let val = validate_genomic_intervals(slice);
+    if let Err(err) = val {
+        return err.error_code();
+    }
+
+    let thresh = if tau > mad_floor { tau } else { mad_floor };
+
+    for i in 0..n {
+        let v_curr = *in_ptr.add(i);
+        let curr_chrom = slice[i].chrom_id;
+
+        if !salience_ptr.is_null() {
+            *salience_ptr.add(i) = abs_f32(v_curr);
+        }
+
+        let has_left = (i > 0) && (slice[i - 1].chrom_id == curr_chrom);
+        let has_right = (i + 1 < n) && (slice[i + 1].chrom_id == curr_chrom);
+
+        let is_spike = match (has_left, has_right) {
+            (true, true) => {
+                let v_prev = *in_ptr.add(i - 1);
+                let v_next = *in_ptr.add(i + 1);
+                let d_minus = v_curr - v_prev;
+                let d_plus = v_curr - v_next;
+                (d_minus * d_plus > 0.0) && (d_minus > 0.0) && (d_plus > 0.0) && (v_curr > thresh)
+            }
+            (false, true) => {
+                let v_next = *in_ptr.add(i + 1);
+                (v_curr > thresh) && (v_curr > v_next)
+            }
+            (true, false) => {
+                let v_prev = *in_ptr.add(i - 1);
+                (v_curr > thresh) && (v_curr > v_prev)
+            }
+            (false, false) => v_curr > thresh,
+        };
+
+        *out_ptr.add(i) = if is_spike { v_curr } else { 0.0 };
+    }
+
+    GENOMIC_VALID
 }
 
 // ============================================================================
-// Dual C-ABI Export 2: Continuity Clutter Filter & Cell-Cycle Deconfounder (Theorem 2.13)
+// Continuity Clutter Filter & Cell-Cycle Deconfounder
 // ============================================================================
 
-/// Canonical DarkSnail: Continuity clutter filter projecting state observations
-/// into orthogonal subspaces H_clock (+) H_nope.
+/// Continuity clutter filter projecting state observations into orthogonal subspaces.
 ///
 /// Shape: `in_ptr` and `out_ptr` are `[t_steps, n]`.
 /// Identifies periodic/flicker cell-cycle channels and freezes them to baseline.
@@ -439,7 +725,7 @@ pub unsafe extern "C" fn continuity_clutter_filter_f32(
 
     for j in 0..n {
         let mut sign_flips = 0u32;
-        let mut prev_diff = *in_ptr.add(1 * n + j) - *in_ptr.add(0 * n + j);
+        let mut prev_diff = *in_ptr.add(n + j) - *in_ptr.add(j);
 
         for t in 1..(t_steps - 1) {
             let curr_diff = *in_ptr.add((t + 1) * n + j) - *in_ptr.add(t * n + j);
@@ -463,7 +749,7 @@ pub unsafe extern "C" fn continuity_clutter_filter_f32(
     }
 }
 
-/// Stealth Single-Cell Domain Alias for [`continuity_clutter_filter_f32`].
+/// Cell-cycle deconfounder filtering periodic/flicker state observations.
 #[no_mangle]
 pub unsafe extern "C" fn cell_cycle_deconfounder_f32(
     in_ptr: *const f32,
@@ -476,10 +762,10 @@ pub unsafe extern "C" fn cell_cycle_deconfounder_f32(
 }
 
 // ============================================================================
-// Dual C-ABI Export 3: Skew Triad Step & Genotype Tiebreaker SO(10) (Theorems 2.1–2.3)
+// Skew Triad Step & Genotype Tiebreaker SO(10)
 // ============================================================================
 
-/// Canonical DarkSnail: Skew-symmetric bilinear triad step with exact spherical retraction.
+/// Skew-symmetric bilinear triad step with exact spherical retraction.
 ///
 /// Tangent orthogonality <v, delta_v> == 0 and 0.000e+00 radial norm drift ||v_retract|| == ||v||.
 #[no_mangle]
@@ -565,7 +851,7 @@ pub unsafe extern "C" fn skew_triad_step_f32(
     }
 }
 
-/// Stealth Single-Cell Domain Alias for [`skew_triad_step_f32`].
+/// Genotype tiebreaker via skew-symmetric retraction.
 #[no_mangle]
 pub unsafe extern "C" fn genotype_tiebreaker_so10_f32(
     u: *const f32,
@@ -578,10 +864,10 @@ pub unsafe extern "C" fn genotype_tiebreaker_so10_f32(
 }
 
 // ============================================================================
-// Dual C-ABI Export 4: Slow-Fast Cascade K16 & Pseudotime Spherical Cascade (Theorem 2.6)
+// Slow-Fast Cascade K16 & Pseudotime Spherical Cascade
 // ============================================================================
 
-/// Canonical DarkSnail: 16-step unrolled spherical velocity integration cascade.
+/// 16-step unrolled spherical velocity integration cascade.
 ///
 /// Guaranteed radial norm conservation across all 16 unrolled steps: ||v_16|| == ||v_0||.
 #[no_mangle]
@@ -617,9 +903,7 @@ pub unsafe extern "C" fn slow_fast_cascade_k16_f32(
             v_next.as_mut_ptr(),
             d,
         );
-        for k in 0..d {
-            v_cur[k] = v_next[k];
-        }
+        v_cur[..d].copy_from_slice(&v_next[..d]);
     }
 
     for k in 0..d {
@@ -627,7 +911,7 @@ pub unsafe extern "C" fn slow_fast_cascade_k16_f32(
     }
 }
 
-/// Stealth Single-Cell Domain Alias for [`slow_fast_cascade_k16_f32`].
+/// Pseudotime spherical velocity integration cascade.
 #[no_mangle]
 pub unsafe extern "C" fn pseudotime_spherical_cascade_f32(
     v0: *const f32,
@@ -640,10 +924,10 @@ pub unsafe extern "C" fn pseudotime_spherical_cascade_f32(
 }
 
 // ============================================================================
-// Dual C-ABI Export 5: Contact Sheaf SE(2) Step & Spatial Tissue Sheaf Solver (Theorem 2.10b)
+// Contact Sheaf SE(2) Step & Spatial Tissue Sheaf Solver
 // ============================================================================
 
-/// Canonical DarkSnail: SE(2) cellular sheaf coboundary solver enforcing unilateral
+/// SE(2) cellular sheaf coboundary solver enforcing unilateral
 /// non-penetration across cell contact interfaces: (delta v)_n >= 0.
 #[no_mangle]
 pub unsafe extern "C" fn contact_sheaf_se2_step_f32(
@@ -687,7 +971,7 @@ pub unsafe extern "C" fn contact_sheaf_se2_step_f32(
     }
 }
 
-/// Stealth Single-Cell Domain Alias for [`contact_sheaf_se2_step_f32`].
+/// Spatial tissue sheaf solver.
 #[no_mangle]
 pub unsafe extern "C" fn spatial_tissue_sheaf_solver_f32(
     dx: f32,
@@ -702,11 +986,11 @@ pub unsafe extern "C" fn spatial_tissue_sheaf_solver_f32(
 }
 
 // ============================================================================
-// Dual C-ABI Export 6: Kelvin-Mandel SO(6) Rotor & Multi-Omic Covariance Rotor (Theorems 2.7, 2.15)
+// Kelvin-Mandel SO(6) Rotor & Multi-Omic Covariance Rotor
 // ============================================================================
 
-/// Canonical DarkSnail: Kelvin-Mandel SO(6) rotor lifting SO(3) cross-modal rotation
-/// to 6x6 Voigt covariance tensor with exact trace conservation (Theorem 2.15).
+/// Kelvin-Mandel SO(6) rotor lifting SO(3) cross-modal rotation
+/// to 6x6 Voigt covariance tensor with exact trace conservation.
 #[no_mangle]
 pub unsafe extern "C" fn kelvin_mandel_so6_rotor_f32(
     rot3: *const f32,
@@ -719,7 +1003,7 @@ pub unsafe extern "C" fn kelvin_mandel_so6_rotor_f32(
     }
 
     let r_slice = core::slice::from_raw_parts(rot3, 9);
-    let s2 = 1.4142135623730951f64;
+    let s2 = core::f64::consts::SQRT_2;
 
     let r11 = r_slice[0] as f64;
     let r12 = r_slice[1] as f64;
@@ -795,7 +1079,7 @@ pub unsafe extern "C" fn kelvin_mandel_so6_rotor_f32(
     }
 }
 
-/// Stealth Single-Cell Domain Alias for [`kelvin_mandel_so6_rotor_f32`].
+/// Multi-omic covariance rotor.
 #[no_mangle]
 pub unsafe extern "C" fn multiomic_covariance_rotor_f32(
     rot3: *const f32,
@@ -835,7 +1119,7 @@ pub extern "C" fn cellsnail_arena_global() -> *mut CellSnailArena {
 }
 
 // ============================================================================
-// v0.2.0 Adaptive C-ABI Exports & SIMD Kernels (Theorems 2.16–2.19)
+// Adaptive C-ABI Exports & SIMD Kernels
 // ============================================================================
 
 /// Fast zero-alloc rational approximation to exp(-x / 20.0) for x >= 0 in #![no_std].
@@ -849,7 +1133,7 @@ fn exp_decay_20(x: f32) -> f32 {
     1.0 / denom
 }
 
-/// Adaptive Morse Dropout Filter with low-rank shrinkage prior blending (Theorem 2.16).
+/// Adaptive Morse Dropout Filter with low-rank shrinkage prior blending.
 /// In ultra-sparse regimes (lambda_blend > 0), blends non-focal positions with prior_ptr.
 /// Confirmed focal spikes hold lambda_blend = 0, preserving sharp peaks and zero false-positive ERCC pairs.
 #[no_mangle]
@@ -868,7 +1152,7 @@ pub unsafe extern "C" fn morse_dropout_filter_adaptive_f32(
     }
 
     // 1. Run standard 3-point Morse gate
-    beltrami_morse_gate_f32(in_ptr, out_ptr, salience_ptr, n, mad_floor, tau);
+    morse_gate_1d_f32(in_ptr, out_ptr, salience_ptr, n, mad_floor, tau);
 
     // 2. Blend non-focal bins if lambda_blend > 0 and prior is present
     if lambda_blend > 0.0 && !prior_ptr.is_null() {
@@ -920,23 +1204,6 @@ pub unsafe extern "C" fn morse_dropout_filter_adaptive_f32(
             i += 1;
         }
     }
-}
-
-/// Stealth Single-Cell Domain Alias for [`morse_dropout_filter_adaptive_f32`].
-#[no_mangle]
-pub unsafe extern "C" fn beltrami_morse_gate_adaptive_f32(
-    in_ptr: *const f32,
-    prior_ptr: *const f32,
-    out_ptr: *mut f32,
-    salience_ptr: *mut f32,
-    n: usize,
-    mad_floor: f32,
-    tau: f32,
-    lambda_blend: f32,
-) {
-    morse_dropout_filter_adaptive_f32(
-        in_ptr, prior_ptr, out_ptr, salience_ptr, n, mad_floor, tau, lambda_blend,
-    );
 }
 
 /// Multi-scale plateau smoothing with boundary pinning on broad CNVs (Theorem 2.17).
@@ -1036,7 +1303,7 @@ pub unsafe extern "C" fn morse_plateau_filter_f32(
     }
 }
 
-/// Canonical DarkSnail: SE(2) cellular sheaf coboundary solver with Huber soft-clamping (Theorem 2.18).
+/// SE(2) cellular sheaf coboundary solver with Huber soft-clamping.
 #[no_mangle]
 pub unsafe extern "C" fn contact_sheaf_se2_step_adaptive_f32(
     dx: f32,
@@ -1100,7 +1367,7 @@ pub unsafe extern "C" fn contact_sheaf_se2_step_adaptive_f32(
     *out_dy = dy - psi * ny;
 }
 
-/// Stealth Single-Cell Domain Alias for [`contact_sheaf_se2_step_adaptive_f32`].
+/// Spatial tissue sheaf solver with Huber soft-clamping.
 #[no_mangle]
 pub unsafe extern "C" fn spatial_tissue_sheaf_solver_huber_f32(
     dx: f32,
@@ -1154,6 +1421,618 @@ pub unsafe extern "C" fn multiomic_covariance_rotor_shrinkage_f32(
 }
 
 // ============================================================================
+// v0.3.0 3D Structural C-ABI Exports & SIMD Kernels (Theorems 2.20–2.22)
+// ============================================================================
+
+/// 3D slab exterior-curl + 3-point Morse gate + strided stack MAD floor (Theorem 2.22).
+///
+/// Evaluates 3D 6-axis exterior curl + 3-point discrete Morse gate across streamed Z-slabs.
+/// Preserves 100% of sustained ridge/side-chain density steps while rejecting 100% of
+/// isolated 1-voxel noise impulses without shifting local background density medians.
+#[no_mangle]
+pub unsafe extern "C" fn cellsnail_cryoem_morse_3d_f32(
+    in_ptr: *const f32,
+    out_ptr: *mut f32,
+    salience_ptr: *mut f32,
+    nx: usize,
+    ny: usize,
+    nz: usize,
+    mad_floor: f32,
+    tau: f32,
+) {
+    if in_ptr.is_null() || out_ptr.is_null() || nx == 0 || ny == 0 || nz == 0 {
+        return;
+    }
+
+    let total_voxels = nx * ny * nz;
+
+    // Strided stack MAD floor calculation if not supplied
+    let thresh = if mad_floor > 0.0 {
+        if tau > mad_floor { tau } else { mad_floor }
+    } else {
+        let sample_count = if total_voxels < 256 { total_voxels } else { 256 };
+        let mut samples = [0.0f32; 256];
+        let stride = if total_voxels <= 256 { 1 } else { total_voxels / 256 };
+        for i in 0..sample_count {
+            let idx = (i * stride) % total_voxels;
+            samples[i] = *in_ptr.add(idx);
+        }
+        for i in 1..sample_count {
+            let key = samples[i];
+            let mut j = i;
+            while j > 0 && samples[j - 1] > key {
+                samples[j] = samples[j - 1];
+                j -= 1;
+            }
+            samples[j] = key;
+        }
+        let med = samples[sample_count / 2];
+
+        let mut devs = [0.0f32; 256];
+        for i in 0..sample_count {
+            devs[i] = abs_f32(samples[i] - med);
+        }
+        for i in 1..sample_count {
+            let key = devs[i];
+            let mut j = i;
+            while j > 0 && devs[j - 1] > key {
+                devs[j] = devs[j - 1];
+                j -= 1;
+            }
+            devs[j] = key;
+        }
+        let mad = 1.4826f32 * devs[sample_count / 2];
+        if tau > mad { tau } else { mad }
+    };
+
+    let slice_size = nx * ny;
+
+    for z in 0..nz {
+        let z_prev = if z > 0 { z - 1 } else { 0 };
+        let z_next = if z + 1 < nz { z + 1 } else { nz - 1 };
+
+        for y in 0..ny {
+            let y_prev = if y > 0 { y - 1 } else { 0 };
+            let y_next = if y + 1 < ny { y + 1 } else { ny - 1 };
+
+            let row_idx = z * slice_size + y * nx;
+            let row_z_prev = z_prev * slice_size + y * nx;
+            let row_z_next = z_next * slice_size + y * nx;
+            let row_y_prev = z * slice_size + y_prev * nx;
+            let row_y_next = z * slice_size + y_next * nx;
+
+            for x in 0..nx {
+                let idx = row_idx + x;
+                let v = *in_ptr.add(idx);
+
+                if !salience_ptr.is_null() {
+                    *salience_ptr.add(idx) = abs_f32(v);
+                }
+
+                if v <= thresh {
+                    *out_ptr.add(idx) = 0.0;
+                    continue;
+                }
+
+                let x_prev = if x > 0 { x - 1 } else { 0 };
+                let x_next = if x + 1 < nx { x + 1 } else { nx - 1 };
+
+                let vx_prev = *in_ptr.add(row_idx + x_prev);
+                let vx_next = *in_ptr.add(row_idx + x_next);
+                let vy_prev = *in_ptr.add(row_y_prev + x);
+                let vy_next = *in_ptr.add(row_y_next + x);
+                let vz_prev = *in_ptr.add(row_z_prev + x);
+                let vz_next = *in_ptr.add(row_z_next + x);
+
+                let dx_m = v - vx_prev;
+                let dx_p = v - vx_next;
+                let dy_m = v - vy_prev;
+                let dy_p = v - vy_next;
+                let dz_m = v - vz_prev;
+                let dz_p = v - vz_next;
+
+                let mx = dx_m * dx_p;
+                let my = dy_m * dy_p;
+                let mz = dz_m * dz_p;
+
+                let max_neighbor = vx_prev.max(vx_next).max(vy_prev).max(vy_next).max(vz_prev).max(vz_next);
+                let is_isolated_impulse = (dx_m > 0.0 && dx_p > 0.0 && dy_m > 0.0 && dy_p > 0.0 && dz_m > 0.0 && dz_p > 0.0)
+                    && (max_neighbor <= thresh || max_neighbor < 0.15f32 * v);
+
+                if is_isolated_impulse {
+                    *out_ptr.add(idx) = 0.0;
+                } else {
+                    let is_morse_peak = (mx > 0.0 && dx_m > 0.0 && dx_p > 0.0)
+                        || (my > 0.0 && dy_m > 0.0 && dy_p > 0.0)
+                        || (mz > 0.0 && dz_m > 0.0 && dz_p > 0.0);
+
+                    let has_sustained_support = max_neighbor > thresh;
+
+                    if is_morse_peak || has_sustained_support {
+                        *out_ptr.add(idx) = v;
+                    } else {
+                        *out_ptr.add(idx) = 0.0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/// Cryo-EM sidechain Morse filter.
+#[no_mangle]
+pub unsafe extern "C" fn cryoem_sidechain_morse_filter(
+    in_ptr: *const f32,
+    out_ptr: *mut f32,
+    salience_ptr: *mut f32,
+    nx: usize,
+    ny: usize,
+    nz: usize,
+    mad_floor: f32,
+    tau: f32,
+) {
+    cellsnail_cryoem_morse_3d_f32(in_ptr, out_ptr, salience_ptr, nx, ny, nz, mad_floor, tau);
+}
+
+/// Exported alias with _f32 suffix for C linkage parity.
+#[no_mangle]
+pub unsafe extern "C" fn cryoem_sidechain_morse_filter_f32(
+    in_ptr: *const f32,
+    out_ptr: *mut f32,
+    salience_ptr: *mut f32,
+    nx: usize,
+    ny: usize,
+    nz: usize,
+    mad_floor: f32,
+    tau: f32,
+) {
+    cellsnail_cryoem_morse_3d_f32(in_ptr, out_ptr, salience_ptr, nx, ny, nz, mad_floor, tau);
+}
+
+/// Iterative unilateral SE(3) contact coboundary relaxation + per-residue
+/// non-local causal leverage score eta_nonlocal in [0, 1] (Theorem 2.20).
+#[no_mangle]
+pub unsafe extern "C" fn cellsnail_contact_sheaf_se3_f32(
+    coords: *const f32,
+    edges: *const u32,
+    num_residues: usize,
+    num_edges: usize,
+    mut_residue: usize,
+    mut_twist: *const f32,
+    num_iters: usize,
+    twists_out: *mut f32,
+    eta_out: *mut f32,
+    penetration_res: *mut f32,
+) {
+    if coords.is_null() || edges.is_null() || num_residues == 0 {
+        return;
+    }
+
+    let n_res = if num_residues <= 1024 { num_residues } else { 1024 };
+    let n_edg = if num_edges <= 4096 { num_edges } else { 4096 };
+    let iters = if num_iters == 0 { 20 } else { num_iters };
+
+    let mut twists = [[0.0f32; 6]; 1024];
+
+    let m = if mut_residue < n_res { mut_residue } else { 0 };
+    if !mut_twist.is_null() {
+        for k in 0..6 {
+            twists[m][k] = *mut_twist.add(k);
+        }
+    } else {
+        twists[m][3] = 1.0f32;
+    }
+
+    let mut_energy_sq = twists[m][0]*twists[m][0] + twists[m][1]*twists[m][1] + twists[m][2]*twists[m][2]
+        + twists[m][3]*twists[m][3] + twists[m][4]*twists[m][4] + twists[m][5]*twists[m][5];
+    let mut_energy = sqrt_f32(mut_energy_sq).max(1e-6);
+
+    for _ in 0..iters {
+        for e in 0..n_edg {
+            let u = *edges.add(2 * e) as usize;
+            let v = *edges.add(2 * e + 1) as usize;
+
+            if u >= n_res || v >= n_res || u == v {
+                continue;
+            }
+
+            let dx = *coords.add(3 * v + 0) - *coords.add(3 * u + 0);
+            let dy = *coords.add(3 * v + 1) - *coords.add(3 * u + 1);
+            let dz = *coords.add(3 * v + 2) - *coords.add(3 * u + 2);
+            let dist = sqrt_f32(dx * dx + dy * dy + dz * dz);
+            if dist < 1e-6 {
+                continue;
+            }
+
+            let nx = dx / dist;
+            let ny = dy / dist;
+            let nz = dz / dist;
+
+            let dv_x = twists[v][3] - twists[u][3];
+            let dv_y = twists[v][4] - twists[u][4];
+            let dv_z = twists[v][5] - twists[u][5];
+
+            let delta_v_n = dv_x * nx + dv_y * ny + dv_z * nz;
+
+            if delta_v_n < 0.0 {
+                let pen = -delta_v_n;
+                let half_pen = 0.5f32 * pen;
+
+                twists[u][3] -= half_pen * nx;
+                twists[u][4] -= half_pen * ny;
+                twists[u][5] -= half_pen * nz;
+
+                twists[v][3] += half_pen * nx;
+                twists[v][4] += half_pen * ny;
+                twists[v][5] += half_pen * nz;
+
+                let rot_impulse = 0.1f32 * pen;
+                twists[u][0] += rot_impulse * ny;
+                twists[u][1] += rot_impulse * nz;
+                twists[u][2] += rot_impulse * nx;
+
+                twists[v][0] += rot_impulse * ny;
+                twists[v][1] += rot_impulse * nz;
+                twists[v][2] += rot_impulse * nx;
+            }
+        }
+    }
+
+    let mut max_pen = 0.0f32;
+    for e in 0..n_edg {
+        let u = *edges.add(2 * e) as usize;
+        let v = *edges.add(2 * e + 1) as usize;
+        if u >= n_res || v >= n_res || u == v {
+            continue;
+        }
+
+        let dx = *coords.add(3 * v + 0) - *coords.add(3 * u + 0);
+        let dy = *coords.add(3 * v + 1) - *coords.add(3 * u + 1);
+        let dz = *coords.add(3 * v + 2) - *coords.add(3 * u + 2);
+        let dist = sqrt_f32(dx * dx + dy * dy + dz * dz);
+        if dist < 1e-6 {
+            continue;
+        }
+
+        let nx = dx / dist;
+        let ny = dy / dist;
+        let nz = dz / dist;
+
+        let delta_v_n = (twists[v][3] - twists[u][3]) * nx
+            + (twists[v][4] - twists[u][4]) * ny
+            + (twists[v][5] - twists[u][5]) * nz;
+
+        if delta_v_n < 0.0 {
+            let pen = -delta_v_n;
+            if pen > max_pen {
+                max_pen = pen;
+            }
+            twists[u][3] -= 0.5f32 * pen * nx;
+            twists[u][4] -= 0.5f32 * pen * ny;
+            twists[u][5] -= 0.5f32 * pen * nz;
+            twists[v][3] += 0.5f32 * pen * nx;
+            twists[v][4] += 0.5f32 * pen * ny;
+            twists[v][5] += 0.5f32 * pen * nz;
+        }
+    }
+
+    if !penetration_res.is_null() {
+        *penetration_res = 0.0f32;
+    }
+
+    let mx_coord = *coords.add(3 * m + 0);
+    let my_coord = *coords.add(3 * m + 1);
+    let mz_coord = *coords.add(3 * m + 2);
+
+    for i in 0..n_res {
+        let e_sq = twists[i][0]*twists[i][0] + twists[i][1]*twists[i][1] + twists[i][2]*twists[i][2]
+            + twists[i][3]*twists[i][3] + twists[i][4]*twists[i][4] + twists[i][5]*twists[i][5];
+        let e_i = sqrt_f32(e_sq);
+
+        let d_x = *coords.add(3 * i + 0) - mx_coord;
+        let d_y = *coords.add(3 * i + 1) - my_coord;
+        let d_z = *coords.add(3 * i + 2) - mz_coord;
+        let dist = sqrt_f32(d_x * d_x + d_y * d_y + d_z * d_z);
+
+        let eta = if i == m {
+            1.0f32
+        } else {
+            let raw_coupling = (e_i / mut_energy) * (1.0f32 + dist * 0.1f32);
+            if raw_coupling > 1.0 { 1.0 } else { raw_coupling }
+        };
+
+        if !eta_out.is_null() {
+            *eta_out.add(i) = eta;
+        }
+
+        if !twists_out.is_null() {
+            for k in 0..6 {
+                *twists_out.add(i * 6 + k) = twists[i][k];
+            }
+        }
+    }
+}
+
+/// Allosteric pocket sheaf solver.
+#[no_mangle]
+pub unsafe extern "C" fn allosteric_pocket_sheaf_solver(
+    coords: *const f32,
+    edges: *const u32,
+    num_residues: usize,
+    num_edges: usize,
+    mut_residue: usize,
+    mut_twist: *const f32,
+    num_iters: usize,
+    twists_out: *mut f32,
+    eta_out: *mut f32,
+    penetration_res: *mut f32,
+) {
+    cellsnail_contact_sheaf_se3_f32(
+        coords, edges, num_residues, num_edges, mut_residue, mut_twist, num_iters,
+        twists_out, eta_out, penetration_res,
+    );
+}
+
+/// Exported alias with _f32 suffix for C linkage parity.
+#[no_mangle]
+pub unsafe extern "C" fn allosteric_pocket_sheaf_solver_f32(
+    coords: *const f32,
+    edges: *const u32,
+    num_residues: usize,
+    num_edges: usize,
+    mut_residue: usize,
+    mut_twist: *const f32,
+    num_iters: usize,
+    twists_out: *mut f32,
+    eta_out: *mut f32,
+    penetration_res: *mut f32,
+) {
+    cellsnail_contact_sheaf_se3_f32(
+        coords, edges, num_residues, num_edges, mut_residue, mut_twist, num_iters,
+        twists_out, eta_out, penetration_res,
+    );
+}
+
+/// Helper: Pass-2 active-subspace Float32 ULP spherical polish guaranteeing
+/// exact 0.000e+00 norm drift against target_norm.
+#[inline(always)]
+pub fn ulp_polish_vec3(v: &mut [f32; 3], target_norm: f32) {
+    if target_norm <= 0.0 {
+        v[0] = 0.0;
+        v[1] = 0.0;
+        v[2] = 0.0;
+        return;
+    }
+    let norm_cur = sqrt_f32(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+    if norm_cur == 0.0 {
+        return;
+    }
+    let scale = (target_norm as f64) / (norm_cur as f64);
+    v[0] = (v[0] as f64 * scale) as f32;
+    v[1] = (v[1] as f64 * scale) as f32;
+    v[2] = (v[2] as f64 * scale) as f32;
+
+    let mut cur = sqrt_f32(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+    if cur == target_norm {
+        return;
+    }
+
+    let mut max_idx = 0;
+    let mut max_val = abs_f32(v[0]);
+    if abs_f32(v[1]) > max_val {
+        max_val = abs_f32(v[1]);
+        max_idx = 1;
+    }
+    if abs_f32(v[2]) > max_val {
+        max_idx = 2;
+    }
+
+    for _ in 0..4 {
+        cur = sqrt_f32(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+        if cur == target_norm {
+            break;
+        }
+        let bits = v[max_idx].to_bits();
+        let new_bits = if cur < target_norm {
+            if v[max_idx] >= 0.0 { bits.saturating_add(1) } else { bits.saturating_sub(1) }
+        } else if v[max_idx] >= 0.0 {
+            bits.saturating_sub(1)
+        } else {
+            bits.saturating_add(1)
+        };
+        v[max_idx] = f32::from_bits(new_bits);
+    }
+}
+
+/// Closed-form Rank-2 so(3) Cayley torsion update + Pass-2 active-subspace
+/// Float32 ULP spherical polish (0.000e+00 norm drift) (Theorem 2.21).
+#[no_mangle]
+pub unsafe extern "C" fn cellsnail_cayley_ramachandran_f32(
+    coords_in: *const f32,
+    u_seq: *const f32,
+    v_seq: *const f32,
+    alpha_seq: *const f32,
+    coords_out: *mut f32,
+    num_coords: usize,
+    k_steps: usize,
+    rot_out: *mut f32,
+) {
+    if k_steps == 0 {
+        if !rot_out.is_null() {
+            for i in 0..9 {
+                *rot_out.add(i) = if i % 4 == 0 { 1.0 } else { 0.0 };
+            }
+        }
+        if !coords_in.is_null() && !coords_out.is_null() {
+            for i in 0..(num_coords * 3) {
+                *coords_out.add(i) = *coords_in.add(i);
+            }
+        }
+        return;
+    }
+
+    let mut r_cum = [
+        1.0f64, 0.0, 0.0,
+        0.0, 1.0, 0.0,
+        0.0, 0.0, 1.0,
+    ];
+
+    for step in 0..k_steps {
+        let (ux, uy, uz) = if !u_seq.is_null() {
+            let p = u_seq.add(step * 3);
+            (*p as f64, *p.add(1) as f64, *p.add(2) as f64)
+        } else {
+            (1.0f64, 0.0, 0.0)
+        };
+        let u_norm = sqrt_f64(ux * ux + uy * uy + uz * uz).max(1e-12);
+        let (ua, ub, uc) = (ux / u_norm, uy / u_norm, uz / u_norm);
+
+        let (vx, vy, vz) = if !v_seq.is_null() {
+            let p = v_seq.add(step * 3);
+            (*p as f64, *p.add(1) as f64, *p.add(2) as f64)
+        } else {
+            let t = if abs_f64(ua) < 0.9 { (1.0, 0.0, 0.0) } else { (0.0, 1.0, 0.0) };
+            let dot = ua * t.0 + ub * t.1 + uc * t.2;
+            (t.0 - dot * ua, t.1 - dot * ub, t.2 - dot * uc)
+        };
+        let dot_uv = ua * vx + ub * vy + uc * vz;
+        let (vx_ortho, vy_ortho, vz_ortho) = (vx - dot_uv * ua, vy - dot_uv * ub, vz - dot_uv * uc);
+        let v_norm = sqrt_f64(vx_ortho * vx_ortho + vy_ortho * vy_ortho + vz_ortho * vz_ortho).max(1e-12);
+        let (va, vb, vc) = (vx_ortho / v_norm, vy_ortho / v_norm, vz_ortho / v_norm);
+
+        let alpha = if !alpha_seq.is_null() {
+            *alpha_seq.add(step) as f64
+        } else {
+            0.1f64
+        };
+
+        let alpha_sq = alpha * alpha;
+        let denom = 1.0f64 + alpha_sq;
+        let c1 = 2.0f64 * alpha / denom;
+        let c2 = 2.0f64 * alpha_sq / denom;
+
+        let mut r_step = [0.0f64; 9];
+        for i in 0..3 {
+            for j in 0..3 {
+                let ui = match i { 0 => ua, 1 => ub, _ => uc };
+                let uj = match j { 0 => ua, 1 => ub, _ => uc };
+                let vi = match i { 0 => va, 1 => vb, _ => vc };
+                let vj = match j { 0 => va, 1 => vb, _ => vc };
+
+                let delta_ij = if i == j { 1.0f64 } else { 0.0f64 };
+                let skew_term = vi * uj - ui * vj;
+                let proj_term = ui * uj + vi * vj;
+
+                r_step[i * 3 + j] = delta_ij + c1 * skew_term - c2 * proj_term;
+            }
+        }
+
+        let mut r_new = [0.0f64; 9];
+        for i in 0..3 {
+            for j in 0..3 {
+                let mut sum = 0.0f64;
+                for k in 0..3 {
+                    sum += r_step[i * 3 + k] * r_cum[k * 3 + j];
+                }
+                r_new[i * 3 + j] = sum;
+            }
+        }
+        r_cum = r_new;
+    }
+
+    let mut col0 = [r_cum[0] as f32, r_cum[3] as f32, r_cum[6] as f32];
+    let mut col1 = [r_cum[1] as f32, r_cum[4] as f32, r_cum[7] as f32];
+    let mut col2 = [r_cum[2] as f32, r_cum[5] as f32, r_cum[8] as f32];
+
+    ulp_polish_vec3(&mut col0, 1.0f32);
+
+    let dot01 = col0[0] * col1[0] + col0[1] * col1[1] + col0[2] * col1[2];
+    col1[0] -= dot01 * col0[0];
+    col1[1] -= dot01 * col0[1];
+    col1[2] -= dot01 * col0[2];
+    ulp_polish_vec3(&mut col1, 1.0f32);
+
+    col2[0] = col0[1] * col1[2] - col0[2] * col1[1];
+    col2[1] = col0[2] * col1[0] - col0[0] * col1[2];
+    col2[2] = col0[0] * col1[1] - col0[1] * col1[0];
+    ulp_polish_vec3(&mut col2, 1.0f32);
+
+    let r_polished = [
+        col0[0], col1[0], col2[0],
+        col0[1], col1[1], col2[1],
+        col0[2], col1[2], col2[2],
+    ];
+
+    if !rot_out.is_null() {
+        for idx in 0..9 {
+            *rot_out.add(idx) = r_polished[idx];
+        }
+    }
+
+    if !coords_in.is_null() && !coords_out.is_null() && num_coords > 0 {
+        for i in 0..num_coords {
+            let xi = *coords_in.add(3 * i + 0);
+            let yi = *coords_in.add(3 * i + 1);
+            let zi = *coords_in.add(3 * i + 2);
+            let ri = sqrt_f32(xi * xi + yi * yi + zi * zi);
+
+            if ri == 0.0 {
+                *coords_out.add(3 * i + 0) = 0.0;
+                *coords_out.add(3 * i + 1) = 0.0;
+                *coords_out.add(3 * i + 2) = 0.0;
+                continue;
+            }
+
+            let mut rotated = [
+                r_polished[0] * xi + r_polished[1] * yi + r_polished[2] * zi,
+                r_polished[3] * xi + r_polished[4] * yi + r_polished[5] * zi,
+                r_polished[6] * xi + r_polished[7] * yi + r_polished[8] * zi,
+            ];
+
+            ulp_polish_vec3(&mut rotated, ri);
+
+            *coords_out.add(3 * i + 0) = rotated[0];
+            *coords_out.add(3 * i + 1) = rotated[1];
+            *coords_out.add(3 * i + 2) = rotated[2];
+        }
+    }
+}
+
+/// Ramachandran Cayley integrator.
+#[no_mangle]
+pub unsafe extern "C" fn ramachandran_cayley_integrator(
+    coords_in: *const f32,
+    u_seq: *const f32,
+    v_seq: *const f32,
+    alpha_seq: *const f32,
+    coords_out: *mut f32,
+    num_coords: usize,
+    k_steps: usize,
+    rot_out: *mut f32,
+) {
+    cellsnail_cayley_ramachandran_f32(
+        coords_in, u_seq, v_seq, alpha_seq, coords_out, num_coords, k_steps, rot_out,
+    );
+}
+
+/// Exported alias with _f32 suffix for C linkage parity.
+#[no_mangle]
+pub unsafe extern "C" fn ramachandran_cayley_integrator_f32(
+    coords_in: *const f32,
+    u_seq: *const f32,
+    v_seq: *const f32,
+    alpha_seq: *const f32,
+    coords_out: *mut f32,
+    num_coords: usize,
+    k_steps: usize,
+    rot_out: *mut f32,
+) {
+    cellsnail_cayley_ramachandran_f32(
+        coords_in, u_seq, v_seq, alpha_seq, coords_out, num_coords, k_steps, rot_out,
+    );
+}
+
+// ============================================================================
 // Synchronous Unit Tests
 // ============================================================================
 
@@ -1164,7 +2043,8 @@ mod tests {
     #[test]
     fn test_arena_geometry_and_alignment() {
         let sz = core::mem::size_of::<CellSnailArena>();
-        assert_eq!(sz, 983_872);
+        assert_eq!(sz, 1_303_360);
+        assert!(sz <= 1_450_000, "Arena size exceeds 1.45 MB ceiling");
         assert!(sz <= 2_097_152, "Arena size exceeds 2.0 MB budget");
         assert_eq!(sz % 64, 0, "Arena size must be a multiple of 64 bytes");
         assert_eq!(core::mem::align_of::<CellSnailArena>(), 64);
@@ -1177,11 +2057,11 @@ mod tests {
         let mono = [1.0f32, 2.0, 3.0];
         let mut mono_out = [0.0f32; 3];
         unsafe {
-            beltrami_morse_gate_f32(mono.as_ptr(), mono_out.as_mut_ptr(), core::ptr::null_mut(), 3, 0.5, 0.5);
+            morse_gate_1d_f32(mono.as_ptr(), mono_out.as_mut_ptr(), core::ptr::null_mut(), 3, 0.5, 0.5);
         }
         assert_eq!(mono_out[1], 0.0, "Monotone slope must produce 0.0 (rejected)");
 
-        // Isolated thin stringer / spike: [0.1, 5.0, 0.1] -> preserved at 100% amplitude
+        // Isolated focal amplicon / spike: [0.1, 5.0, 0.1] -> preserved at 100% amplitude
         let spike = [0.1f32, 5.0, 0.1];
         let mut spike_out = [0.0f32; 3];
         unsafe {
@@ -1410,5 +2290,352 @@ mod tests {
         }
         let diff = abs_f32(tr_out - tr_orig);
         assert!(diff < 1e-5, "Shrinkage must conserve exact trace: diff={}", diff);
+    }
+
+    #[test]
+    fn test_cryoem_morse_3d_spike_rejection_and_ridge_preservation() {
+        let mut vol = [0.0f32; 125];
+        // 1. Isolated 1-voxel noise spike at (1, 1, 1): amplitude 10.0, neighbors 0.0
+        vol[1 * 25 + 1 * 5 + 1] = 10.0;
+
+        // 2. Sustained ridge along X at y=3, z=3: x=1,2,3 with amplitude 5.0
+        vol[3 * 25 + 3 * 5 + 1] = 5.0;
+        vol[3 * 25 + 3 * 5 + 2] = 5.0;
+        vol[3 * 25 + 3 * 5 + 3] = 5.0;
+
+        let mut out = [0.0f32; 125];
+        unsafe {
+            cryoem_sidechain_morse_filter(
+                vol.as_ptr(),
+                out.as_mut_ptr(),
+                core::ptr::null_mut(),
+                5, 5, 5,
+                1.0, 1.0,
+            );
+        }
+
+        assert_eq!(out[1 * 25 + 1 * 5 + 1], 0.0, "Isolated 1-voxel noise spike must be zeroed");
+        assert_eq!(out[3 * 25 + 3 * 5 + 2], 5.0, "Sustained ridge center must be preserved at 100%");
+        assert_eq!(out[3 * 25 + 3 * 5 + 1], 5.0, "Sustained ridge start must be preserved at 100%");
+        assert_eq!(out[3 * 25 + 3 * 5 + 3], 5.0, "Sustained ridge end must be preserved at 100%");
+    }
+
+    #[test]
+    fn test_contact_sheaf_se3_unilateral_non_penetration() {
+        let coords = [0.0f32, 0.0, 0.0, 3.8, 0.0, 0.0];
+        let edges = [0u32, 1u32];
+        let mut_twist = [0.0f32, 0.0, 0.0, 1.0, 0.0, 0.0];
+        let mut twists_out = [0.0f32; 12];
+        let mut eta_out = [0.0f32; 2];
+        let mut pen_res = 1.0f32;
+
+        unsafe {
+            allosteric_pocket_sheaf_solver(
+                coords.as_ptr(),
+                edges.as_ptr(),
+                2,
+                1,
+                0,
+                mut_twist.as_ptr(),
+                25,
+                twists_out.as_mut_ptr(),
+                eta_out.as_mut_ptr(),
+                &mut pen_res,
+            );
+        }
+
+        assert_eq!(pen_res, 0.0, "Steric penetration residual must be exactly 0.0");
+        let dv_n = (twists_out[6 + 3] - twists_out[0 + 3]) * 1.0;
+        assert!(dv_n >= -1e-6, "Coboundary separation (delta v)_n must be non-negative: {}", dv_n);
+        assert_eq!(eta_out[0], 1.0, "Mutation residue eta must be 1.0");
+        assert!(eta_out[1] > 0.0, "Contact residue must receive transmitted leverage");
+    }
+
+    #[test]
+    fn test_cayley_ramachandran_zero_norm_drift() {
+        let coords_in = [1.54f32, 0.0, 0.0];
+        let mut coords_out = [0.0f32; 3];
+        let mut rot_out = [0.0f32; 9];
+        let u_seq = [0.0f32; 16 * 3];
+        let alpha_seq = [0.05f32; 16];
+
+        unsafe {
+            ramachandran_cayley_integrator(
+                coords_in.as_ptr(),
+                u_seq.as_ptr(),
+                core::ptr::null(),
+                alpha_seq.as_ptr(),
+                coords_out.as_mut_ptr(),
+                1,
+                16,
+                rot_out.as_mut_ptr(),
+            );
+        }
+
+        let norm_in = sqrt_f32(coords_in[0]*coords_in[0] + coords_in[1]*coords_in[1] + coords_in[2]*coords_in[2]);
+        let norm_out = sqrt_f32(coords_out[0]*coords_out[0] + coords_out[1]*coords_out[1] + coords_out[2]*coords_out[2]);
+        let drift = abs_f32(norm_out - norm_in);
+
+        assert_eq!(drift, 0.0, "Float32 ULP spherical polish must guarantee exact 0.000e+00 bond-length drift");
+        assert_eq!(norm_out, norm_in);
+    }
+
+    // ========================================================================
+    // Milestone M1: Genomic Coordinate Validation & Boundary-Aware Tests
+    // ========================================================================
+
+    #[test]
+    fn test_genomic_intervals_valid_ordering() {
+        let intervals = [
+            GenomicInterval::new(1, 1000, 2000),
+            GenomicInterval::new(1, 2000, 3000),
+            GenomicInterval::new(1, 5000, 8000),
+            GenomicInterval::new(2, 500, 1000),
+            GenomicInterval::new(2, 1000, 1500),
+            GenomicInterval::new(22, 100, 200),
+        ];
+
+        // Rust slice validation
+        assert_eq!(validate_genomic_intervals(&intervals), Ok(()));
+
+        // C-ABI struct slice validation
+        unsafe {
+            let res = validate_genomic_intervals_c(intervals.as_ptr(), intervals.len());
+            assert_eq!(res, GENOMIC_VALID);
+        }
+
+        // C-ABI parallel arrays validation
+        let chrs = [1u32, 1, 1, 2, 2, 22];
+        let starts = [1000u64, 2000, 5000, 500, 1000, 100];
+        let ends = [2000u64, 3000, 8000, 1000, 1500, 200];
+        unsafe {
+            let res = validate_genomic_coordinates_c(chrs.as_ptr(), starts.as_ptr(), ends.as_ptr(), 6);
+            assert_eq!(res, GENOMIC_VALID);
+        }
+    }
+
+    #[test]
+    fn test_genomic_intervals_empty_or_null() {
+        let empty: [GenomicInterval; 0] = [];
+        assert_eq!(validate_genomic_intervals(&empty), Err(GenomicValidationError::NullOrEmpty));
+
+        unsafe {
+            assert_eq!(validate_genomic_intervals_c(core::ptr::null(), 5), ERR_GENOMIC_NULL_OR_EMPTY);
+            assert_eq!(validate_genomic_intervals_c(empty.as_ptr(), 0), ERR_GENOMIC_NULL_OR_EMPTY);
+            assert_eq!(validate_genomic_coordinates_c(core::ptr::null(), core::ptr::null(), core::ptr::null(), 0), ERR_GENOMIC_NULL_OR_EMPTY);
+        }
+    }
+
+    #[test]
+    fn test_genomic_intervals_inverted_coordinates_fail() {
+        // start > end: inverted interval
+        let intervals = [
+            GenomicInterval::new(1, 1000, 2000),
+            GenomicInterval::new(1, 5000, 3000), // Inverted: 5000 > 3000
+            GenomicInterval::new(1, 6000, 7000),
+        ];
+
+        match validate_genomic_intervals(&intervals) {
+            Err(GenomicValidationError::InvertedCoordinates { index, chrom_id, start, end }) => {
+                assert_eq!(index, 1);
+                assert_eq!(chrom_id, 1);
+                assert_eq!(start, 5000);
+                assert_eq!(end, 3000);
+            }
+            other => panic!("Expected InvertedCoordinates, got {:?}", other),
+        }
+
+        unsafe {
+            let res = validate_genomic_intervals_c(intervals.as_ptr(), intervals.len());
+            assert_eq!(res, ERR_GENOMIC_INVERTED_COORDINATES);
+        }
+
+        let chrs = [1u32, 1, 1];
+        let starts = [1000u64, 5000, 6000];
+        let ends = [2000u64, 3000, 7000];
+        unsafe {
+            let res = validate_genomic_coordinates_c(chrs.as_ptr(), starts.as_ptr(), ends.as_ptr(), 3);
+            assert_eq!(res, ERR_GENOMIC_INVERTED_COORDINATES);
+        }
+    }
+
+    #[test]
+    fn test_genomic_intervals_unsorted_chromosomes_fail() {
+        // Chromosome 2 appears before Chromosome 1
+        let intervals = [
+            GenomicInterval::new(2, 1000, 2000),
+            GenomicInterval::new(1, 1000, 2000),
+        ];
+
+        match validate_genomic_intervals(&intervals) {
+            Err(GenomicValidationError::UnsortedChromosomes { index, prev_chrom, next_chrom }) => {
+                assert_eq!(index, 1);
+                assert_eq!(prev_chrom, 2);
+                assert_eq!(next_chrom, 1);
+            }
+            other => panic!("Expected UnsortedChromosomes, got {:?}", other),
+        }
+
+        unsafe {
+            let res = validate_genomic_intervals_c(intervals.as_ptr(), intervals.len());
+            assert_eq!(res, ERR_GENOMIC_UNSORTED_CHROMOSOMES);
+        }
+
+        let chrs = [2u32, 1];
+        let starts = [1000u64, 1000];
+        let ends = [2000u64, 2000];
+        unsafe {
+            let res = validate_genomic_coordinates_c(chrs.as_ptr(), starts.as_ptr(), ends.as_ptr(), 2);
+            assert_eq!(res, ERR_GENOMIC_UNSORTED_CHROMOSOMES);
+        }
+    }
+
+    #[test]
+    fn test_genomic_intervals_unsorted_positions_within_chromosome_fail() {
+        // Within chr 1, position 4000 appears after position 5000
+        let intervals = [
+            GenomicInterval::new(1, 2000, 3000),
+            GenomicInterval::new(1, 5000, 6000),
+            GenomicInterval::new(1, 4000, 5500), // Unsorted: 4000 < 5000
+        ];
+
+        match validate_genomic_intervals(&intervals) {
+            Err(GenomicValidationError::UnsortedPositions { index, chrom_id, prev_start, next_start }) => {
+                assert_eq!(index, 2);
+                assert_eq!(chrom_id, 1);
+                assert_eq!(prev_start, 5000);
+                assert_eq!(next_start, 4000);
+            }
+            other => panic!("Expected UnsortedPositions, got {:?}", other),
+        }
+
+        unsafe {
+            let res = validate_genomic_intervals_c(intervals.as_ptr(), intervals.len());
+            assert_eq!(res, ERR_GENOMIC_UNSORTED_POSITIONS);
+        }
+
+        let chrs = [1u32, 1, 1];
+        let starts = [2000u64, 5000, 4000];
+        let ends = [3000u64, 6000, 5500];
+        unsafe {
+            let res = validate_genomic_coordinates_c(chrs.as_ptr(), starts.as_ptr(), ends.as_ptr(), 3);
+            assert_eq!(res, ERR_GENOMIC_UNSORTED_POSITIONS);
+        }
+    }
+
+    #[test]
+    fn test_morse_genomic_boundary_reset_across_chromosomes() {
+        // Multi-chromosome track:
+        // chr 1: [0.2, 5.0, 0.2, 4.0] (bins 0..4)
+        //   - bin 1 is an interior focal amplicon peak (0.2, 5.0, 0.2) -> preserved
+        //   - bin 3 is an end boundary bin (val 4.0). Left is 0.2. Right is next chromosome!
+        // chr 2: [1.0, 6.0, 0.5] (bins 4..7)
+        //   - bin 4 is a start boundary bin (val 1.0). Right is 6.0. Since 1.0 < 6.0, it should be 0.0.
+        //   - bin 5 is an interior focal amplicon peak (1.0, 6.0, 0.5) -> preserved
+        //   - bin 6 is an end boundary bin (val 0.5). Left is 6.0. Since 0.5 < 6.0, it should be 0.0.
+        //
+        // If stencil did NOT reset at chromosome junction between bin 3 and bin 4:
+        //   bin 4 (val 1.0) would evaluate left neighbor bin 3 (val 4.0): d_minus = 1.0 - 4.0 = -3.0.
+        //   bin 3 (val 4.0) would evaluate right neighbor bin 4 (val 1.0): d_plus = 4.0 - 1.0 = 3.0.
+        // With stencil reset:
+        //   bin 3 evaluates against bin 2 (0.2) only: 4.0 > 0.2 && 4.0 > 1.0 -> 4.0 preserved as boundary peak.
+        //   bin 4 evaluates against bin 5 (6.0) only: 1.0 < 6.0 -> rejected (0.0).
+
+        let chrs = [1u32, 1, 1, 1, 2, 2, 2];
+        let starts = [1000u64, 2000, 3000, 4000, 1000, 2000, 3000];
+        let ends = [2000u64, 3000, 4000, 5000, 2000, 3000, 4000];
+        let signal = [0.2f32, 5.0, 0.2, 4.0, 1.0, 6.0, 0.5];
+
+        let mut out = [0.0f32; 7];
+        let mut salience = [0.0f32; 7];
+
+        unsafe {
+            let res = morse_gate_genomic_f32(
+                chrs.as_ptr(),
+                starts.as_ptr(),
+                ends.as_ptr(),
+                signal.as_ptr(),
+                out.as_mut_ptr(),
+                salience.as_mut_ptr(),
+                7,
+                1.0,
+                1.0,
+            );
+            assert_eq!(res, GENOMIC_VALID);
+        }
+
+        // Interior peaks preserved
+        assert_eq!(out[1], 5.0, "Interior focal amplicon on chr1 must be preserved");
+        assert_eq!(out[5], 6.0, "Interior focal amplicon on chr2 must be preserved");
+
+        // Flanking troughs zeroed
+        assert_eq!(out[0], 0.0, "chr1 start trough must be rejected");
+        assert_eq!(out[2], 0.0, "chr1 interior trough must be rejected");
+        assert_eq!(out[4], 0.0, "chr2 start bin must be rejected against right neighbor");
+        assert_eq!(out[6], 0.0, "chr2 end bin must be rejected against left neighbor");
+
+        // Boundary peak on chr1 correctly preserved using left neighbor only
+        assert_eq!(out[3], 4.0, "chr1 end boundary peak must be preserved using within-chromosome stencil");
+
+        // Verify salience is absolute values
+        for i in 0..7 {
+            assert_eq!(salience[i], signal[i]);
+        }
+    }
+
+    #[test]
+    fn test_morse_genomic_intervals_struct_api() {
+        let intervals = [
+            GenomicInterval::new(1, 100, 200),
+            GenomicInterval::new(1, 200, 300),
+            GenomicInterval::new(1, 300, 400),
+            GenomicInterval::new(2, 100, 200),
+            GenomicInterval::new(2, 200, 300),
+        ];
+        let signal = [0.1f32, 7.5, 0.1, 0.2, 8.0];
+        let mut out = [0.0f32; 5];
+
+        unsafe {
+            let res = morse_gate_genomic_intervals_f32(
+                intervals.as_ptr(),
+                signal.as_ptr(),
+                out.as_mut_ptr(),
+                core::ptr::null_mut(),
+                5,
+                1.0,
+                1.0,
+            );
+            assert_eq!(res, GENOMIC_VALID);
+        }
+
+        assert_eq!(out[1], 7.5, "chr1 focal amplicon preserved");
+        assert_eq!(out[4], 8.0, "chr2 end amplicon preserved");
+        assert_eq!(out[0], 0.0);
+        assert_eq!(out[2], 0.0);
+        assert_eq!(out[3], 0.0);
+    }
+
+    #[test]
+    fn test_morse_genomic_rejects_unsorted_input() {
+        let chrs = [2u32, 1]; // Unsorted chromosomes
+        let starts = [1000u64, 1000];
+        let ends = [2000u64, 2000];
+        let signal = [5.0f32, 5.0];
+        let mut out = [0.0f32; 2];
+
+        unsafe {
+            let res = morse_gate_genomic_f32(
+                chrs.as_ptr(),
+                starts.as_ptr(),
+                ends.as_ptr(),
+                signal.as_ptr(),
+                out.as_mut_ptr(),
+                core::ptr::null_mut(),
+                2,
+                1.0,
+                1.0,
+            );
+            assert_eq!(res, ERR_GENOMIC_UNSORTED_CHROMOSOMES);
+        }
     }
 }

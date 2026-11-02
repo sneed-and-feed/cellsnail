@@ -311,28 +311,29 @@ def build_cross_engine_convergence_summary(
         ],
     }
 
-    exp5_exp6_focal_stringers = {
-        "partner_expedition": "Expedition 6: Pan-Autosome GRCh38 Uncharted 1-3 Gene Focal Stringer Atlas",
+    exp5_exp6_focal_amplicons = {
+        "partner_expedition": "Expedition 6: Pan-Autosome GRCh38 Uncharted 1-3 Gene Focal Focal Amplicon Atlas",
         "triple_erasure_flagship_discovery": {
             "gene": "PKMYT1",
             "cytoband": "chr16p13.3",
-            "stringer_architecture": "L=3 contiguous focal stringer (KREMEN2-PAQR4-PKMYT1, chr16:3013712-3029936, 16.2 kb span)",
+            "amplicon_architecture": "L=3 contiguous focal focal amplicon (KREMEN2-PAQR4-PKMYT1, chr16:3013712-3029936, 16.2 kb span)",
             "patient_recurrence": "3/5 TNBC patients (TNBC1, TNBC3, TNBC4)",
             "erasure_mechanism_1_hvg_filter": "Dropped by top-2000 HVG in TNBC3 (#6,146) and cSCC (#6,182)",
-            "erasure_mechanism_2_cnv_window_smoothing": "65.7% W15 washout and 79.9% W51 washout under standard InferCNV/CopyKAT smoothing",
+            "erasure_mechanism_2_cnv_window_smoothing": "65.7% W15 attenuation and 79.9% W51 attenuation under standard InferCNV/CopyKAT smoothing",
             "erasure_mechanism_3_ols_cell_cycle_regression": "59.03% (TNBC3) and 68.05% (TNBC1) expression variance erased by 20-clock OLS regression",
-            "cellsnail_recovery": "100% H_nope variance retained + exact TV-1D/Potts focal stringer boundary recovery",
+            "cellsnail_recovery": "100% H_nope variance retained + exact TV-1D/Potts focal focal amplicon boundary recovery",
             "clinical_actionability": "Phase II Wee1-family Tyr14/Thr15 kinase inhibitor Lunresertib (RP-6306, IC50 = 2.8 nM)",
         },
         "double_erasure_pan_patient_chaperone_hub": {
             "gene": "HSP90AB1",
             "cytoband": "chr6p21.1",
-            "stringer_architecture": "5/5 TNBC patient recurrent chr6p21.1 focal stringer (peak raw CN = 18.00 -> W15 = 4.95, 81.6% washout)",
+            "amplicon_architecture": "5/5 TNBC patient recurrent chr6p21.1 focal focal amplicon (peak raw CN = 18.00 -> W15 = 4.95, 81.6% attenuation)",
             "ols_delta_20clock_tnbc3": 0.6632,
             "ols_delta_20clock_cscc_rep1": 0.6641,
             "clinical_actionability": "Approved HSP90 inhibitor Pimitespib (Jeselhy / TAS-116, IC50 = 18.0 nM) & Ganetespib",
         },
-        "pan_autosome_stringer_candidates_evaluated": mining_report["exp5_exp6_pan_autosome_stringer_delta_erasure"],
+        "pan_autosome_amplicon_candidates_evaluated": mining_report["exp5_exp6_pan_autosome_focal amplicon_delta_erasure"],
+        "pan_autosome_amplicon_candidates_evaluated": mining_report["exp5_exp6_pan_autosome_focal amplicon_delta_erasure"],
     }
 
     exp5_exp7_spatial_secretome = {
@@ -378,7 +379,8 @@ def build_cross_engine_convergence_summary(
 
     return {
         "exp5_exp4_streaming_and_hvg_blind_spot": exp5_exp4_streaming_parity,
-        "exp5_exp6_pan_autosome_focal_stringers": exp5_exp6_focal_stringers,
+        "exp5_exp6_pan_autosome_focal_amplicons": exp5_exp6_focal_amplicons,
+        "exp5_exp6_pan_autosome_focal_amplicons": exp5_exp6_focal_amplicons,
         "exp5_exp7_spatial_boundary_secretome": exp5_exp7_spatial_secretome,
     }
 

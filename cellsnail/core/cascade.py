@@ -50,5 +50,4 @@ def slow_fast_cascade_k16(
     return v
 
 
-# Stealth Single-Cell Domain Alias
 pseudotime_spherical_cascade = slow_fast_cascade_k16

@@ -82,15 +82,19 @@ ARENA_SPEC = {
     "spoke": "cellsnail",
     "description": "Multi-Omic Single-Cell Data Science #![no_std] SIMD Fixed SRAM Arena",
     "max_size_bytes": 2097152,  # < 2.0 MB
-    "nominal_size_bytes": 983872,  # Exactly 983,872 bytes (960.8 KB)
+    "sram_ceiling_bytes": 1450000,  # <= 1.45 MB compile-time const assertion
+    "nominal_size_bytes": 1303360,  # Exactly 1,303,360 bytes (1,272.8 KB <= 1,450,000 bytes)
     "alignment_bytes": 64,
     "stepping_symbols": [
-        "beltrami_morse_gate_f32",
+        "morse_gate_1d_f32",
         "continuity_clutter_filter_f32",
         "skew_triad_step_f32",
         "slow_fast_cascade_k16_f32",
         "contact_sheaf_se2_step_f32",
         "kelvin_mandel_so6_rotor_f32",
+        "cellsnail_cryoem_morse_3d_f32",
+        "cellsnail_contact_sheaf_se3_f32",
+        "cellsnail_cayley_ramachandran_f32",
     ],
     "stealth_symbols": [
         "morse_dropout_filter_f32",
@@ -99,6 +103,9 @@ ARENA_SPEC = {
         "pseudotime_spherical_cascade_f32",
         "spatial_tissue_sheaf_solver_f32",
         "multiomic_covariance_rotor_f32",
+        "cryoem_sidechain_morse_filter",
+        "allosteric_pocket_sheaf_solver",
+        "ramachandran_cayley_integrator",
     ],
 }
 
@@ -268,22 +275,30 @@ pub unsafe extern "C" fn simulate_cellsnail_arena_workload(
     let mut rng = Rng::new(20261026);
     let mut addr: u64 = 0;
 
-    // Sub-buffer partitions inside CellSnailArena (983,872 bytes < 2.0 MB)
+    // Sub-buffer partitions inside CellSnailArena (1,303,360 bytes <= 1,450,000 bytes < 2.0 MB)
     // 0: spatial_input (0..65,536)
     // 1: spatial_output (65,536..131,072)
     // 2: salience_map & curl_buffer (131,072..262,144)
     // 3: ring_buffer (262,144..786,432)
     // 4: cell_cycle_mask & genotype_tensor & trajectory_buffer (786,432..918,144)
     // 5: sheaf_coboundary & multiomic_cov (918,144..983,872)
+    // 6: cryoem_slab_in (983,872..1,114,944)
+    // 7: cryoem_slab_out (1,114,944..1,246,016)
+    // 8: se3_twists (1,246,016..1,270,592)
+    // 9: contact_edges (1,270,592..1,303,360)
     let s_input_base: u64 = 0;
     let s_output_base: u64 = 65536;
     let s_salience_base: u64 = 131072;
     let s_ring_base: u64 = 262144;
     let s_state_base: u64 = 786432;
     let s_sheaf_base: u64 = 918144;
+    let s_cryoem_in_base: u64 = 983872;
+    let s_cryoem_out_base: u64 = 1114944;
+    let s_se3_base: u64 = 1246016;
+    let s_edges_base: u64 = 1270592;
 
     for _ in 0..num_references {
-        let op_choice = (rng.next_u64() % 6) as u32;
+        let op_choice = (rng.next_u64() % 9) as u32;
         let r = (rng.next_u64() % 100) as u32;
 
         match op_choice {
@@ -335,11 +350,36 @@ pub unsafe extern "C" fn simulate_cellsnail_arena_workload(
                     addr = (rng.next_u64() % arena_size_bytes) & !63;
                 }
             },
-            _ => { // Op 6: Multi-Omic Covariance Rotor (multiomic_cov 6x6)
+            5 => { // Op 6: Multi-Omic Covariance Rotor (multiomic_cov 6x6)
                 if r < 85 {
                     addr = (s_sheaf_base + 65536 + (addr + 4) % 144) % arena_size_bytes;
                 } else if r < 98 {
                     addr = (s_sheaf_base + 65536 + (rng.next_u64() % 36) * 4) % arena_size_bytes;
+                } else {
+                    addr = (rng.next_u64() % arena_size_bytes) & !63;
+                }
+            },
+            6 => { // Op 7: 3D Cryo-EM Slab Morse Filter (cryoem_slab_in -> cryoem_slab_out)
+                if r < 80 {
+                    addr = (s_cryoem_in_base + (addr + 4) % 131072) % arena_size_bytes;
+                } else if r < 96 {
+                    addr = (s_cryoem_out_base + (addr + 4) % 131072) % arena_size_bytes;
+                } else {
+                    addr = (rng.next_u64() % arena_size_bytes) & !63;
+                }
+            },
+            7 => { // Op 8: SE(3) Contact Sheaf Relaxation (se3_twists & contact_edges)
+                if r < 70 {
+                    addr = (s_edges_base + (addr + 4) % 32768) % arena_size_bytes;
+                } else if r < 95 {
+                    addr = (s_se3_base + (addr + 4) % 24576) % arena_size_bytes;
+                } else {
+                    addr = (rng.next_u64() % arena_size_bytes) & !63;
+                }
+            },
+            _ => { // Op 9: Cayley Ramachandran Integrator (se3_twists cascade)
+                if r < 85 {
+                    addr = (s_se3_base + (addr + 4) % 24576) % arena_size_bytes;
                 } else {
                     addr = (rng.next_u64() % arena_size_bytes) & !63;
                 }
@@ -907,6 +947,10 @@ def verify_bcm2712_cache(
         s_ring_base = 262144
         s_state_base = 786432
         s_sheaf_base = 918144
+        s_cryoem_in_base = 983872
+        s_cryoem_out_base = 1114944
+        s_se3_base = 1246016
+        s_edges_base = 1270592
         mask64 = 0xFFFFFFFFFFFFFFFF
 
         def next_u64() -> int:
@@ -919,7 +963,7 @@ def verify_bcm2712_cache(
             return x
 
         for _ in range(sample_refs):
-            op_choice = next_u64() % 6
+            op_choice = next_u64() % 9
             r = next_u64() % 100
             if op_choice == 0:
                 if r < 75:
@@ -959,11 +1003,30 @@ def verify_bcm2712_cache(
                     addr = (s_sheaf_base + (next_u64() % 16384) * 4) % arena_size
                 else:
                     addr = (next_u64() % arena_size) & ~63
-            else:
+            elif op_choice == 5:
                 if r < 85:
                     addr = (s_sheaf_base + 65536 + (addr + 4) % 144) % arena_size
                 elif r < 98:
                     addr = (s_sheaf_base + 65536 + (next_u64() % 36) * 4) % arena_size
+                else:
+                    addr = (next_u64() % arena_size) & ~63
+            elif op_choice == 6:
+                if r < 80:
+                    addr = (s_cryoem_in_base + (addr + 4) % 131072) % arena_size
+                elif r < 96:
+                    addr = (s_cryoem_out_base + (addr + 4) % 131072) % arena_size
+                else:
+                    addr = (next_u64() % arena_size) & ~63
+            elif op_choice == 7:
+                if r < 70:
+                    addr = (s_edges_base + (addr + 4) % 32768) % arena_size
+                elif r < 95:
+                    addr = (s_se3_base + (addr + 4) % 24576) % arena_size
+                else:
+                    addr = (next_u64() % arena_size) & ~63
+            else:
+                if r < 85:
+                    addr = (s_se3_base + (addr + 4) % 24576) % arena_size
                 else:
                     addr = (next_u64() % arena_size) & ~63
             hier.access(addr)
@@ -974,7 +1037,7 @@ def verify_bcm2712_cache(
         l1d_misses = num_references - l1d_hits
         l2_hits = int(hier.l2_hits * scale)
         l2_misses = l1d_misses - l2_hits
-        # 983,872 B arena (15,373 lines) fits completely inside 2.0 MB 16-way L3 (8 ways/set <= 16),
+        # 1,303,360 B arena (20,365 lines) fits completely inside 2.0 MB 16-way L3 (9.94 ways/set <= 16),
         # so L3 misses consist strictly of compulsory cold misses.
         l3_misses = max(hier.l3_misses, arena_size // 64) if num_references >= 10_000_000 else hier.l3_misses
         l3_hits = max(0, l2_misses - l3_misses)
@@ -985,7 +1048,7 @@ def verify_bcm2712_cache(
     l1d_hit_rate = (l1d_hits / max(1, total_refs)) * 100.0
     l2_hit_rate = (l2_hits / max(1, l1d_misses)) * 100.0 if l1d_misses > 0 else 100.0
     l3_hit_rate = (l3_hits / max(1, l2_misses)) * 100.0 if l2_misses > 0 else 100.0
-    target_lld_miss_rate = 0.100  # < 0.100% LLd miss
+    target_lld_miss_rate = 0.050  # < 0.050% LLd miss
     target_achieved = lld_miss_rate < target_lld_miss_rate
 
     print(f"[Results] Simulated {total_refs:,} refs in {wall_time:.3f} s ({throughput:,.0f} refs/s)")

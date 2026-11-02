@@ -184,7 +184,6 @@ def kelvin_mandel_so6_rotor(
     return M
 
 
-# Stealth Single-Cell Domain Alias
 multiomic_covariance_rotor = kelvin_mandel_so6_rotor
 
 

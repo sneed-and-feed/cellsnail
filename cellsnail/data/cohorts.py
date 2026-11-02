@@ -323,23 +323,31 @@ def load_paired_cnv_cohort(
     cn_truth = np.full((n_cells, n_bins), 2.0, dtype=np.float32)
     for i, cl in enumerate(clone_labels):
         if cl == "Subclone_A":
-            cn_truth[i, 10:20] = 3.0
-            cn_truth[i, 30:40] = 3.0
-            cn_truth[i, egfr_bin] = 8.0
-            cn_truth[i, myc_bin] = 10.0
-            cn_truth[i, pten_bin] = 0.0
+            cn_truth[i, 10:20] = rng.normal(3.0, 0.15, size=10).astype(np.float32)
+            cn_truth[i, 30:40] = rng.normal(3.0, 0.15, size=10).astype(np.float32)
+            if egfr_bin < n_bins:
+                cn_truth[i, egfr_bin] = float(rng.gamma(shape=16.0, scale=0.5))
+            if myc_bin < n_bins:
+                cn_truth[i, myc_bin] = float(rng.gamma(shape=20.0, scale=0.5))
+            if pten_bin < n_bins:
+                cn_truth[i, pten_bin] = float(rng.exponential(scale=0.15))
         elif cl == "Subclone_B":
-            cn_truth[i, 50:60] = 4.0
-            cn_truth[i, cdk4_bin] = 6.0
-            cn_truth[i, pten_bin] = 1.0
+            cn_truth[i, 50:60] = rng.normal(4.0, 0.20, size=10).astype(np.float32)
+            if cdk4_bin < n_bins:
+                cn_truth[i, cdk4_bin] = float(rng.gamma(shape=12.0, scale=0.5))
+            if pten_bin < n_bins:
+                cn_truth[i, pten_bin] = float(rng.normal(1.0, 0.1))
         elif cl == "Rare_Persister":
-            cn_truth[i, abcb1_bin] = 12.0
-            cn_truth[i, egfr_bin] = 8.0
-            cn_truth[i, pten_bin] = 0.0
+            if abcb1_bin < n_bins:
+                cn_truth[i, abcb1_bin] = float(rng.gamma(shape=24.0, scale=0.5))
+            if egfr_bin < n_bins:
+                cn_truth[i, egfr_bin] = float(rng.gamma(shape=16.0, scale=0.5))
+            if pten_bin < n_bins:
+                cn_truth[i, pten_bin] = float(rng.exponential(scale=0.10))
+    cn_truth = np.clip(cn_truth, 0.0, 16.0).astype(np.float32)
 
-    wga_waviness = np.sin(np.linspace(0, 4 * np.pi, n_bins)).astype(np.float32) * 0.3
     noise = rng.normal(0.0, 0.4, size=(n_cells, n_bins)).astype(np.float32)
-    sc_dna_observed = np.maximum(0.1, cn_truth + wga_waviness + noise)
+    sc_dna_observed = np.maximum(0.1, cn_truth + noise)
 
     gene_names = [f"GENE_BIN_{j}" for j in range(n_genes)]
     for b_idx, sym in [(egfr_bin, "EGFR"), (cdk4_bin, "CDK4"), (myc_bin, "MYC"), (pten_bin, "PTEN"), (abcb1_bin, "ABCB1")]:

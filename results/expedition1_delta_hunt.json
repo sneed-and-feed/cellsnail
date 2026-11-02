@@ -13631,7 +13631,7 @@
   "cross_expedition_convergence": {
     "exp1_exp2_dual_blind_spot_summary": {
       "total_shared_targets": 15,
-      "mean_dna_window15_washout_percent": 80.27,
+      "mean_dna_window15_attenuation_percent": 80.27,
       "mean_rna_5clock_erasure_percent": 32.35,
       "mean_standard_pipeline_joint_survival_5clock_percent": 12.45,
       "cellsnail_joint_survival_percent": 100.0,
@@ -13640,10 +13640,10 @@
           "gene": "EGFR",
           "ensembl_id": "ENSG00000146648",
           "genomic_bin": "Bin 25 (chr7:55019017)",
-          "exp2_stringer_or_persister_role": "1-Bin Focal Stringer (Subclone_A CN=8.024, Rare_Persister CN=8.755, 14.69x RNA)",
+          "exp2_focal_amplicon_or_persister_role": "1-Bin Focal Amplicon (Subclone_A CN=8.024, Rare_Persister CN=8.755, 14.69x RNA)",
           "cn_cellsnail": 8.024,
           "cn_window15_smoothed": 2.401,
-          "exp2_dna_window15_washout_percent": 93.34,
+          "exp2_dna_window15_attenuation_percent": 93.34,
           "exp1_delta_5clock_by_cohort": {
             "GSE57872_GBM": 0.0115,
             "GSE148673_TNBC3": 0.0156,
@@ -13661,10 +13661,10 @@
           "gene": "MYC",
           "ensembl_id": "ENSG00000136997",
           "genomic_bin": "Bin 35 (chr8:127735434)",
-          "exp2_stringer_or_persister_role": "1-Bin ecDNA Spire atop chr8 Gain Plateau (CN=9.824 vs W15=3.164)",
+          "exp2_focal_amplicon_or_persister_role": "1-Bin ecDNA Spire atop chr8 Gain Plateau (CN=9.824 vs W15=3.164)",
           "cn_cellsnail": 9.824,
           "cn_window15_smoothed": 3.164,
-          "exp2_dna_window15_washout_percent": 85.12,
+          "exp2_dna_window15_attenuation_percent": 85.12,
           "exp1_delta_5clock_by_cohort": {
             "GSE57872_GBM": 0.0132,
             "GSE148673_TNBC3": 0.2786,
@@ -13682,10 +13682,10 @@
           "gene": "CDK4",
           "ensembl_id": "ENSG00000135446",
           "genomic_bin": "Bin 55 (chr12:57747727)",
-          "exp2_stringer_or_persister_role": "1-Bin Focal Stringer in Subclone_B 12q Amplicon (CN=6.357 vs W15=3.692)",
+          "exp2_focal_amplicon_or_persister_role": "1-Bin Focal Amplicon in Subclone_B 12q Amplicon (CN=6.357 vs W15=3.692)",
           "cn_cellsnail": 6.357,
           "cn_window15_smoothed": 3.692,
-          "exp2_dna_window15_washout_percent": 61.17,
+          "exp2_dna_window15_attenuation_percent": 61.17,
           "exp1_delta_5clock_by_cohort": {
             "GSE57872_GBM": 0.0296,
             "GSE148673_TNBC3": 0.2436,
@@ -13703,10 +13703,10 @@
           "gene": "ABCB1",
           "ensembl_id": "ENSG00000085563",
           "genomic_bin": "Bin 28 (chr7:87503863)",
-          "exp2_stringer_or_persister_role": "Rare_Persister 1-Bin Efflux Stringer (0.40% DTP, CN=12.262 vs W15=2.617, 12.45x RNA)",
+          "exp2_focal_amplicon_or_persister_role": "Rare_Persister 1-Bin Efflux Amplicon (0.40% DTP, CN=12.262 vs W15=2.617, 12.45x RNA)",
           "cn_cellsnail": 12.262,
           "cn_window15_smoothed": 2.617,
-          "exp2_dna_window15_washout_percent": 93.99,
+          "exp2_dna_window15_attenuation_percent": 93.99,
           "exp1_delta_5clock_by_cohort": {
             "GSE148673_TNBC3": 0.0054,
             "GSE144239_cSCC_spatial": 0.009
@@ -13722,10 +13722,10 @@
           "gene": "PTEN",
           "ensembl_id": "ENSG00000171862",
           "genomic_bin": "Bin 45 (chr10:87863113)",
-          "exp2_stringer_or_persister_role": "1-Bin Focal Homozygous Deletion (Subclone_A CN=0.123 vs W15=1.792)",
+          "exp2_focal_amplicon_or_persister_role": "1-Bin Focal Homozygous Deletion (Subclone_A CN=0.123 vs W15=1.792)",
           "cn_cellsnail": 0.123,
           "cn_window15_smoothed": 1.792,
-          "exp2_dna_window15_washout_percent": 89.6,
+          "exp2_dna_window15_attenuation_percent": 89.6,
           "exp1_delta_5clock_by_cohort": {
             "GSE57872_GBM": 0.0165,
             "GSE148673_TNBC3": 0.1433,
@@ -13743,10 +13743,10 @@
           "gene": "HSP90AA1",
           "ensembl_id": "ENSG00000080824",
           "genomic_bin": "Bin 53 (chr14:102087044)",
-          "exp2_stringer_or_persister_role": "Subclone_B Amplicon & Rare_Persister Chaperone Collateral (CN=4.14, 3.34x DTP RNA)",
+          "exp2_focal_amplicon_or_persister_role": "Subclone_B Amplicon & Rare_Persister Chaperone Collateral (CN=4.14, 3.34x DTP RNA)",
           "cn_cellsnail": 4.14,
           "cn_window15_smoothed": 2.68,
-          "exp2_dna_window15_washout_percent": 68.22,
+          "exp2_dna_window15_attenuation_percent": 68.22,
           "exp1_delta_5clock_by_cohort": {
             "GSE57872_GBM": 0.0119,
             "GSE148673_TNBC3": 0.5612,
@@ -13764,10 +13764,10 @@
           "gene": "CDKN2A",
           "ensembl_id": "ENSG00000147889",
           "genomic_bin": "Bin 40 (chr9:21974857)",
-          "exp2_stringer_or_persister_role": "Checkpoint Collateral & Rare_Persister Arrest Marker (3.11x DTP RNA)",
+          "exp2_focal_amplicon_or_persister_role": "Checkpoint Collateral & Rare_Persister Arrest Marker (3.11x DTP RNA)",
           "cn_cellsnail": 3.85,
           "cn_window15_smoothed": 2.38,
-          "exp2_dna_window15_washout_percent": 79.46,
+          "exp2_dna_window15_attenuation_percent": 79.46,
           "exp1_delta_5clock_by_cohort": {
             "GSE148673_TNBC3": 0.5117,
             "GSE118767_sc_mixology": 0.1932,
@@ -13784,10 +13784,10 @@
           "gene": "LY6E",
           "ensembl_id": "ENSG00000160932",
           "genomic_bin": "Bin 57 (chr8:143017982)",
-          "exp2_stringer_or_persister_role": "Subclone_B Amplicon & Rare_Persister Surface Collateral (CN=4.21, 3.38x DTP RNA)",
+          "exp2_focal_amplicon_or_persister_role": "Subclone_B Amplicon & Rare_Persister Surface Collateral (CN=4.21, 3.38x DTP RNA)",
           "cn_cellsnail": 4.21,
           "cn_window15_smoothed": 2.69,
-          "exp2_dna_window15_washout_percent": 68.78,
+          "exp2_dna_window15_attenuation_percent": 68.78,
           "exp1_delta_5clock_by_cohort": {
             "GSE148673_TNBC3": 0.4648,
             "GSE118767_sc_mixology": 0.1249,
@@ -13804,10 +13804,10 @@
           "gene": "MDM2",
           "ensembl_id": "ENSG00000135679",
           "genomic_bin": "Bin 58 (chr12:68808177)",
-          "exp2_stringer_or_persister_role": "Subclone_B 12q Co-Amplicon with CDK4 (CN=4.20 vs W15=2.71)",
+          "exp2_focal_amplicon_or_persister_role": "Subclone_B 12q Co-Amplicon with CDK4 (CN=4.20 vs W15=2.71)",
           "cn_cellsnail": 4.2,
           "cn_window15_smoothed": 2.71,
-          "exp2_dna_window15_washout_percent": 67.73,
+          "exp2_dna_window15_attenuation_percent": 67.73,
           "exp1_delta_5clock_by_cohort": {
             "GSE148673_TNBC3": 0.0796,
             "GSE118767_sc_mixology": 0.2785,
@@ -13824,10 +13824,10 @@
           "gene": "S100A6",
           "ensembl_id": "ENSG00000197956",
           "genomic_bin": "Bin 81 (chr1:153534600)",
-          "exp2_stringer_or_persister_role": "Rare_Persister Calcium-Binding Survival Marker (15.29x DTP RNA)",
+          "exp2_focal_amplicon_or_persister_role": "Rare_Persister Calcium-Binding Survival Marker (15.29x DTP RNA)",
           "cn_cellsnail": 3.92,
           "cn_window15_smoothed": 2.31,
-          "exp2_dna_window15_washout_percent": 83.85,
+          "exp2_dna_window15_attenuation_percent": 83.85,
           "exp1_delta_5clock_by_cohort": {
             "GSE57872_GBM": 0.0301,
             "GSE148673_TNBC3": 0.0395,
@@ -13845,10 +13845,10 @@
           "gene": "LGALS1",
           "ensembl_id": "ENSG00000100097",
           "genomic_bin": "Bin 84 (chr22:37675606)",
-          "exp2_stringer_or_persister_role": "Rare_Persister Immunosuppressive Lectin Collateral (2.83x DTP RNA)",
+          "exp2_focal_amplicon_or_persister_role": "Rare_Persister Immunosuppressive Lectin Collateral (2.83x DTP RNA)",
           "cn_cellsnail": 3.64,
           "cn_window15_smoothed": 2.26,
-          "exp2_dna_window15_washout_percent": 84.15,
+          "exp2_dna_window15_attenuation_percent": 84.15,
           "exp1_delta_5clock_by_cohort": {
             "GSE57872_GBM": 0.0088,
             "GSE148673_TNBC3": 0.0549,
@@ -13866,10 +13866,10 @@
           "gene": "KRAS",
           "ensembl_id": "ENSG00000133703",
           "genomic_bin": "Bin 92 (chr12:25250929)",
-          "exp2_stringer_or_persister_role": "Focal MAPK Driver & Persister Bypass Signaler",
+          "exp2_focal_amplicon_or_persister_role": "Focal MAPK Driver & Persister Bypass Signaler",
           "cn_cellsnail": 4.45,
           "cn_window15_smoothed": 2.52,
-          "exp2_dna_window15_washout_percent": 78.78,
+          "exp2_dna_window15_attenuation_percent": 78.78,
           "exp1_delta_5clock_by_cohort": {
             "GSE148673_TNBC3": 0.2467,
             "GSE118767_sc_mixology": 0.3355,
@@ -13886,10 +13886,10 @@
           "gene": "AXL",
           "ensembl_id": "ENSG00000167601",
           "genomic_bin": "Bin 94 (chr19:41219223)",
-          "exp2_stringer_or_persister_role": "GBM DTP-1 (+4.80 sigma) & DTP-2 (+4.51 sigma) Mesenchymal Persister RTK",
+          "exp2_focal_amplicon_or_persister_role": "GBM DTP-1 (+4.80 sigma) & DTP-2 (+4.51 sigma) Mesenchymal Persister RTK",
           "cn_cellsnail": 4.18,
           "cn_window15_smoothed": 2.41,
-          "exp2_dna_window15_washout_percent": 81.19,
+          "exp2_dna_window15_attenuation_percent": 81.19,
           "exp1_delta_5clock_by_cohort": {
             "GSE57872_GBM": 0.0011,
             "GSE148673_TNBC3": 0.0837,
@@ -13907,10 +13907,10 @@
           "gene": "PROM1",
           "ensembl_id": "ENSG00000007062",
           "genomic_bin": "chr4:16084023",
-          "exp2_stringer_or_persister_role": "GBM DTP-1 (+6.98 sigma) Quiescent Stem Persister Marker",
+          "exp2_focal_amplicon_or_persister_role": "GBM DTP-1 (+6.98 sigma) Quiescent Stem Persister Marker",
           "cn_cellsnail": 3.75,
           "cn_window15_smoothed": 2.22,
-          "exp2_dna_window15_washout_percent": 87.43,
+          "exp2_dna_window15_attenuation_percent": 87.43,
           "exp1_delta_5clock_by_cohort": {
             "GSE57872_GBM": 0.0135,
             "GSE148673_TNBC3": 0.1398,
@@ -13928,10 +13928,10 @@
           "gene": "ERBB2",
           "ensembl_id": "ENSG00000141736",
           "genomic_bin": "Bin 75 (chr17:39700064)",
-          "exp2_stringer_or_persister_role": "GBM DTP-2 (+6.62 sigma) Mosaic ERBB2+/AXL+ Persister RTK",
+          "exp2_focal_amplicon_or_persister_role": "GBM DTP-2 (+6.62 sigma) Mosaic ERBB2+/AXL+ Persister RTK",
           "cn_cellsnail": 4.62,
           "cn_window15_smoothed": 2.49,
-          "exp2_dna_window15_washout_percent": 81.3,
+          "exp2_dna_window15_attenuation_percent": 81.3,
           "exp1_delta_5clock_by_cohort": {
             "GSE57872_GBM": 0.0014,
             "GSE148673_TNBC3": 0.1965,
@@ -13945,7 +13945,8 @@
           "cellsnail_joint_signal_survival_percent": 100.0,
           "lead_therapeutic_chembl": "Neratinib (CHEMBL180022, IC50=1.0 nM) / Lapatinib (Ki=1.59 nM) / Tucatinib"
         }
-      ]
+      ],
+      "mean_dna_window15_attenuation_percent": 80.27
     },
     "exp1_exp3_spatial_boundary_catastrophe_summary": {
       "cohort": "GSE144239 Human cSCC Spatial Transcriptomics (Patient P2, n=400 spots)",
@@ -14258,7 +14259,7 @@
         14.95,
         61.9
       ],
-      "exp2_dna_window15_washout_range_x": [
+      "exp2_dna_window15_attenuation_range_x": [
         15.02,
         16.63
       ],
@@ -14270,7 +14271,11 @@
         2.03,
         38.76
       ],
-      "conclusion": "Standard single-cell and spatial pipelines inflict a compound Triple Catastrophe on proliferation-coupled oncogenic amplicons and invasive-margin receptors: (1) OLS cell-cycle regression erases 15%-80% of RNA driver variance, (2) 15-bin CNV smoothing washes out 61%-94% of sub-megabase DNA amplicon spires, and (3) isotropic spatial smoothing fabricates +241%-417% false-positive pseudo-EMT hybrids while collapsing trans-membrane juxtacrine polarity up to 38.76-fold. cellsnail v0.2.0 eliminates all three failure modes simultaneously."
+      "conclusion": "Standard single-cell and spatial pipelines inflict a compound Triple Catastrophe on proliferation-coupled oncogenic amplicons and invasive-margin receptors: (1) OLS cell-cycle regression erases 15%-80% of RNA driver variance, (2) 15-bin CNV smoothing washes out 61%-94% of sub-megabase DNA amplicon spires, and (3) isotropic spatial smoothing fabricates +241%-417% false-positive pseudo-EMT hybrids while collapsing trans-membrane juxtacrine polarity up to 38.76-fold. cellsnail v0.2.0 eliminates all three failure modes simultaneously.",
+      "exp2_dna_window15_attenuation_range_x": [
+        15.02,
+        16.63
+      ]
     }
   }
 }

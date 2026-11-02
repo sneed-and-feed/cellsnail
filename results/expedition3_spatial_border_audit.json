@@ -1586,383 +1586,383 @@
   "section4_multimodal_so6_and_cross_expedition_bridge": {
     "so6_kelvin_mandel_missing_modality_audit": {
       "theorem_verified": "Theorem 2.17 (Ledoit-Wolf Shrinkage + Kelvin-Mandel SO(6) Isometry preserves exact trace invariants under missing modalities up to m_miss = 0.85)",
-      "max_relative_trace_residual_across_all_tests": 1.5165e-15,
+      "max_relative_trace_residual_across_all_tests": 2.3957e-15,
       "tnbc3_gse148673_profiles": [
         {
           "cohort": "GSE148673_TNBC3",
           "gene_symbol": "EGFR",
-          "rna_cnv_pearson_r": 0.2775,
-          "so6_anisotropy_index": 5.3761,
-          "max_relative_trace_residual": 6.0897e-16,
+          "rna_cnv_pearson_r": 0.2025,
+          "so6_anisotropy_index": 5.3752,
+          "max_relative_trace_residual": 2.3137e-15,
           "missing_modality_sweep": [
             {
               "m_missing": 0.0,
               "shrinkage_rho_star": 0.0025,
-              "trace_before": 29870.040772,
-              "trace_after": 29870.040772,
-              "relative_trace_residual": 6.0897e-16,
-              "min_eigenvalue": 12.522496,
-              "max_eigenvalue": 26709.442813
+              "trace_before": 29875.466648,
+              "trace_after": 29875.466648,
+              "relative_trace_residual": 2.3137e-15,
+              "min_eigenvalue": 12.526484,
+              "max_eigenvalue": 26709.39467
             },
             {
               "m_missing": 0.25,
               "shrinkage_rho_star": 0.2,
-              "trace_before": 29870.040772,
-              "trace_after": 29870.040772,
-              "relative_trace_residual": 2.4359e-16,
-              "min_eigenvalue": 995.668488,
-              "max_eigenvalue": 22407.060388
+              "trace_before": 29875.466648,
+              "trace_after": 29875.466648,
+              "relative_trace_residual": 2.4354e-16,
+              "min_eigenvalue": 995.849779,
+              "max_eigenvalue": 22407.204956
             },
             {
               "m_missing": 0.5,
               "shrinkage_rho_star": 0.3333,
-              "trace_before": 29870.040772,
-              "trace_after": 29870.040772,
-              "relative_trace_residual": 1.2179e-16,
-              "min_eigenvalue": 1659.447095,
-              "max_eigenvalue": 19502.273678
+              "trace_before": 29875.466648,
+              "trace_after": 29875.466648,
+              "relative_trace_residual": 4.8709e-16,
+              "min_eigenvalue": 1659.748889,
+              "max_eigenvalue": 19502.54487
             },
             {
               "m_missing": 0.7,
               "shrinkage_rho_star": 0.4118,
-              "trace_before": 29870.040772,
-              "trace_after": 29870.040772,
-              "relative_trace_residual": 1.2179e-16,
-              "min_eigenvalue": 2049.905099,
-              "max_eigenvalue": 17793.575613
+              "trace_before": 29875.466648,
+              "trace_after": 29875.466648,
+              "relative_trace_residual": 1.2177e-16,
+              "min_eigenvalue": 2050.277777,
+              "max_eigenvalue": 17793.92129
             },
             {
               "m_missing": 0.85,
               "shrinkage_rho_star": 0.4595,
-              "trace_before": 29870.040772,
-              "trace_after": 29870.040772,
-              "relative_trace_residual": 3.6538e-16,
-              "min_eigenvalue": 2287.345777,
-              "max_eigenvalue": 16754.502466
+              "trace_before": 29875.466648,
+              "trace_after": 29875.466648,
+              "relative_trace_residual": 3.6531e-16,
+              "min_eigenvalue": 2287.761561,
+              "max_eigenvalue": 16754.893438
             }
           ]
         },
         {
           "cohort": "GSE148673_TNBC3",
           "gene_symbol": "MYC",
-          "rna_cnv_pearson_r": 0.0301,
-          "so6_anisotropy_index": 5.3571,
-          "max_relative_trace_residual": 1.0921e-15,
+          "rna_cnv_pearson_r": 0.0015,
+          "so6_anisotropy_index": 5.3557,
+          "max_relative_trace_residual": 1.941e-15,
           "missing_modality_sweep": [
             {
               "m_missing": 0.0,
               "shrinkage_rho_star": 0.0025,
-              "trace_before": 29980.034397,
-              "trace_after": 29980.034397,
-              "relative_trace_residual": 8.4943e-16,
-              "min_eigenvalue": 12.590871,
-              "max_eigenvalue": 26712.942341
+              "trace_before": 29987.920857,
+              "trace_after": 29987.920857,
+              "relative_trace_residual": 7.2789e-16,
+              "min_eigenvalue": 12.59625,
+              "max_eigenvalue": 26712.986294
             },
             {
               "m_missing": 0.25,
               "shrinkage_rho_star": 0.2,
-              "trace_before": 29980.034397,
-              "trace_after": 29980.034397,
-              "relative_trace_residual": 1.0921e-15,
-              "min_eigenvalue": 999.33494,
-              "max_eigenvalue": 22413.574354
+              "trace_before": 29987.920857,
+              "trace_after": 29987.920857,
+              "relative_trace_residual": 1.8197e-15,
+              "min_eigenvalue": 999.598121,
+              "max_eigenvalue": 22413.875751
             },
             {
               "m_missing": 0.5,
               "shrinkage_rho_star": 0.3333,
-              "trace_before": 29980.034397,
-              "trace_after": 29980.034397,
-              "relative_trace_residual": 1.0921e-15,
-              "min_eigenvalue": 1665.55785,
-              "max_eigenvalue": 19510.757361
+              "trace_before": 29987.920857,
+              "trace_after": 29987.920857,
+              "relative_trace_residual": 1.941e-15,
+              "min_eigenvalue": 1665.996236,
+              "max_eigenvalue": 19511.227594
             },
             {
               "m_missing": 0.7,
               "shrinkage_rho_star": 0.4118,
-              "trace_before": 29980.034397,
-              "trace_after": 29980.034397,
-              "relative_trace_residual": 7.2808e-16,
-              "min_eigenvalue": 2057.453679,
-              "max_eigenvalue": 17803.217954
+              "trace_before": 29987.920857,
+              "trace_after": 29987.920857,
+              "relative_trace_residual": 9.7052e-16,
+              "min_eigenvalue": 2057.995127,
+              "max_eigenvalue": 17803.787502
             },
             {
               "m_missing": 0.85,
               "shrinkage_rho_star": 0.4595,
-              "trace_before": 29980.034397,
-              "trace_after": 29980.034397,
-              "relative_trace_residual": 4.8539e-16,
-              "min_eigenvalue": 2295.768711,
-              "max_eigenvalue": 16764.849396
+              "trace_before": 29987.920857,
+              "trace_after": 29987.920857,
+              "relative_trace_residual": 1.2131e-16,
+              "min_eigenvalue": 2296.372831,
+              "max_eigenvalue": 16765.479338
             }
           ]
         },
         {
           "cohort": "GSE148673_TNBC3",
           "gene_symbol": "CDK4",
-          "rna_cnv_pearson_r": 0.6835,
-          "so6_anisotropy_index": 5.3765,
-          "max_relative_trace_residual": 1.218e-15,
+          "rna_cnv_pearson_r": 0.6379,
+          "so6_anisotropy_index": 5.3759,
+          "max_relative_trace_residual": 1.3397e-15,
           "missing_modality_sweep": [
             {
               "m_missing": 0.0,
               "shrinkage_rho_star": 0.0025,
-              "trace_before": 29868.572616,
-              "trace_after": 29868.572616,
-              "relative_trace_residual": 0.0,
-              "min_eigenvalue": 12.521489,
-              "max_eigenvalue": 26709.791971
+              "trace_before": 29871.751577,
+              "trace_after": 29871.751577,
+              "relative_trace_residual": 7.3072e-16,
+              "min_eigenvalue": 12.524169,
+              "max_eigenvalue": 26709.810672
             },
             {
               "m_missing": 0.25,
               "shrinkage_rho_star": 0.2,
-              "trace_before": 29868.572616,
-              "trace_after": 29868.572616,
-              "relative_trace_residual": 4.872e-16,
-              "min_eigenvalue": 995.619615,
-              "max_eigenvalue": 22407.290316
+              "trace_before": 29871.751577,
+              "trace_after": 29871.751577,
+              "relative_trace_residual": 4.8715e-16,
+              "min_eigenvalue": 995.726119,
+              "max_eigenvalue": 22407.412578
             },
             {
               "m_missing": 0.5,
               "shrinkage_rho_star": 0.3333,
-              "trace_before": 29868.572616,
-              "trace_after": 29868.572616,
-              "relative_trace_residual": 1.218e-15,
-              "min_eigenvalue": 1659.365585,
-              "max_eigenvalue": 19502.424503
+              "trace_before": 29871.751577,
+              "trace_after": 29871.751577,
+              "relative_trace_residual": 1.3397e-15,
+              "min_eigenvalue": 1659.542643,
+              "max_eigenvalue": 19502.614692
             },
             {
               "m_missing": 0.7,
               "shrinkage_rho_star": 0.4118,
-              "trace_before": 29868.572616,
-              "trace_after": 29868.572616,
-              "relative_trace_residual": 1.218e-15,
-              "min_eigenvalue": 2049.804391,
-              "max_eigenvalue": 17793.679907
+              "trace_before": 29871.751577,
+              "trace_after": 29871.751577,
+              "relative_trace_residual": 2.4357e-16,
+              "min_eigenvalue": 2050.022951,
+              "max_eigenvalue": 17793.910053
             },
             {
               "m_missing": 0.85,
               "shrinkage_rho_star": 0.4595,
-              "trace_before": 29868.572616,
-              "trace_after": 29868.572616,
-              "relative_trace_residual": 8.526e-16,
-              "min_eigenvalue": 2287.233395,
-              "max_eigenvalue": 16754.578463
+              "trace_before": 29871.751577,
+              "trace_after": 29871.751577,
+              "relative_trace_residual": 4.8715e-16,
+              "min_eigenvalue": 2287.477193,
+              "max_eigenvalue": 16754.832908
             }
           ]
         },
         {
           "cohort": "GSE148673_TNBC3",
           "gene_symbol": "CDKN2A",
-          "rna_cnv_pearson_r": 0.9851,
+          "rna_cnv_pearson_r": 0.9738,
           "so6_anisotropy_index": 5.33,
-          "max_relative_trace_residual": 1.4478e-15,
+          "max_relative_trace_residual": 9.6519e-16,
           "missing_modality_sweep": [
             {
               "m_missing": 0.0,
               "shrinkage_rho_star": 0.0025,
-              "trace_before": 30153.563414,
-              "trace_after": 30153.563414,
-              "relative_trace_residual": 8.4454e-16,
-              "min_eigenvalue": 12.693215,
-              "max_eigenvalue": 26731.33225
+              "trace_before": 30153.564823,
+              "trace_after": 30153.564823,
+              "relative_trace_residual": 3.6195e-16,
+              "min_eigenvalue": 12.693896,
+              "max_eigenvalue": 26731.330794
             },
             {
               "m_missing": 0.25,
               "shrinkage_rho_star": 0.2,
-              "trace_before": 30153.563414,
-              "trace_after": 30153.563414,
-              "relative_trace_residual": 1.2065e-16,
-              "min_eigenvalue": 1005.11878,
-              "max_eigenvalue": 22434.153631
+              "trace_before": 30153.564823,
+              "trace_after": 30153.564823,
+              "relative_trace_residual": 6.0324e-16,
+              "min_eigenvalue": 1005.119373,
+              "max_eigenvalue": 22434.152512
             },
             {
               "m_missing": 0.5,
               "shrinkage_rho_star": 0.3333,
-              "trace_before": 30153.563414,
-              "trace_after": 30153.563414,
-              "relative_trace_residual": 1.2065e-15,
-              "min_eigenvalue": 1675.197967,
-              "max_eigenvalue": 19532.72701
+              "trace_before": 30153.564823,
+              "trace_after": 30153.564823,
+              "relative_trace_residual": 3.6195e-16,
+              "min_eigenvalue": 1675.1985,
+              "max_eigenvalue": 19532.726117
             },
             {
               "m_missing": 0.7,
               "shrinkage_rho_star": 0.4118,
-              "trace_before": 30153.563414,
-              "trace_after": 30153.563414,
-              "relative_trace_residual": 1.3271e-15,
-              "min_eigenvalue": 2069.362195,
-              "max_eigenvalue": 17826.005468
+              "trace_before": 30153.564823,
+              "trace_after": 30153.564823,
+              "relative_trace_residual": 9.6519e-16,
+              "min_eigenvalue": 2069.362693,
+              "max_eigenvalue": 17826.004707
             },
             {
               "m_missing": 0.85,
               "shrinkage_rho_star": 0.4595,
-              "trace_before": 30153.563414,
-              "trace_after": 30153.563414,
-              "relative_trace_residual": 1.4478e-15,
-              "min_eigenvalue": 2309.056658,
-              "max_eigenvalue": 16788.13426
+              "trace_before": 30153.564823,
+              "trace_after": 30153.564823,
+              "relative_trace_residual": 8.4454e-16,
+              "min_eigenvalue": 2309.057134,
+              "max_eigenvalue": 16788.13358
             }
           ]
         },
         {
           "cohort": "GSE148673_TNBC3",
           "gene_symbol": "COL1A1",
-          "rna_cnv_pearson_r": 0.9859,
+          "rna_cnv_pearson_r": 0.9733,
           "so6_anisotropy_index": 4.2607,
-          "max_relative_trace_residual": 1.5006e-15,
+          "max_relative_trace_residual": 1.6882e-15,
           "missing_modality_sweep": [
             {
               "m_missing": 0.0,
               "shrinkage_rho_star": 0.0029,
-              "trace_before": 38788.359305,
-              "trace_after": 38788.359305,
-              "relative_trace_residual": 7.5032e-16,
-              "min_eigenvalue": 18.435517,
-              "max_eigenvalue": 27484.065712
+              "trace_before": 38788.363624,
+              "trace_after": 38788.363624,
+              "relative_trace_residual": 5.6274e-16,
+              "min_eigenvalue": 18.436153,
+              "max_eigenvalue": 27484.063837
             },
             {
               "m_missing": 0.25,
               "shrinkage_rho_star": 0.2,
-              "trace_before": 38788.359305,
-              "trace_after": 38788.359305,
-              "relative_trace_residual": 1.8758e-16,
-              "min_eigenvalue": 1292.94531,
-              "max_eigenvalue": 23328.287843
+              "trace_before": 38788.363624,
+              "trace_after": 38788.363624,
+              "relative_trace_residual": 5.6274e-16,
+              "min_eigenvalue": 1292.945961,
+              "max_eigenvalue": 23328.286487
             },
             {
               "m_missing": 0.5,
               "shrinkage_rho_star": 0.3333,
-              "trace_before": 38788.359305,
-              "trace_after": 38788.359305,
-              "relative_trace_residual": 5.6274e-16,
-              "min_eigenvalue": 2154.90885,
-              "max_eigenvalue": 20517.694295
+              "trace_before": 38788.363624,
+              "trace_after": 38788.363624,
+              "relative_trace_residual": 1.6882e-15,
+              "min_eigenvalue": 2154.909513,
+              "max_eigenvalue": 20517.693284
             },
             {
               "m_missing": 0.7,
               "shrinkage_rho_star": 0.4118,
-              "trace_before": 38788.359305,
-              "trace_after": 38788.359305,
-              "relative_trace_residual": 3.7516e-16,
-              "min_eigenvalue": 2661.946227,
-              "max_eigenvalue": 18864.403972
+              "trace_before": 38788.363624,
+              "trace_after": 38788.363624,
+              "relative_trace_residual": 7.5032e-16,
+              "min_eigenvalue": 2661.946896,
+              "max_eigenvalue": 18864.403165
             },
             {
               "m_missing": 0.85,
               "shrinkage_rho_star": 0.4595,
-              "trace_before": 38788.359305,
-              "trace_after": 38788.359305,
-              "relative_trace_residual": 1.5006e-15,
-              "min_eigenvalue": 2970.279767,
-              "max_eigenvalue": 17859.024721
+              "trace_before": 38788.363624,
+              "trace_after": 38788.363624,
+              "relative_trace_residual": 5.6274e-16,
+              "min_eigenvalue": 2970.28044,
+              "max_eigenvalue": 17859.024038
             }
           ]
         },
         {
           "cohort": "GSE148673_TNBC3",
           "gene_symbol": "COL3A1",
-          "rna_cnv_pearson_r": 0.9962,
+          "rna_cnv_pearson_r": 0.9863,
           "so6_anisotropy_index": 4.5082,
-          "max_relative_trace_residual": 7.9857e-16,
+          "max_relative_trace_residual": 2.3957e-15,
           "missing_modality_sweep": [
             {
               "m_missing": 0.0,
               "shrinkage_rho_star": 0.0028,
-              "trace_before": 36444.785679,
-              "trace_after": 36444.785679,
-              "relative_trace_residual": 7.9857e-16,
-              "min_eigenvalue": 16.801137,
-              "max_eigenvalue": 27324.268403
+              "trace_before": 36444.789914,
+              "trace_after": 36444.789914,
+              "relative_trace_residual": 1.9964e-16,
+              "min_eigenvalue": 16.801382,
+              "max_eigenvalue": 27324.266914
             },
             {
               "m_missing": 0.25,
               "shrinkage_rho_star": 0.2,
-              "trace_before": 36444.785679,
-              "trace_after": 36444.785679,
-              "relative_trace_residual": 0.0,
-              "min_eigenvalue": 1214.826189,
-              "max_eigenvalue": 23121.393897
+              "trace_before": 36444.789914,
+              "trace_after": 36444.789914,
+              "relative_trace_residual": 1.9964e-15,
+              "min_eigenvalue": 1214.826524,
+              "max_eigenvalue": 23121.392847
             },
             {
               "m_missing": 0.5,
               "shrinkage_rho_star": 0.3333,
-              "trace_before": 36444.785679,
-              "trace_after": 36444.785679,
-              "relative_trace_residual": 1.9964e-16,
-              "min_eigenvalue": 2024.710315,
-              "max_eigenvalue": 20280.183405
+              "trace_before": 36444.789914,
+              "trace_after": 36444.789914,
+              "relative_trace_residual": 9.9822e-16,
+              "min_eigenvalue": 2024.710712,
+              "max_eigenvalue": 20280.182648
             },
             {
               "m_missing": 0.7,
               "shrinkage_rho_star": 0.4118,
-              "trace_before": 36444.785679,
-              "trace_after": 36444.785679,
-              "relative_trace_residual": 1.9964e-16,
-              "min_eigenvalue": 2501.112743,
-              "max_eigenvalue": 18608.883116
+              "trace_before": 36444.789914,
+              "trace_after": 36444.789914,
+              "relative_trace_residual": 2.3957e-15,
+              "min_eigenvalue": 2501.113176,
+              "max_eigenvalue": 18608.882531
             },
             {
               "m_missing": 0.85,
               "shrinkage_rho_star": 0.4595,
-              "trace_before": 36444.785679,
-              "trace_after": 36444.785679,
-              "relative_trace_residual": 0.0,
-              "min_eigenvalue": 2790.816921,
-              "max_eigenvalue": 17592.551859
+              "trace_before": 36444.789914,
+              "trace_after": 36444.789914,
+              "relative_trace_residual": 3.9929e-16,
+              "min_eigenvalue": 2790.817376,
+              "max_eigenvalue": 17592.551379
             }
           ]
         },
         {
           "cohort": "GSE148673_TNBC3",
           "gene_symbol": "B2M",
-          "rna_cnv_pearson_r": 0.9808,
+          "rna_cnv_pearson_r": 0.9701,
           "so6_anisotropy_index": 4.8424,
-          "max_relative_trace_residual": 1.5165e-15,
+          "max_relative_trace_residual": 1.7332e-15,
           "missing_modality_sweep": [
             {
               "m_missing": 0.0,
               "shrinkage_rho_star": 0.0027,
-              "trace_before": 33584.822505,
-              "trace_after": 33584.822505,
-              "relative_trace_residual": 2.1664e-16,
-              "min_eigenvalue": 14.898829,
-              "max_eigenvalue": 27047.702845
+              "trace_before": 33584.826222,
+              "trace_after": 33584.826222,
+              "relative_trace_residual": 1.0832e-15,
+              "min_eigenvalue": 14.899643,
+              "max_eigenvalue": 27047.701573
             },
             {
               "m_missing": 0.25,
               "shrinkage_rho_star": 0.2,
-              "trace_before": 33584.822505,
-              "trace_after": 33584.822505,
-              "relative_trace_residual": 4.3329e-16,
-              "min_eigenvalue": 1119.494084,
-              "max_eigenvalue": 22803.453655
+              "trace_before": 33584.826222,
+              "trace_after": 33584.826222,
+              "relative_trace_residual": 0.0,
+              "min_eigenvalue": 1119.494858,
+              "max_eigenvalue": 22803.452762
             },
             {
               "m_missing": 0.5,
               "shrinkage_rho_star": 0.3333,
-              "trace_before": 33584.822505,
-              "trace_after": 33584.822505,
-              "relative_trace_residual": 1.0832e-15,
-              "min_eigenvalue": 1865.823473,
-              "max_eigenvalue": 19935.789782
+              "trace_before": 33584.826222,
+              "trace_after": 33584.826222,
+              "relative_trace_residual": 1.2999e-15,
+              "min_eigenvalue": 1865.824221,
+              "max_eigenvalue": 19935.789141
             },
             {
               "m_missing": 0.7,
               "shrinkage_rho_star": 0.4118,
-              "trace_before": 33584.822505,
-              "trace_after": 33584.822505,
-              "relative_trace_residual": 4.3329e-16,
-              "min_eigenvalue": 2304.84076,
-              "max_eigenvalue": 18248.92868
+              "trace_before": 33584.826222,
+              "trace_after": 33584.826222,
+              "relative_trace_residual": 2.1664e-16,
+              "min_eigenvalue": 2304.841493,
+              "max_eigenvalue": 18248.928188
             },
             {
               "m_missing": 0.85,
               "shrinkage_rho_star": 0.4595,
-              "trace_before": 33584.822505,
-              "trace_after": 33584.822505,
-              "relative_trace_residual": 1.5165e-15,
-              "min_eigenvalue": 2571.810732,
-              "max_eigenvalue": 17223.134767
+              "trace_before": 33584.826222,
+              "trace_after": 33584.826222,
+              "relative_trace_residual": 1.7332e-15,
+              "min_eigenvalue": 2571.811456,
+              "max_eigenvalue": 17223.134365
             }
           ]
         }
@@ -2160,35 +2160,35 @@
         {
           "locus_or_axis": "EGFR / AREG / TGFA / SPARC (7p11.2 -> Invasive Border RTK Axis)",
           "expedition1_temporal_erasure": "EGFR Delta_5 = 0.3190 (GSE144239 cSCC) & 0.2738 (GSE148673 TNBC3) erased by linear S/G2M regression",
-          "expedition2_genomic_stringer": "7p11.2 EGFR focal ecDNA/HSR stringer (Bin 25 CN = 8.02 vs 2.40 under 100-gene window smoothing, 3.34x erasure)",
+          "expedition2_genomic_amplicon": "7p11.2 EGFR focal ecDNA/HSR amplicon (Bin 25 CN = 8.02 vs 2.40 under 100-gene window smoothing, 3.34x erasure)",
           "expedition3_spatial_juxtacrine": "SPARC->EGFR (13.45x SBR sharpening), TGFA->EGFR (7.69x), AREG->EGFR (3.45x) across L3-L4 border",
           "clinical_actionability": "Cetuximab (CHEMBL1201577, Phase IV), Afatinib (CHEMBL1173655, Phase IV), Erlotinib (CHEMBL553, Phase IV)"
         },
         {
           "locus_or_axis": "LAMC2 / MMP10 -> ITGA6 / ITGB1 / COL1A1 (TSK Invasive Front Anchor & Matrix Proteolysis)",
           "expedition1_temporal_erasure": "LAMC2 Delta_5 = 0.2019, ITGA6 Delta_5 = 0.1842, MMP10 Delta_5 = 0.1495 in cycling leading-edge TSKs",
-          "expedition2_genomic_stringer": "Coupled with 9p21.3 CDKN2A focal deletion (3.11x-6.09x recovery) licensing TSK invasion",
+          "expedition2_genomic_amplicon": "Coupled with 9p21.3 CDKN2A focal deletion (3.11x-6.09x recovery) licensing TSK invasion",
           "expedition3_spatial_juxtacrine": "LAMC2->ITGA6 (33.90x SBR sharpening; 3283.14x at eps=1e-4), MMP10->COL1A1 (50.59x SBR sharpening; 38.76x polarity gain), 0.0% pseudo-EMT bleed",
           "clinical_actionability": "Marimastat (CHEMBL89409, Phase III MMP inhibitor) + anti-EGFR combination"
         },
         {
           "locus_or_axis": "MYC / PTMA / HSP90AA1 (8q24.21 Amplicon & Chaperone/Proliferative Driver)",
           "expedition1_temporal_erasure": "PTMA Delta_5 = 0.6213 (90.5% variance loss), HSP90AA1 Delta_5 = 0.5296 (85.6% loss), MYC Delta_5 = 0.3844 (71.5% loss)",
-          "expedition2_genomic_stringer": "8q24.21 MYC focal stringer (Bin 35 CN = 9.82 in TNBC3, 6.23x recovery over HMMcopy/InferCNV)",
+          "expedition2_genomic_amplicon": "8q24.21 MYC focal amplicon (Bin 35 CN = 9.82 in TNBC3, 6.23x recovery over HMMcopy/InferCNV)",
           "expedition3_spatial_juxtacrine": "SO(6) Kelvin-Mandel bundle preserves MYC-CNV-RNA-spatial covariance (trace residual <= 1.14e-13)",
           "clinical_actionability": "Bromodomain / MYC-chaperone synthetic lethality in 8q24-amplified clones"
         },
         {
           "locus_or_axis": "CDK4 / CCND1 / CDKN2A (12q14.1 / 11q13.3 / 9p21.3 G1/S Restriction Point)",
           "expedition1_temporal_erasure": "CDK4 Delta_5 = 0.4770 (82.8% loss), CCND1 Delta_5 = 0.4339 (79.7% loss), CDKN2A Delta_5 = 0.1197",
-          "expedition2_genomic_stringer": "12q14.1 CDK4 focal stringer (Bin 55 CN = 6.36) & 9p21.3 CDKN2A homozygous deletion (3.11x-6.09x recovery)",
+          "expedition2_genomic_amplicon": "12q14.1 CDK4 focal amplicon (Bin 55 CN = 6.36) & 9p21.3 CDKN2A homozygous deletion (3.11x-6.09x recovery)",
           "expedition3_spatial_juxtacrine": "SO(6) bundle couples CDK4/CDKN2A CNV state to invasive border proliferative niche",
           "clinical_actionability": "Palbociclib / Abemaciclib / Ribociclib (Phase IV CDK4/6 inhibitors)"
         },
         {
           "locus_or_axis": "S100A8 / S100A9 / B2M / HLA-DRA -> CD74 / PTPRC (Peritumoral Myeloid-Antigen Presentation Cuff)",
           "expedition1_temporal_erasure": "LY6E Delta_5 = 0.2750, B2M & MHC-II variance preserved by orthogonal S/G2M projection",
-          "expedition2_genomic_stringer": "7q21.12 ABCB1 focal amplicon (Bin 28 CN = 12.26 in 0.40% rare persisters) & 10q23.31 PTEN loss (CN = 0.10-0.12)",
+          "expedition2_genomic_amplicon": "7q21.12 ABCB1 focal persister amplicon in 0.40% rare persisters & 10q23.31 PTEN loss",
           "expedition3_spatial_juxtacrine": "HLA-DRA->CD74 (47.13x SBR sharpening), B2M->CD74 (31.61x), S100A9->CD74 (18.95x), S100A8->CD74 (18.53x)",
           "clinical_actionability": "Milatuzumab (CHEMBL2108398, Phase II anti-CD74) & PD-1/Cemiplimab checkpoint blockade"
         }

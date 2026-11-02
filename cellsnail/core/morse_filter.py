@@ -1,6 +1,6 @@
 """cellsnail.core.morse_filter
 ==============================
-Adaptive Beltrami-Morse filter with automatic diagnostic regime estimation,
+Adaptive 1D Morse filter with automatic diagnostic regime estimation,
 convex low-rank shrinkage prior blending on ultra-sparse UMI counts,
 and boundary-pinned multi-scale plateau smoothing on broad CNVs (v0.2.0).
 
@@ -138,7 +138,7 @@ def compute_spatial_mad_floor_256(
 
 
 # ==============================================================================
-# Core Operator: Adaptive Beltrami-Morse Filter (v0.2.0)
+# Core Operator: Adaptive 1D Morse Filter (v0.2.0)
 # ==============================================================================
 
 def morse_dropout_filter(
@@ -203,8 +203,8 @@ def morse_dropout_filter(
             salience[~np.isfinite(salience)] = np.float32(0.0)
 
             curv_x = np.abs(p10 + p12 - two * p11)
-            is_washout = (p11 > np.float32(0.85)) & (curv_x < np.float32(0.04))
-            salience[is_washout] = np.float32(0.0)
+            is_spurious_dropout = (p11 > np.float32(0.85)) & (curv_x < np.float32(0.04))
+            salience[is_spurious_dropout] = np.float32(0.0)
         flat_arr = salience.ravel()
     elif arr.ndim > 2:
         grads = np.gradient(arr)
@@ -266,7 +266,7 @@ def morse_dropout_filter(
         if prior_matrix is not None and not is_chromosomal and p_thin is not None and p_thin <= 0.25:
             alpha_base = 1.0
 
-        # Restrict chi_focal Morse peak immunity to verified genomic stringers
+        # Restrict chi_focal Morse peak immunity to verified focal amplicons
         if is_chromosomal:
             chi_focal = confirmed.astype(np.float32)
         else:
@@ -317,8 +317,8 @@ def morse_dropout_filter(
     }
 
 
-# Canonical DarkSnail Symbol
-beltrami_morse_gate = morse_dropout_filter
+# Domain-native 1D Morse gate aliases
+morse_gate_1d = morse_dropout_filter
 
 
 # ==============================================================================
@@ -337,10 +337,10 @@ def morse_cnv_filter(
     Boundary-Pinned Multi-Scale Plateau CNV Filter (v0.2.0).
     
     Conquers Regime 2 (Broad Arm CNV Crossover):
-      - On focal stringers (W_bins <= 3): applies pure 3-point Morse gate,
+      - On focal amplicons (W_bins <= 3): applies pure 3-point Morse gate,
         achieving F_edge >= 0.98 with 0 adjacent bin leakage.
       - On broad amplicons / plateaus (W_bins >= 10): applies interior moving
-        average smoothing pinned at step boundaries, reducing interior WGA noise
+        average smoothing pinned at step boundaries, reducing interior noise
         variance by up to 15x (RMSE <= 0.300) without boundary smearing.
     """
     arr = np.asarray(profile, dtype=np.float32).ravel()
@@ -349,7 +349,7 @@ def morse_cnv_filter(
         return {"filtered": arr, "focal_innovations": np.zeros(0, dtype=bool)}
 
     # 1. Base 3-point Morse filtering
-    base_res = beltrami_morse_gate(arr, tau_mad=tau_mad, mode="canonical")
+    base_res = morse_dropout_filter(arr, tau_mad=tau_mad, mode="canonical")
     morse_filtered = base_res["filtered"]
     confirmed = base_res["confirmed_innovations"]
 
@@ -374,7 +374,7 @@ def morse_cnv_filter(
         w = s_end - s_start
 
         if w <= 3:
-            # Focal spike / stringer: preserve exact Morse filtered peak
+            # Focal spike / amplicon: preserve exact Morse filtered peak
             for idx in range(s_start, s_end):
                 if confirmed[idx]:
                     smoothed[idx] = morse_filtered[idx]

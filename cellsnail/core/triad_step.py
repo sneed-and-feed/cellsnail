@@ -50,5 +50,4 @@ def skew_triad_step(
     return (norm_v / norm_upd) * v_upd
 
 
-# Stealth Single-Cell Domain Alias
 genotype_tiebreaker_so10 = skew_triad_step

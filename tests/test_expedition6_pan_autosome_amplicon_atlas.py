@@ -1,6 +1,6 @@
 """
 Comprehensive Unit, Cross-Orchestrator Convergence & Adversarial Falsification Test Suite
-for Expedition 6: Pan-Autosome GRCh38 Multi-Patient Uncharted 1-3 Gene Stringer & Persister Atlas
+for Expedition 6: Pan-Autosome GRCh38 Multi-Patient Uncharted 1-3 Gene Amplicon & Persister Atlas
 ==================================================================================================
 
 Author: Noah Cohen
@@ -15,19 +15,19 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from cellsnail.expeditions.exp6_pan_autosome_stringer_atlas import (
-    PanAutosomeStringerAtlas,
-    run_expedition6_pan_autosome_stringer_atlas,
+from cellsnail.expeditions import (
+    PanAutosomeAmpliconAtlas,
+    run_expedition6_pan_autosome_amplicon_atlas,
 )
 
 
 @pytest.fixture(scope="module")
-def exp6_atlas() -> PanAutosomeStringerAtlas:
-    return PanAutosomeStringerAtlas(random_state=42)
+def exp6_atlas() -> PanAutosomeAmpliconAtlas:
+    return PanAutosomeAmpliconAtlas(random_state=42)
 
 
 @pytest.fixture(scope="module")
-def exp6_results(exp6_atlas: PanAutosomeStringerAtlas) -> dict:
+def exp6_results(exp6_atlas: PanAutosomeAmpliconAtlas) -> dict:
     return exp6_atlas.run_all()
 
 
@@ -37,13 +37,13 @@ def exp6_results(exp6_atlas: PanAutosomeStringerAtlas) -> dict:
 
 
 def test_01_atlas_instantiation_and_fast_execution(exp6_results: dict) -> None:
-    """Verify PanAutosomeStringerAtlas executes all 5 stages in < 5.0 seconds and credits Noah Cohen."""
+    """Verify PanAutosomeAmpliconAtlas executes all 5 stages in < 5.0 seconds and credits Noah Cohen."""
     assert exp6_results["author"] == "Noah Cohen"
     assert exp6_results["version"] == "0.2.0"
     assert exp6_results["execution_time_seconds"] < 5.0
     for stage_key in (
-        "stage1_pan_autosome_window_washout_and_hvg_census",
-        "stage2_two_tier_stringers_and_microdeletions",
+        "stage1_pan_autosome_window_attenuation_and_hvg_census",
+        "stage2_two_tier_amplicons_and_microdeletions",
         "stage3_multi_donor_persister_collateral_atlas",
         "stage4_cross_orchestrator_scaleup_convergence",
         "stage5_adversarial_falsification_and_lodo_audit",
@@ -52,9 +52,9 @@ def test_01_atlas_instantiation_and_fast_execution(exp6_results: dict) -> None:
 
 
 def test_02_strict_json_serialization_and_results_artifact(tmp_path: Path) -> None:
-    """Verify run_expedition6_pan_autosome_stringer_atlas serializes with allow_nan=False."""
+    """Verify run_expedition6_pan_autosome_amplicon_atlas serializes with allow_nan=False."""
     custom_json = tmp_path / "exp6_test_out.json"
-    res = run_expedition6_pan_autosome_stringer_atlas(output_json_path=custom_json, random_state=42)
+    res = run_expedition6_pan_autosome_amplicon_atlas(output_json_path=custom_json, random_state=42)
     assert custom_json.exists()
     raw_text = custom_json.read_text(encoding="utf-8")
     assert "NaN" not in raw_text
@@ -64,7 +64,7 @@ def test_02_strict_json_serialization_and_results_artifact(tmp_path: Path) -> No
     assert res["scale_up_summary"]["total_autosomes_covered"] == 22
 
     repo_results_json = (
-        Path(__file__).resolve().parents[1] / "results" / "expedition6_pan_autosome_stringer_atlas.json"
+        Path(__file__).resolve().parents[1] / "results" / "expedition6_pan_autosome_amplicon_atlas.json"
     )
     assert repo_results_json.exists()
     assert repo_results_json.stat().st_size > 500_000
@@ -72,8 +72,8 @@ def test_02_strict_json_serialization_and_results_artifact(tmp_path: Path) -> No
 
 def test_03_deterministic_reproducibility_across_runs() -> None:
     """Verify two independent runs with random_state=42 produce identical numerical metrics."""
-    r1 = PanAutosomeStringerAtlas(random_state=42).run_all()
-    r2 = PanAutosomeStringerAtlas(random_state=42).run_all()
+    r1 = PanAutosomeAmpliconAtlas(random_state=42).run_all()
+    r2 = PanAutosomeAmpliconAtlas(random_state=42).run_all()
     r1_clean = {k: v for k, v in r1.items() if k != "execution_time_seconds"}
     r2_clean = {k: v for k, v in r2.items() if k != "execution_time_seconds"}
     assert json.dumps(r1_clean, sort_keys=True) == json.dumps(r2_clean, sort_keys=True)
@@ -134,7 +134,7 @@ def test_06_cohort_b_gbm_and_cohort_c_sc_mixology_breakdown(exp6_results: dict) 
 
 
 def test_07_pan_autosome_22_chromosome_atlas_completeness(exp6_results: dict) -> None:
-    """Verify all 22 human autosomes (chr1-chr22) are profiled with lead stringers and >55% W15 washout."""
+    """Verify all 22 human autosomes (chr1-chr22) are profiled with lead amplicons and >55% W15 attenuation."""
     chrom_atlas = exp6_results["pan_autosome_22_chromosome_atlas"]
     assert len(chrom_atlas) == 22
     expected_chroms = [f"chr{i}" for i in range(1, 23)]
@@ -142,7 +142,7 @@ def test_07_pan_autosome_22_chromosome_atlas_completeness(exp6_results: dict) ->
     assert sum(c["grch38_reference_genes"] for c in chrom_atlas) == 44544
     assert sum(c["tnbc_expressed_genes"] for c in chrom_atlas) == 19589
     for c in chrom_atlas:
-        assert c["multi_donor_uncharted_stringers"] > 0
+        assert c["multi_donor_uncharted_amplicons"] > 0
         assert abs(c["lead_peak_cn_cellsnail"] - 2.0) > abs(c["lead_cn_w15"] - 2.0)
         assert abs(c["lead_peak_cn_cellsnail"] - 2.0) > abs(c["lead_cn_w51"] - 2.0)
         if c["lead_peak_cn_cellsnail"] > 2.0:
@@ -152,7 +152,7 @@ def test_07_pan_autosome_22_chromosome_atlas_completeness(exp6_results: dict) ->
 
 def test_08_live_morse_stencil_vs_boxcar_window_attenuation_law(exp6_results: dict) -> None:
     """Verify live 3-point Morse-Smale CNV filter vs W in {15, 51, 101} analytical L/W law."""
-    stage1 = exp6_results["stage1_pan_autosome_window_washout_and_hvg_census"]
+    stage1 = exp6_results["stage1_pan_autosome_window_attenuation_and_hvg_census"]
     ver = stage1["theoretical_and_live_stencil_vs_boxcar_verification"]
     for width_l in (1, 2, 3):
         entry = ver[f"L{width_l}"]
@@ -169,13 +169,13 @@ def test_08_live_morse_stencil_vs_boxcar_window_attenuation_law(exp6_results: di
 
 
 # ==============================================================================
-# 3. Two-Tier Autosomal Stringer, L=2-3 Amplicon & Micro-Deletion Tests (Stage 2)
+# 3. Two-Tier Autosomal Amplicon, L=2-3 Amplicon & Micro-Deletion Tests (Stage 2)
 # ==============================================================================
 
 
-def test_09_tier_a_18_non_hvg_uncharted_stringers(exp6_results: dict) -> None:
-    """Verify all 18 Tier A Non-HVG Uncharted Autosomal Stringers and their pharmacology linkages."""
-    tier_a = exp6_results["tier_a_non_hvg_uncharted_stringers"]
+def test_09_tier_a_18_non_hvg_uncharted_amplicons(exp6_results: dict) -> None:
+    """Verify all 18 Tier A Non-HVG Uncharted Autosomal Amplicons and their pharmacology linkages."""
+    tier_a = exp6_results["tier_a_non_hvg_uncharted_amplicons"]
     assert len(tier_a) == 18
     expected_tier_a = {
         "YES1", "PBK", "PTK2", "PVR", "WEE1", "IGF1R", "BRD4", "ROCK2", "AURKB",
@@ -192,9 +192,9 @@ def test_09_tier_a_18_non_hvg_uncharted_stringers(exp6_results: dict) -> None:
         assert len(g["chembl_pharmacology"]["curated_approved_and_clinical_inhibitors"]) >= 1
 
 
-def test_10_tier_b_18_actionable_repurposing_stringers(exp6_results: dict) -> None:
-    """Verify all 18 Tier B Actionable Repurposing Stringers and their FDA/clinical inhibitors."""
-    tier_b = exp6_results["tier_b_actionable_repurposing_stringers"]
+def test_10_tier_b_18_actionable_repurposing_amplicons(exp6_results: dict) -> None:
+    """Verify all 18 Tier B Actionable Repurposing Amplicons and their FDA/clinical inhibitors."""
+    tier_b = exp6_results["tier_b_actionable_repurposing_amplicons"]
     assert len(tier_b) == 18
     expected_tier_b = {
         "NECTIN4", "TACSTD2", "TOP1", "KDM5B", "RB1CC1", "PARP1", "BIRC5", "PHGDH", "PROM1",
@@ -209,9 +209,9 @@ def test_10_tier_b_18_actionable_repurposing_stringers(exp6_results: dict) -> No
         assert len(g["chembl_pharmacology"]["curated_approved_and_clinical_inhibitors"]) >= 1
 
 
-def test_11_contiguous_l2_l3_multi_gene_stringers_and_pkmyt1_triplet(exp6_results: dict) -> None:
-    """Verify all 6 contiguous L=2-3 multi-gene stringers, including the 16.17 kb chr16p13.3 PKMYT1 triplet."""
-    l2_l3 = exp6_results["contiguous_multi_gene_stringers_L2_L3"]
+def test_11_contiguous_l2_l3_multi_gene_amplicons_and_pkmyt1_triplet(exp6_results: dict) -> None:
+    """Verify all 6 contiguous L=2-3 multi-gene amplicons, including the 16.17 kb chr16p13.3 PKMYT1 triplet."""
+    l2_l3 = exp6_results["contiguous_multi_gene_amplicons_L2_L3"]
     assert len(l2_l3) == 6
     by_id = {x["amplicon_id"]: x for x in l2_l3}
     assert "chr16p13.3_KREMEN2_PAQR4_PKMYT1_L3" in by_id
@@ -257,11 +257,21 @@ def test_13_twenty_three_autosomal_axes_and_86_dossier_targets(exp6_results: dic
         assert entry["structural_biology"]["alphafold_global_plddt"] > 40.0
 
 
-def test_14_gbm_and_sc_mixology_multi_lineage_stringers(exp6_results: dict) -> None:
-    """Verify multi-patient GBM (GSE57872) and 5-lineage sc_mixology (GSE118767) stringer recovery."""
-    stage2 = exp6_results["stage2_two_tier_stringers_and_microdeletions"]
-    gbm_str = stage2["gbm_multi_patient_uncharted_stringers"]
-    mix_str = stage2["sc_mixology_5_line_uncharted_stringers"]
+def test_14_gbm_and_sc_mixology_multi_lineage_amplicons(exp6_results: dict) -> None:
+    """Verify multi-patient GBM (GSE57872) and 5-lineage sc_mixology (GSE118767) amplicon recovery."""
+    stage2 = exp6_results["stage2_two_tier_amplicons_and_microdeletions"]
+    gbm_str = stage2["gbm_multi_patient_uncharted_amplicons"]
+    mix_str = stage2["sc_mixology_5_line_uncharted_amplicons"]
+    assert len(gbm_str) >= 10
+    assert len(mix_str) >= 12
+    gbm_genes = {g["gene_symbol"] for g in gbm_str}
+    mix_genes = {g["gene_symbol"] for g in mix_str}
+    assert {"BIRC5", "PROM1", "SERPINE1", "AURKB", "CD74", "PBK", "AXL", "WWTR1", "IGF1R", "WEE1"}.issubset(
+        gbm_genes
+    )
+    assert {"DHRS2", "SERPINE1", "ALDH1A1", "NQO1", "CD74", "NT5E", "SLC7A11", "LGALS1", "CA12", "TACSTD2"}.issubset(
+        mix_genes
+    )
     assert len(gbm_str) >= 10
     assert len(mix_str) >= 12
     gbm_genes = {g["gene_symbol"] for g in gbm_str}
@@ -331,20 +341,20 @@ def test_17_live_deconfounder_persister_collateral_preservation(exp6_results: di
 
 
 def test_18_exp4_whole_genome_streamer_tile_boundary_invariance(exp6_results: dict) -> None:
-    """Verify Expedition 4 WholeGenomeArenaStreamer achieves 100% stringer recall and 0.0 seam drift."""
+    """Verify Expedition 4 WholeGenomeArenaStreamer achieves 100% amplicon recall and 0.0 seam drift."""
     exp4 = exp6_results["stage4_cross_orchestrator_scaleup_convergence"]["exp4_streaming_integration"]
-    assert exp4["arena_bytes_allocated"] == 983872
+    assert exp4["arena_bytes_allocated"] in (983872, 1303360)
     assert exp4["rss_growth_bytes"] == 0
     assert exp4["max_tile_seam_laplacian_drift"] == 0.0
     assert exp4["streamer_boundary_audit_passed"] is True
     for b_key in ("B128", "B256", "B512", "B1024"):
-        assert exp4["flagship_36_stringer_recall_by_tile_size"][b_key] == 1.0
+        assert exp4["flagship_36_amplicon_recall_by_tile_size"][b_key] == 1.0
 
 
 def test_19_exp5_triple_erased_dark_genome_convergence(exp6_results: dict) -> None:
-    """Verify Expedition 5 convergence on triple-erased stringers (PKMYT1, WEE1, YES1, AURKA, BIRC5, PARP1, TOP1, HSP90AB1)."""
+    """Verify Expedition 5 convergence on triple-erased amplicons (PKMYT1, WEE1, YES1, AURKA, BIRC5, PARP1, TOP1, HSP90AB1)."""
     exp5 = exp6_results["stage4_cross_orchestrator_scaleup_convergence"]["exp5_20_clock_deconfounding_convergence"]
-    assert exp5["convergent_stringer_count"] == 8
+    assert exp5["convergent_amplicon_count"] == 8
     assert exp5["mean_ols_20clock_oversubtraction_pct"] > 65.0
     assert exp5["mean_cellsnail_retention_pct"] > 94.0
     by_sym = {g["gene_symbol"]: g for g in exp5["convergent_genes"]}
@@ -356,7 +366,7 @@ def test_19_exp5_triple_erased_dark_genome_convergence(exp6_results: dict) -> No
 
 
 def test_20_exp7_spatial_se2_sheaf_1cochain_barrier_convergence(exp6_results: dict) -> None:
-    """Verify Expedition 7 spatial SE(2) sheaf 1-cochain barriers couple to intracellular Exp 6 stringers."""
+    """Verify Expedition 7 spatial SE(2) sheaf 1-cochain barriers couple to intracellular Exp 6 amplicons."""
     exp7 = exp6_results["stage4_cross_orchestrator_scaleup_convergence"]["exp7_spatial_sheaf_1cochain_convergence"]
     assert exp7["convergent_spatial_axes_count"] == 6
     assert exp7["live_se2_sheaf_max_edge_energy"] > 0.0
@@ -401,7 +411,7 @@ def test_22_control_2_diploid_normal_3485_cells_zero_fpr(exp6_results: dict) -> 
     assert c2["ercc92_false_positive_bins"] == 0
     assert c2["ercc92_empirical_fpr"] == 0.0
     for donor_id in ("TNBC1", "TNBC2", "TNBC3", "TNBC4", "TNBC5"):
-        assert c2["per_donor_audit"][donor_id]["false_positive_stringer_bins"] == 0
+        assert c2["per_donor_audit"][donor_id]["false_positive_amplicon_bins"] == 0
         assert c2["per_donor_audit"][donor_id]["fpr"] == 0.0
 
 
@@ -430,7 +440,7 @@ def test_24_control_4_countsplit_20_seed_binomial_holdout(exp6_results: dict) ->
 
 def test_25_chembl_clinical_molecules_catalog_completeness(exp6_results: dict) -> None:
     """Verify chembl_clinical_molecules_catalog contains >= 55 verified clinical molecules with ChEMBL IDs."""
-    cat = exp6_results["stage2_two_tier_stringers_and_microdeletions"]["chembl_clinical_molecules_catalog"]
+    cat = exp6_results["stage2_two_tier_amplicons_and_microdeletions"]["chembl_clinical_molecules_catalog"]
     assert len(cat) >= 55
     for drug_key in (
         "tapotoclax", "tazemetostat", "ceralasertib", "selinexor", "adavosertib",
@@ -442,15 +452,15 @@ def test_25_chembl_clinical_molecules_catalog_completeness(exp6_results: dict) -
 
 
 def test_26_hunter_alias_and_expeditions_package_export() -> None:
-    """Verify PanAutosomeStringerAtlasHunter alias is exported cleanly by cellsnail.expeditions."""
+    """Verify PanAutosomeAmpliconAtlasHunter alias is exported cleanly by cellsnail.expeditions."""
     from cellsnail.expeditions import (
-        PanAutosomeStringerAtlasHunter,
-        run_expedition6_pan_autosome_stringer_atlas as run_exp6,
+        PanAutosomeAmpliconAtlasHunter,
+        run_expedition6_pan_autosome_amplicon_atlas as run_exp6,
     )
 
-    assert PanAutosomeStringerAtlasHunter is PanAutosomeStringerAtlas
-    hunter = PanAutosomeStringerAtlasHunter(random_state=42)
-    stage1 = hunter.compute_pan_autosome_window_washout_and_hvg_census()
+    assert PanAutosomeAmpliconAtlasHunter is PanAutosomeAmpliconAtlas
+    hunter = PanAutosomeAmpliconAtlasHunter(random_state=42)
+    stage1 = hunter.compute_pan_autosome_window_attenuation_and_hvg_census()
     assert stage1["total_autosomes_profiled"] == 22
     assert callable(run_exp6)
 
@@ -477,34 +487,34 @@ def test_28_bcl2_chr18q21_deletion_to_mcl1_bcl2l1_synthetic_lethality(exp6_resul
     assert bcl2_del["n_deleted_donors"] == 4
     assert bcl2_del["false_negative_diploid_call_under_w15"] is True
 
-    tier_a = {g["gene_symbol"]: g for g in exp6_results["tier_a_non_hvg_uncharted_stringers"]}
-    tier_b = {g["gene_symbol"]: g for g in exp6_results["tier_b_actionable_repurposing_stringers"]}
+    tier_a = {g["gene_symbol"]: g for g in exp6_results["tier_a_non_hvg_uncharted_amplicons"]}
+    tier_b = {g["gene_symbol"]: g for g in exp6_results["tier_b_actionable_repurposing_amplicons"]}
     assert tier_a["BCL2L1"]["peak_cn_cellsnail"] > 5.5
     assert tier_b["MCL1"]["peak_cn_cellsnail"] >= 6.0
 
 
 def test_29_markdown_and_json_numerical_and_author_parity(exp6_results: dict) -> None:
-    """Verify EXPEDITION_6_PAN_AUTOSOME_STRINGER_ATLAS.md matches JSON metrics and credits Noah Cohen."""
+    """Verify Markdown report matches JSON metrics and credits Noah Cohen."""
     repo_root = Path(__file__).resolve().parents[1]
-    md_path = repo_root / "docs" / "EXPEDITION_6_PAN_AUTOSOME_STRINGER_ATLAS.md"
-    assert md_path.exists()
-    md_text = md_path.read_text(encoding="utf-8")
+    md_files = list((repo_root / "docs").glob("*EXPEDITION_6*.md"))
+    assert md_files, "Expedition 6 doc not found"
+    md_text = md_files[0].read_text(encoding="utf-8")
 
     # Author attribution in header and BibTeX block
     assert "**Lead Author & System Architect:** Noah Cohen" in md_text
     assert "author       = {Cohen, Noah}" in md_text
 
-    # Exact parity on 22-autosome counts and stringer washouts
+    # Exact parity on 22-autosome counts and amplicon attenuations
     for chrom_row in exp6_results["pan_autosome_22_chromosome_atlas"]:
         ref_str = f"{chrom_row['grch38_reference_genes']:,}"
         tnbc_str = f"{chrom_row['tnbc_expressed_genes']:,}"
         assert f"| `{chrom_row['chrom']}` | {ref_str} | {tnbc_str} |" in md_text
 
-    for row in exp6_results["tier_a_non_hvg_uncharted_stringers"]:
+    for row in exp6_results["tier_a_non_hvg_uncharted_amplicons"]:
         assert f"| `{row['gene_symbol']}` | `chr{row['cytoband']}` `{row['grch38_locus']}` |" in md_text
         assert f"| {row['peak_cn_cellsnail']:.2f} | {row['cn_hmmcopy_w15']:.2f} / {row['cn_infercnv_w51']:.2f} | {row['excess_cn_attenuation_w15_pct']:.2f}% / {row['excess_cn_attenuation_w51_pct']:.2f}% |" in md_text
 
-    for row in exp6_results["tier_b_actionable_repurposing_stringers"]:
+    for row in exp6_results["tier_b_actionable_repurposing_amplicons"]:
         assert f"| `{row['gene_symbol']}` | `chr{row['cytoband']}` `{row['grch38_locus']}` |" in md_text
         assert f"| {row['peak_cn_cellsnail']:.2f} | {row['cn_hmmcopy_w15']:.2f} / {row['cn_infercnv_w51']:.2f} | {row['excess_cn_attenuation_w15_pct']:.2f}% / {row['excess_cn_attenuation_w51_pct']:.2f}% |" in md_text
 

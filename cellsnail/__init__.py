@@ -1,12 +1,13 @@
-"""cellsnail: Standalone, zero-dependency, proof-carrying multi-omic single-cell data science spoke repository.
-
-Exposes canonical DarkSnail mathematical symbols and stealth single-cell bioinformatics aliases.
+"""cellsnail: 1D chromosomal copy number variation and focal amplicon detection in single-cell genomics.
 """
 
 from cellsnail.operators import (
     CellSnailEngine,
-    # Canonical DarkSnail names
-    beltrami_morse_gate,
+    morse_gate_1d,
+    morse_gate_genomic,
+    validate_genomic_coordinates,
+    validate_genomic_intervals,
+    GenomicInterval,
     compute_spatial_mad_floor_256,
     continuity_clutter_filter,
     skew_triad_step,
@@ -15,7 +16,6 @@ from cellsnail.operators import (
     kelvin_mandel_so6_rotor,
     build_kelvin_mandel_so6_rotor,
     rotate_stiffness_so6,
-    # Stealth single-cell bioinformatics aliases
     morse_dropout_filter,
     morse_cnv_filter,
     cell_cycle_deconfounder,
@@ -32,6 +32,24 @@ from cellsnail.operators import (
     estimate_missingness,
     ledoit_wolf_shrinkage_so6,
     sigmoidal_shrinkage_weight,
+    # 3D Structural Operators & Canonical Symbols (Theorems 2.20–2.22)
+    cryoem_sidechain_morse_filter,
+    contact_sheaf_se3_step,
+    allosteric_pocket_sheaf_solver,
+    cayley_rotor_so3_torsion,
+    ramachandran_cayley_integrator,
+    jordan_3d_cavity_betti,
+    cryptic_pocket_topology_audit,
+    CryoEMMorseFilter3D,
+    ContactSheafSE3,
+    CayleyRamachandranRotor,
+    JordanCavityBetti,
+    ulp_polish_vec3,
+    # Formal Invariant Verifiers
+    verify_all_theorems,
+    verify_se3_allosteric_coboundary,
+    verify_cayley_so3_ramachandran_norm,
+    verify_cryoem_3d_morse_shield,
 )
 from cellsnail.io import (
     SingleCellContainer,
@@ -43,9 +61,18 @@ from cellsnail.io import (
     write_csv,
     read_h5ad,
     write_h5ad,
+    # 3D Structural & Density I/O
+    stream_mrc_slabs,
+    read_mrc_header,
+    write_mrc,
+    MRCSlab,
+    parse_pdb_structure,
+    export_pdb_structure,
+    PDBStructure,
 )
 from cellsnail.discovery import (
     DiscoveryEngine,
+    discover_focal_cnvs,
     run_discovery_pipeline,
 )
 from cellsnail.benchmark import (
@@ -54,30 +81,35 @@ from cellsnail.benchmark import (
     run_mode_b_blind_cross_validation,
 )
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 __author__ = "Noah Cohen"
 __license__ = "CC0-1.0"
 
 __all__ = [
     "CellSnailEngine",
-    # Canonical symbols
-    "beltrami_morse_gate",
-    "compute_spatial_mad_floor_256",
-    "continuity_clutter_filter",
-    "skew_triad_step",
-    "slow_fast_cascade_k16",
-    "contact_sheaf_se2_step",
-    "kelvin_mandel_so6_rotor",
-    "build_kelvin_mandel_so6_rotor",
-    "rotate_stiffness_so6",
-    # Stealth bioinformatics aliases
+    # 1D Morse Filtering
+    "morse_gate_1d",
+    "morse_gate_genomic",
+    "validate_genomic_coordinates",
+    "validate_genomic_intervals",
+    "GenomicInterval",
     "morse_dropout_filter",
     "morse_cnv_filter",
+    "compute_spatial_mad_floor_256",
+    # Single-Cell Deconfounding & Cascades
+    "continuity_clutter_filter",
     "cell_cycle_deconfounder",
+    "skew_triad_step",
     "genotype_tiebreaker_so10",
+    "slow_fast_cascade_k16",
     "pseudotime_spherical_cascade",
+    # Spatial Sheaf & Multiomic Rotor
+    "contact_sheaf_se2_step",
     "spatial_tissue_sheaf_solver",
+    "kelvin_mandel_so6_rotor",
     "multiomic_covariance_rotor",
+    "build_kelvin_mandel_so6_rotor",
+    "rotate_stiffness_so6",
     "SE2CellularSheaf",
     "SO6MultiModalBundle",
     "estimate_umi_depth",
@@ -86,6 +118,24 @@ __all__ = [
     "estimate_missingness",
     "ledoit_wolf_shrinkage_so6",
     "sigmoidal_shrinkage_weight",
+    # 3D Structural Operators & Canonical Symbols (Theorems 2.20–2.22)
+    "cryoem_sidechain_morse_filter",
+    "contact_sheaf_se3_step",
+    "allosteric_pocket_sheaf_solver",
+    "cayley_rotor_so3_torsion",
+    "ramachandran_cayley_integrator",
+    "jordan_3d_cavity_betti",
+    "cryptic_pocket_topology_audit",
+    "CryoEMMorseFilter3D",
+    "ContactSheafSE3",
+    "CayleyRamachandranRotor",
+    "JordanCavityBetti",
+    "ulp_polish_vec3",
+    # Formal Invariant Verifiers
+    "verify_all_theorems",
+    "verify_se3_allosteric_coboundary",
+    "verify_cayley_so3_ramachandran_norm",
+    "verify_cryoem_3d_morse_shield",
     # I/O
     "SingleCellContainer",
     "read_mtx",
@@ -96,8 +146,16 @@ __all__ = [
     "write_csv",
     "read_h5ad",
     "write_h5ad",
+    "stream_mrc_slabs",
+    "read_mrc_header",
+    "write_mrc",
+    "MRCSlab",
+    "parse_pdb_structure",
+    "export_pdb_structure",
+    "PDBStructure",
     # Discovery
     "DiscoveryEngine",
+    "discover_focal_cnvs",
     "run_discovery_pipeline",
     # Benchmarks
     "binomial_count_split",

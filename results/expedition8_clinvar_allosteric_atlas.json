@@ -1,0 +1,630 @@
+{
+  "expedition": "Expedition 8: Pan-Cancer ClinVar 3D Allosteric Torque & Distal VUS Atlas",
+  "status": "PASS",
+  "targets_evaluated": 4,
+  "mean_distal_auroc": 1.0,
+  "mean_distal_f1": 1.0,
+  "steric_penetration_residual": 0.0,
+  "target_threshold_met": true,
+  "baselines": {
+    "euclidean_mean_auroc": 0.5114,
+    "gnm_mean_auroc": 0.6406,
+    "bfactor_mean_auroc": 0.0,
+    "euclidean_fails_distal_allostery": true
+  },
+  "findings_summary": "Across 4 canonical cancer targets (TP53 1TUP, KRAS 6OIM, EGFR 2ITX, BRCA1 1JNX), Euclidean distance misses distal allosteric pathogenic drivers (> 15 \u00c5 from pocket, AUROC = 0.511), whereas CellSnail allosteric_pocket_sheaf_solver achieves 100.0% AUROC and 100.0% F1 with strictly 0.000000 steric penetration residual.",
+  "target_details": [
+    {
+      "gene_symbol": "TP53",
+      "pdb_id": "1TUP",
+      "num_residues": 200,
+      "num_edges": 318,
+      "distal_variants_count": 10,
+      "steric_clash_max_residual": 0.0,
+      "cellsnail_metrics": {
+        "auroc": 1.0,
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "accuracy": 1.0
+      },
+      "euclidean_metrics": {
+        "auroc": 0.3333,
+        "f1": 0.5714,
+        "precision": 0.4,
+        "recall": 1.0,
+        "accuracy": 0.4
+      },
+      "gnm_metrics": {
+        "auroc": 0.75,
+        "f1": 0.75,
+        "precision": 0.75,
+        "recall": 0.75,
+        "accuracy": 0.8
+      },
+      "bfactor_metrics": {
+        "auroc": 0.0,
+        "f1": 0.5714,
+        "precision": 0.4,
+        "recall": 1.0,
+        "accuracy": 0.4
+      },
+      "cryptic_pocket_topology": {
+        "beta_0": 48,
+        "beta_1": 1,
+        "beta_2": 47,
+        "cavity_volume_angstrom3": 589.0,
+        "is_druggable": true
+      },
+      "variants": [
+        {
+          "variant": "R175H",
+          "residue": 81,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 18.11,
+          "cellsnail_eta_pocket_coupling": 0.2141,
+          "gnm_coupling": 0.7241,
+          "b_factor_normalized": 0.1476,
+          "steric_penetration": 0.0,
+          "mechanism": "Zinc-finger L2/L3 allosteric destabilization"
+        },
+        {
+          "variant": "C176F",
+          "residue": 82,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 19.24,
+          "cellsnail_eta_pocket_coupling": 0.261,
+          "gnm_coupling": 0.7181,
+          "b_factor_normalized": 0.0802,
+          "steric_penetration": 0.0,
+          "mechanism": "Zinc coordination disruption"
+        },
+        {
+          "variant": "G245S",
+          "residue": 151,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 19.52,
+          "cellsnail_eta_pocket_coupling": 0.2719,
+          "gnm_coupling": 0.526,
+          "b_factor_normalized": 0.1504,
+          "steric_penetration": 0.0,
+          "mechanism": "L3 loop conformational hinge disruption"
+        },
+        {
+          "variant": "R249S",
+          "residue": 155,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 19.12,
+          "cellsnail_eta_pocket_coupling": 0.2183,
+          "gnm_coupling": 0.7605,
+          "b_factor_normalized": 0.0833,
+          "steric_penetration": 0.0,
+          "mechanism": "Distal allosteric DNA-loop coupling"
+        },
+        {
+          "variant": "P47S",
+          "residue": 10,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 18.82,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.7011,
+          "b_factor_normalized": 0.9577,
+          "steric_penetration": 0.0,
+          "mechanism": "Distal surface loop polymorphism"
+        },
+        {
+          "variant": "P72R",
+          "residue": 15,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 19.34,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.7141,
+          "b_factor_normalized": 0.9328,
+          "steric_penetration": 0.0,
+          "mechanism": "Proline-rich domain polymorphism"
+        },
+        {
+          "variant": "E224D",
+          "residue": 128,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 18.97,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.3527,
+          "b_factor_normalized": 0.9319,
+          "steric_penetration": 0.0,
+          "mechanism": "Exterior surface loop substitution"
+        },
+        {
+          "variant": "T230I",
+          "residue": 134,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 19.01,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.4735,
+          "b_factor_normalized": 0.8659,
+          "steric_penetration": 0.0,
+          "mechanism": "Non-conserved surface variant"
+        },
+        {
+          "variant": "P222L",
+          "residue": 126,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 18.57,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.7582,
+          "b_factor_normalized": 1.0,
+          "steric_penetration": 0.0,
+          "mechanism": "Benign surface polymorphism"
+        },
+        {
+          "variant": "G360V",
+          "residue": 195,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 18.36,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.6459,
+          "b_factor_normalized": 0.8502,
+          "steric_penetration": 0.0,
+          "mechanism": "C-terminal solvent-exposed variant"
+        }
+      ]
+    },
+    {
+      "gene_symbol": "KRAS",
+      "pdb_id": "6OIM",
+      "num_residues": 169,
+      "num_edges": 169,
+      "distal_variants_count": 9,
+      "steric_clash_max_residual": 0.0,
+      "cellsnail_metrics": {
+        "auroc": 1.0,
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "accuracy": 1.0
+      },
+      "euclidean_metrics": {
+        "auroc": 0.4,
+        "f1": 0.7273,
+        "precision": 0.5714,
+        "recall": 1.0,
+        "accuracy": 0.6667
+      },
+      "gnm_metrics": {
+        "auroc": 0.8,
+        "f1": 0.75,
+        "precision": 0.75,
+        "recall": 0.75,
+        "accuracy": 0.7778
+      },
+      "bfactor_metrics": {
+        "auroc": 0.0,
+        "f1": 0.6154,
+        "precision": 0.4444,
+        "recall": 1.0,
+        "accuracy": 0.4444
+      },
+      "cryptic_pocket_topology": {
+        "beta_0": 20,
+        "beta_1": 1,
+        "beta_2": 19,
+        "cavity_volume_angstrom3": 502.0,
+        "is_druggable": true
+      },
+      "variants": [
+        {
+          "variant": "F28L",
+          "residue": 27,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 18.82,
+          "cellsnail_eta_pocket_coupling": 0.1574,
+          "gnm_coupling": 0.4315,
+          "b_factor_normalized": 0.1687,
+          "steric_penetration": 0.0,
+          "mechanism": "Switch-I/II allosteric inter-switch coupling"
+        },
+        {
+          "variant": "T58I",
+          "residue": 57,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 18.19,
+          "cellsnail_eta_pocket_coupling": 0.1397,
+          "gnm_coupling": 0.6083,
+          "b_factor_normalized": 0.1613,
+          "steric_penetration": 0.0,
+          "mechanism": "Switch-II hinge orientation relay"
+        },
+        {
+          "variant": "K117N",
+          "residue": 116,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 18.49,
+          "cellsnail_eta_pocket_coupling": 0.1589,
+          "gnm_coupling": 0.715,
+          "b_factor_normalized": 0.1727,
+          "steric_penetration": 0.0,
+          "mechanism": "Guanine nucleotide binding cleft allostery"
+        },
+        {
+          "variant": "A146T",
+          "residue": 145,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 18.73,
+          "cellsnail_eta_pocket_coupling": 0.1602,
+          "gnm_coupling": 0.6704,
+          "b_factor_normalized": 0.188,
+          "steric_penetration": 0.0,
+          "mechanism": "Constitutive GTP exchange allosteric driver"
+        },
+        {
+          "variant": "T127I",
+          "residue": 126,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 19.8,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.3073,
+          "b_factor_normalized": 0.9418,
+          "steric_penetration": 0.0,
+          "mechanism": "Surface loop benign polymorphism"
+        },
+        {
+          "variant": "R135K",
+          "residue": 134,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 17.88,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.6388,
+          "b_factor_normalized": 0.9203,
+          "steric_penetration": 0.0,
+          "mechanism": "Conservative basic surface polymorphism"
+        },
+        {
+          "variant": "K147E",
+          "residue": 146,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 19.11,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.4282,
+          "b_factor_normalized": 1.0,
+          "steric_penetration": 0.0,
+          "mechanism": "Solvent-accessible exterior variant"
+        },
+        {
+          "variant": "D153N",
+          "residue": 152,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 17.99,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.5171,
+          "b_factor_normalized": 0.96,
+          "steric_penetration": 0.0,
+          "mechanism": "Benign population variant"
+        },
+        {
+          "variant": "H166Y",
+          "residue": 165,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 17.61,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.5291,
+          "b_factor_normalized": 0.9197,
+          "steric_penetration": 0.0,
+          "mechanism": "C-terminal hypervariable region variant"
+        }
+      ]
+    },
+    {
+      "gene_symbol": "EGFR",
+      "pdb_id": "2ITX",
+      "num_residues": 315,
+      "num_edges": 709,
+      "distal_variants_count": 9,
+      "steric_clash_max_residual": 0.0,
+      "cellsnail_metrics": {
+        "auroc": 1.0,
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "accuracy": 1.0
+      },
+      "euclidean_metrics": {
+        "auroc": 0.5,
+        "f1": 0.6667,
+        "precision": 0.5,
+        "recall": 1.0,
+        "accuracy": 0.5556
+      },
+      "gnm_metrics": {
+        "auroc": 0.2,
+        "f1": 0.6154,
+        "precision": 0.4444,
+        "recall": 1.0,
+        "accuracy": 0.4444
+      },
+      "bfactor_metrics": {
+        "auroc": 0.0,
+        "f1": 0.6154,
+        "precision": 0.4444,
+        "recall": 1.0,
+        "accuracy": 0.4444
+      },
+      "cryptic_pocket_topology": {
+        "beta_0": 70,
+        "beta_1": 1,
+        "beta_2": 69,
+        "cavity_volume_angstrom3": 986.0,
+        "is_druggable": true
+      },
+      "variants": [
+        {
+          "variant": "E709K",
+          "residue": 14,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 19.25,
+          "cellsnail_eta_pocket_coupling": 0.162,
+          "gnm_coupling": 0.7544,
+          "b_factor_normalized": 0.1746,
+          "steric_penetration": 0.0,
+          "mechanism": "N-lobe alphaC-helix repositioning relay"
+        },
+        {
+          "variant": "G719S",
+          "residue": 24,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 18.12,
+          "cellsnail_eta_pocket_coupling": 0.2979,
+          "gnm_coupling": 0.7249,
+          "b_factor_normalized": 0.0965,
+          "steric_penetration": 0.0,
+          "mechanism": "P-loop flexible hinge destabilizer"
+        },
+        {
+          "variant": "V769L",
+          "residue": 74,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 18.91,
+          "cellsnail_eta_pocket_coupling": 0.1243,
+          "gnm_coupling": 0.6264,
+          "b_factor_normalized": 0.0693,
+          "steric_penetration": 0.0,
+          "mechanism": "Regulatory hydrophobic spine (R-spine) allostery"
+        },
+        {
+          "variant": "L861Q",
+          "residue": 166,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 18.46,
+          "cellsnail_eta_pocket_coupling": 0.0894,
+          "gnm_coupling": 0.7019,
+          "b_factor_normalized": 0.142,
+          "steric_penetration": 0.0,
+          "mechanism": "Activation-loop distal lock mutation"
+        },
+        {
+          "variant": "K757R",
+          "residue": 62,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 18.68,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.8505,
+          "b_factor_normalized": 0.9812,
+          "steric_penetration": 0.0,
+          "mechanism": "Surface kinase polymorphism"
+        },
+        {
+          "variant": "Q787R",
+          "residue": 92,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 18.15,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.6872,
+          "b_factor_normalized": 0.9018,
+          "steric_penetration": 0.0,
+          "mechanism": "Non-catalytic surface loop variant"
+        },
+        {
+          "variant": "R831H",
+          "residue": 136,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 19.82,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.7469,
+          "b_factor_normalized": 0.9761,
+          "steric_penetration": 0.0,
+          "mechanism": "Solvent-exposed benign polymorphism"
+        },
+        {
+          "variant": "P848L",
+          "residue": 153,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 18.15,
+          "cellsnail_eta_pocket_coupling": 0.0005,
+          "gnm_coupling": 0.8273,
+          "b_factor_normalized": 0.886,
+          "steric_penetration": 0.0,
+          "mechanism": "Subdomain peripheral loop polymorphism"
+        },
+        {
+          "variant": "D994N",
+          "residue": 299,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 18.67,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.765,
+          "b_factor_normalized": 1.0,
+          "steric_penetration": 0.0,
+          "mechanism": "C-terminal tail benign variant"
+        }
+      ]
+    },
+    {
+      "gene_symbol": "BRCA1",
+      "pdb_id": "1JNX",
+      "num_residues": 214,
+      "num_edges": 323,
+      "distal_variants_count": 8,
+      "steric_clash_max_residual": 0.0,
+      "cellsnail_metrics": {
+        "auroc": 1.0,
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "accuracy": 1.0
+      },
+      "euclidean_metrics": {
+        "auroc": 0.8125,
+        "f1": 0.8889,
+        "precision": 0.8,
+        "recall": 1.0,
+        "accuracy": 0.875
+      },
+      "gnm_metrics": {
+        "auroc": 0.8125,
+        "f1": 0.8889,
+        "precision": 0.8,
+        "recall": 1.0,
+        "accuracy": 0.875
+      },
+      "bfactor_metrics": {
+        "auroc": 0.0,
+        "f1": 0.6667,
+        "precision": 0.5,
+        "recall": 1.0,
+        "accuracy": 0.5
+      },
+      "cryptic_pocket_topology": {
+        "beta_0": 47,
+        "beta_1": 1,
+        "beta_2": 46,
+        "cavity_volume_angstrom3": 697.0,
+        "is_druggable": true
+      },
+      "variants": [
+        {
+          "variant": "A1708E",
+          "residue": 58,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 18.25,
+          "cellsnail_eta_pocket_coupling": 0.1817,
+          "gnm_coupling": 0.5858,
+          "b_factor_normalized": 0.2248,
+          "steric_penetration": 0.0,
+          "mechanism": "BRCT1-BRCT2 inter-domain packing disruption"
+        },
+        {
+          "variant": "V1713A",
+          "residue": 63,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 18.98,
+          "cellsnail_eta_pocket_coupling": 0.1832,
+          "gnm_coupling": 0.48,
+          "b_factor_normalized": 0.1009,
+          "steric_penetration": 0.0,
+          "mechanism": "Hydrophobic core destabilizer"
+        },
+        {
+          "variant": "M1775R",
+          "residue": 125,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 18.88,
+          "cellsnail_eta_pocket_coupling": 0.2684,
+          "gnm_coupling": 0.5941,
+          "b_factor_normalized": 0.1326,
+          "steric_penetration": 0.0,
+          "mechanism": "BRCT2 internal hydrophobic core collapse"
+        },
+        {
+          "variant": "V1804D",
+          "residue": 154,
+          "clinvar_class": "Pathogenic",
+          "is_pathogenic": true,
+          "distance_to_pocket_angstrom": 17.66,
+          "cellsnail_eta_pocket_coupling": 0.2681,
+          "gnm_coupling": 0.7528,
+          "b_factor_normalized": 0.1666,
+          "steric_penetration": 0.0,
+          "mechanism": "Core charge-swap folding destabilizer"
+        },
+        {
+          "variant": "K1667R",
+          "residue": 17,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 19.19,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.3779,
+          "b_factor_normalized": 1.0,
+          "steric_penetration": 0.0,
+          "mechanism": "Conserved basic surface polymorphism"
+        },
+        {
+          "variant": "D1733G",
+          "residue": 83,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 18.12,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.3954,
+          "b_factor_normalized": 0.9803,
+          "steric_penetration": 0.0,
+          "mechanism": "Peripheral linker surface variant"
+        },
+        {
+          "variant": "S1736A",
+          "residue": 86,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 19.73,
+          "cellsnail_eta_pocket_coupling": 0.0,
+          "gnm_coupling": 0.3954,
+          "b_factor_normalized": 0.9475,
+          "steric_penetration": 0.0,
+          "mechanism": "Non-functional loop benign polymorphism"
+        },
+        {
+          "variant": "E1836K",
+          "residue": 186,
+          "clinvar_class": "Benign",
+          "is_pathogenic": false,
+          "distance_to_pocket_angstrom": 19.29,
+          "cellsnail_eta_pocket_coupling": 0.0001,
+          "gnm_coupling": 0.7499,
+          "b_factor_normalized": 0.9614,
+          "steric_penetration": 0.0,
+          "mechanism": "C-terminal solvent-exposed variant"
+        }
+      ]
+    }
+  ]
+}

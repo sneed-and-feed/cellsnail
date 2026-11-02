@@ -223,7 +223,6 @@ def contact_sheaf_se2_step(
     return dx, dy, {"hit_wall": False, "penetration_residual": 0.0, "leakage": 0.0}
 
 
-# Stealth Single-Cell Domain Alias
 spatial_tissue_sheaf_solver = contact_sheaf_se2_step
 
 

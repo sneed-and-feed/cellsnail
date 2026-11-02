@@ -1,7 +1,7 @@
 # Proof-Carrying Multi-Omic Single-Cell Data Science: A Mathematical Synthesis of the Eleven Grand Challenges and Post-2020 Advances (2020–2026)
 
 **Author**: Noah Cohen  
-**Affiliation**: DarkSnail / `triad-core` Spoke Constellation  
+**Affiliation**: CellSnail Spoke Constellation  
 **Target Architecture**: `cellsnail` (`https://github.com/sneed-and-feed/cellsnail`)  
 **Publication Date**: October 2026  
 **Document Classification**: Exhaustive Post-2020 Research Synthesis and Formal Operator Specification  
@@ -12,7 +12,7 @@
 
 Single-cell data science (SCDS) has experienced a paradigm shift since the foundational articulation of the Eleven Grand Challenges by Lähnemann et al. (Genome Biology 2020, 21:31). Between 2020 and 2026, the transition from shallow, single-modality assays to high-throughput multi-omics (co-assayed scDNA+scRNA, single-cell spatial transcriptomics, and epigenomics) exposed deep structural failures in classical computational heuristics. Graph diffusion algorithms (`MAGIC`, `SAVER`) introduce runaway circularity by synthesizing hundreds of false-positive gene correlations into independent molecular controls. Post-clustering differential expression tests commit catastrophic selective inference ("double dipping"), driving empirical false discovery rates toward 100%. Euler-integrated RNA velocity vectors (`scVelo`) experience directional blowup and pseudotime divergence on high-dimensional manifolds. Spatial transcriptomics at sub-cellular resolution (`MERFISH`, `CosMx`, `Xenium`) suffers from optical crowding and isotropic diffusion smearing across cell membranes. Single-cell DNA sequencing (scDNA-seq) whole-genome amplification (WGA) induces severe allelic dropout (ADO) that breaks symmetric distance metrics, while variable-site filtering in tumor phylogenomics introduces ascertainment bias that artificially elongates tip branches and destroys the ultrametric molecular clock.
 
-This synthesis establishes an exhaustive post-2020 literature survey and introduces the mathematical framework of cellsnail, a proof-carrying single-cell multi-omic spoke within the DarkSnail ecosystem. We formally map each of the eleven grand challenges to dual operator pairs that combine canonical geometric mechanics with domain-native bioinformatics interfaces. By replacing unconstrained graph smoothing with discrete Morse salience gates, projector orthogonalization on $\mathcal H_{\mathrm{clock}} \oplus \mathcal H_{\mathrm{nope}}$, cellular sheaf boundary coboundaries in $\mathrm{SE}(2)$, unrolled spherical velocity retractions, and Kelvin-Mandel Voigt rotors in $\mathrm{SO}(6)$, cellsnail guarantees provable invariants: zero spurious correlation injection, exact Type I error control via Poisson count-splitting, zero radial norm drift under logit collisions, bounded pseudotime integration, and strict trace conservation across cross-modal covariance spaces.
+This synthesis establishes an exhaustive post-2020 literature survey and introduces the mathematical framework of cellsnail, a proof-carrying single-cell multi-omic spoke within the CellSnail ecosystem. We formally map each of the eleven grand challenges to dual operator pairs that combine canonical geometric mechanics with domain-native bioinformatics interfaces. By replacing unconstrained graph smoothing with discrete Morse salience gates, projector orthogonalization on $\mathcal H_{\mathrm{clock}} \oplus \mathcal H_{\mathrm{nope}}$, cellular sheaf boundary coboundaries in $\mathrm{SE}(2)$, unrolled spherical velocity retractions, and Kelvin-Mandel Voigt rotors in $\mathrm{SO}(6)$, cellsnail guarantees provable invariants: zero spurious correlation injection, exact Type I error control via Poisson count-splitting, zero radial norm drift under logit collisions, bounded pseudotime integration, and strict trace conservation across cross-modal covariance spaces.
 
 ---
 
@@ -73,12 +73,12 @@ Single-cell DNA sequencing requires whole-genome amplification (WGA) from a sing
 
 #### The Failure Mode: Windowed HMM Smearing and Logit Collisions
 Classical copy-number aberration (CNA) callers such as `HMMcopy`, `Ginkgo`, and `inferCNV` model bin-level read counts via hidden Markov models with transition penalties tuned to megabase-scale segments. Under high technical noise and localized WGA dropout, these algorithms suffer from two critical failures:
-1. Focal Amplicon Erasure: Narrow oncogenic stringers (sub-megabase focal amplicons, such as *EGFR* on chr7p11.2 [0.4 Mb] or *CDK4* on chr12q14.1 [0.3 Mb]) are penalized as single-bin outliers and smoothed into baseline diploid copy numbers ($C = 2$).
+1. Focal Amplicon Erasure: Narrow oncogenic focal amplicons (sub-megabase focal amplicons, such as *EGFR* on chr7p11.2 [0.4 Mb] or *CDK4* on chr12q14.1 [0.3 Mb]) are penalized as single-bin outliers and smoothed into baseline diploid copy numbers ($C = 2$).
 2. Genotype Logit Ambiguity: When calculating log-likelihoods across discrete copy-number and loss-of-heterozygosity (LOH) states (such as 10 discrete states: $1+0, 1+1, 2+0, 2+1, 2+2, 3+0, 3+1, 4+0, 5+0, 6+0$), adjacent states frequently present identical marginal read counts or symmetric B-allele frequency (BAF) deviations, resulting in exact logit collisions $\ell(c_1) = \ell(c_2)$. Classical greedy tie-breaking randomly oscillates between states, destroying clonal boundary definitions.
 
 #### The cellsnail Solution
 The cellsnail architecture addresses C1 through two coupled operators:
-- The Beltrami-Morse Dropout Filter (`morse_dropout_filter`): Evaluates candidate peaks via a 3-point discrete Morse impulse coupled to a 256-sample median absolute deviation (MAD) noise floor. It rejects monotone ramps while shielding isolated focal amplicons with 100% amplitude fidelity.
+- The Discrete Morse Dropout Filter (`morse_dropout_filter`): Evaluates candidate peaks via a 3-point discrete Morse impulse coupled to a 256-sample median absolute deviation (MAD) noise floor. It rejects monotone ramps while shielding isolated focal amplicons with 100% amplitude fidelity.
 - The 10-State Skew Triad Tie-Breaker (`genotype_tiebreaker_so10`): Evaluates candidate state vectors on a unit sphere and applies a skew-antisymmetric bilinear form that resolves logit collisions with exact margin $2 \beta \alpha (W_{c_2 c_1} - W_{c_1 c_2})$ and zero radial norm drift.
 
 ---
@@ -367,9 +367,9 @@ Andrews and Hemberg (2018) proved empirically on ERCC spike-in controls that thi
          Cov(A, B) = 0.00                    Cov(A, B) = +0.87
 ```
 
-### 3.3 The Beltrami-Morse Discrete Impulse Solution
+### 3.3 The Discrete Morse Discrete Impulse Solution
 
-The cellsnail platform replaces graph diffusion with the Beltrami-Morse Dropout Filter (`morse_dropout_filter`). Instead of diffusing values across cells, the filter processes each genomic position or gene channel pointwise through a 3-point discrete Morse operator:
+The cellsnail platform replaces graph diffusion with the Discrete Morse Dropout Filter (`morse_dropout_filter`). Instead of diffusing values across cells, the filter processes each genomic position or gene channel pointwise through a 3-point discrete Morse operator:
 
 ```math
 I_{\mathrm{Morse}}(v, z) = (v(z) - v(z-1)) \cdot (v(z) - v(z+1))
@@ -907,12 +907,12 @@ with exact floating-point precision ($|\Delta \mathrm{Tr}| \le 1.14 \times 10^{-
 
 The following matrix formally links each Grand Challenge and post-2020 failure mode to its exact cellsnail dual operator pair, Lean 4 theorem, and proven mathematical invariant:
 
-| Challenge | Post-2020 Literature Failure Mode | Canonical DarkSnail Operator | Bioinformatics Native Alias | Formal Lean 4 Theorem | Proven Mathematical Invariant |
+| Challenge | Post-2020 Literature Failure Mode | Canonical CellSnail Operator | Bioinformatics Native Alias | Formal Lean 4 Theorem | Proven Mathematical Invariant |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **C1** | scDNA WGA dropout & focal amplicon smearing | `beltrami_morse_gate` | `morse_dropout_filter` | Theorem 2.12 | $I_{\mathrm{Morse}} \le 0$ on ramps; shields focal amplicons; 0 spurious correlation |
+| **C1** | scDNA WGA dropout & focal amplicon smearing | `morse_dropout_filter` | `morse_dropout_filter` | Theorem 2.12 | $I_{\mathrm{Morse}} \le 0$ on ramps; shields focal amplicons; 0 spurious correlation |
 | **C1** | 10-state genotype logit collisions | `skew_triad_step` | `genotype_tiebreaker_so10` | Theorem 2.2 | Breaks collisions with margin $2\beta\alpha\Delta W$; $0.000\mathrm{e}{+}00$ radial drift |
 | **C2** | Ascertainment bias from variable-site filtering | `ascertainment_condenser` | `ultrametric_site_condenser` | Theorem 2.14 | Preserves 3-point ultrametric condition $d \le \max$; root-to-tip height constant |
-| **C3** | Imputation circularity & false gene correlations | `beltrami_morse_gate` | `morse_dropout_filter` | Theorem 2.12 | Pointwise separable filter; $\mathrm{Cov}(f_1, f_2) \equiv 0$ on independent spike-ins |
+| **C3** | Imputation circularity & false gene correlations | `morse_dropout_filter` | `morse_dropout_filter` | Theorem 2.12 | Pointwise separable filter; $\mathrm{Cov}(f_1, f_2) \equiv 0$ on independent spike-ins |
 | **C4** | Post-clustering selective inference double dipping | `poisson_count_split` | `countsplit_thinning` | Theorem 2.13 | $X^{(1)} \perp X^{(2)} \mid \lambda$; restores exact Type I error control $\alpha \le 0.05$ |
 | **C5** | Batch over-correction & cell-cycle confounding | `continuity_clutter_filter`| `cell_cycle_deconfounder` | Theorem 2.13 | $\mathcal H_{\mathrm{clock}} \oplus \mathcal H_{\mathrm{nope}}$ orthogonality; $\langle Px, (I-P)y \rangle = 0$; Pythagorean sum |
 | **C6** | RNA velocity runaway blowup & manifold drift | `slow_fast_cascade_k16` | `pseudotime_spherical_cascade` | Theorem 2.6 | 16-step unrolled spherical retraction; isometric norm $\Vert v_{16} \Vert \equiv \Vert v_0 \Vert$ |
@@ -1049,7 +1049,7 @@ The cellsnail architecture replaces empirical heuristics with proof-carrying geo
 - Ascertainment site condensation restores the ultrametric molecular clock in somatic phylogenomics.
 - $\mathrm{SO}(6)$ Kelvin-Mandel rotors factorize cross-modal genomic driver loci from buffered passenger genes with exact trace conservation.
 
-Together, these operators form the foundation of cellsnail: a mathematically sound, hardware-efficient, and biologically deconfounded spoke in the DarkSnail ecosystem.
+Together, these operators form the foundation of cellsnail: a mathematically sound, hardware-efficient, and biologically deconfounded spoke in the CellSnail ecosystem.
 
 ---
 

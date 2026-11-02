@@ -458,7 +458,7 @@ def test_10_section4_multi_slide_4_patient_gse144239_replication(
 def test_11_section5_quad_engine_cross_orchestrator_convergence(
     exp7_scanner_and_results: Dict[str, Any],
 ) -> None:
-    """Verify cross-orchestrator bridges to Exp 4 (SRAM streaming), Exp 5 (Delta_20clock), and Exp 6 (GRCh38 stringers)."""
+    """Verify cross-orchestrator bridges to Exp 4 (SRAM streaming), Exp 5 (Delta_20clock), and Exp 6 (GRCh38 amplicons)."""
     sec5 = exp7_scanner_and_results["results"][
         "section5_quad_engine_cross_orchestrator_convergence"
     ]
@@ -474,8 +474,8 @@ def test_11_section5_quad_engine_cross_orchestrator_convergence(
     assert e4["n_column_tiles_17138_genes"] == 106
     assert e4["max_abs_diff_vs_full_slide_sheaf"] == 0.0
     assert e4["dynamic_heap_allocations"] == 0
-    assert e4["pseudobulk50_cscc_spatial_polarity_washout_mean_pct"] == pytest.approx(84.17, abs=0.02)
-    assert e4["pseudobulk50_cscc_spatial_polarity_washout_top15_pct"] == pytest.approx(91.99, abs=0.02)
+    assert e4["pseudobulk50_cscc_spatial_polarity_attenuation_mean_pct"] == pytest.approx(84.17, abs=0.02)
+    assert e4["pseudobulk50_cscc_spatial_polarity_attenuation_top15_pct"] == pytest.approx(91.99, abs=0.02)
 
     # Exp 5 temporal Delta_20clock bridge
     e5 = sec5["exp5_whole_genome_delta_erasure_bridge"]
@@ -495,8 +495,8 @@ def test_11_section5_quad_engine_cross_orchestrator_convergence(
         assert e5[gene]["cscc_delta_20clock"] == pytest.approx(exp_delta, abs=0.002)
         assert 0.0 < e5[gene]["cellsnail_400_variance_retained_fraction"] <= 1.0
 
-    # Exp 6 pan-autosome GRCh38 stringer bridge
-    e6_by_sym = {x["gene_symbol"]: x for x in sec5["exp6_pan_autosome_grch38_stringer_and_persister_bridge"]}
+    # Exp 6 pan-autosome GRCh38 amplicon bridge
+    e6_by_sym = {x["gene_symbol"]: x for x in sec5["exp6_pan_autosome_grch38_amplicon_and_persister_bridge"]}
     for sym in ["IGF1R", "EPHB4", "TGFBR2", "NT5E", "AXL", "ERBB2", "KDR_PDGFRB_DDR1", "CD74_LGALS1"]:
         assert sym in e6_by_sym
     assert "chr15:98648538-98964530" in e6_by_sym["IGF1R"]["grch38_locus"]

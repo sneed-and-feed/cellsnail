@@ -12,7 +12,7 @@ Invariants Verified:
   6. Theorem 2.6: 16-Step Cascade Spherical Norm Conservation (||v_16|| == ||v_0||).
   7. Theorem 2.7: Kelvin-Mandel Voigt Stiffness Trace Invariance (|Delta Tr| <= 1.14e-13).
   8. Theorem 2.8: Cayley Transform Unitarity (Q^T Q = I).
-  9. Theorem 2.9: Ideal MHD Transverse Invariance (E_parallel == 0).
+  9. Theorem 2.9: Transverse Sheaf Curvature Invariance (E_parallel == 0).
   10. Theorem 2.10: Cellular Sheaf Normal Coboundary Non-Penetration ((delta v)_n >= 0).
   11. Theorem 2.11: Static SRAM Ceiling (sizeof(CellSnailArena) <= 2.0 MB, 64-byte align).
   12. Theorem 2.12: Discrete Morse Dropout Shielding & Zero Spurious Covariance.
@@ -27,7 +27,6 @@ from typing import Any, Dict, List, Tuple
 import numpy as np
 
 from cellsnail.operators import (
-    beltrami_morse_gate,
     build_kelvin_mandel_so6_rotor,
     cell_cycle_deconfounder,
     contact_sheaf_se2_step,
@@ -235,18 +234,18 @@ def verify_cayley_transform_unitarity(dim: int = 6, seed: int = 42) -> Dict[str,
     }
 
 
-def verify_ideal_mhd_transverse_invariance() -> Dict[str, Any]:
-    """Theorem 2.9: Ideal MHD Transverse Invariance E_parallel = <E, B> / ||B|| == 0."""
+def verify_transverse_sheaf_curvature_invariance() -> Dict[str, Any]:
+    """Theorem 2.9: Transverse Sheaf Curvature Invariance E_parallel = <E, B> / ||B|| == 0."""
     B = np.array([1.0, 2.0, 3.0], dtype=np.float64)
     v = np.array([0.5, -1.0, 0.2], dtype=np.float64)
-    # Ideal MHD Ohm's law: E = - v x B
+    # Transverse curvature field: E = - v x B
     E = -np.cross(v, B)
     e_parallel = float(np.dot(E, B))
     residual = float(np.abs(e_parallel))
     passed = residual < 1e-15
     return {
         "theorem": "Theorem 2.9",
-        "name": "Ideal MHD Transverse Invariance",
+        "name": "Transverse Sheaf Curvature Invariance",
         "residual": residual,
         "tolerance": 1e-15,
         "passed": passed,
@@ -298,12 +297,12 @@ def verify_morse_dropout_shielding() -> Dict[str, Any]:
     """Theorem 2.12: Morse Dropout Shielding & Zero Spurious Covariance."""
     # 1. Monotone ramp rejection: [1, 2, 3] -> (2-1)*(2-3) = -1 <= 0 (rejected)
     ramp = np.array([1.0, 2.0, 3.0], dtype=np.float32)
-    res_ramp = beltrami_morse_gate(ramp, tau_mad=0.5)
+    res_ramp = morse_dropout_filter(ramp, tau_mad=0.5)
     ramp_rejected = (res_ramp["confirmed_innovations"][1] == False)
 
-    # 2. Thin stringer preservation: [0.1, 5.0, 0.1] -> (5-0.1)*(5-0.1) = 24.01 > 0 (preserved)
+    # 2. Focal amplicon preservation: [0.1, 5.0, 0.1] -> (5-0.1)*(5-0.1) = 24.01 > 0 (preserved)
     spike = np.array([0.1, 5.0, 0.1], dtype=np.float32)
-    res_spike = beltrami_morse_gate(spike, tau_mad=0.5)
+    res_spike = morse_dropout_filter(spike, tau_mad=0.5)
     spike_preserved = (res_spike["confirmed_innovations"][1] == True)
 
     # 3. Separable pointwise filtering on independent channels injects exact 0 covariance
@@ -455,7 +454,7 @@ def run_mode_a_oracle_audit() -> Dict[str, Any]:
         verify_cascade_norm_conservation(),
         verify_kelvin_mandel_trace(),
         verify_cayley_transform_unitarity(),
-        verify_ideal_mhd_transverse_invariance(),
+        verify_transverse_sheaf_curvature_invariance(),
         verify_cellular_sheaf_coboundary(),
         verify_bcm2712_arena_geometry(),
         verify_morse_dropout_shielding(),

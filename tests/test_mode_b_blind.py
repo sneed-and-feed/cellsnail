@@ -109,7 +109,7 @@ def test_failure_mode_crossover_sweeps():
 
     cnv_sweep = benchmark_cnv_width_resolution_crossover(random_state=42)
     assert len(cnv_sweep) == 6
-    # Narrow 1-bin focal stringer: cellsnail dominates HMMcopy
+    # Narrow 1-bin focal amplicon: cellsnail dominates HMMcopy
     assert cnv_sweep[0]["bounded_edge_fidelity"]["cellsnail_morse"] > cnv_sweep[0]["bounded_edge_fidelity"]["hmmcopy_infercnv"]
     # Broad 15-bin plateau: HMMcopy reduces interior plateau RMSE
     assert cnv_sweep[-1]["single_cell_plateau_rmse"]["hmmcopy_infercnv"] < cnv_sweep[-1]["single_cell_plateau_rmse"]["cellsnail_unsmoothed_interior"]

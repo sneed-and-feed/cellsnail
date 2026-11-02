@@ -22,7 +22,6 @@ from cellsnail.benchmark.mode_b_blind import (
 from cellsnail.core.morse_filter import (
     morse_dropout_filter,
     morse_cnv_filter,
-    beltrami_morse_gate,
 )
 
 def run_regime1_challenge():

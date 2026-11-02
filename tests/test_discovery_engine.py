@@ -45,11 +45,11 @@ def test_discover_rare_persister_subclones():
     assert len(discovered.intersection(true_persisters)) > 0
 
 
-def test_discover_focal_cnv_stringers():
+def test_discover_focal_cnvs():
     engine = DiscoveryEngine(random_state=42)
     cohort = load_paired_cnv_cohort(n_cells=500, random_state=42)
 
-    receipt = engine.discover_focal_cnv_stringers(
+    receipt = engine.discover_focal_cnvs(
         cohort["dna"].X,
         bin_metadata=cohort["variants"],
     )
@@ -120,7 +120,7 @@ def test_factorize_multiomic_dosage_linkage():
     assert receipt["passenger_subspace_variance"] > 0
 
 
-def test_focal_cnv_stringers_column_permutation_invariance():
+def test_focal_cnvs_column_permutation_invariance():
     engine = DiscoveryEngine(random_state=42)
     cohort = load_paired_cnv_cohort(n_cells=500, random_state=42)
     X_dna = cohort["dna"].X
@@ -134,7 +134,7 @@ def test_focal_cnv_stringers_column_permutation_invariance():
     meta_perm = [variants[i] for i in adv_perm]
 
     # Without genomic coordinate sorting, adjacent focal amplicons collide in the 3-point stencil
-    res_unsorted = engine.discover_focal_cnv_stringers(
+    res_unsorted = engine.discover_focal_cnvs(
         X_perm,
         bin_metadata=meta_perm,
         sort_by_genomic_coords=False,
@@ -143,7 +143,7 @@ def test_focal_cnv_stringers_column_permutation_invariance():
     assert len(unsorted_genes.intersection({"EGFR", "MYC", "CDK4"})) < 3
 
     # With canonical genomic coordinate sorting (default), all clonal focal amplicons are recovered
-    res_sorted = engine.discover_focal_cnv_stringers(
+    res_sorted = engine.discover_focal_cnvs(
         X_perm,
         bin_metadata=meta_perm,
         sort_by_genomic_coords=True,

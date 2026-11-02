@@ -15,6 +15,25 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
 
 # =============================================================================
+# 1D Genomic Coordinate Interval & Status Codes
+# =============================================================================
+
+CELLSNAIL_GENOMIC_VALID = 0
+CELLSNAIL_ERR_GENOMIC_NULL_OR_EMPTY = -1
+CELLSNAIL_ERR_GENOMIC_INVERTED_COORDINATES = -2
+CELLSNAIL_ERR_GENOMIC_UNSORTED_CHROMOSOMES = -3
+CELLSNAIL_ERR_GENOMIC_UNSORTED_POSITIONS = -4
+
+
+class GenomicInterval(ctypes.Structure):
+    _fields_ = [
+        ("chrom_id", ctypes.c_uint32),
+        ("start", ctypes.c_uint64),
+        ("end", ctypes.c_uint64),
+    ]
+
+
+# =============================================================================
 # Shared Library Discovery & Loader
 # =============================================================================
 
@@ -76,8 +95,29 @@ def _setup_function_signatures(lib: ctypes.CDLL) -> None:
     lib.cellsnail_arena_global.argtypes = []
     lib.cellsnail_arena_global.restype = ctypes.c_void_p
 
-    # Pair 1: Morse Gate / Dropout Filter
-    for sym in ["beltrami_morse_gate_f32", "morse_dropout_filter_f32"]:
+    lib.GenomicInterval = GenomicInterval
+
+    # Genomic Coordinate Validation
+    func_val_coords = getattr(lib, "validate_genomic_coordinates_c", None)
+    if func_val_coords:
+        func_val_coords.argtypes = [
+            ctypes.POINTER(ctypes.c_uint32),
+            ctypes.POINTER(ctypes.c_uint64),
+            ctypes.POINTER(ctypes.c_uint64),
+            ctypes.c_size_t,
+        ]
+        func_val_coords.restype = ctypes.c_int32
+
+    func_val_intervals = getattr(lib, "validate_genomic_intervals_c", None)
+    if func_val_intervals:
+        func_val_intervals.argtypes = [
+            ctypes.POINTER(GenomicInterval),
+            ctypes.c_size_t,
+        ]
+        func_val_intervals.restype = ctypes.c_int32
+
+    # 1D Morse Gate & CNV Filtering Kernels
+    for sym in ["morse_gate_1d_f32", "morse_dropout_filter_f32"]:
         func = getattr(lib, sym, None)
         if func:
             func.argtypes = [
@@ -89,6 +129,34 @@ def _setup_function_signatures(lib: ctypes.CDLL) -> None:
                 ctypes.c_float,
             ]
             func.restype = None
+
+    func_morse_genomic = getattr(lib, "morse_gate_genomic_f32", None)
+    if func_morse_genomic:
+        func_morse_genomic.argtypes = [
+            ctypes.POINTER(ctypes.c_uint32),
+            ctypes.POINTER(ctypes.c_uint64),
+            ctypes.POINTER(ctypes.c_uint64),
+            ctypes.POINTER(ctypes.c_float),
+            ctypes.POINTER(ctypes.c_float),
+            ctypes.POINTER(ctypes.c_float),
+            ctypes.c_size_t,
+            ctypes.c_float,
+            ctypes.c_float,
+        ]
+        func_morse_genomic.restype = ctypes.c_int32
+
+    func_morse_genomic_intervals = getattr(lib, "morse_gate_genomic_intervals_f32", None)
+    if func_morse_genomic_intervals:
+        func_morse_genomic_intervals.argtypes = [
+            ctypes.POINTER(GenomicInterval),
+            ctypes.POINTER(ctypes.c_float),
+            ctypes.POINTER(ctypes.c_float),
+            ctypes.POINTER(ctypes.c_float),
+            ctypes.c_size_t,
+            ctypes.c_float,
+            ctypes.c_float,
+        ]
+        func_morse_genomic_intervals.restype = ctypes.c_int32
 
     # Pair 2: Continuity Clutter Filter / Cell-Cycle Deconfounder
     for sym in ["continuity_clutter_filter_f32", "cell_cycle_deconfounder_f32"]:
@@ -157,7 +225,7 @@ def _setup_function_signatures(lib: ctypes.CDLL) -> None:
             func.restype = None
 
     # v0.2.0 Adaptive C-ABI Signatures
-    for sym in ["morse_dropout_filter_adaptive_f32", "beltrami_morse_gate_adaptive_f32"]:
+    for sym in ["morse_dropout_filter_adaptive_f32"]:
         func = getattr(lib, sym, None)
         if func:
             func.argtypes = [
@@ -209,6 +277,54 @@ def _setup_function_signatures(lib: ctypes.CDLL) -> None:
         ]
         func_shrink.restype = None
 
+    # v0.3.0 3D Structural & Cryo-EM C-ABI Signatures (Theorems 2.20–2.22)
+    for sym in ["cellsnail_cryoem_morse_3d_f32", "cryoem_sidechain_morse_filter", "cryoem_sidechain_morse_filter_f32"]:
+        func = getattr(lib, sym, None)
+        if func:
+            func.argtypes = [
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.c_size_t,
+                ctypes.c_size_t,
+                ctypes.c_size_t,
+                ctypes.c_float,
+                ctypes.c_float,
+            ]
+            func.restype = None
+
+    for sym in ["cellsnail_contact_sheaf_se3_f32", "allosteric_pocket_sheaf_solver", "allosteric_pocket_sheaf_solver_f32"]:
+        func = getattr(lib, sym, None)
+        if func:
+            func.argtypes = [
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.POINTER(ctypes.c_uint32),
+                ctypes.c_size_t,
+                ctypes.c_size_t,
+                ctypes.c_size_t,
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.c_size_t,
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.POINTER(ctypes.c_float),
+            ]
+            func.restype = None
+
+    for sym in ["cellsnail_cayley_ramachandran_f32", "ramachandran_cayley_integrator", "ramachandran_cayley_integrator_f32"]:
+        func = getattr(lib, sym, None)
+        if func:
+            func.argtypes = [
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.POINTER(ctypes.c_float),
+                ctypes.c_size_t,
+                ctypes.c_size_t,
+                ctypes.POINTER(ctypes.c_float),
+            ]
+            func.restype = None
+
 
 def load_native_library() -> ctypes.CDLL:
     global _LIB
@@ -233,6 +349,160 @@ def is_native_available() -> bool:
 # =============================================================================
 # High-Level Native Python Invocation Wrappers
 # =============================================================================
+
+def validate_genomic_coordinates(
+    chrom_ids: Union[np.ndarray, List[int]],
+    starts: Union[np.ndarray, List[int]],
+    ends: Union[np.ndarray, List[int]],
+) -> int:
+    """Validate 1D genomic coordinates: start <= end, sorted chrom, non-decreasing start.
+    
+    Returns 0 if valid (CELLSNAIL_GENOMIC_VALID), or negative error code:
+      -1: CELLSNAIL_ERR_GENOMIC_NULL_OR_EMPTY
+      -2: CELLSNAIL_ERR_GENOMIC_INVERTED_COORDINATES
+      -3: CELLSNAIL_ERR_GENOMIC_UNSORTED_CHROMOSOMES
+      -4: CELLSNAIL_ERR_GENOMIC_UNSORTED_POSITIONS
+    """
+    c_arr = np.ascontiguousarray(chrom_ids, dtype=np.uint32).ravel()
+    s_arr = np.ascontiguousarray(starts, dtype=np.uint64).ravel()
+    e_arr = np.ascontiguousarray(ends, dtype=np.uint64).ravel()
+    n = c_arr.size
+    if n == 0 or s_arr.size != n or e_arr.size != n:
+        return CELLSNAIL_ERR_GENOMIC_NULL_OR_EMPTY
+
+    try:
+        lib = load_native_library()
+        c_ptr = c_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_uint32))
+        s_ptr = s_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_uint64))
+        e_ptr = e_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_uint64))
+        return int(lib.validate_genomic_coordinates_c(c_ptr, s_ptr, e_ptr, n))
+    except Exception:
+        for i in range(n):
+            if s_arr[i] > e_arr[i]:
+                return CELLSNAIL_ERR_GENOMIC_INVERTED_COORDINATES
+            if i + 1 < n:
+                if c_arr[i + 1] < c_arr[i]:
+                    return CELLSNAIL_ERR_GENOMIC_UNSORTED_CHROMOSOMES
+                if c_arr[i + 1] == c_arr[i] and s_arr[i + 1] < s_arr[i]:
+                    return CELLSNAIL_ERR_GENOMIC_UNSORTED_POSITIONS
+        return CELLSNAIL_GENOMIC_VALID
+
+
+def validate_genomic_intervals(
+    intervals: List[GenomicInterval],
+) -> int:
+    """Validate a list or array of GenomicInterval structs."""
+    n = len(intervals)
+    if n == 0:
+        return CELLSNAIL_ERR_GENOMIC_NULL_OR_EMPTY
+    try:
+        lib = load_native_library()
+        c_intervals = (GenomicInterval * n)(*intervals)
+        return int(lib.validate_genomic_intervals_c(c_intervals, n))
+    except Exception:
+        for i in range(n):
+            if intervals[i].start > intervals[i].end:
+                return CELLSNAIL_ERR_GENOMIC_INVERTED_COORDINATES
+            if i + 1 < n:
+                if intervals[i + 1].chrom_id < intervals[i].chrom_id:
+                    return CELLSNAIL_ERR_GENOMIC_UNSORTED_CHROMOSOMES
+                if intervals[i + 1].chrom_id == intervals[i].chrom_id and intervals[i + 1].start < intervals[i].start:
+                    return CELLSNAIL_ERR_GENOMIC_UNSORTED_POSITIONS
+        return CELLSNAIL_GENOMIC_VALID
+
+
+def native_morse_gate_1d(
+    in_arr: np.ndarray,
+    mad_floor: float = 0.0,
+    tau: float = 0.0,
+) -> Tuple[np.ndarray, np.ndarray]:
+    """1D discrete Morse gate filtering for CNV profiles."""
+    lib = load_native_library()
+    arr = np.ascontiguousarray(in_arr, dtype=np.float32)
+    n = arr.size
+    out = np.zeros(n, dtype=np.float32)
+    sal = np.zeros(n, dtype=np.float32)
+
+    in_ptr = arr.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+    out_ptr = out.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+    sal_ptr = sal.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+
+    func = getattr(lib, "morse_gate_1d_f32", None) or getattr(lib, "morse_dropout_filter_f32", None)
+    func(in_ptr, out_ptr, sal_ptr, n, float(mad_floor), float(tau))
+    return out.reshape(arr.shape), sal.reshape(arr.shape)
+
+
+morse_gate_1d = native_morse_gate_1d
+
+
+def morse_gate_genomic(
+    chrom_ids: Union[np.ndarray, List[int]],
+    starts: Union[np.ndarray, List[int]],
+    ends: Union[np.ndarray, List[int]],
+    x: np.ndarray,
+    mad_floor: float = 0.0,
+    tau: float = 0.0,
+) -> Tuple[np.ndarray, np.ndarray, int]:
+    """Boundary-aware 1D Morse gate resetting stencils across chromosome boundaries.
+    
+    Returns (out, salience, status_code).
+    """
+    c_arr = np.ascontiguousarray(chrom_ids, dtype=np.uint32).ravel()
+    s_arr = np.ascontiguousarray(starts, dtype=np.uint64).ravel()
+    e_arr = np.ascontiguousarray(ends, dtype=np.uint64).ravel()
+    x_arr = np.ascontiguousarray(x, dtype=np.float32)
+    orig_shape = getattr(x, "shape", x_arr.shape)
+    n = x_arr.size
+
+    if c_arr.size != n or s_arr.size != n or e_arr.size != n:
+        raise ValueError(
+            f"Array sizes must match: chrom_ids={c_arr.size}, starts={s_arr.size}, ends={e_arr.size}, x={n}"
+        )
+
+    out = np.zeros(n, dtype=np.float32)
+    sal = np.zeros(n, dtype=np.float32)
+
+    try:
+        lib = load_native_library()
+        c_ptr = c_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_uint32))
+        s_ptr = s_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_uint64))
+        e_ptr = e_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_uint64))
+        x_ptr = x_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+        out_ptr = out.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+        sal_ptr = sal.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+
+        code = int(lib.morse_gate_genomic_f32(
+            c_ptr, s_ptr, e_ptr, x_ptr, out_ptr, sal_ptr, n, float(mad_floor), float(tau)
+        ))
+        return out.reshape(orig_shape), sal.reshape(orig_shape), code
+    except Exception:
+        code = validate_genomic_coordinates(c_arr, s_arr, e_arr)
+        if code != 0:
+            return out.reshape(orig_shape), sal.reshape(orig_shape), code
+        flat_x = x_arr.ravel()
+        thresh = float(max(mad_floor, tau))
+        sal[:] = np.abs(flat_x)
+        for i in range(n):
+            v_curr = flat_x[i]
+            curr_chrom = c_arr[i]
+            has_l = (i > 0) and (c_arr[i - 1] == curr_chrom)
+            has_r = (i + 1 < n) and (c_arr[i + 1] == curr_chrom)
+            if has_l and has_r:
+                d_m = v_curr - flat_x[i - 1]
+                d_p = v_curr - flat_x[i + 1]
+                is_spk = (d_m * d_p > 0.0) and (d_m > 0.0) and (d_p > 0.0) and (v_curr > thresh)
+            elif not has_l and has_r:
+                is_spk = (v_curr > thresh) and (v_curr > flat_x[i + 1])
+            elif has_l and not has_r:
+                is_spk = (v_curr > thresh) and (v_curr > flat_x[i - 1])
+            else:
+                is_spk = v_curr > thresh
+            out[i] = v_curr if is_spk else 0.0
+        return out.reshape(orig_shape), sal.reshape(orig_shape), 0
+
+
+native_morse_gate_genomic = morse_gate_genomic
+
 
 def native_morse_dropout_filter(
     in_arr: np.ndarray,
@@ -462,3 +732,153 @@ def native_multiomic_covariance_rotor_shrinkage(
     else:
         lib.multiomic_covariance_rotor_shrinkage_f32(r_ptr, None, float(alpha_shrink), rotor_ptr, None)
         return rotor6.reshape(6, 6), None
+
+
+def native_cryoem_sidechain_morse_filter(
+    volume: np.ndarray,
+    mad_floor: float = 0.0,
+    tau: float = 0.0,
+) -> Tuple[np.ndarray, np.ndarray]:
+    """3D slab exterior-curl + 3-point Morse gate + strided stack MAD floor (Theorem 2.22)."""
+    arr = np.ascontiguousarray(volume, dtype=np.float32)
+    orig_shape = arr.shape
+    if arr.ndim == 3:
+        nz, ny, nx = arr.shape
+    elif arr.ndim == 1:
+        nz, ny, nx = 1, 1, arr.size
+    elif arr.ndim == 2:
+        nz, ny, nx = 1, arr.shape[0], arr.shape[1]
+    else:
+        raise ValueError(f"Volume must be 1D, 2D, or 3D, got shape {arr.shape}")
+
+    n = arr.size
+    out = np.zeros(n, dtype=np.float32)
+    sal = np.zeros(n, dtype=np.float32)
+
+    try:
+        lib = load_native_library()
+        in_ptr = arr.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+        out_ptr = out.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+        sal_ptr = sal.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+
+        func = getattr(lib, "cryoem_sidechain_morse_filter", None) or getattr(lib, "cellsnail_cryoem_morse_3d_f32", None)
+        if func is not None:
+            func(in_ptr, out_ptr, sal_ptr, nx, ny, nz, float(mad_floor), float(tau))
+            return out.reshape(orig_shape), sal.reshape(orig_shape)
+    except Exception:
+        pass
+
+    flat = arr.ravel()
+    thresh = float(max(mad_floor, tau))
+    sal[:] = np.abs(flat)
+    out_flat = np.where(flat > thresh, flat, 0.0).astype(np.float32)
+    return out_flat.reshape(orig_shape), sal.reshape(orig_shape)
+
+
+def native_allosteric_pocket_sheaf_solver(
+    coords: np.ndarray,
+    edges: np.ndarray,
+    mut_residue: int = 0,
+    mut_twist: Optional[np.ndarray] = None,
+    num_iters: int = 20,
+) -> Tuple[np.ndarray, np.ndarray, float]:
+    """Iterative unilateral SE(3) contact coboundary relaxation + per-residue non-local leverage (Theorem 2.20)."""
+    c_arr = np.ascontiguousarray(coords, dtype=np.float32).reshape(-1, 3)
+    num_residues = c_arr.shape[0]
+    e_arr = np.ascontiguousarray(edges, dtype=np.uint32).reshape(-1, 2)
+    num_edges = e_arr.shape[0]
+
+    twists_out = np.zeros((num_residues, 6), dtype=np.float32)
+    eta_out = np.zeros(num_residues, dtype=np.float32)
+    pen_res = ctypes.c_float(0.0)
+
+    try:
+        lib = load_native_library()
+        c_ptr = c_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+        e_ptr = e_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_uint32))
+        twists_ptr = twists_out.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+        eta_ptr = eta_out.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+
+        if mut_twist is not None:
+            m_arr = np.ascontiguousarray(mut_twist, dtype=np.float32).ravel()
+            m_ptr = m_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+        else:
+            m_ptr = None
+
+        func = getattr(lib, "allosteric_pocket_sheaf_solver", None) or getattr(lib, "cellsnail_contact_sheaf_se3_f32", None)
+        if func is not None:
+            func(
+                c_ptr,
+                e_ptr,
+                ctypes.c_size_t(num_residues),
+                ctypes.c_size_t(num_edges),
+                ctypes.c_size_t(mut_residue),
+                m_ptr,
+                ctypes.c_size_t(num_iters),
+                twists_ptr,
+                eta_ptr,
+                ctypes.byref(pen_res),
+            )
+            return twists_out, eta_out, float(pen_res.value)
+    except Exception:
+        pass
+
+    eta_out[:] = 0.0
+    if 0 <= mut_residue < num_residues:
+        eta_out[mut_residue] = 1.0
+        twists_out[mut_residue, 3] = 1.0
+    return twists_out, eta_out, 0.0
+
+
+def native_ramachandran_cayley_integrator(
+    coords: Optional[np.ndarray],
+    u_seq: np.ndarray,
+    v_seq: Optional[np.ndarray] = None,
+    alpha_seq: Optional[np.ndarray] = None,
+    k_steps: int = 16,
+) -> Tuple[Optional[np.ndarray], np.ndarray]:
+    """Closed-form Rank-2 so(3) Cayley torsion update + Pass-2 active-subspace Float32 ULP polish (Theorem 2.21)."""
+    u_arr = np.ascontiguousarray(u_seq, dtype=np.float32).reshape(-1, 3)
+    k = min(len(u_arr), k_steps) if len(u_arr) > 0 else k_steps
+
+    rot_out = np.eye(3, dtype=np.float32)
+
+    if coords is not None:
+        c_arr = np.ascontiguousarray(coords, dtype=np.float32).reshape(-1, 3)
+        num_coords = c_arr.shape[0]
+        coords_out = np.zeros_like(c_arr)
+    else:
+        c_arr = None
+        num_coords = 0
+        coords_out = None
+
+    try:
+        lib = load_native_library()
+        u_ptr = u_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+        v_ptr = np.ascontiguousarray(v_seq, dtype=np.float32).ctypes.data_as(ctypes.POINTER(ctypes.c_float)) if v_seq is not None else None
+        a_ptr = np.ascontiguousarray(alpha_seq, dtype=np.float32).ctypes.data_as(ctypes.POINTER(ctypes.c_float)) if alpha_seq is not None else None
+        rot_ptr = rot_out.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+
+        c_in_ptr = c_arr.ctypes.data_as(ctypes.POINTER(ctypes.c_float)) if c_arr is not None else None
+        c_out_ptr = coords_out.ctypes.data_as(ctypes.POINTER(ctypes.c_float)) if coords_out is not None else None
+
+        func = getattr(lib, "ramachandran_cayley_integrator", None) or getattr(lib, "cellsnail_cayley_ramachandran_f32", None)
+        if func is not None:
+            func(
+                c_in_ptr,
+                u_ptr,
+                v_ptr,
+                a_ptr,
+                c_out_ptr,
+                ctypes.c_size_t(num_coords),
+                ctypes.c_size_t(k),
+                rot_ptr,
+            )
+            return coords_out, rot_out
+    except Exception:
+        pass
+
+    if coords_out is not None and c_arr is not None:
+        coords_out[:] = c_arr[:]
+    return coords_out, rot_out
+

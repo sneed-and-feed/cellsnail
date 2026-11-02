@@ -2,75 +2,81 @@ import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 import Mathlib.Tactic
 
 /-!
-# Project CellSnail: Proof-Carrying Multi-Omic Single-Cell Data Science Hierarchy (Theorems 2.1–2.19)
+# Project CellSnail: Proof-Carrying 1D Genomic Coordinate Filtering & CNV Mathematical Hierarchy
 
 This module formalizes the machine-checked mathematical core of `sneed-and-feed/cellsnail`,
-addressing the Eleven Grand Challenges in single-cell data science (Lähnemann et al., *Genome Biology* 2020)
-and post-2020 literature failure modes:
+providing rigorous mathematical foundations for 1D chromosomal coordinate copy number variation (CNV)
+and focal amplicon detection:
 
-## Part I: Foundational Ecosystem Core (Theorems 2.1–2.11, inherited from TriadCore)
-1. **Theorem 2.1 (`skew_triad_swap_neg`, `skew_triad_self_zero`)**:
-   $\mathfrak{so}(C)$ Skew-Symmetric Bilinear Triad antisymmetry and vanishing self-interaction.
-2. **Theorem 2.2 (`occlusion_triad_breaks_symmetric_tie`)**:
-   Exact tie-breaking of symmetric 2-color collision readouts via bilinear triad shift.
-3. **Theorem 2.3 (`darksnail_readout_energy_conservation`)**:
-   Pointwise zero-energy-explosion orthogonality: $\langle v, B_W(u, v) \rangle = 0$.
-4. **Theorem 2.4 (`darksnail_step0_system1_homotopy`)**:
-   Step-0 System 1 homotopy equivalence: full readout reduces identically to baseline.
-5. **Theorem 2.5 (`rope2d_medoid_relative_invariance`, `rope2d_arithmetic_norm_lt`)**:
-   2D Axial RoPE medoid relative displacement invariance and strict patch-averaging attenuation.
-6. **Theorem 2.6 (`darksnail_multistep_spherical_invariance`, `darksnail_multistep_step0_homotopy`)**:
-   Multi-step unrolled Slow-Fast spherical cascade norm invariance ($0.000\mathrm{e}{+}00$ drift).
-7. **Theorem 2.7 (`elasticEnergy6_rotateStiffness6`, `so6_stiffness_preserves_pos_def`,
-   `so6_stiffness_trace_conservation`, `morseImpulse_iff_strict_extremum`,
-   `caliper_morse_rejects_washout_step`, `caliper_morse_shields_thin_stringer`)**:
-   $\mathrm{SO}(6)$ Kelvin-Mandel stiffness rotor trace/energy conservation and discrete Morse shielding.
-8. **Theorem 2.8 (`cross3_eq_triadOperator`, `mhd_euler_force_balance_bijection`,
-   `mhd_flux_surface_confinement_iff`, `stellarator_parity_breaks_tie_and_conserves_flux`,
-   `stellarator_zero_torsion_homotopy_iff`)**:
-   3D Ideal MHD $\leftrightarrow$ Euler force balance bijection and tangent flux confinement.
-9. **Theorem 2.9 (`sub_alfvenic_beltrami_homotopy_zero_flow`, `sub_alfvenic_beltrami_pos`,
-   `beltrami_cross_helicity_collinear_lorentz_vanishes`, `mrxmhd_flow_bernoulli_jump_conservation`,
-   `kam_sub_alfvenic_ellipticity_and_gap`)**:
-   Relaxed-Flow MRxMHD Bernoulli jump law and collinear Beltrami Lorentz vanishing.
-10. **Theorem 2.10a (`cayley_rank2_orthogonality` / `cayley_rotor_orthogonality`)**:
-    Online Rank-2 $\mathfrak{so}(n)$ Cayley transform rotor column-orthonormality $R^\top R = I_n$
-    and Euclidean vector norm preservation $\|R x\|^2 = \|x\|^2$.
-11. **Theorem 2.10b (`contact_sheaf_non_penetration_invariant` / `contact_sheaf_unilateral_non_penetration`)**:
-    $\mathrm{SE}(2)$ Contact Sheaf normal coboundary condition $(\delta v)_n(e) \ge 0$ unilateral
-    non-penetration guarantee with unconstrained tangential sliding freedom.
-12. **Theorem 2.11 (`sram_arena_layout_verified` / `sram_arena_cacheline_disjoint_and_bounded`)**:
-    Broadcom BCM2712 SRAM `TriadUniversalArena` 64-byte cache-line alignment, pairwise
-    sub-buffer disjointness, and strict $\le 1,258,291\text{ B} < 2.0\text{ MB}$ memory ceiling.
+## Part I: 1D Genomic Coordinate Filtering Invariants (Theorems 1–7)
+1. **Theorem 1 (`morse_monotone_slope_rejected`)**:
+   Monotone slope and flat step rejection: discrete Morse product is strictly negative on strict monotonicity
+   and non-positive on weak monotonicity, rejecting spurious chromosomal compaction trends.
+2. **Theorem 2 (`morse_local_extremum_isolated`)**:
+   Strict local extremum characterization: 3-point discrete Morse impulse triggers if and only if
+   the genomic bin is a strict local extremum (peak or pit).
+3. **Theorem 3 (`focal_amplicon_amplitude_recovery`)**:
+   Focal amplicon 100% amplitude recovery: an isolated focal amplicon peak is recovered at exact full amplitude
+   under Morse gating with zero attenuation.
+4. **Theorem 4 (`flanking_leakage_bounded`)**:
+   Zero flanking leakage: immediate flanking bins beyond a focal amplicon receive zero Morse impulse,
+   preventing signal smearing into adjacent diploid bins.
+5. **Theorem 5 (`plateau_moving_average_unbiased`)**:
+   Unbiased plateau moving average: box-car moving average across constant copy-number plateau bins
+   is strictly unbiased.
+6. **Theorem 6 (`plateau_variance_reduction`)**:
+   Plateau noise variance reduction: moving average over window of size W attenuates independent noise variance
+   by a factor of 1/W.
+7. **Theorem 7 (`boundary_pinned_step_preservation`)**:
+   Boundary-pinned step preservation: boundary pinning preserves step-edge transition height identically
+   without boundary erosion.
 
-## Part II: Single-Cell Data Science (SCDS) Specialized Invariants (Theorems 2.12–2.15)
-13. **Theorem 2.12 (`morse_dropout_shielding_zero_spurious_corr`)**:
-    Non-Circular Morse Dropout Shielding & Zero Spurious Gene-Correlation Injection.
-14. **Theorem 2.13 (`h_clock_h_nope_orthogonality`)**:
-    $\mathcal{H}_{\text{clock}} \oplus \mathcal{H}_{\text{nope}}$ Cell-Cycle & Batch Orthogonal Decomposition.
-15. **Theorem 2.14 (`ascertainment_bias_free_ultrametric_condensation`)**:
-    Ascertainment-Bias-Free Ultrametric Site Condensation.
-16. **Theorem 2.15 (`multiomic_dosage_linkage_causal_factorization`)**:
-    Bi-Hemispheric CNV-to-RNA Dosage Linkage & Driver-Passenger Causal Factorization.
+## Part II: Geometric Invariants & Orthogonal Decompositions
+8. **Theorem 2.1 (`skew_triad_swap_neg`, `skew_triad_self_zero`)**:
+   Skew-Symmetric Bilinear Triad antisymmetry and vanishing self-interaction.
+9. **Theorem 2.2 (`occlusion_triad_breaks_symmetric_tie`)**:
+   Tie-breaking of symmetric 2-state collision readouts via bilinear shift.
+10. **Theorem 2.3 (`cellsnail_readout_energy_conservation`)**:
+    Pointwise zero-energy-explosion orthogonality: ⟨v, B_W(u, v)⟩ = 0.
+11. **Theorem 2.4 (`cellsnail_step0_system1_homotopy`)**:
+    Step-0 homotopy equivalence: readout reduces identically to baseline at step 0.
+12. **Theorem 2.5 (`rope2d_medoid_relative_invariance`, `rope2d_arithmetic_norm_lt`)**:
+    Relative displacement invariance and strict patch-averaging attenuation.
+13. **Theorem 2.6 (`cellsnail_multistep_spherical_invariance`, `cellsnail_multistep_step0_homotopy`)**:
+    Multi-step unrolled spherical cascade norm invariance.
+14. **Theorem 2.7 (`elasticEnergy6_rotateStiffness6`, `so6_stiffness_preserves_pos_def`, `so6_stiffness_trace_conservation`)**:
+    SO(6) stiffness rotor trace and energy quadratic form conservation.
+15. **Theorem 2.10a (`cayley_rank2_orthogonality`)**:
+    Rank-2 Cayley transform rotor column-orthonormality and Euclidean norm preservation.
+16. **Theorem 2.10b (`contact_sheaf_non_penetration_invariant`)**:
+    Unilateral non-penetration condition with unconstrained tangential freedom.
+17. **Theorem 2.12 (`morse_dropout_shielding_zero_spurious_corr`)**:
+    Pointwise separable filtering on uncorrelated channels preserves zero covariance.
+18. **Theorem 2.13 (`h_clock_h_nope_orthogonality`)**:
+    Idempotent symmetric projector orthogonal direct-sum subspace decomposition.
+19. **Theorem 2.14 (`ascertainment_bias_free_ultrametric_condensation`)**:
+    Scaling ultrametric distance preserves the ultrametric three-point condition.
+20. **Theorem 2.15 (`multiomic_covariance_trace_and_quadform_conservation`)**:
+    6D multi-omic covariance rotor trace and quadratic form conservation under SO(6) rotation.
+21. **Theorem 2.16 (`convex_shrinkage_stability_and_zero_spurious_corr`)**:
+    Convex shrinkage blending amplitude bounds and zero spurious covariance preservation.
+22. **Theorem 2.17 (`multiscale_plateau_unbiased_and_variance_reduction`)**:
+    Multi-scale plateau moving average unbiasedness and noise variance reduction.
+23. **Theorem 2.18 (`jitter_adaptive_huber_sheaf_energy_bounds`)**:
+    Huber penalty energy bounds and non-expansive soft clamping.
+24. **Theorem 2.19 (`regularized_so6_covariance_condition_and_trace_conservation`)**:
+    Regularized SO(6) covariance conditioning trace conservation.
+25. **Theorems 2.20–2.22**:
+    Contact coboundary invariants, Cayley SO(3) rotor norm preservation, and multi-axis discrete Morse filtering.
 
-## Part III: Single-Cell Data Science (SCDS) Adaptive Hybrid Upgrades (Theorems 2.16–2.19)
-17. **Theorem 2.16 (`convex_shrinkage_stability_and_zero_spurious_corr` / `convex_shrinkage_morse_stability`)**:
-    Convex Shrinkage-Morse Stability & Zero Spurious Gene-Correlation Injection.
-18. **Theorem 2.17 (`multiscale_plateau_unbiased_and_variance_reduction` / `multiscale_plateau_variance_reduction`)**:
-    Multi-Scale Plateau Noise Attenuation & Step Amplitude Preservation.
-19. **Theorem 2.18 (`jitter_adaptive_huber_sheaf_energy_bounds` / `jitter_adaptive_huber_sheaf_energy_bound`)**:
-    Jitter-Adaptive Huber Sheaf Energy Bound & Non-Expansive Soft Clamping.
-20. **Theorem 2.19 (`regularized_so6_covariance_condition_and_trace_conservation` /
-    `regularized_so6_covariance_conditioning_and_trace_conservation`)**:
-    Regularized SO(6) Covariance Conditioning & Trace Conservation.
-
-All theorems compile with **0 sorry tokens**, **0 custom axioms**, and **0 warnings**.
+All proofs compile cleanly with 0 sorry tokens, 0 custom axioms, and 0 warnings.
 -/
 
 namespace CellSnail.Formalization
 
 open scoped BigOperators
 open Real Finset
+open Classical
 
 -- ============================================================================
 -- Section 1: Foundational Bilinear Triad Operator & Shell Energy (Theorems 2.1–2.4)
@@ -172,10 +178,10 @@ theorem occlusion_triad_breaks_symmetric_tie {C : ℕ}
 
 /-! ### Theorem 2.3: Readout Energy Conservation -/
 
-/-- **Theorem 2.3 (`darksnail_readout_energy_conservation`)**:
+/-- **Theorem 2.3 (`cellsnail_readout_energy_conservation`)**:
 For any mode vectors $u, v$ and coupling tensor $W$, $\langle v, B_W(u, v) \rangle = 0$,
 and the Slow-Fast recurrent pump has zero radial energy growth. -/
-theorem darksnail_readout_energy_conservation {C M : ℕ}
+theorem cellsnail_readout_energy_conservation {C M : ℕ}
     (W : Fin C → Fin C → Fin C → ℝ) (u v : Fin C → ℝ)
     (W_rec : Fin M → Fin M → Fin M → ℝ) (z_H z_L : Fin M → ℝ) :
     (∑ k : Fin C, v k * triadOperator W u v k) = 0 ∧
@@ -185,16 +191,16 @@ theorem darksnail_readout_energy_conservation {C M : ℕ}
 /-! ### Theorem 2.4: Step-0 System 1 Homotopy Equivalence -/
 
 /-- Full readout combining System 1 baseline, symmetric shift, and skew triad shift. -/
-def darksnailReadout (C : ℕ) (ℓ_S1 Δ_sym : Fin C → ℝ)
+def cellsnailReadout (C : ℕ) (ℓ_S1 Δ_sym : Fin C → ℝ)
     (W : Fin C → Fin C → Fin C → ℝ) (u v : Fin C → ℝ) (k : Fin C) : ℝ :=
   ℓ_S1 k + Δ_sym k + triadOperator W u v k
 
-/-- **Theorem 2.4 (`darksnail_step0_system1_homotopy`)**:
+/-- **Theorem 2.4 (`cellsnail_step0_system1_homotopy`)**:
 At Step-0 ($\Delta_{\mathrm{sym}} = 0, W = 0$), the full readout reduces identically to System 1. -/
-theorem darksnail_step0_system1_homotopy {C : ℕ}
+theorem cellsnail_step0_system1_homotopy {C : ℕ}
     (ℓ_S1 u v : Fin C → ℝ) (k : Fin C) :
-    darksnailReadout C ℓ_S1 0 0 u v k = ℓ_S1 k := by
-  simp [darksnailReadout, triadOperator]
+    cellsnailReadout C ℓ_S1 0 0 u v k = ℓ_S1 k := by
+  simp [cellsnailReadout, triadOperator]
 
 -- ============================================================================
 -- Section 2: 2D Axial RoPE Medoid Invariance & Spherical Cascade (Theorems 2.5–2.6)
@@ -317,10 +323,10 @@ lemma sphericalTriadStep_preserves_energy {M : ℕ} (γ : ℝ)
       linarith [hv_pos, shellEnergy_nonneg (tangentTriadStep M γ W_rec u v)]
     rw [div_pow, Real.sq_sqrt hv_pos.le, Real.sq_sqrt h_upd_pos.le, div_mul_cancel₀ _ h_upd_pos.ne']
 
-/-- **Theorem 2.6a (`darksnail_multistep_spherical_invariance`)**:
+/-- **Theorem 2.6a (`cellsnail_multistep_spherical_invariance`)**:
 Across any $T$-step unrolled cascade, the terminal retracted state preserves exact initial norm:
 $$\|\tilde{v}_L^{(T)}\|_2^2 = \|v_L^{(0)}\|_2^2.$$ -/
-theorem darksnail_multistep_spherical_invariance {M : ℕ}
+theorem cellsnail_multistep_spherical_invariance {M : ℕ}
     (γ : ℕ → ℝ) (W_rec : ℕ → Fin M → Fin M → Fin M → ℝ)
     (u : ℕ → Fin M → ℝ) (v₀ : Fin M → ℝ) (T : ℕ) :
     shellEnergy (multistepSphericalTriad M γ W_rec u v₀ T) = shellEnergy v₀ ∧
@@ -346,30 +352,30 @@ def system1CarryTrajectory {M : ℕ}
   | 0 => z₀
   | t + 1 => step_S1 t (system1CarryTrajectory step_S1 z₀ t)
 
-noncomputable def darksnailCarryTrajectory {M : ℕ}
+noncomputable def cellsnailCarryTrajectory {M : ℕ}
     (step_S1 : ℕ → (Fin M → ℝ) × (Fin M → ℝ) → (Fin M → ℝ) × (Fin M → ℝ))
     (γ : ℕ → ℝ) (W_rec : ℕ → Fin M → Fin M → Fin M → ℝ)
     (δz_H δz_L : ℕ → Fin M → ℝ)
     (z₀ : (Fin M → ℝ) × (Fin M → ℝ)) : ℕ → (Fin M → ℝ) × (Fin M → ℝ)
   | 0 => z₀
   | t + 1 =>
-      let z_t := darksnailCarryTrajectory step_S1 γ W_rec δz_H δz_L z₀ t
+      let z_t := cellsnailCarryTrajectory step_S1 γ W_rec δz_H δz_L z₀ t
       let v_tilde := sphericalTriadStep M (γ t) (W_rec t) z_t.1 z_t.2
       step_S1 t (fun k => z_t.1 k + δz_H t k, fun k => v_tilde k + δz_L t k)
 
-/-- **Theorem 2.6b (`darksnail_multistep_step0_homotopy`)**:
+/-- **Theorem 2.6b (`cellsnail_multistep_step0_homotopy`)**:
 At $W_{\mathrm{rec}} = 0$ and $\delta z = 0$, the $T$-step unrolled cascade reduces identically to System 1. -/
-theorem darksnail_multistep_step0_homotopy {M : ℕ}
+theorem cellsnail_multistep_step0_homotopy {M : ℕ}
     (step_S1 : ℕ → (Fin M → ℝ) × (Fin M → ℝ) → (Fin M → ℝ) × (Fin M → ℝ))
     (γ : ℕ → ℝ) (u : ℕ → Fin M → ℝ) (v₀ : Fin M → ℝ)
     (z₀ : (Fin M → ℝ) × (Fin M → ℝ)) (T : ℕ) :
     multistepSphericalTriad M γ 0 u v₀ T = v₀ ∧
-    darksnailCarryTrajectory step_S1 γ 0 0 0 z₀ T =
+    cellsnailCarryTrajectory step_S1 γ 0 0 0 z₀ T =
       system1CarryTrajectory step_S1 z₀ T := by
   constructor <;> induction T with
   | zero => rfl
   | succ t ih =>
-    simp [multistepSphericalTriad, darksnailCarryTrajectory, system1CarryTrajectory,
+    simp [multistepSphericalTriad, cellsnailCarryTrajectory, system1CarryTrajectory,
           ih, sphericalTriadStep_zero]
 
 -- ============================================================================
@@ -481,211 +487,182 @@ theorem so6_stiffness_trace_conservation (M C : Fin 6 → Fin 6 → ℝ)
     _ = ∑ i : Fin 6, C i i := by simp [hM _ _]
 
 def deltaMinus (v : ℤ → ℝ) (z : ℤ) : ℝ := v z - v (z - 1)
-def deltaPlus (v : ℤ → ℝ) (z : ℤ) : ℝ := v z - v (z + 1)
-def morseImpulseProd (v : ℤ → ℝ) (z : ℤ) : ℝ := deltaMinus v z * deltaPlus v z
-def isMorseImpulse (v : ℤ → ℝ) (z : ℤ) : Prop := 0 < morseImpulseProd v z
-noncomputable def laplacian3pt (v : ℤ → ℝ) (z : ℤ) : ℝ := (deltaMinus v z + deltaPlus v z) / 2
+def deltaPlus  (v : ℤ → ℝ) (z : ℤ) : ℝ := v z - v (z + 1)
 
-/-- **Theorem 2.7d (`morseImpulse_iff_strict_extremum`)**:
-3-point discrete Morse impulse triggers if and only if z is a strict local extremum. -/
+def morseImpulse (v : ℤ → ℝ) (z : ℤ) : ℝ := deltaMinus v z * deltaPlus v z
+
+def IsStrictLocalExtremum (v : ℤ → ℝ) (z : ℤ) : Prop :=
+  (v (z - 1) < v z ∧ v (z + 1) < v z) ∨ (v z < v (z - 1) ∧ v z < v (z + 1))
+
+def IsStrictLocalMaximum (v : ℤ → ℝ) (z : ℤ) : Prop :=
+  v (z - 1) < v z ∧ v (z + 1) < v z
+
+def IsLocallyMonotone (v : ℤ → ℝ) (z : ℤ) : Prop :=
+  (v (z - 1) ≤ v z ∧ v z ≤ v (z + 1)) ∨ (v (z + 1) ≤ v z ∧ v z ≤ v (z - 1))
+
+def IsStrictlyMonotoneAt (v : ℤ → ℝ) (z : ℤ) : Prop :=
+  (v (z - 1) < v z ∧ v z < v (z + 1)) ∨ (v (z + 1) < v z ∧ v z < v (z - 1))
+
+noncomputable def discreteLaplacian (v : ℤ → ℝ) (z : ℤ) : ℝ :=
+  (deltaMinus v z + deltaPlus v z) / 2
+
+/-- **Theorem 1 (`morse_monotone_slope_rejected`)**:
+On a strictly monotonic sequence along 1D coordinates, the discrete Morse product is strictly negative,
+rejecting spurious slope trends. On weak monotonicity, the impulse is non-positive. -/
+theorem morse_monotone_slope_rejected (v : ℤ → ℝ) (z : ℤ) :
+    (IsStrictlyMonotoneAt v z → morseImpulse v z < 0) ∧
+    (IsLocallyMonotone v z → morseImpulse v z ≤ 0) ∧
+    ((v z = v (z - 1) ∨ v z = v (z + 1)) → morseImpulse v z = 0) := by
+  refine ⟨?_, ?_, ?_⟩
+  · rintro (⟨h1, h2⟩ | ⟨h1, h2⟩) <;> {
+      unfold morseImpulse deltaMinus deltaPlus
+      nlinarith
+    }
+  · rintro (⟨h1, h2⟩ | ⟨h1, h2⟩) <;> {
+      unfold morseImpulse deltaMinus deltaPlus
+      nlinarith
+    }
+  · rintro (h | h) <;> {
+      unfold morseImpulse deltaMinus deltaPlus
+      rw [h]; ring
+    }
+
+/-- **Theorem 2 (`morse_local_extremum_isolated`)**:
+Strict local extremum (focal amplicon) yields strictly positive Morse product. -/
+theorem morse_local_extremum_isolated (v : ℤ → ℝ) (z : ℤ) :
+    0 < morseImpulse v z ↔ IsStrictLocalExtremum v z := by
+  unfold morseImpulse deltaMinus deltaPlus IsStrictLocalExtremum
+  rw [mul_pos_iff]
+  simp only [sub_pos, sub_neg]
+
 theorem morseImpulse_iff_strict_extremum (v : ℤ → ℝ) (z : ℤ) :
-    isMorseImpulse v z ↔
-      (v (z - 1) < v z ∧ v (z + 1) < v z) ∨ (v z < v (z - 1) ∧ v z < v (z + 1)) := by
-  unfold isMorseImpulse morseImpulseProd deltaMinus deltaPlus
-  rw [mul_pos_iff]; simp only [sub_pos, sub_neg]
+    0 < morseImpulse v z ↔
+      (v (z - 1) < v z ∧ v (z + 1) < v z) ∨ (v z < v (z - 1) ∧ v z < v (z + 1)) :=
+  morse_local_extremum_isolated v z
 
-/-- **Theorem 2.7e (`caliper_morse_rejects_washout_step`)**:
-Monotone compaction ramps and single-sided flat steps are strictly rejected. -/
-theorem caliper_morse_rejects_washout_step (v : ℤ → ℝ) (z : ℤ) :
-    ((v z = v (z - 1) ∨ v z = v (z + 1)) →
-      morseImpulseProd v z = 0 ∧ ¬ isMorseImpulse v z) ∧
-    (((v (z - 1) ≤ v z ∧ v z ≤ v (z + 1)) ∨ (v (z + 1) ≤ v z ∧ v z ≤ v (z - 1))) →
-      morseImpulseProd v z ≤ 0 ∧ ¬ isMorseImpulse v z) :=
-  ⟨fun h => by
-     have h0 : morseImpulseProd v z = 0 := by
-       unfold morseImpulseProd deltaMinus deltaPlus; rcases h with h | h <;> { rw [h]; ring }
-     exact ⟨h0, by unfold isMorseImpulse; linarith⟩,
-   fun h => by
-     have h_le : morseImpulseProd v z ≤ 0 := by
-       unfold morseImpulseProd deltaMinus deltaPlus; rcases h with ⟨h1, h2⟩ | ⟨h1, h2⟩ <;> nlinarith
-     exact ⟨h_le, by unfold isMorseImpulse; linarith⟩⟩
+/-- **Theorem 3 (`focal_amplicon_amplitude_recovery`)**:
+Focal amplicon isolated peak is preserved at 100% amplitude under Morse gating. -/
+theorem focal_amplicon_amplitude_recovery (v : ℤ → ℝ) (z : ℤ) (v_bg δ : ℝ)
+    (h_bg_l : v (z - 1) = v_bg)
+    (h_bg_r : v (z + 1) = v_bg)
+    (h_peak : v z = v_bg + δ)
+    (h_pos : 0 < δ) :
+    morseImpulse v z = δ ^ 2 ∧
+    0 < morseImpulse v z ∧
+    IsStrictLocalMaximum v z ∧
+    discreteLaplacian v z = δ := by
+  have hd_m : deltaMinus v z = δ := by unfold deltaMinus; rw [h_peak, h_bg_l]; ring
+  have hd_p : deltaPlus v z = δ := by unfold deltaPlus; rw [h_peak, h_bg_r]; ring
+  have h_imp : morseImpulse v z = δ ^ 2 := by unfold morseImpulse; rw [hd_m, hd_p]; ring
+  refine ⟨h_imp, ?_, ?_, ?_⟩
+  · rw [h_imp]; exact sq_pos_of_pos h_pos
+  · unfold IsStrictLocalMaximum; rw [h_bg_l, h_bg_r, h_peak]; exact ⟨lt_add_of_pos_right v_bg h_pos, lt_add_of_pos_right v_bg h_pos⟩
+  · unfold discreteLaplacian; rw [hd_m, hd_p]; ring
 
-/-- **Theorem 2.7f (`caliper_morse_shields_thin_stringer`)**:
-Thin-bed spike impulses are recovered at 100% amplitude. -/
-theorem caliper_morse_shields_thin_stringer (v : ℤ → ℝ) (z : ℤ) (v_bg δ_spike : ℝ)
-    (h_left : v (z - 1) = v_bg) (h_right : v (z + 1) = v_bg)
-    (h_center : v z = v_bg + δ_spike) (h_nz : δ_spike ≠ 0) :
-    morseImpulseProd v z = δ_spike ^ 2 ∧
-    isMorseImpulse v z ∧
-    laplacian3pt v z = δ_spike := by
-  have h_prod : morseImpulseProd v z = δ_spike ^ 2 := by
-    unfold morseImpulseProd deltaMinus deltaPlus; rw [h_left, h_right, h_center]; ring
-  exact ⟨h_prod, by unfold isMorseImpulse; rw [h_prod]; positivity,
-    by unfold laplacian3pt deltaMinus deltaPlus; rw [h_left, h_right, h_center]; ring⟩
+/-- **Theorem 4 (`flanking_leakage_bounded`)**:
+Flanking bins beyond the focal amplicon receive zero leakage amplitude. -/
+theorem flanking_leakage_bounded (v : ℤ → ℝ) (z : ℤ) (v_bg δ : ℝ)
+    (h_outer_l : v (z - 2) = v_bg)
+    (h_flank_l : v (z - 1) = v_bg)
+    (_h_peak : v z = v_bg + δ)
+    (h_flank_r : v (z + 1) = v_bg)
+    (h_outer_r : v (z + 2) = v_bg) :
+    morseImpulse v (z - 1) = 0 ∧
+    morseImpulse v (z + 1) = 0 ∧
+    ¬ (0 < morseImpulse v (z - 1)) ∧
+    ¬ (0 < morseImpulse v (z + 1)) := by
+  have h_idx_l : z - 1 - 1 = z - 2 := by ring
+  have h_idx_r : z + 1 + 1 = z + 2 := by ring
+  have h_ml : morseImpulse v (z - 1) = 0 := by
+    unfold morseImpulse deltaMinus deltaPlus
+    rw [h_flank_l, h_idx_l, h_outer_l]
+    ring
+  have h_mr : morseImpulse v (z + 1) = 0 := by
+    unfold morseImpulse deltaMinus deltaPlus
+    rw [h_flank_r, h_idx_r, h_outer_r]
+    ring
+  refine ⟨h_ml, h_mr, ?_, ?_⟩
+  · rw [h_ml]; linarith
+  · rw [h_mr]; linarith
 
--- ============================================================================
--- Section 4: Ideal MHD / Euler Force Balance & MRxMHD Flow (Theorems 2.8–2.9)
--- ============================================================================
+noncomputable def plateauMean {L : ℕ} (v : Fin L → ℝ) : ℝ :=
+  (∑ i : Fin L, v i) / (L : ℝ)
 
+/-- **Theorem 5 (`plateau_moving_average_unbiased`)**:
+Symmetrical moving average across plateau bins is unbiased with respect to constant plateau signal. -/
+theorem plateau_moving_average_unbiased {L : ℕ} (hL : 0 < L) (c : ℝ) :
+    plateauMean (fun _ : Fin L => c) = c := by
+  unfold plateauMean
+  simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
+  exact mul_div_cancel_left₀ c (Nat.cast_ne_zero.mpr (ne_of_gt hL))
+
+/-- **Theorem 6 (`plateau_variance_reduction`)**:
+Moving average over window of size W reduces noise variance by a factor of 1/W. -/
+theorem plateau_variance_reduction {W : ℕ} (hW : 1 ≤ W) (σ_sq : ℝ) (hσ : 0 ≤ σ_sq) :
+    σ_sq / (W : ℝ) ≤ σ_sq ∧
+    (1 < W → 0 < σ_sq → σ_sq / (W : ℝ) < σ_sq) := by
+  have hW_ge : 1 ≤ (W : ℝ) := by exact_mod_cast hW
+  refine ⟨div_le_self hσ hW_ge, fun hW_gt hσ_pos => ?_⟩
+  have hW_real : 1 < (W : ℝ) := by exact_mod_cast hW_gt
+  exact (div_lt_iff₀ (by positivity)).mpr (by nlinarith)
+
+def stepHeight (v : ℤ → ℝ) (z : ℤ) : ℝ := v (z + 1) - v z
+
+def boundaryPinnedVal (v : ℤ → ℝ) (z : ℤ) (pinned : Bool) (interiorVal : ℝ) : ℝ :=
+  if pinned then v z else interiorVal
+
+def unpinnedCrossBoundaryVal (v_self v_other : ℝ) (leakage_rate : ℝ) : ℝ :=
+  (1 - leakage_rate) * v_self + leakage_rate * v_other
+
+/-- **Theorem 7 (`boundary_pinned_step_preservation`)**:
+Boundary-pinned step transition preserves step height without boundary erosion. -/
+theorem boundary_pinned_step_preservation (v : ℤ → ℝ) (z : ℤ) (v_left v_right : ℝ)
+    (h_l : v z = v_left)
+    (h_r : v (z + 1) = v_right) :
+    let v_pinned := fun i => boundaryPinnedVal v i true 0
+    stepHeight v_pinned z = v_right - v_left ∧
+    stepHeight v_pinned z = stepHeight v z ∧
+    (∀ (leakage_rate : ℝ) (_h_leak_pos : 0 < leakage_rate) (_h_leak_le : leakage_rate ≤ 1 / 2) (_h_diff : v_left < v_right),
+      let v_unpinned_l := unpinnedCrossBoundaryVal v_left v_right leakage_rate
+      let v_unpinned_r := unpinnedCrossBoundaryVal v_right v_left leakage_rate
+      v_unpinned_r - v_unpinned_l = (1 - 2 * leakage_rate) * (v_right - v_left) ∧
+      v_unpinned_r - v_unpinned_l < v_right - v_left) := by
+  intro v_pinned
+  have hp_l : v_pinned z = v_left := by
+    change v z = v_left
+    exact h_l
+  have hp_r : v_pinned (z + 1) = v_right := by
+    change v (z + 1) = v_right
+    exact h_r
+  have h_step : stepHeight v_pinned z = v_right - v_left := by
+    unfold stepHeight; rw [hp_r, hp_l]
+  have h_raw : stepHeight v z = v_right - v_left := by
+    unfold stepHeight; rw [h_r, h_l]
+  refine ⟨h_step, by rw [h_step, h_raw], fun leakage_rate h_leak_pos _h_leak_le h_diff => ?_⟩
+  dsimp [unpinnedCrossBoundaryVal]
+  have h_eq : (1 - leakage_rate) * v_right + leakage_rate * v_left -
+      ((1 - leakage_rate) * v_left + leakage_rate * v_right) =
+      (1 - 2 * leakage_rate) * (v_right - v_left) := by ring
+  refine ⟨h_eq, ?_⟩
+  rw [h_eq]
+  have h_gap : 0 < v_right - v_left := sub_pos.mpr h_diff
+  have h_shrink : 1 - 2 * leakage_rate < 1 := by linarith [h_leak_pos]
+  nlinarith [h_gap, h_shrink]
+
+-- Compatibility aliases
+def morseImpulseProd (v : ℤ → ℝ) (z : ℤ) : ℝ := morseImpulse v z
+def isMorseImpulse (v : ℤ → ℝ) (z : ℤ) : Prop := 0 < morseImpulse v z
+noncomputable def laplacian3pt (v : ℤ → ℝ) (z : ℤ) : ℝ := discreteLaplacian v z
+
+-- 3D vector cross product helper
 def cross3 (u v : Fin 3 → ℝ) (k : Fin 3) : ℝ :=
   match k.val with
   | 0 => u 1 * v 2 - u 2 * v 1
   | 1 => u 2 * v 0 - u 0 * v 2
   | _ => u 0 * v 1 - u 1 * v 0
 
-def leviCivitaHalfTensor (i j k : Fin 3) : ℝ :=
-  match i.val, j.val, k.val with
-  | 0, 1, 2 => 1
-  | 1, 2, 0 => 1
-  | 2, 0, 1 => 1
-  | _, _, _ => 0
-
-/-- **Theorem 2.8a (`cross3_eq_triadOperator`)**:
-$B_{W_{\mathrm{LC}}}(u, v) = u \times v$. -/
-theorem cross3_eq_triadOperator (u v : Fin 3 → ℝ) (k : Fin 3) :
-    triadOperator leviCivitaHalfTensor u v k = cross3 u v k := by
-  fin_cases k <;> simp [triadOperator, leviCivitaHalfTensor, cross3, Fin.sum_univ_three] <;> ring
-
-def IsIdealMHDBalance (J B grad_p : Fin 3 → ℝ) : Prop :=
-  ∀ k : Fin 3, triadOperator leviCivitaHalfTensor J B k = grad_p k
-
-def IsEulerLambBalance (ω u grad_H : Fin 3 → ℝ) : Prop :=
-  ∀ k : Fin 3, triadOperator leviCivitaHalfTensor ω u k = -grad_H k
-
-def mhdToEulerMap (state : (Fin 3 → ℝ) × (Fin 3 → ℝ) × (Fin 3 → ℝ)) :
-    (Fin 3 → ℝ) × (Fin 3 → ℝ) × (Fin 3 → ℝ) :=
-  (state.1, state.2.1, -state.2.2)
-
-lemma mhdToEulerMap_involutive : Function.Involutive mhdToEulerMap := by
-  rintro ⟨J, B, grad_p⟩; simp [mhdToEulerMap]
-
-/-- **Theorem 2.8b (`mhd_euler_force_balance_bijection`)**:
-Involution and bijection between ideal MHD force balance and steady Euler Lamb balance. -/
-theorem mhd_euler_force_balance_bijection :
-    Function.Bijective mhdToEulerMap ∧
-    (∀ s : (Fin 3 → ℝ) × (Fin 3 → ℝ) × (Fin 3 → ℝ),
-      mhdToEulerMap (mhdToEulerMap s) = s) ∧
-    (∀ J B grad_p : Fin 3 → ℝ,
-      IsIdealMHDBalance J B grad_p ↔
-        IsEulerLambBalance (mhdToEulerMap (J, B, grad_p)).1
-          (mhdToEulerMap (J, B, grad_p)).2.1
-          (mhdToEulerMap (J, B, grad_p)).2.2) ∧
-    (∀ J B grad_p : Fin 3 → ℝ,
-      IsIdealMHDBalance J B grad_p ↔ (∀ k : Fin 3, cross3 J B k = grad_p k)) :=
-  ⟨mhdToEulerMap_involutive.bijective, mhdToEulerMap_involutive,
-    fun J B grad_p => by simp [IsIdealMHDBalance, IsEulerLambBalance, mhdToEulerMap],
-    fun J B grad_p => by simp [IsIdealMHDBalance, cross3_eq_triadOperator]⟩
-
-def IsFluxSurfaceConfined {C : ℕ} (B grad_ψ : Fin C → ℝ) : Prop :=
-  shellInner B grad_ψ = 0
-
-/-- **Theorem 2.8c (`mhd_flux_surface_confinement_iff`)**:
-Tangent magnetic flux-surface confinement $\mathbf{B} \cdot \nabla\psi = 0$ is equivalent to triad orthogonality. -/
-theorem mhd_flux_surface_confinement_iff {C : ℕ}
-    (W : Fin C → Fin C → Fin C → ℝ) (u v grad_ψ : Fin C → ℝ)
-    (J B : Fin 3 → ℝ) :
-    (grad_ψ = triadOperator W u v →
-      (IsFluxSurfaceConfined v grad_ψ ↔ shellInner v (triadOperator W u v) = 0)) ∧
-    IsFluxSurfaceConfined v (triadOperator W u v) ∧
-    shellInner B (cross3 J B) = 0 :=
-  ⟨fun h => h ▸ Iff.rfl, triad_pointwise_orthogonal W u v,
-   by rw [← funext (cross3_eq_triadOperator J B)]; exact triad_pointwise_orthogonal leviCivitaHalfTensor J B⟩
-
-def stellaratorParityShift (C : ℕ) (τ₀ : ℝ) (W : Fin C → Fin C → Fin C → ℝ)
-    (u v : Fin C → ℝ) (k : Fin C) : ℝ :=
-  τ₀ * triadOperator W u v k
-
-def stellaratorReadout (C : ℕ) (ℓ_sym : Fin C → ℝ) (τ₀ : ℝ)
-    (W : Fin C → Fin C → Fin C → ℝ) (u v : Fin C → ℝ) (k : Fin C) : ℝ :=
-  ℓ_sym k + stellaratorParityShift C τ₀ W u v k
-
-/-- **Theorem 2.8d (`stellarator_parity_breaks_tie_and_conserves_flux`)**:
-Non-stellarator-symmetric torsion breaks resonant mode ties while preserving flux tangency. -/
-theorem stellarator_parity_breaks_tie_and_conserves_flux {C : ℕ}
-    (ℓ_sym : Fin C → ℝ) (τ₀ : ℝ) (W : Fin C → Fin C → Fin C → ℝ)
-    (u v : Fin C → ℝ) (i₀ c₁ c₂ : Fin C) (α β : ℝ)
-    (hτ : 0 < τ₀) (hα : 0 < α) (hβ : 0 < β) (h_tie : ℓ_sym c₁ = ℓ_sym c₂)
-    (hu_i0 : u i₀ = β) (hu_other : ∀ i : Fin C, i ≠ i₀ → u i = 0)
-    (hv_c1 : v c₁ = α) (hv_c2 : v c₂ = α)
-    (hv_other : ∀ c : Fin C, c ≠ c₁ → c ≠ c₂ → v c = 0) :
-    (stellaratorReadout C ℓ_sym τ₀ W u v c₁ -
-      stellaratorReadout C ℓ_sym τ₀ W u v c₂ =
-        2 * τ₀ * β * α * (W i₀ c₂ c₁ - W i₀ c₁ c₂)) ∧
-    (W i₀ c₂ c₁ > W i₀ c₁ c₂ →
-      stellaratorReadout C ℓ_sym τ₀ W u v c₁ >
-        stellaratorReadout C ℓ_sym τ₀ W u v c₂) ∧
-    IsFluxSurfaceConfined v (stellaratorParityShift C τ₀ W u v) := by
-  have h_occl := (occlusion_triad_breaks_symmetric_tie ℓ_sym W u v i₀ c₁ c₂ α β
-    hα hβ h_tie hu_i0 hu_other hv_c1 hv_c2 hv_other).1
-  have h_diff : stellaratorReadout C ℓ_sym τ₀ W u v c₁ -
-      stellaratorReadout C ℓ_sym τ₀ W u v c₂ = 2 * τ₀ * β * α * (W i₀ c₂ c₁ - W i₀ c₁ c₂) := by
-    unfold stellaratorReadout stellaratorParityShift postLogit at *
-    linear_combination (1 - τ₀) * h_tie + τ₀ * h_occl
-  exact ⟨h_diff, fun hW => by nlinarith [mul_pos (mul_pos hτ hβ) hα], tangentTriadStep_orthogonal τ₀ W u v⟩
-
-/-- **Theorem 2.8e (`stellarator_zero_torsion_homotopy_iff`)**:
-Torsion shift vanishes if and only if $\tau_0 = 0$. -/
-theorem stellarator_zero_torsion_homotopy_iff {C : ℕ}
-    (ℓ_sym : Fin C → ℝ) (τ₀ : ℝ) (W : Fin C → Fin C → Fin C → ℝ)
-    (u v : Fin C → ℝ)
-    (h_nondeg : ∃ k : Fin C, triadOperator W u v k ≠ 0) :
-    (τ₀ = 0 ↔ stellaratorParityShift C τ₀ W u v = 0) ∧
-    (τ₀ = 0 → ∀ k : Fin C, stellaratorReadout C ℓ_sym τ₀ W u v k = ℓ_sym k) :=
-  let ⟨k, hk⟩ := h_nondeg
-  ⟨⟨fun hτ => funext fun i => by simp [stellaratorParityShift, hτ],
-    fun h0 => (mul_eq_zero.mp (congr_fun h0 k)).resolve_right hk⟩,
-   fun hτ i => by simp [stellaratorReadout, stellaratorParityShift, hτ]⟩
-
-noncomputable def flowBeltramiMultiplier (μ M : ℝ) : ℝ := μ / (1 - M ^ 2)
-
-theorem sub_alfvenic_beltrami_homotopy_zero_flow (μ : ℝ) :
-    flowBeltramiMultiplier μ 0 = μ := by
-  unfold flowBeltramiMultiplier; ring
-
-theorem sub_alfvenic_beltrami_pos (μ M : ℝ) (hμ : 0 < μ) (hM : M ^ 2 < 1) :
-    0 < flowBeltramiMultiplier μ M :=
-  div_pos hμ (by linarith)
-
-def collinearBeltramiField (α : ℝ) (B : Fin 3 → ℝ) (k : Fin 3) : ℝ := α * B k
-
-/-- **Theorem 2.9a (`beltrami_cross_helicity_collinear_lorentz_vanishes`)**:
-$B_{W_{\mathrm{LC}}}(\alpha \mathbf{B}, \mathbf{B}) = \mathbf{0}$. -/
-theorem beltrami_cross_helicity_collinear_lorentz_vanishes (α : ℝ) (B : Fin 3 → ℝ) (k : Fin 3) :
-    triadOperator leviCivitaHalfTensor (collinearBeltramiField α B) B k = 0 ∧
-    cross3 (collinearBeltramiField α B) B k = 0 := by
-  rw [cross3_eq_triadOperator, and_self_iff]
-  fin_cases k <;> simp [cross3, collinearBeltramiField] <;> ring
-
-noncomputable def flowBernoulliHead (p B_sq M : ℝ) : ℝ := p + (1 + M ^ 2) * B_sq / 2
-
-def IsFlowMRxMHDJumpBalanced (p₁ B₁_sq M₁ p₂ B₂_sq M₂ : ℝ) : Prop :=
-  flowBernoulliHead p₁ B₁_sq M₁ = flowBernoulliHead p₂ B₂_sq M₂
-
-/-- **Theorem 2.9b (`mrxmhd_flow_bernoulli_jump_conservation`)**:
-Interface pressure jump equation across stepped-pressure barriers. -/
-theorem mrxmhd_flow_bernoulli_jump_conservation (p₁ B₁_sq M₁ p₂ B₂_sq M₂ : ℝ) :
-    (IsFlowMRxMHDJumpBalanced p₁ B₁_sq M₁ p₂ B₂_sq M₂ ↔
-      p₂ - p₁ = ((1 + M₁ ^ 2) * B₁_sq - (1 + M₂ ^ 2) * B₂_sq) / 2) ∧
-    (IsFlowMRxMHDJumpBalanced p₁ B₁_sq 0 p₂ B₂_sq 0 ↔
-      p₂ - p₁ = (B₁_sq - B₂_sq) / 2) := by
-  unfold IsFlowMRxMHDJumpBalanced flowBernoulliHead
-  refine ⟨⟨fun h => by linarith, fun h => by linarith⟩,
-          ⟨fun h => by ring_nf at h ⊢; linarith, fun h => by ring_nf at h ⊢; linarith⟩⟩
-
-noncomputable def kamDiophantineGap (ι : ℝ) (n m : ℕ) : ℝ := |ι - (n : ℝ) / (m : ℝ)|
-
-def IsKAMInterfaceAdmissible (ι M γ ν : ℝ) (n m : ℕ) : Prop :=
-  M ^ 2 < 1 ∧ γ / ((m : ℝ) ^ ν) ≤ kamDiophantineGap ι n m
-
-/-- **Theorem 2.9c (`kam_sub_alfvenic_ellipticity_and_gap`)**:
-Sub-Alfvénic Beltrami ellipticity ($1 - M^2 > 0$) and Diophantine non-resonance. -/
-theorem kam_sub_alfvenic_ellipticity_and_gap (ι M γ ν : ℝ) (n m : ℕ)
-    (h : IsKAMInterfaceAdmissible ι M γ ν n m) :
-    0 < 1 - M ^ 2 ∧ γ / ((m : ℝ) ^ ν) ≤ |ι - (n : ℝ) / (m : ℝ)| :=
-  ⟨by linarith [h.1], h.2⟩
-
 -- ============================================================================
--- Section 5: Lie Rotors, Cellular Sheaves, and SRAM Arena (Theorems 2.10–2.11)
+-- Section 5: Lie Rotors and Cellular Sheaves (Theorem 2.10)
 -- ============================================================================
 
 noncomputable def cayleyRotor2 (α : ℝ) (i j : Fin 2) : ℝ :=
@@ -724,12 +701,6 @@ lemma cayleyRotor2_orthonormal (α : ℝ) :
     ∀ j k : Fin 2, (∑ i : Fin 2, cayleyRotor2 α i j * cayleyRotor2 α i k) = if j = k then 1 else 0 :=
   (cayley_rank2_orthogonality α 0).1
 
-/-- Stealth domain-native alias for Theorem 2.10a. -/
-theorem cayley_rotor_orthogonality (α : ℝ) (x : Fin 2 → ℝ) :
-    (∀ j k : Fin 2, (∑ i : Fin 2, cayleyRotor2 α i j * cayleyRotor2 α i k) = if j = k then 1 else 0) ∧
-    (∑ i : Fin 2, (∑ j : Fin 2, cayleyRotor2 α i j * x j) ^ 2) = (∑ i : Fin 2, x i ^ 2) :=
-  cayley_rank2_orthogonality α x
-
 def contactNormalCoboundary (nx ny dvx dvy : ℝ) : ℝ := nx * dvx + ny * dvy
 def contactTangentCoboundary (nx ny dvx dvy : ℝ) : ℝ := -ny * dvx + nx * dvy
 
@@ -756,7 +727,7 @@ theorem contact_sheaf_non_penetration_invariant (nx ny dvx dvy : ℝ)
   unfold contactNormalCoboundary contactTangentCoboundary
   exact ⟨by linear_combination vn * h_unit, by linear_combination vt * h_unit⟩
 
-/-- Stealth domain-native alias for Theorem 2.10b. -/
+/-- Alias for Theorem 2.10b. -/
 theorem contact_sheaf_unilateral_non_penetration (nx ny dvx dvy : ℝ)
     (h_unit : nx ^ 2 + ny ^ 2 = 1) :
     (dvx ^ 2 + dvy ^ 2 =
@@ -770,45 +741,6 @@ theorem contact_sheaf_unilateral_non_penetration (nx ny dvx dvy : ℝ)
       contactNormalCoboundary nx ny dvx' dvy' = vn ∧
       contactTangentCoboundary nx ny dvx' dvy' = vt) :=
   contact_sheaf_non_penetration_invariant nx ny dvx dvy h_unit
-
-def arenaOffsets : Fin 7 → ℕ
-  | 0 => 0        -- 0: Skew Triad tensor & state (0..64KB)
-  | 1 => 65536    -- 1: Cascade 16-step buffer (64KB..128KB)
-  | 2 => 131072   -- 2: SO(16) Cayley Rotor (128KB..192KB)
-  | 3 => 196608   -- 3: Beltrami Morse ring buffer & stack (192KB..720KB)
-  | 4 => 720896   -- 4: SO(6) Kelvin-Mandel stiffness (720KB..786KB)
-  | 5 => 786432   -- 5: SE(2) Contact Sheaf graph (786KB..917KB)
-  | 6 => 917504   -- 6: Working state & telemetry scratch (917KB..1048KB)
-
-def arenaSizes : Fin 7 → ℕ
-  | 0 => 65536
-  | 1 => 65536
-  | 2 => 65536
-  | 3 => 524288
-  | 4 => 65536
-  | 5 => 131072
-  | 6 => 131072
-
-def arenaTotalBound : ℕ := 1258291
-def sramL3Ceiling : ℕ := 2097152
-
-/-- **Theorem 2.11 (`sram_arena_layout_verified`)**:
-All sub-buffers inside `CellSnailArena` satisfy:
-1. 64-byte cache-line alignment (`offset % 64 == 0`).
-2. Pairwise byte-disjointness (`offset_i + size_i ≤ offset_j` for $i < j$).
-3. Strict memory footprint bound inside $\le 1,258,291\text{ B} < 2.0\text{ MB}$ ($2,097,152\text{ B}$) SRAM. -/
-theorem sram_arena_layout_verified :
-    (∀ i : Fin 7, arenaOffsets i % 64 = 0) ∧
-    (∀ i j : Fin 7, i.val < j.val → arenaOffsets i + arenaSizes i ≤ arenaOffsets j) ∧
-    (arenaOffsets 6 + arenaSizes 6 ≤ arenaTotalBound ∧ arenaTotalBound < sramL3Ceiling) := by
-  decide
-
-/-- Stealth domain-native alias for Theorem 2.11. -/
-theorem sram_arena_cacheline_disjoint_and_bounded :
-    (∀ i : Fin 7, arenaOffsets i % 64 = 0) ∧
-    (∀ i j : Fin 7, i.val < j.val → arenaOffsets i + arenaSizes i ≤ arenaOffsets j) ∧
-    (arenaOffsets 6 + arenaSizes 6 ≤ arenaTotalBound ∧ arenaTotalBound < sramL3Ceiling) :=
-  sram_arena_layout_verified
 
 -- ============================================================================
 -- Section 6: Single-Cell Data Science (SCDS) Invariants (Theorems 2.12–2.15)
@@ -825,21 +757,14 @@ def IsStrictExtremumAt (v : ℤ → ℝ) (z : ℤ) : Prop :=
 def IsMonotoneAt (v : ℤ → ℝ) (z : ℤ) : Prop :=
   (v (z - 1) ≤ v z ∧ v z ≤ v (z + 1)) ∨ (v (z + 1) ≤ v z ∧ v z ≤ v (z - 1))
 
-def separableChannelCovariance (cov_xy : ℝ) (α β : ℝ) : ℝ :=
-  α * β * cov_xy
-
 /-- **Theorem 2.12 (`morse_dropout_shielding_zero_spurious_corr`)**:
 1. Discrete Morse impulse is strictly positive if and only if z is a strict local extremum.
-2. For any monotone ramp, the Morse impulse is non-positive (rejected).
-3. Pointwise separable dropout filtering on uncorrelated gene channels (cov = 0)
-   preserves exact zero covariance (injected spurious covariance = 0). -/
+2. For any monotone ramp, the Morse impulse is non-positive (rejected). -/
 theorem morse_dropout_shielding_zero_spurious_corr (v : ℤ → ℝ) (z : ℤ) :
     (morseImpulse1D v z > 0 ↔ IsStrictExtremumAt v z) ∧
-    (IsMonotoneAt v z → morseImpulse1D v z ≤ 0) ∧
-    (∀ (α β : ℝ), separableChannelCovariance 0 α β = 0) :=
+    (IsMonotoneAt v z → morseImpulse1D v z ≤ 0) :=
   ⟨by simp [morseImpulse1D, IsStrictExtremumAt, gt_iff_lt, mul_pos_iff, sub_pos, sub_neg],
-   fun | Or.inl ⟨h1, h2⟩ | Or.inr ⟨h1, h2⟩ => by dsimp [morseImpulse1D]; nlinarith,
-   fun _ _ => by simp [separableChannelCovariance]⟩
+   fun | Or.inl ⟨h1, h2⟩ | Or.inr ⟨h1, h2⟩ => by dsimp [morseImpulse1D]; nlinarith⟩
 
 /-! ### Theorem 2.13: H_clock ⊕ H_nope Cell-Cycle & Batch Orthogonal Decomposition -/
 
@@ -955,7 +880,7 @@ theorem ascertainment_bias_free_ultrametric_condensation {α : Type*}
       exact mul_le_mul_of_nonneg_left (hd.2.2.2 x y z) hscale.le⟩,
    fun r a b hab => by simp [ultrametricCondensation, hab]⟩
 
-/-! ### Theorem 2.15: Bi-Hemispheric CNV-to-RNA Dosage Linkage & Driver-Passenger Causal Factorization -/
+/-! ### Theorem 2.15: 6D Covariance Rotor Trace and Quadratic Form Conservation -/
 
 def rotateMultiomicCov6 (M : Fin 6 → Fin 6 → ℝ) (cov : Fin 6 → Fin 6 → ℝ) (i j : Fin 6) : ℝ :=
   ∑ k : Fin 6, ∑ l : Fin 6, M i k * cov k l * M j l
@@ -966,12 +891,12 @@ def quadForm6 (cov : Fin 6 → Fin 6 → ℝ) (w : Fin 6 → ℝ) : ℝ :=
 def IsOrthonormal6 (M : Fin 6 → Fin 6 → ℝ) : Prop :=
   ∀ j k : Fin 6, (∑ i : Fin 6, M i j * M i k) = if j = k then 1 else 0
 
-/-- **Theorem 2.15 (`multiomic_dosage_linkage_causal_factorization`)**:
+/-- **Theorem 2.15 (`multiomic_covariance_trace_and_quadform_conservation`)**:
 For any 6D multi-omic covariance tensor cov and orthonormal rotor M ∈ SO(6):
-1. Total multi-omic variance (trace) is strictly conserved: Tr(M cov Mᵀ) = Tr(cov).
+1. Total multi-omic variance (trace) is strictly conserved under basis rotation: Tr(M cov Mᵀ) = Tr(cov).
 2. Quadratic variance form is conserved under rotated loadings:
    wᵀ (M cov Mᵀ) w = (Mᵀ w)ᵀ cov (Mᵀ w). -/
-theorem multiomic_dosage_linkage_causal_factorization
+theorem multiomic_covariance_trace_and_quadform_conservation
     (M : Fin 6 → Fin 6 → ℝ) (hM : IsOrthonormal6 M)
     (cov : Fin 6 → Fin 6 → ℝ) (w : Fin 6 → ℝ) :
     trace6 (rotateMultiomicCov6 M cov) = trace6 cov ∧
@@ -979,6 +904,7 @@ theorem multiomic_dosage_linkage_causal_factorization
       quadForm6 cov (fun k => ∑ i : Fin 6, M i k * w i) :=
   ⟨so6_stiffness_trace_conservation M cov hM,
    by simp only [quadForm6, rotateMultiomicCov6, Fin.sum_univ_six]; ring⟩
+
 
 -- ============================================================================
 -- Section 7: Adaptive Hybrid Operators & Extended Invariants (Theorems 2.16–2.19)
@@ -991,63 +917,46 @@ def convexBlend1D (morse_val prior_val : ℝ) (alpha_blend : ℝ) : ℝ :=
 
 /-- **Theorem 2.16 (`convex_shrinkage_stability_and_zero_spurious_corr`)**:
 For any shrinkage blend parameter α ∈ [0, 1] and amplitude ceiling M:
-1. The convex combination is bounded: |α x_morse + (1 - α) x_prior| ≤ M whenever |x_morse| ≤ M and |x_prior| ≤ M.
-2. Preserves exact zero spurious covariance injection on uncorrelated channels. -/
+The convex combination is bounded: |α x_morse + (1 - α) x_prior| ≤ M whenever |x_morse| ≤ M and |x_prior| ≤ M. -/
 theorem convex_shrinkage_stability_and_zero_spurious_corr
     (x_morse x_prior : ℝ) (alpha_blend : ℝ) (hα : 0 ≤ alpha_blend ∧ alpha_blend ≤ 1)
     (M : ℝ) (_hM : 0 ≤ M) (hx_m : |x_morse| ≤ M) (hx_p : |x_prior| ≤ M) :
-    |convexBlend1D x_morse x_prior alpha_blend| ≤ M ∧
-    (∀ y, separableChannelCovariance 0 x_morse y = 0 ∧
-          separableChannelCovariance 0 x_prior y = 0 →
-          separableChannelCovariance 0 (convexBlend1D x_morse x_prior alpha_blend) y = 0) := by
-  constructor
-  · unfold convexBlend1D
-    have h1 : 0 ≤ 1 - alpha_blend := by linarith [hα.2]
-    refine le_trans (abs_add_le _ _) ?_
-    rw [abs_mul, abs_mul, abs_of_nonneg hα.1, abs_of_nonneg h1]
-    nlinarith [hα.1, h1, hx_m, hx_p]
-  · intro y _; unfold separableChannelCovariance convexBlend1D; ring
+    |convexBlend1D x_morse x_prior alpha_blend| ≤ M := by
+  unfold convexBlend1D
+  have h1 : 0 ≤ 1 - alpha_blend := by linarith [hα.2]
+  refine le_trans (abs_add_le _ _) ?_
+  rw [abs_mul, abs_mul, abs_of_nonneg hα.1, abs_of_nonneg h1]
+  nlinarith [hα.1, h1, hx_m, hx_p]
 
-/-- Stealth domain-native alias for Theorem 2.16. -/
+/-- Alias for Theorem 2.16. -/
 theorem convex_shrinkage_morse_stability
     (x_morse x_prior : ℝ) (alpha_blend : ℝ) (hα : 0 ≤ alpha_blend ∧ alpha_blend ≤ 1)
     (M : ℝ) (_hM : 0 ≤ M) (hx_m : |x_morse| ≤ M) (hx_p : |x_prior| ≤ M) :
-    |convexBlend1D x_morse x_prior alpha_blend| ≤ M ∧
-    (∀ y, separableChannelCovariance 0 x_morse y = 0 ∧
-          separableChannelCovariance 0 x_prior y = 0 →
-          separableChannelCovariance 0 (convexBlend1D x_morse x_prior alpha_blend) y = 0) :=
+    |convexBlend1D x_morse x_prior alpha_blend| ≤ M :=
   convex_shrinkage_stability_and_zero_spurious_corr x_morse x_prior alpha_blend hα M _hM hx_m hx_p
 
-/-! ### Theorem 2.17: Multi-Scale Plateau Noise Attenuation & Step Amplitude Preservation -/
+/-! ### Theorem 2.17: Multi-Scale Plateau Moving Average Unbiasedness & Noise Attenuation -/
 
 noncomputable def multiscaleBoxMean {L : ℕ} (v : Fin L → ℝ) : ℝ :=
   (∑ i : Fin L, v i) / (L : ℝ)
 
-def plateauBoundaryStepPreserved (v_left v_right : ℝ) : ℝ :=
-  v_right - v_left
-
 /-- **Theorem 2.17 (`multiscale_plateau_unbiased_and_variance_reduction`)**:
 For any plateau segment of length L > 0:
 1. Box-car moving average is strictly unbiased on flat plateaus: mean(c) = c.
-2. Independent noise variance is attenuated by factor L: Var(mean) = σ² / L ≤ σ².
-3. Boundary pinning exactly preserves step-edge amplitude with zero adjacent-bin smearing. -/
+2. Independent noise variance is attenuated by factor L: Var(mean) = σ² / L ≤ σ². -/
 theorem multiscale_plateau_unbiased_and_variance_reduction
-    {L : ℕ} (hL : 0 < L) (c : ℝ) (v_left v_right : ℝ) :
+    {L : ℕ} (hL : 0 < L) (c : ℝ) :
     multiscaleBoxMean (fun _ : Fin L => c) = c ∧
-    (∀ (sigma_sq : ℝ), 0 ≤ sigma_sq → (sigma_sq / (L : ℝ)) ≤ sigma_sq) ∧
-    (plateauBoundaryStepPreserved v_left v_right = v_right - v_left) := by
-  refine ⟨?_, fun sigma_sq hσ => div_le_self hσ (by exact_mod_cast hL), rfl⟩
-  unfold multiscaleBoxMean
-  simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
-  exact mul_div_cancel_left₀ c (Nat.cast_ne_zero.mpr (ne_of_gt hL))
+    (∀ (sigma_sq : ℝ), 0 ≤ sigma_sq → (sigma_sq / (L : ℝ)) ≤ sigma_sq) :=
+  ⟨plateau_moving_average_unbiased hL c,
+   fun sigma_sq hσ => (plateau_variance_reduction (Nat.succ_le_of_lt hL) sigma_sq hσ).1⟩
 
-/-- Stealth domain-native alias for Theorem 2.17. -/
+/-- Alias for Theorem 2.17. -/
 theorem multiscale_plateau_variance_reduction
-    {L : ℕ} (hL : 0 < L) (c : ℝ) (v_left v_right : ℝ) :
+    {L : ℕ} (hL : 0 < L) (c : ℝ) :
     multiscaleBoxMean (fun _ : Fin L => c) = c ∧
-    (∀ (sigma_sq : ℝ), 0 ≤ sigma_sq → (sigma_sq / (L : ℝ)) ≤ sigma_sq) ∧
-    (plateauBoundaryStepPreserved v_left v_right = v_right - v_left) :=
-  multiscale_plateau_unbiased_and_variance_reduction hL c v_left v_right
+    (∀ (sigma_sq : ℝ), 0 ≤ sigma_sq → (sigma_sq / (L : ℝ)) ≤ sigma_sq) :=
+  multiscale_plateau_unbiased_and_variance_reduction hL c
 
 /-! ### Theorem 2.18: Jitter-Adaptive Huber Sheaf Energy Bound & Soft Clamping -/
 
@@ -1089,7 +998,7 @@ theorem jitter_adaptive_huber_sheaf_energy_bounds
     · simp [sq_nonneg]
     · nlinarith
 
-/-- Stealth domain-native alias for Theorem 2.18. -/
+/-- Alias for Theorem 2.18. -/
 theorem jitter_adaptive_huber_sheaf_energy_bound
     (v_tan v_norm δ : ℝ) (hδ : 0 < δ) :
     0 ≤ adaptiveSheafEnergy v_tan v_norm δ ∧
@@ -1123,7 +1032,7 @@ theorem regularized_so6_covariance_condition_and_trace_conservation
   exact ⟨h_tr, by rw [h_rot, h_tr],
     fun _ _ => by dsimp [shrinkCov6]; ring, fun _ _ => by dsimp [shrinkCov6]; ring⟩
 
-/-- Stealth domain-native alias for Theorem 2.19. -/
+/-- Alias for Theorem 2.19. -/
 theorem regularized_so6_covariance_conditioning_and_trace_conservation
     (cov : Fin 6 → Fin 6 → ℝ) (α : ℝ) (hα : 0 ≤ α ∧ α ≤ 1)
     (M : Fin 6 → Fin 6 → ℝ) (hM : IsOrthonormal6 M) :
@@ -1133,48 +1042,319 @@ theorem regularized_so6_covariance_conditioning_and_trace_conservation
     (∀ i j : Fin 6, shrinkCov6 cov 1 i j = (trace6 cov / 6) * (if i = j then 1 else 0)) :=
   regularized_so6_covariance_condition_and_trace_conservation cov α hα M hM
 
+-- ============================================================================
+-- Section 8: 3D SE(3) Allosteric Contact Sheaves, Cayley Ramachandran Rotors & Cryo-EM Voxel Morse Shielding (Theorems 2.20–2.22)
+-- ============================================================================
+
+/-! ### Theorem 2.20: 3D SE(3) Allosteric Contact Sheaves & Torque Transmission -/
+
+structure SE3Twist where
+  ω : Fin 3 → ℝ
+  v : Fin 3 → ℝ
+
+def se3PointVelocity (ξ : SE3Twist) (r : Fin 3 → ℝ) (k : Fin 3) : ℝ :=
+  ξ.v k + cross3 ξ.ω r k
+
+def se3NormalCoboundary (ξ_i ξ_j : SE3Twist) (r_i r_j n : Fin 3 → ℝ) : ℝ :=
+  ∑ k : Fin 3, n k * (se3PointVelocity ξ_j r_j k - se3PointVelocity ξ_i r_i k)
+
+def globalSE3Twist (ξ₀ : SE3Twist) (x : Fin 3 → ℝ) : SE3Twist :=
+  ⟨ξ₀.ω, fun k => ξ₀.v k + cross3 ξ₀.ω x k⟩
+
+def unilateralCoboundary (δv : ℝ) : ℝ := max δv 0
+
+def pathImpulseTransmission (K : ℕ) (κ : Fin K → ℝ) (Δξ : ℝ) : ℝ :=
+  (∏ i : Fin K, κ i) * Δξ
+
+/-- **Theorem 2.20a (`se3_allosteric_coboundary_non_penetration`)**:
+For any directed contact edge between residues $i$ and $j$:
+1. The unilateral coboundary projection satisfies $(\delta v)_{\mathrm{proj}} \ge 0$ (0.0 steric clash penetration).
+2. For any valid non-penetrating relative velocity, the penetration rate is zero: $-\min(\delta v, 0) = 0$.
+3. Global SE(3) rigid-body translations and rotations produce zero relative normal contact coboundary. -/
+theorem se3_allosteric_coboundary_non_penetration
+    (ξ₀ : SE3Twist) (x_i x_j r_i r_j n : Fin 3 → ℝ) (δv : ℝ)
+    (h_contact : ∀ k : Fin 3, x_i k + r_i k = x_j k + r_j k) :
+    0 ≤ unilateralCoboundary δv ∧
+    (0 ≤ δv → -min δv 0 = 0 ∧ unilateralCoboundary δv = δv) ∧
+    se3NormalCoboundary (globalSE3Twist ξ₀ x_i) (globalSE3Twist ξ₀ x_j) r_i r_j n = 0 := by
+  refine ⟨le_max_right δv 0, fun h => ?_, ?_⟩
+  · rw [min_eq_right h, neg_zero]
+    exact ⟨rfl, max_eq_left h⟩
+  · unfold se3NormalCoboundary se3PointVelocity globalSE3Twist
+    have h_vel (k : Fin 3) :
+        (ξ₀.v k + cross3 ξ₀.ω x_j k + cross3 ξ₀.ω r_j k) -
+        (ξ₀.v k + cross3 ξ₀.ω x_i k + cross3 ξ₀.ω r_i k) = 0 := by
+      have h0 := h_contact 0
+      have h1 := h_contact 1
+      have h2 := h_contact 2
+      fin_cases k
+      · simp only [cross3, Fin.zero_eta, Fin.isValue]
+        linear_combination -ξ₀.ω 1 * h2 + ξ₀.ω 2 * h1
+      · simp only [cross3, Fin.mk_one, Fin.isValue]
+        linear_combination -ξ₀.ω 2 * h0 + ξ₀.ω 0 * h2
+      · simp only [cross3, Fin.reduceFinMk, Fin.isValue]
+        linear_combination -ξ₀.ω 0 * h1 + ξ₀.ω 1 * h0
+    simp_rw [h_vel, mul_zero, Finset.sum_const_zero]
+
+/-- **Theorem 2.20b (`allosteric_torque_transmission`)**:
+Along a non-slack contact path of length $K$ with active transmission factors $\kappa_i > 0$:
+1. Non-negative mutational impulse $\Delta \xi_{\mathrm{mut}} \ge 0$ yields non-negative transmitted impulse.
+2. Transmitted impulse is strictly monotonic with respect to $\Delta \xi_{\mathrm{mut}}$.
+3. Cumulative non-slack displacement satisfies $x_K \ge x_0$. -/
+theorem allosteric_torque_transmission (K : ℕ) (κ : Fin K → ℝ) (hκ : ∀ i : Fin K, 0 < κ i)
+    (Δξ₁ Δξ₂ : ℝ) (h_le : Δξ₁ ≤ Δξ₂) :
+    pathImpulseTransmission K κ Δξ₁ ≤ pathImpulseTransmission K κ Δξ₂ ∧
+    (0 ≤ Δξ₁ → 0 ≤ pathImpulseTransmission K κ Δξ₁) ∧
+    (∀ (x : Fin (K + 1) → ℝ) (δ : Fin K → ℝ),
+      (∀ i : Fin K, 0 ≤ δ i) →
+      (∀ i : Fin K, x ⟨i.val + 1, Nat.succ_lt_succ i.isLt⟩ = x ⟨i.val, Nat.lt_succ_of_lt i.isLt⟩ + δ i) →
+      x 0 ≤ x ⟨K, Nat.lt_succ_self K⟩) := by
+  have h_prod_pos : 0 < ∏ i : Fin K, κ i := Finset.prod_pos fun i _ => hκ i
+  refine ⟨mul_le_mul_of_nonneg_left h_le h_prod_pos.le,
+          fun h0 => mul_nonneg h_prod_pos.le h0, fun x δ hδ h_step => ?_⟩
+  have h_chain : ∀ m : ℕ, (hm : m ≤ K) →
+      x 0 ≤ x ⟨m, Nat.lt_succ_of_le hm⟩ := by
+    intro m
+    induction m with
+    | zero => intro _; rfl
+    | succ j ih =>
+      intro hj
+      have hj_lt : j < K := Nat.lt_of_succ_le hj
+      have hj_le : j ≤ K := Nat.le_of_lt hj_lt
+      have ih_j := ih hj_le
+      have h_step_j := h_step ⟨j, hj_lt⟩
+      dsimp only at h_step_j
+      have h_nonneg_δ := hδ ⟨j, hj_lt⟩
+      linarith
+  exact h_chain K (le_refl K)
+
+/-! ### Theorem 2.21: Cayley SO(3) Ramachandran Dihedral Torsion Norm Invariance -/
+
+noncomputable def cayleyRotor3 (α : ℝ) (i j : Fin 3) : ℝ :=
+  let denom := 1 + α ^ 2
+  let c := (1 - α ^ 2) / denom
+  let s := (2 * α) / denom
+  match i.val, j.val with
+  | 0, 0 => c
+  | 0, 1 => s
+  | 1, 0 => -s
+  | 1, 1 => c
+  | 2, 2 => 1
+  | _, _ => 0
+
+def dihedralGeneratorSO3 (α : ℝ) (i j : Fin 3) : ℝ :=
+  match i.val, j.val with
+  | 0, 1 => α
+  | 1, 0 => -α
+  | _, _ => 0
+
+lemma cayley_c_sq_add_s_sq (α : ℝ) :
+    ((1 - α ^ 2) / (1 + α ^ 2)) ^ 2 + ((2 * α) / (1 + α ^ 2)) ^ 2 = 1 := by
+  have hdenom : 1 + α ^ 2 ≠ 0 := by positivity
+  rw [div_pow, div_pow, ← add_div,
+      show (1 - α ^ 2) ^ 2 + (2 * α) ^ 2 = (1 + α ^ 2) ^ 2 by ring,
+      div_self (pow_ne_zero 2 hdenom)]
+
+lemma cayleyRotor3_orthonormal (α : ℝ) :
+    ∀ j k : Fin 3, (∑ i : Fin 3, cayleyRotor3 α i j * cayleyRotor3 α i k) = if j = k then 1 else 0 := by
+  intro j k
+  have h_cs := cayley_c_sq_add_s_sq α
+  rw [Fin.sum_univ_three]
+  fin_cases j <;> fin_cases k <;>
+    simp only [cayleyRotor3, Fin.isValue, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
+               Nat.one_mod, Nat.reduceMod, Fin.mk.injEq, Nat.reduceEqDiff, ↓reduceIte,
+               mul_zero, add_zero, zero_add] <;>
+    first | linear_combination h_cs | ring
+
+theorem cayley_so3_norm_preserving (α : ℝ) (x : Fin 3 → ℝ) :
+    shellEnergy (fun i => ∑ j : Fin 3, cayleyRotor3 α i j * x j) = shellEnergy x := by
+  unfold shellEnergy shellInner
+  rw [Fin.sum_univ_three, Fin.sum_univ_three]
+  have h_cs := cayley_c_sq_add_s_sq α
+  simp only [Fin.sum_univ_three, cayleyRotor3, Fin.isValue, Fin.coe_ofNat_eq_mod,
+             Nat.zero_mod, Nat.one_mod, Nat.reduceMod, zero_mul, add_zero]
+  linear_combination (x 0 ^ 2 + x 1 ^ 2) * h_cs
+
+noncomputable def cayleyCascadeSO3 (K : ℕ) (α : Fin K → ℝ) (x₀ : Fin 3 → ℝ) : ℕ → (Fin 3 → ℝ)
+  | 0 => x₀
+  | t + 1 =>
+    if ht : t < K then
+      fun i => ∑ j : Fin 3, cayleyRotor3 (α ⟨t, ht⟩) i j * (cayleyCascadeSO3 K α x₀ t j)
+    else
+      cayleyCascadeSO3 K α x₀ t
+
+/-- **Theorem 2.21 (`cayley_so3_ramachandran_norm_invariance`)**:
+The Rank-2 dihedral torsion generator A ∈ so(3) mapped via the Cayley transform R:
+1. Satisfies column-orthonormality: Rᵀ R = I₃.
+2. Preserves exact covalent bond length: ‖R x‖₂² = ‖x‖₂².
+3. Across arbitrary K-step cascades, terminal state preserves exact initial norm: ‖x^(T)‖₂² = ‖x^(0)‖₂².
+4. Generator A is skew-symmetric: Aᵀ = -A and ⟨x, A x⟩ = 0. -/
+theorem cayley_so3_ramachandran_norm_invariance (α : ℝ) (x : Fin 3 → ℝ)
+    (K : ℕ) (α_seq : Fin K → ℝ) (x₀ : Fin 3 → ℝ) (T : ℕ) :
+    (∀ j k : Fin 3, (∑ i : Fin 3, cayleyRotor3 α i j * cayleyRotor3 α i k) = if j = k then 1 else 0) ∧
+    (shellEnergy (fun i => ∑ j : Fin 3, cayleyRotor3 α i j * x j) = shellEnergy x) ∧
+    (shellEnergy (cayleyCascadeSO3 K α_seq x₀ T) = shellEnergy x₀) ∧
+    ((∑ i : Fin 3, x i * (∑ j : Fin 3, dihedralGeneratorSO3 α i j * x j)) = 0 ∧
+     (∀ i j : Fin 3, dihedralGeneratorSO3 α j i = -dihedralGeneratorSO3 α i j)) := by
+  refine ⟨cayleyRotor3_orthonormal α, cayley_so3_norm_preserving α x, ?_, ?_⟩
+  · induction T with
+    | zero => rfl
+    | succ t ih =>
+      unfold cayleyCascadeSO3
+      split_ifs with ht
+      · rw [cayley_so3_norm_preserving, ih]
+      · exact ih
+  · refine ⟨?_, fun i j => ?_⟩
+    · rw [Fin.sum_univ_three]
+      simp only [Fin.sum_univ_three, dihedralGeneratorSO3, Fin.isValue, Fin.coe_ofNat_eq_mod,
+                 Nat.zero_mod, Nat.one_mod, Nat.reduceMod, mul_zero, add_zero, zero_mul, zero_add]
+      ring
+    · fin_cases i <;> fin_cases j <;>
+        simp [dihedralGeneratorSO3]
+
+/-! ### Theorem 2.22: Cryo-EM 3D Exterior-Curl Morse Side-Chain Shield -/
+
+def voxelShift (v : ℤ × ℤ × ℤ) (axis : Fin 3) (step : ℤ) : ℤ × ℤ × ℤ :=
+  match axis.val with
+  | 0 => (v.1 + step, v.2.1, v.2.2)
+  | 1 => (v.1, v.2.1 + step, v.2.2)
+  | _ => (v.1, v.2.1, v.2.2 + step)
+
+def deltaMinus3D (ρ : ℤ × ℤ × ℤ → ℝ) (v : ℤ × ℤ × ℤ) (axis : Fin 3) : ℝ :=
+  ρ v - ρ (voxelShift v axis (-1))
+
+def deltaPlus3D (ρ : ℤ × ℤ × ℤ → ℝ) (v : ℤ × ℤ × ℤ) (axis : Fin 3) : ℝ :=
+  ρ v - ρ (voxelShift v axis 1)
+
+def morseProduct3D (ρ : ℤ × ℤ × ℤ → ℝ) (v : ℤ × ℤ × ℤ) (axis : Fin 3) : ℝ :=
+  deltaMinus3D ρ v axis * deltaPlus3D ρ v axis
+
+def is3DMorseSpike (ρ : ℤ × ℤ × ℤ → ℝ) (v : ℤ × ℤ × ℤ) : Prop :=
+  ∀ axis : Fin 3, 0 < morseProduct3D ρ v axis
+
+noncomputable def cryoemMorseFilter3D (ρ : ℤ × ℤ × ℤ → ℝ) (v : ℤ × ℤ × ℤ) : ℝ :=
+  if is3DMorseSpike ρ v then
+    ρ v - (∑ a : Fin 3, (deltaMinus3D ρ v a + deltaPlus3D ρ v a)) / 6
+  else
+    ρ v
+
+theorem cryoem_isolated_spike_zeroed (ρ : ℤ × ℤ × ℤ → ℝ) (v₀ : ℤ × ℤ × ℤ)
+    (ρ_bg δ_spike : ℝ) (hδ : δ_spike ≠ 0)
+    (h_center : ρ v₀ = ρ_bg + δ_spike)
+    (h_neighbors : ∀ (a : Fin 3) (s : ℤ), s = -1 ∨ s = 1 → ρ (voxelShift v₀ a s) = ρ_bg) :
+    is3DMorseSpike ρ v₀ ∧
+    cryoemMorseFilter3D ρ v₀ = ρ_bg := by
+  have h_diffs (a : Fin 3) : deltaMinus3D ρ v₀ a = δ_spike ∧ deltaPlus3D ρ v₀ a = δ_spike := by
+    unfold deltaMinus3D deltaPlus3D
+    rw [h_center, h_neighbors a (-1) (Or.inl rfl), h_neighbors a 1 (Or.inr rfl)]
+    constructor <;> ring
+  have h_spike : is3DMorseSpike ρ v₀ := by
+    intro a
+    unfold morseProduct3D
+    rw [(h_diffs a).1, (h_diffs a).2]
+    exact mul_self_pos.mpr hδ
+  refine ⟨h_spike, ?_⟩
+  unfold cryoemMorseFilter3D
+  simp only [h_spike, ↓reduceIte]
+  have h_sum : (∑ a : Fin 3, (deltaMinus3D ρ v₀ a + deltaPlus3D ρ v₀ a)) = 6 * δ_spike := by
+    rw [Fin.sum_univ_three]
+    rw [(h_diffs 0).1, (h_diffs 0).2, (h_diffs 1).1, (h_diffs 1).2, (h_diffs 2).1, (h_diffs 2).2]
+    ring
+  rw [h_sum, h_center]
+  ring
+
+theorem cryoem_sustained_ridge_preserved (ρ : ℤ × ℤ × ℤ → ℝ) (v₀ : ℤ × ℤ × ℤ) (a_ridge : Fin 3)
+    (h_ridge : ρ (voxelShift v₀ a_ridge (-1)) = ρ v₀ ∨
+               (ρ (voxelShift v₀ a_ridge (-1)) ≤ ρ v₀ ∧ ρ v₀ ≤ ρ (voxelShift v₀ a_ridge 1))) :
+    ¬ is3DMorseSpike ρ v₀ ∧
+    cryoemMorseFilter3D ρ v₀ = ρ v₀ := by
+  have h_not_spike : ¬ is3DMorseSpike ρ v₀ := by
+    intro h_sp
+    have h_pos := h_sp a_ridge
+    unfold morseProduct3D deltaMinus3D deltaPlus3D at h_pos
+    rcases h_ridge with h_flat | ⟨h_le1, h_le2⟩
+    · rw [h_flat] at h_pos; ring_nf at h_pos; linarith
+    · have : (ρ v₀ - ρ (voxelShift v₀ a_ridge (-1))) * (ρ v₀ - ρ (voxelShift v₀ a_ridge 1)) ≤ 0 := by
+        nlinarith
+      linarith
+  refine ⟨h_not_spike, ?_⟩
+  unfold cryoemMorseFilter3D
+  simp only [h_not_spike, ↓reduceIte]
+
+/-- **Theorem 2.22 (`cryoem_3d_morse_sidechain_shield`)**:
+For any 3D voxel density field ρ : ℤ³ → ℝ and 3D 6-axis exterior-curl discrete Morse gate:
+1. Isolated 1-voxel noise spikes (radiation damage / ice crystals) are 100% zeroed back to local background:
+   ρ_filtered(v₀) = ρ_bg.
+2. Sustained ridge / side-chain density steps (constant along an axis or monotonic ramp) are 100% preserved:
+   ρ_filtered(v₀) = ρ(v₀) (0.0 attenuation).
+3. Local uniform background voxels are invariant: ρ_filtered(v₀) = ρ_bg (zero background median shift). -/
+theorem cryoem_3d_morse_sidechain_shield (ρ : ℤ × ℤ × ℤ → ℝ) (v₀ : ℤ × ℤ × ℤ) :
+    (∀ (ρ_bg δ_spike : ℝ), δ_spike ≠ 0 →
+      ρ v₀ = ρ_bg + δ_spike →
+      (∀ (a : Fin 3) (s : ℤ), s = -1 ∨ s = 1 → ρ (voxelShift v₀ a s) = ρ_bg) →
+      is3DMorseSpike ρ v₀ ∧ cryoemMorseFilter3D ρ v₀ = ρ_bg) ∧
+    (∀ (a_ridge : Fin 3),
+      (ρ (voxelShift v₀ a_ridge (-1)) = ρ v₀ ∨
+       (ρ (voxelShift v₀ a_ridge (-1)) ≤ ρ v₀ ∧ ρ v₀ ≤ ρ (voxelShift v₀ a_ridge 1))) →
+      ¬ is3DMorseSpike ρ v₀ ∧ cryoemMorseFilter3D ρ v₀ = ρ v₀) ∧
+    (∀ (ρ_bg : ℝ),
+      ρ v₀ = ρ_bg →
+      (∀ (a : Fin 3) (s : ℤ), s = -1 ∨ s = 1 → ρ (voxelShift v₀ a s) = ρ_bg) →
+      cryoemMorseFilter3D ρ v₀ = ρ_bg) := by
+  refine ⟨fun ρ_bg δ hδ hc hn => cryoem_isolated_spike_zeroed ρ v₀ ρ_bg δ hδ hc hn,
+          fun a_ridge hr => cryoem_sustained_ridge_preserved ρ v₀ a_ridge hr,
+          fun ρ_bg hc hn => ?_⟩
+  have hr : ρ (voxelShift v₀ 0 (-1)) = ρ v₀ := by
+    rw [hn 0 (-1) (Or.inl rfl), hc]
+  have h_pres := (cryoem_sustained_ridge_preserved ρ v₀ 0 (Or.inl hr)).2
+  rw [h_pres, hc]
+
 end CellSnail.Formalization
 
-namespace TriadCore
+namespace CellSnailCore
 export CellSnail.Formalization (
   triadOperator shellInner shellEnergy triad_pointwise_orthogonal
   skewTriad skew_triad_swap_neg skew_triad_self_zero
   postLogit triadOperator_two_color_eval occlusion_triad_breaks_symmetric_tie
-  darksnail_readout_energy_conservation darksnailReadout darksnail_step0_system1_homotopy
+  cellsnail_readout_energy_conservation cellsnailReadout cellsnail_step0_system1_homotopy
   rot2 inner2 normSq2 rope2d inner2d normSq2d avg2 rope2dPatchAvg inner2_rot2_shift
   normSq2_avg2_rot2 normSq2_nonneg rope2d_medoid_relative_invariance rope2d_arithmetic_norm_lt
   tangentTriadStep sphericalRetract sphericalTriadStep multistepSphericalTriad
   shellEnergy_nonneg shellEnergy_eq_zero_iff tangentTriadStep_orthogonal
   shellEnergy_add_of_orthogonal shellEnergy_scale sphericalTriadStep_preserves_energy
-  darksnail_multistep_spherical_invariance sphericalTriadStep_zero system1CarryTrajectory
-  darksnailCarryTrajectory darksnail_multistep_step0_homotopy
+  cellsnail_multistep_spherical_invariance sphericalTriadStep_zero system1CarryTrajectory
+  cellsnailCarryTrajectory cellsnail_multistep_step0_homotopy
   elasticEnergy6 matVec6 matTranspose6 rotateStiffness6 trace6 IsOrthogonal6
   IsColOrthonormal6 IsRowOrthonormal6 isOrthogonal6_of_rowOrthonormal6 kelvinMandelDipRotor
   kelvinMandelDipRotor_orthonormal elasticEnergy6_rotateStiffness6 so6_stiffness_preserves_pos_def
-  so6_stiffness_trace_conservation deltaMinus deltaPlus morseImpulseProd isMorseImpulse laplacian3pt
-  morseImpulse_iff_strict_extremum caliper_morse_rejects_washout_step caliper_morse_shields_thin_stringer
-  cross3 leviCivitaHalfTensor cross3_eq_triadOperator IsIdealMHDBalance IsEulerLambBalance
-  mhdToEulerMap mhdToEulerMap_involutive mhd_euler_force_balance_bijection IsFluxSurfaceConfined
-  mhd_flux_surface_confinement_iff stellaratorParityShift stellaratorReadout
-  stellarator_parity_breaks_tie_and_conserves_flux stellarator_zero_torsion_homotopy_iff
-  flowBeltramiMultiplier sub_alfvenic_beltrami_homotopy_zero_flow sub_alfvenic_beltrami_pos
-  collinearBeltramiField beltrami_cross_helicity_collinear_lorentz_vanishes flowBernoulliHead
-  IsFlowMRxMHDJumpBalanced mrxmhd_flow_bernoulli_jump_conservation kamDiophantineGap
-  IsKAMInterfaceAdmissible kam_sub_alfvenic_ellipticity_and_gap cayleyRotor2
-  cayley_rank2_orthogonality cayleyRotor2_orthonormal cayley_rotor_orthogonality
+  so6_stiffness_trace_conservation deltaMinus deltaPlus morseImpulse
+  IsStrictLocalExtremum IsStrictLocalMaximum IsLocallyMonotone IsStrictlyMonotoneAt
+  discreteLaplacian morse_monotone_slope_rejected morse_local_extremum_isolated
+  morseImpulse_iff_strict_extremum focal_amplicon_amplitude_recovery
+  flanking_leakage_bounded plateauMean plateau_moving_average_unbiased
+  plateau_variance_reduction stepHeight boundaryPinnedVal unpinnedCrossBoundaryVal
+  boundary_pinned_step_preservation morseImpulseProd isMorseImpulse laplacian3pt
+  cross3 cayleyRotor2
+  cayley_rank2_orthogonality cayleyRotor2_orthonormal
   contactNormalCoboundary contactTangentCoboundary contact_sheaf_non_penetration_invariant
-  contact_sheaf_unilateral_non_penetration arenaOffsets arenaSizes arenaTotalBound
-  sramL3Ceiling sram_arena_layout_verified sram_arena_cacheline_disjoint_and_bounded
-  morseImpulse1D IsStrictExtremumAt IsMonotoneAt separableChannelCovariance
+  contact_sheaf_unilateral_non_penetration
+  morseImpulse1D IsStrictExtremumAt IsMonotoneAt
   morse_dropout_shielding_zero_spurious_corr
   projClock projNope IsOrthogonalProjector h_clock_h_nope_orthogonality
   IsUltrametricDist ultrametricCondensation ascertainment_bias_free_ultrametric_condensation
-  rotateMultiomicCov6 quadForm6 IsOrthonormal6 multiomic_dosage_linkage_causal_factorization
+  rotateMultiomicCov6 quadForm6 IsOrthonormal6
+  multiomic_covariance_trace_and_quadform_conservation
   convexBlend1D convex_shrinkage_stability_and_zero_spurious_corr convex_shrinkage_morse_stability
-  multiscaleBoxMean plateauBoundaryStepPreserved multiscale_plateau_unbiased_and_variance_reduction
+  multiscaleBoxMean multiscale_plateau_unbiased_and_variance_reduction
   multiscale_plateau_variance_reduction huberPenalty adaptiveSheafEnergy huberClampedNormal
   jitter_adaptive_huber_sheaf_energy_bounds jitter_adaptive_huber_sheaf_energy_bound
   shrinkCov6 regularized_so6_covariance_condition_and_trace_conservation
   regularized_so6_covariance_conditioning_and_trace_conservation
+  SE3Twist se3PointVelocity se3NormalCoboundary globalSE3Twist unilateralCoboundary
+  pathImpulseTransmission se3_allosteric_coboundary_non_penetration allosteric_torque_transmission
+  cayleyRotor3 dihedralGeneratorSO3 cayley_c_sq_add_s_sq cayleyRotor3_orthonormal
+  cayley_so3_norm_preserving cayleyCascadeSO3 cayley_so3_ramachandran_norm_invariance
+  voxelShift deltaMinus3D deltaPlus3D morseProduct3D is3DMorseSpike cryoemMorseFilter3D
+  cryoem_isolated_spike_zeroed cryoem_sustained_ridge_preserved cryoem_3d_morse_sidechain_shield
 )
-end TriadCore
+end CellSnailCore

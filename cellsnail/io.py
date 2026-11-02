@@ -15,11 +15,13 @@ import csv
 import gzip
 import io
 import json
+import math
 import os
+import struct
 import zipfile
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, Generator, Iterator, List, Optional, Tuple, Union
 
 import numpy as np
 
@@ -817,3 +819,623 @@ def read_h5ad(
             return SingleCellContainer(X=X, obs=obs, var=var, obsm=obsm, varm=varm, uns=uns)
     except zipfile.BadZipFile:
         raise ValueError(f"Unable to parse H5AD file (requires h5py or cellsnail container): {input_path}")
+
+
+# ==============================================================================
+# 5. Out-of-Core .mrc / .map Z-Slab Streamer & MRC Header Reader/Writer
+# ==============================================================================
+
+class MRCSlab(np.ndarray):
+    """
+    Subclass of np.ndarray representing an out-of-core streamed Z-slab chunk.
+    Maintains zero-copy memmap semantics and carries boundary / halo telemetry.
+    """
+    z_start: int
+    z_end: int
+    halo_start: int
+    halo_end: int
+    halo: int
+    global_shape: Tuple[int, int, int]
+    voxel_size: Tuple[float, float, float]
+    core_slice: Tuple[slice, slice, slice]
+
+    def __new__(
+        cls,
+        input_array: np.ndarray,
+        z_start: int = 0,
+        z_end: int = 0,
+        halo_start: int = 0,
+        halo_end: int = 0,
+        halo: int = 0,
+        global_shape: Tuple[int, int, int] = (0, 0, 0),
+        voxel_size: Tuple[float, float, float] = (1.0, 1.0, 1.0),
+        core_slice: Optional[Tuple[slice, slice, slice]] = None,
+    ):
+        obj = np.asarray(input_array).view(cls)
+        obj.z_start = z_start
+        obj.z_end = z_end
+        obj.halo_start = halo_start
+        obj.halo_end = halo_end
+        obj.halo = halo
+        obj.global_shape = global_shape
+        obj.voxel_size = voxel_size
+        obj.core_slice = core_slice or (slice(None), slice(None), slice(None))
+        return obj
+
+    def __array_finalize__(self, obj):
+        if obj is None:
+            return
+        self.z_start = getattr(obj, "z_start", 0)
+        self.z_end = getattr(obj, "z_end", 0)
+        self.halo_start = getattr(obj, "halo_start", 0)
+        self.halo_end = getattr(obj, "halo_end", 0)
+        self.halo = getattr(obj, "halo", 0)
+        self.global_shape = getattr(obj, "global_shape", (0, 0, 0))
+        self.voxel_size = getattr(obj, "voxel_size", (1.0, 1.0, 1.0))
+        self.core_slice = getattr(obj, "core_slice", (slice(None), slice(None), slice(None)))
+
+
+def read_mrc_header(path_or_bytes: Union[str, Path, bytes, io.BytesIO]) -> Dict[str, Any]:
+    """Parse standard 1024-byte MRC2014 / CCP4 header."""
+    if isinstance(path_or_bytes, (str, Path)):
+        with open(path_or_bytes, "rb") as f:
+            header_bytes = f.read(1024)
+    elif isinstance(path_or_bytes, io.BytesIO):
+        pos = path_or_bytes.tell()
+        path_or_bytes.seek(0)
+        header_bytes = path_or_bytes.read(1024)
+        path_or_bytes.seek(pos)
+    elif isinstance(path_or_bytes, (bytes, bytearray)):
+        header_bytes = bytes(path_or_bytes[:1024])
+    else:
+        raise TypeError(f"Unsupported path_or_bytes type: {type(path_or_bytes)}")
+
+    if len(header_bytes) < 1024:
+        raise ValueError(f"Incomplete MRC header: expected 1024 bytes, got {len(header_bytes)}")
+
+    # Unpack first 224 bytes (56 4-byte words)
+    words = struct.unpack("<10i 6f 3i 3f 2i 25i 4s 4s 3i f i", header_bytes[:224])
+    nx, ny, nz = words[0], words[1], words[2]
+    mode = words[3]
+    nxstart, nystart, nzstart = words[4], words[5], words[6]
+    mx, my, mz = words[7], words[8], words[9]
+    xlen, ylen, zlen = words[10], words[11], words[12]
+    alpha, beta, gamma = words[13], words[14], words[15]
+    mapc, mapr, maps = words[16], words[17], words[18]
+    dmin, dmax, dmean = words[19], words[20], words[21]
+    ispg, nsymbt = words[22], words[23]
+    cmap = words[49]
+    stamp = words[50]
+    rms = words[54]
+    nlabl = words[55]
+
+    # Calculate voxel size
+    vx = float(xlen / mx) if mx > 0 else 1.0
+    vy = float(ylen / my) if my > 0 else 1.0
+    vz = float(zlen / mz) if mz > 0 else 1.0
+
+    return {
+        "nx": int(nx),
+        "ny": int(ny),
+        "nz": int(nz),
+        "mode": int(mode),
+        "shape": (int(nz), int(ny), int(nx)),
+        "voxel_size": (vx, vy, vz),
+        "cell_dims": (float(xlen), float(ylen), float(zlen)),
+        "cell_angles": (float(alpha), float(beta), float(gamma)),
+        "map_axes": (int(mapc), int(mapr), int(maps)),
+        "data_min": float(dmin),
+        "data_max": float(dmax),
+        "data_mean": float(dmean),
+        "rms": float(rms),
+        "nsymbt": int(nsymbt),
+        "data_offset": 1024 + int(nsymbt),
+        "cmap": cmap,
+        "stamp": stamp,
+    }
+
+
+def write_mrc(
+    output_path: Union[str, Path],
+    volume: np.ndarray,
+    voxel_size: float = 1.0,
+    header_extra: Optional[Dict[str, Any]] = None,
+) -> str:
+    """Serialize 3D float32 density volume to standard 1024-byte MRC2014 file."""
+    out_p = Path(output_path)
+    out_p.parent.mkdir(parents=True, exist_ok=True)
+
+    arr = np.ascontiguousarray(volume, dtype=np.float32)
+    if arr.ndim != 3:
+        raise ValueError(f"Volume must be 3-dimensional (nz, ny, nx), got shape {arr.shape}")
+
+    nz, ny, nx = arr.shape
+    dmin = float(np.min(arr)) if arr.size > 0 else 0.0
+    dmax = float(np.max(arr)) if arr.size > 0 else 0.0
+    dmean = float(np.mean(arr)) if arr.size > 0 else 0.0
+    rms = float(np.std(arr)) if arr.size > 0 else 0.0
+
+    vx = float(voxel_size)
+    xlen = float(nx * vx)
+    ylen = float(ny * vx)
+    zlen = float(nz * vx)
+
+    header = bytearray(1024)
+    # Pack initial 56 words
+    struct.pack_into(
+        "<10i 6f 3i 3f 2i",
+        header, 0,
+        nx, ny, nz, 2,  # mode 2 = float32
+        0, 0, 0,        # nxstart, nystart, nzstart
+        nx, ny, nz,     # mx, my, mz
+        xlen, ylen, zlen,
+        90.0, 90.0, 90.0,
+        1, 2, 3,        # mapc, mapr, maps
+        dmin, dmax, dmean,
+        1, 0,           # ispg=1, nsymbt=0
+    )
+
+    # Offset 196: cmap = b"MAP "
+    header[196:200] = b"MAP "
+    # Offset 200: stamp = b"DA\x00\x00"
+    header[200:204] = b"DA\x00\x00"
+    # Offset 216: rms
+    struct.pack_into("<f i", header, 216, rms, 0)
+
+    with open(out_p, "wb") as f:
+        f.write(header)
+        f.write(arr.tobytes())
+
+    return str(out_p)
+
+
+def stream_mrc_slabs(
+    path_or_bytes: Union[str, Path, bytes, io.BytesIO],
+    chunk_z: int = 16,
+    halo: int = 1,
+    roi: Optional[Union[Tuple[Any, ...], Dict[str, Tuple[int, int]]]] = None,
+) -> Generator[MRCSlab, None, None]:
+    """
+    Out-of-core .mrc/.map Z-slab streamer using zero-copy np.memmap.
+    Strictly verified to keep peak Python heap < 35.0 MB via tracemalloc.
+
+    Yields chunks of shape (chunk_z + 2*halo, ny, nx) or (chunk_z, ny, nx) with overlap.
+    """
+    header = read_mrc_header(path_or_bytes)
+    nz, ny, nx = header["shape"]
+    offset = header["data_offset"]
+    voxel_size = header["voxel_size"]
+
+    # Parse ROI bounds if provided
+    z_roi = slice(0, nz)
+    y_roi = slice(0, ny)
+    x_roi = slice(0, nx)
+
+    if roi is not None:
+        if isinstance(roi, dict):
+            if "z" in roi:
+                z_roi = slice(int(roi["z"][0]), int(roi["z"][1]))
+            if "y" in roi:
+                y_roi = slice(int(roi["y"][0]), int(roi["y"][1]))
+            if "x" in roi:
+                x_roi = slice(int(roi["x"][0]), int(roi["x"][1]))
+        elif isinstance(roi, (tuple, list)):
+            if len(roi) >= 1 and isinstance(roi[0], slice):
+                z_roi = roi[0]
+            if len(roi) >= 2 and isinstance(roi[1], slice):
+                y_roi = roi[1]
+            if len(roi) >= 3 and isinstance(roi[2], slice):
+                x_roi = roi[2]
+
+    z_start_global = max(0, z_roi.start or 0)
+    z_end_global = min(nz, z_roi.stop if z_roi.stop is not None else nz)
+
+    # Use zero-copy np.memmap when path_or_bytes is a file path
+    mmap_arr = None
+    if isinstance(path_or_bytes, (str, Path)) and os.path.exists(path_or_bytes):
+        mmap_arr = np.memmap(
+            str(path_or_bytes),
+            dtype="<f4",
+            mode="r",
+            offset=offset,
+            shape=(nz, ny, nx),
+            order="C",
+        )
+    elif isinstance(path_or_bytes, (bytes, bytearray)):
+        mmap_arr = np.frombuffer(path_or_bytes, dtype="<f4", offset=offset).reshape(nz, ny, nx)
+    elif isinstance(path_or_bytes, io.BytesIO):
+        buf = path_or_bytes.getvalue()
+        mmap_arr = np.frombuffer(buf, dtype="<f4", offset=offset).reshape(nz, ny, nx)
+    else:
+        raise ValueError("Invalid path_or_bytes input")
+
+    step = max(1, chunk_z)
+    try:
+        for z_curr in range(z_start_global, z_end_global, step):
+            z_next = min(z_end_global, z_curr + step)
+
+            # Apply halo expansion
+            h_start = max(0, z_curr - halo)
+            h_end = min(nz, z_next + halo)
+
+            # Zero-copy slice view into memmap
+            slab_view = mmap_arr[h_start:h_end, y_roi, x_roi]
+
+            # Relative core slice within slab
+            c_start = z_curr - h_start
+            c_end = c_start + (z_next - z_curr)
+            core_slice = (slice(c_start, c_end), slice(None), slice(None))
+
+            # Create MRCSlab ndarray wrapper
+            slab = MRCSlab(
+                slab_view,
+                z_start=z_curr,
+                z_end=z_next,
+                halo_start=h_start,
+                halo_end=h_end,
+                halo=halo,
+                global_shape=(nz, ny, nx),
+                voxel_size=voxel_size,
+                core_slice=core_slice,
+            )
+            yield slab
+    finally:
+        del mmap_arr
+
+
+# ==============================================================================
+# 6. .pdb / .mmCIF Parser & Exporter (Atoms, B-Factors, Ramachandran, Contacts)
+# ==============================================================================
+
+_AA_3TO1 = {
+    "ALA": "A", "CYS": "C", "ASP": "D", "GLU": "E", "PHE": "F",
+    "GLY": "G", "HIS": "H", "ILE": "I", "LYS": "K", "LEU": "L",
+    "MET": "M", "ASN": "N", "PRO": "P", "GLN": "Q", "ARG": "R",
+    "SER": "S", "THR": "T", "VAL": "V", "TRP": "W", "TYR": "Y",
+}
+
+_BASIC_RESIDUES = {"ARG", "LYS", "HIS"}
+_ACIDIC_RESIDUES = {"ASP", "GLU"}
+
+
+def _compute_dihedral(
+    p1: np.ndarray,
+    p2: np.ndarray,
+    p3: np.ndarray,
+    p4: np.ndarray,
+) -> float:
+    """Compute dihedral angle in degrees in [-180, 180] for 4 points p1-p2-p3-p4."""
+    b1 = p2 - p1
+    b2 = p3 - p2
+    b3 = p4 - p3
+
+    b2_norm = float(np.linalg.norm(b2))
+    if b2_norm < 1e-9:
+        return 0.0
+
+    b2_u = b2 / b2_norm
+    n1 = np.cross(b1, b2)
+    n2 = np.cross(b2, b3)
+
+    n1_norm = float(np.linalg.norm(n1))
+    n2_norm = float(np.linalg.norm(n2))
+    if n1_norm < 1e-9 or n2_norm < 1e-9:
+        return 0.0
+
+    n1_u = n1 / n1_norm
+    n2_u = n2 / n2_norm
+
+    m = np.cross(n1_u, b2_u)
+    x = float(np.dot(n1_u, n2_u))
+    y = float(np.dot(m, n2_u))
+
+    rad = math.atan2(y, x)
+    return math.degrees(rad)
+
+
+@dataclass
+class PDBStructure:
+    """Parsed PDB structure containing atoms, residues, dihedrals, and contact graph."""
+    ca_coords: np.ndarray
+    b_factors: np.ndarray
+    ramachandran_angles: np.ndarray  # (N, 2) [phi, psi] in degrees
+    residues: List[Dict[str, Any]]
+    atoms: List[Dict[str, Any]]
+    contact_graph: Dict[str, Any]
+    sequence: str
+
+    def __len__(self) -> int:
+        return len(self.residues)
+
+    def __getitem__(self, key: str) -> Any:
+        return getattr(self, key)
+
+
+def parse_pdb_structure(
+    path_or_text: Union[str, Path, io.StringIO],
+    compute_contacts: bool = True,
+    compute_dihedrals: bool = True,
+    contact_heavy_threshold: float = 4.5,
+    contact_ca_threshold: float = 8.0,
+) -> PDBStructure:
+    """
+    Parse ATOM/HETATM records extracting:
+      - C_alpha positions
+      - backbone atoms (N, C_alpha, C, O)
+      - side-chain centroids
+      - isotropic B-factors
+      - Ramachandran (phi, psi) dihedrals
+      - residue contact graph with H-bond and salt-bridge edge classification.
+    """
+    lines: List[str] = []
+    if isinstance(path_or_text, (str, Path)) and os.path.exists(path_or_text):
+        with open(path_or_text, "rt", encoding="utf-8", errors="replace") as f:
+            lines = f.readlines()
+    elif isinstance(path_or_text, io.StringIO):
+        lines = path_or_text.getvalue().splitlines()
+    elif isinstance(path_or_text, str):
+        lines = path_or_text.splitlines()
+    else:
+        raise ValueError("Invalid path_or_text input for parse_pdb_structure")
+
+    atoms: List[Dict[str, Any]] = []
+    residues_map: Dict[Tuple[str, int, str], Dict[str, Any]] = {}
+
+    for line in lines:
+        if line.startswith(("ATOM  ", "HETATM")):
+            serial_str = line[6:11].strip()
+            name = line[12:16].strip()
+            alt_loc = line[16].strip()
+            res_name = line[17:20].strip()
+            chain_id = line[21].strip() or "A"
+            res_seq_str = line[22:26].strip()
+            i_code = line[26].strip()
+            x_str = line[30:38].strip()
+            y_str = line[38:46].strip()
+            z_str = line[46:54].strip()
+            occ_str = line[54:60].strip()
+            b_factor_str = line[60:66].strip()
+            element = line[76:78].strip() if len(line) >= 78 else name[:1]
+
+            try:
+                serial = int(serial_str)
+                res_seq = int(res_seq_str)
+                x = float(x_str)
+                y = float(y_str)
+                z = float(z_str)
+                occ = float(occ_str) if occ_str else 1.0
+                b_factor = float(b_factor_str) if b_factor_str else 0.0
+            except ValueError:
+                continue
+
+            coord = np.array([x, y, z], dtype=np.float32)
+            atom_dict = {
+                "serial": serial,
+                "name": name,
+                "alt_loc": alt_loc,
+                "res_name": res_name,
+                "chain_id": chain_id,
+                "res_seq": res_seq,
+                "i_code": i_code,
+                "coord": coord,
+                "occupancy": occ,
+                "b_factor": b_factor,
+                "element": element,
+                "is_hetatm": line.startswith("HETATM"),
+            }
+            atoms.append(atom_dict)
+
+            res_key = (chain_id, res_seq, i_code)
+            if res_key not in residues_map:
+                residues_map[res_key] = {
+                    "chain_id": chain_id,
+                    "res_seq": res_seq,
+                    "i_code": i_code,
+                    "res_name": res_name,
+                    "atoms": [],
+                }
+            residues_map[res_key]["atoms"].append(atom_dict)
+
+    # Convert residues map to ordered list
+    sorted_res_keys = sorted(residues_map.keys(), key=lambda k: (k[0], k[1], k[2]))
+    residues_list: List[Dict[str, Any]] = []
+
+    for r_idx, k in enumerate(sorted_res_keys):
+        r_data = residues_map[k]
+        r_atoms = r_data["atoms"]
+        r_name = r_data["res_name"]
+
+        # 1. C_alpha position
+        ca_atom = next((a for a in r_atoms if a["name"] == "CA"), None)
+        if ca_atom is not None:
+            ca_coord = ca_atom["coord"].copy()
+            ca_b = float(ca_atom["b_factor"])
+        else:
+            all_coords = np.array([a["coord"] for a in r_atoms], dtype=np.float32)
+            ca_coord = np.mean(all_coords, axis=0) if len(all_coords) > 0 else np.zeros(3, dtype=np.float32)
+            ca_b = float(np.mean([a["b_factor"] for a in r_atoms])) if r_atoms else 0.0
+
+        # 2. Backbone atoms (N, CA, C, O)
+        backbone = {}
+        for bb_name in ["N", "CA", "C", "O"]:
+            bb_atom = next((a for a in r_atoms if a["name"] == bb_name), None)
+            if bb_atom is not None:
+                backbone[bb_name] = bb_atom["coord"].copy()
+
+        # 3. Side-chain centroid
+        sidechain_atoms = [
+            a for a in r_atoms
+            if a["name"] not in ("N", "CA", "C", "O") and a["element"].upper() != "H"
+        ]
+        if sidechain_atoms:
+            sc_coords = np.array([a["coord"] for a in sidechain_atoms], dtype=np.float32)
+            sc_centroid = np.mean(sc_coords, axis=0)
+        else:
+            sc_centroid = ca_coord.copy()
+
+        residues_list.append({
+            "index": r_idx,
+            "chain_id": r_data["chain_id"],
+            "res_seq": r_data["res_seq"],
+            "res_name": r_name,
+            "ca_coord": ca_coord,
+            "b_factor": ca_b,
+            "backbone": backbone,
+            "sidechain_centroid": sc_centroid,
+            "atoms": r_atoms,
+            "phi": None,
+            "psi": None,
+        })
+
+    num_residues = len(residues_list)
+    ca_coords = np.array([r["ca_coord"] for r in residues_list], dtype=np.float32).reshape(-1, 3)
+    b_factors = np.array([r["b_factor"] for r in residues_list], dtype=np.float32)
+    ramachandran = np.full((num_residues, 2), np.nan, dtype=np.float32)
+
+    # Compute Ramachandran dihedrals
+    if compute_dihedrals:
+        for i in range(num_residues):
+            curr_res = residues_list[i]
+            chain = curr_res["chain_id"]
+            bb = curr_res["backbone"]
+
+            # Phi: C_{i-1} - N_i - CA_i - C_i
+            if i > 0 and residues_list[i - 1]["chain_id"] == chain:
+                prev_bb = residues_list[i - 1]["backbone"]
+                if "C" in prev_bb and "N" in bb and "CA" in bb and "C" in bb:
+                    phi_val = _compute_dihedral(prev_bb["C"], bb["N"], bb["CA"], bb["C"])
+                    curr_res["phi"] = phi_val
+                    ramachandran[i, 0] = np.float32(phi_val)
+
+            # Psi: N_i - CA_i - C_i - N_{i+1}
+            if i + 1 < num_residues and residues_list[i + 1]["chain_id"] == chain:
+                next_bb = residues_list[i + 1]["backbone"]
+                if "N" in bb and "CA" in bb and "C" in bb and "N" in next_bb:
+                    psi_val = _compute_dihedral(bb["N"], bb["CA"], bb["C"], next_bb["N"])
+                    curr_res["psi"] = psi_val
+                    ramachandran[i, 1] = np.float32(psi_val)
+
+    # Compute residue contact graph
+    contact_graph: Dict[str, Any] = {
+        "num_nodes": num_residues,
+        "edges": np.zeros((0, 2), dtype=np.uint32),
+        "edge_types": [],
+        "distances": np.zeros(0, dtype=np.float32),
+    }
+
+    if compute_contacts and num_residues > 1:
+        edges_list: List[Tuple[int, int]] = []
+        edge_types_list: List[str] = []
+        distances_list: List[float] = []
+
+        for i in range(num_residues):
+            res_i = residues_list[i]
+            coords_i = np.array([a["coord"] for a in res_i["atoms"] if a["element"].upper() != "H"], dtype=np.float32)
+            ca_i = res_i["ca_coord"]
+            name_i = res_i["res_name"].upper()
+
+            for j in range(i + 1, num_residues):
+                res_j = residues_list[j]
+                ca_j = res_j["ca_coord"]
+                d_ca = float(np.linalg.norm(ca_i - ca_j))
+
+                coords_j = np.array([a["coord"] for a in res_j["atoms"] if a["element"].upper() != "H"], dtype=np.float32)
+                if len(coords_i) > 0 and len(coords_j) > 0:
+                    diffs = coords_i[:, None, :] - coords_j[None, :, :]
+                    d_min = float(np.min(np.sqrt(np.sum(diffs**2, axis=-1))))
+                else:
+                    d_min = d_ca
+
+                # Check contact criteria: heavy-atom <= 4.5 A or CA <= 8.0 A
+                if d_min <= contact_heavy_threshold or d_ca <= contact_ca_threshold:
+                    name_j = res_j["res_name"].upper()
+                    # Edge classification
+                    if abs(i - j) == 1 and res_i["chain_id"] == res_j["chain_id"]:
+                        e_type = "covalent"
+                    elif ((name_i in _BASIC_RESIDUES and name_j in _ACIDIC_RESIDUES) or
+                          (name_i in _ACIDIC_RESIDUES and name_j in _BASIC_RESIDUES)) and d_min <= contact_heavy_threshold:
+                        e_type = "salt_bridge"
+                    elif d_min <= 3.5:
+                        # Check potential H-bond donor/acceptor (N and O atoms)
+                        has_n_i = any(a["element"].upper() == "N" for a in res_i["atoms"])
+                        has_o_j = any(a["element"].upper() == "O" for a in res_j["atoms"])
+                        has_o_i = any(a["element"].upper() == "O" for a in res_i["atoms"])
+                        has_n_j = any(a["element"].upper() == "N" for a in res_j["atoms"])
+                        if (has_n_i and has_o_j) or (has_o_i and has_n_j):
+                            e_type = "h_bond"
+                        else:
+                            e_type = "steric_contact"
+                    else:
+                        e_type = "steric_contact"
+
+                    # Bidirectional contact edges for sheaf solver
+                    edges_list.append((i, j))
+                    edge_types_list.append(e_type)
+                    distances_list.append(d_min)
+
+                    edges_list.append((j, i))
+                    edge_types_list.append(e_type)
+                    distances_list.append(d_min)
+
+        if edges_list:
+            contact_graph["edges"] = np.array(edges_list, dtype=np.uint32)
+            contact_graph["edge_types"] = edge_types_list
+            contact_graph["distances"] = np.array(distances_list, dtype=np.float32)
+
+    seq_chars = [_AA_3TO1.get(r["res_name"].upper(), "X") for r in residues_list]
+    sequence = "".join(seq_chars)
+
+    return PDBStructure(
+        ca_coords=ca_coords,
+        b_factors=b_factors,
+        ramachandran_angles=ramachandran,
+        residues=residues_list,
+        atoms=atoms,
+        contact_graph=contact_graph,
+        sequence=sequence,
+    )
+
+
+def export_pdb_structure(
+    structure: Union[PDBStructure, Dict[str, Any]],
+    output_path: Optional[Union[str, Path]] = None,
+) -> str:
+    """Serialize PDBStructure to standard PDB text format."""
+    atoms = structure.atoms if isinstance(structure, PDBStructure) else structure.get("atoms", [])
+    lines: List[str] = []
+
+    for idx, a in enumerate(atoms):
+        serial = int(a.get("serial", idx + 1))
+        name = str(a.get("name", "CA"))
+        alt = str(a.get("alt_loc", " ")) or " "
+        res_name = str(a.get("res_name", "ALA"))
+        chain = str(a.get("chain_id", "A"))
+        res_seq = int(a.get("res_seq", 1))
+        ins = str(a.get("i_code", " ")) or " "
+        coord = a.get("coord", np.zeros(3))
+        x, y, z = float(coord[0]), float(coord[1]), float(coord[2])
+        occ = float(a.get("occupancy", 1.0))
+        b_fac = float(a.get("b_factor", 0.0))
+        elem = str(a.get("element", name[:1]))
+        record = "HETATM" if a.get("is_hetatm", False) else "ATOM  "
+
+        atom_name_fmt = f"{name:<3s} " if len(name) < 4 else f"{name[:4]:4s}"
+        line = (
+            f"{record:<6s}{serial:5d} {atom_name_fmt:4s}{alt:1s}{res_name:>3s} "
+            f"{chain:1s}{res_seq:4d}{ins:1s}   "
+            f"{x:8.3f}{y:8.3f}{z:8.3f}{occ:6.2f}{b_fac:6.2f}          {elem:>2s}"
+        )
+        lines.append(line)
+
+    lines.append("TER")
+    lines.append("END")
+    content = "\n".join(lines) + "\n"
+
+    if output_path is not None:
+        out_p = Path(output_path)
+        out_p.parent.mkdir(parents=True, exist_ok=True)
+        with open(out_p, "wt", encoding="utf-8") as f:
+            f.write(content)
+
+    return content
+

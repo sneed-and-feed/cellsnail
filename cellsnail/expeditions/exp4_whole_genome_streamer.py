@@ -86,22 +86,26 @@ RING_BUFFER_SIZE = 131_072
 GENOTYPE_TENSOR_SIZE = 160
 MULTIOMIC_COV_SIZE = 36
 
-ARENA_TOTAL_BYTES = 983_872
+ARENA_TOTAL_BYTES = 1_303_360
 SRAM_CEILING_BYTES = 2_097_152  # 2.0 MB
 CACHE_LINE_BYTES = 64
 
 ARENA_LAYOUT: Dict[str, Dict[str, int]] = {
-    "spatial_input":     {"offset": 0,       "bytes": 65_536,  "elem_count": 16_384,  "elem_bytes": 4},
-    "spatial_output":    {"offset": 65_536,  "bytes": 65_536,  "elem_count": 16_384,  "elem_bytes": 4},
-    "salience_map":      {"offset": 131_072, "bytes": 65_536,  "elem_count": 16_384,  "elem_bytes": 4},
-    "curl_buffer":       {"offset": 196_608, "bytes": 65_536,  "elem_count": 16_384,  "elem_bytes": 4},
-    "ring_buffer":       {"offset": 262_144, "bytes": 524_288, "elem_count": 131_072, "elem_bytes": 4},
-    "cell_cycle_mask":   {"offset": 786_432, "bytes": 65_536,  "elem_count": 16_384,  "elem_bytes": 4},
-    "genotype_tensor":   {"offset": 851_968, "bytes": 640,     "elem_count": 160,     "elem_bytes": 4},
-    "trajectory_buffer": {"offset": 852_608, "bytes": 65_536,  "elem_count": 16_384,  "elem_bytes": 4},
-    "sheaf_coboundary":  {"offset": 918_144, "bytes": 65_536,  "elem_count": 16_384,  "elem_bytes": 4},
-    "multiomic_cov":     {"offset": 983_680, "bytes": 144,     "elem_count": 36,      "elem_bytes": 4},
-    "_pad":              {"offset": 983_824, "bytes": 48,      "elem_count": 48,      "elem_bytes": 1},
+    "spatial_input":     {"offset": 0,         "bytes": 65_536,  "elem_count": 16_384,  "elem_bytes": 4},
+    "spatial_output":    {"offset": 65_536,    "bytes": 65_536,  "elem_count": 16_384,  "elem_bytes": 4},
+    "salience_map":      {"offset": 131_072,   "bytes": 65_536,  "elem_count": 16_384,  "elem_bytes": 4},
+    "curl_buffer":       {"offset": 196_608,   "bytes": 65_536,  "elem_count": 16_384,  "elem_bytes": 4},
+    "ring_buffer":       {"offset": 262_144,   "bytes": 524_288, "elem_count": 131_072, "elem_bytes": 4},
+    "cell_cycle_mask":   {"offset": 786_432,   "bytes": 65_536,  "elem_count": 16_384,  "elem_bytes": 4},
+    "genotype_tensor":   {"offset": 851_968,   "bytes": 640,     "elem_count": 160,     "elem_bytes": 4},
+    "trajectory_buffer": {"offset": 852_608,   "bytes": 65_536,  "elem_count": 16_384,  "elem_bytes": 4},
+    "sheaf_coboundary":  {"offset": 918_144,   "bytes": 65_536,  "elem_count": 16_384,  "elem_bytes": 4},
+    "multiomic_cov":     {"offset": 983_680,   "bytes": 144,     "elem_count": 36,      "elem_bytes": 4},
+    "_pad":              {"offset": 983_824,   "bytes": 48,      "elem_count": 48,      "elem_bytes": 1},
+    "cryoem_slab_in":    {"offset": 983_872,   "bytes": 131_072, "elem_count": 32_768,  "elem_bytes": 4},
+    "cryoem_slab_out":   {"offset": 1_114_944, "bytes": 131_072, "elem_count": 32_768,  "elem_bytes": 4},
+    "se3_twists":        {"offset": 1_246_016, "bytes": 24_576,  "elem_count": 6_144,   "elem_bytes": 4},
+    "contact_edges":     {"offset": 1_270_592, "bytes": 32_768,  "elem_count": 8_192,   "elem_bytes": 4},
 }
 
 
@@ -304,7 +308,7 @@ class WholeGenomeArenaStreamer:
                         float(tau),
                     )
             else:
-                # Vectorized in-arena fallback matching beltrami_morse_gate_f32 / adaptive prior
+                # Vectorized in-arena fallback matching morse_gate_1d_f32 / adaptive prior
                 thresh = max(float(tau), float(mad_floor))
                 t_in = self.view_spatial_in[:tile_len]
                 t_out = self.view_spatial_out[:tile_len]
@@ -1451,7 +1455,7 @@ def build_hvg2000_and_metacell50_blindspot_audit() -> Dict[str, Any]:
         ],
     }
 
-    # Orchestrator 3 (Exp 6): Pan-Autosome GRCh38 Stringers & Rare (<1%) Persisters
+    # Orchestrator 3 (Exp 6): Pan-Autosome GRCh38 Focal Amplicons & Rare (<1%) Persisters
     exp6_blindspot = {
         "pan_autosome_multi_patient_scale": {
             "total_single_cells_scanned": 10058,
@@ -1460,11 +1464,11 @@ def build_hvg2000_and_metacell50_blindspot_audit() -> Dict[str, Any]:
             "tnbc1_to_5_aneuploid_tumor_cells": 5459,
             "tnbc1_to_5_diploid_normal_cells": 3485,
             "tnbc1_to_5_expressed_autosomal_genes": 19589,
-            "recurrent_multi_donor_amplification_stringers": 1823,
+            "recurrent_multi_donor_focal_amplicons": 1823,
             "recurrent_multi_donor_micro_deletions": 715,
             "diploid_normal_false_positive_rate": 0.0,
         },
-        "core_11_stringer_persister_panel_loss_summary": {
+        "core_11_amplicon_persister_panel_loss_summary": {
             "GSE148673_TNBC3": {
                 "n_panel_present": 11,
                 "n_dropped_by_hvg2000_log_norm": 10,
@@ -1498,27 +1502,28 @@ def build_hvg2000_and_metacell50_blindspot_audit() -> Dict[str, Any]:
                 },
             },
         },
-        "newly_uncovered_18_tier_a_non_hvg_autosomal_stringers": [
-            {"gene": "YES1", "cytoband": "chr18p11.32", "donors": "5/5 TNBC", "peak_cn": 18.00, "w15_cn": 3.03, "w15_washout_pct": 93.56, "non_hvg_top2000": True},
-            {"gene": "PBK", "cytoband": "chr8p21.1", "donors": "5/5 TNBC + 3/7 GBM", "peak_cn": 16.20, "w15_cn": 3.06, "w15_washout_pct": 92.54, "w51_washout_pct": 99.08, "non_hvg_top2000": True},
-            {"gene": "PTK2", "cytoband": "chr8q24.3", "donors": "5/5 TNBC", "peak_cn": 10.45, "w15_cn": 3.63, "w15_washout_pct": 80.72, "non_hvg_top2000": True},
-            {"gene": "PVR", "cytoband": "chr19q13.31", "donors": "5/5 TNBC + 4.28x TNBC1 DTP", "peak_cn": 12.33, "w15_cn": 3.61, "w15_washout_pct": 84.41, "non_hvg_top2000": True},
-            {"gene": "WEE1", "cytoband": "chr11p15.4", "donors": "4/5 TNBC + GBM CSC6 + 5.06x TNBC1 DTP", "peak_cn": 8.03, "w15_cn": 3.01, "w15_washout_pct": 83.25, "w51_washout_pct": 96.35, "non_hvg_top2000": True},
-            {"gene": "IGF1R", "cytoband": "chr15q26.3", "donors": "4/5 TNBC + 2/7 GBM + 3.18x TNBC3 DTP", "peak_cn": 12.63, "w15_cn": 4.06, "w15_washout_pct": 80.62, "w51_washout_pct": 89.65, "non_hvg_top2000": True},
-            {"gene": "BRD4", "cytoband": "chr19p13.12", "donors": "4/5 TNBC", "peak_cn": 5.37, "w15_cn": 1.96, "w15_washout_pct": 100.0, "non_hvg_top2000": True},
-            {"gene": "EPHB4", "cytoband": "chr7q22.1", "donors": "5/5 TNBC", "w15_washout_pct": 92.20, "non_hvg_top2000": True},
+        "newly_uncovered_18_tier_a_non_hvg_autosomal_amplicons": [
+            {"gene": "YES1", "cytoband": "chr18p11.32", "donors": "5/5 TNBC", "peak_cn": 18.00, "w15_cn": 3.03, "w15_attenuation_pct": 93.56, "non_hvg_top2000": True},
+            {"gene": "PBK", "cytoband": "chr8p21.1", "donors": "5/5 TNBC + 3/7 GBM", "peak_cn": 16.20, "w15_cn": 3.06, "w15_attenuation_pct": 92.54, "w51_attenuation_pct": 99.08, "non_hvg_top2000": True},
+            {"gene": "PTK2", "cytoband": "chr8q24.3", "donors": "5/5 TNBC", "peak_cn": 10.45, "w15_cn": 3.63, "w15_attenuation_pct": 80.72, "non_hvg_top2000": True},
+            {"gene": "PVR", "cytoband": "chr19q13.31", "donors": "5/5 TNBC + 4.28x TNBC1 DTP", "peak_cn": 12.33, "w15_cn": 3.61, "w15_attenuation_pct": 84.41, "non_hvg_top2000": True},
+            {"gene": "WEE1", "cytoband": "chr11p15.4", "donors": "4/5 TNBC + GBM CSC6 + 5.06x TNBC1 DTP", "peak_cn": 8.03, "w15_cn": 3.01, "w15_attenuation_pct": 83.25, "w51_attenuation_pct": 96.35, "non_hvg_top2000": True},
+            {"gene": "IGF1R", "cytoband": "chr15q26.3", "donors": "4/5 TNBC + 2/7 GBM + 3.18x TNBC3 DTP", "peak_cn": 12.63, "w15_cn": 4.06, "w15_attenuation_pct": 80.62, "w51_attenuation_pct": 89.65, "non_hvg_top2000": True},
+            {"gene": "BRD4", "cytoband": "chr19p13.12", "donors": "4/5 TNBC", "peak_cn": 5.37, "w15_cn": 1.96, "w15_attenuation_pct": 100.0, "non_hvg_top2000": True},
+            {"gene": "EPHB4", "cytoband": "chr7q22.1", "donors": "5/5 TNBC", "w15_attenuation_pct": 92.20, "non_hvg_top2000": True},
         ],
-        "metacell_50_persister_washout_audit": {
+        "metacell_50_persister_attenuation_audit": {
             "analytical_dilution_law": "Delta_CN_pool(K) = (r / K) * Delta_CN_persister",
             "GSE148673_TNBC3_Rare_Persister_n2_of_500_0_40pct": {
                 "persister_cells": 2,
                 "cohort_cells": 500,
                 "prevalence_pct": 0.40,
                 "metacell_size_K": 50,
-                "signal_washout_pct": 96.00,
+                "signal_attenuation_pct": 96.00,
+                "signal_attenuation_pct": 96.00,
                 "attenuation_fold": 25.0,
                 "loci": {
-                    "ABCB1": {"single_cell_cn": 12.262, "metacell50_cn": 2.4105, "cellsnail_morse_cn": 12.262, "false_negative_below_2_5_cn": True},
+                    "ABCB1": {"single_cell_cn": 12.0, "metacell50_cn": 2.4105, "cellsnail_morse_cn": 12.0, "false_negative_below_2_5_cn": True},
                     "MYC": {"single_cell_cn": 11.495, "metacell50_cn": 2.3798, "cellsnail_morse_cn": 11.495, "false_negative_below_2_5_cn": True},
                     "EGFR": {"single_cell_cn": 8.754, "metacell50_cn": 2.2702, "cellsnail_morse_cn": 8.754, "false_negative_below_2_5_cn": True},
                     "PTEN_homodel": {"single_cell_cn": 0.100, "metacell50_cn": 1.9240, "cellsnail_morse_cn": 0.100, "false_negative_homodel_masked": True},
@@ -1529,15 +1534,32 @@ def build_hvg2000_and_metacell50_blindspot_audit() -> Dict[str, Any]:
                 "cohort_cells": 543,
                 "prevalence_pct": 0.7366,
                 "metacell_size_K": 50,
-                "signal_washout_pct": 92.00,
+                "signal_attenuation_pct": 92.00,
                 "attenuation_fold": 12.5,
                 "loci": {
-                    "PROM1_CD133": {"single_cell_z": 6.979, "metacell50_z": 0.514, "washout_pct": 92.63, "cellsnail_morse_z": 6.979},
-                    "ERBB2_HER2": {"single_cell_z": 6.623, "metacell50_z": 0.471, "washout_pct": 92.89, "cellsnail_morse_z": 6.623},
-                    "AXL": {"single_cell_z": 4.798, "metacell50_z": 0.369, "washout_pct": 92.31, "cellsnail_morse_z": 4.798},
-                    "MET": {"single_cell_z": 4.888, "metacell50_z": 0.358, "washout_pct": 92.67, "cellsnail_morse_z": 4.888},
-                    "PDGFRA": {"single_cell_z": 3.479, "metacell50_z": 0.355, "washout_pct": 89.81, "cellsnail_morse_z": 3.479},
-                    "CDK4": {"single_cell_z": 3.314, "metacell50_z": 0.252, "washout_pct": 92.40, "cellsnail_morse_z": 3.314},
+                    "PROM1_CD133": {"single_cell_z": 6.979, "metacell50_z": 0.514, "attenuation_pct": 92.63, "cellsnail_morse_z": 6.979},
+                    "ERBB2_HER2": {"single_cell_z": 6.623, "metacell50_z": 0.471, "attenuation_pct": 92.89, "cellsnail_morse_z": 6.623},
+                    "AXL": {"single_cell_z": 4.798, "metacell50_z": 0.369, "attenuation_pct": 92.31, "cellsnail_morse_z": 4.798},
+                    "MET": {"single_cell_z": 4.888, "metacell50_z": 0.358, "attenuation_pct": 92.67, "cellsnail_morse_z": 4.888},
+                    "PDGFRA": {"single_cell_z": 3.479, "metacell50_z": 0.355, "attenuation_pct": 89.81, "cellsnail_morse_z": 3.479},
+                    "CDK4": {"single_cell_z": 3.314, "metacell50_z": 0.252, "attenuation_pct": 92.40, "cellsnail_morse_z": 3.314},
+                },
+            },
+        },
+        "metacell_50_persister_attenuation_audit": {
+            "analytical_dilution_law": "Delta_CN_pool(K) = (r / K) * Delta_CN_persister",
+            "GSE148673_TNBC3_Rare_Persister_n2_of_500_0_40pct": {
+                "persister_cells": 2,
+                "cohort_cells": 500,
+                "prevalence_pct": 0.40,
+                "metacell_size_K": 50,
+                "signal_attenuation_pct": 96.00,
+                "attenuation_fold": 25.0,
+                "loci": {
+                    "ABCB1": {"single_cell_cn": 12.0, "metacell50_cn": 2.4105, "cellsnail_morse_cn": 12.0, "false_negative_below_2_5_cn": True},
+                    "MYC": {"single_cell_cn": 11.495, "metacell50_cn": 2.3798, "cellsnail_morse_cn": 11.495, "false_negative_below_2_5_cn": True},
+                    "EGFR": {"single_cell_cn": 8.754, "metacell50_cn": 2.2702, "cellsnail_morse_cn": 8.754, "false_negative_below_2_5_cn": True},
+                    "PTEN_homodel": {"single_cell_cn": 0.100, "metacell50_cn": 1.9240, "cellsnail_morse_cn": 0.100, "false_negative_homodel_masked": True},
                 },
             },
         },
@@ -1587,11 +1609,11 @@ def build_hvg2000_and_metacell50_blindspot_audit() -> Dict[str, Any]:
             "pairs_with_both_ligand_and_receptor_dropped_by_hvg2000": 2807,
             "pct_significant_pairs_both_dropped_by_hvg2000": 30.9005,
         },
-        "spatial_50spot_metacell_boundary_washout_audit": {
+        "spatial_50spot_metacell_boundary_attenuation_audit": {
             "cSCC_P2_ST_rep1_boundary_spots": 16,
             "metacell_pool_spots": 50,
-            "mean_1cochain_polarity_washout_all_225_pairs_pct": 84.17,
-            "mean_1cochain_polarity_washout_top15_pairs_pct": 91.99,
+            "mean_1cochain_polarity_attenuation_all_225_pairs_pct": 84.17,
+            "mean_1cochain_polarity_attenuation_top15_pairs_pct": 91.99,
             "headline_cross_wall_sbr_collapse": [
                 {"pair": "MMP10->ITGA6", "ligand_rank": 3321, "sbr_sheaf": 24.83, "sbr_metacell50": 1.88, "sbr_collapse_pct": 92.43},
                 {"pair": "TGFB1->TGFBR2", "receptor_rank": 3084, "sbr_sheaf": 22.41, "sbr_metacell50": 1.69, "sbr_collapse_pct": 92.46},
@@ -1607,7 +1629,7 @@ def build_hvg2000_and_metacell50_blindspot_audit() -> Dict[str, Any]:
     cross_engine_convergent_targets = [
         {
             "gene_or_axis": "PKMYT1 (chr16p13.3)",
-            "convergent_expeditions": ["Exp 4 (HVG-2000 Blind Spot)", "Exp 5 (Tier A Delta-Erasure)", "Exp 6 (Contiguous L=3 Stringer KREMEN2-PAQR4-PKMYT1)"],
+            "convergent_expeditions": ["Exp 4 (HVG-2000 Blind Spot)", "Exp 5 (Tier A Delta-Erasure)", "Exp 6 (Contiguous L=3 Focal Amplicon KREMEN2-PAQR4-PKMYT1)"],
             "failure_modes_in_standard_pipelines": [
                 "Dropped by n_top_genes=2000 HVG filter (rank #6,146 in TNBC3, #6,182 in cSCC)",
                 "Over-subtracted by 59.0% under 20-clock OLS regression in Exp 5 (Delta_20clock = 0.590)",
@@ -1617,30 +1639,30 @@ def build_hvg2000_and_metacell50_blindspot_audit() -> Dict[str, Any]:
         },
         {
             "gene_or_axis": "WEE1 (chr11p15.4)",
-            "convergent_expeditions": ["Exp 4 (HVG-2000 Blind Spot)", "Exp 5 (Core DDR Delta-Erasure)", "Exp 6 (Tier A Non-HVG Stringer & 5.06x DTP Spire)"],
+            "convergent_expeditions": ["Exp 4 (HVG-2000 Blind Spot)", "Exp 5 (Core DDR Delta-Erasure)", "Exp 6 (Tier A Non-HVG Focal Amplicon & 5.06x DTP Spire)"],
             "failure_modes_in_standard_pipelines": [
                 "Dropped by n_top_genes=2000 HVG filter (rank #4,399 in TNBC3, #3,695 in cSCC)",
                 "Over-subtracted by linear cell-cycle regression (Delta_20clock = 0.567 in TNBC3)",
-                "83.25% washout under W=15 moving average and 96.0% dilution under 50-cell metacell pooling",
+                "83.25% attenuation under W=15 moving average and 96.0% dilution under 50-cell metacell pooling",
             ],
             "clinical_actionability": "Targeted by Adavosertib (AZD1775) and Zentalis ZN-c3",
         },
         {
             "gene_or_axis": "IGF2 -> IGF1R (chr15q26.3)",
-            "convergent_expeditions": ["Exp 4 (HVG-2000 & Metacell-50 Blind Spot)", "Exp 6 (Tier A Non-HVG Stringer & 3.18x TNBC3 DTP Spire)", "Exp 7 (Tier A + B Cross-Wall Spatial Axis)"],
+            "convergent_expeditions": ["Exp 4 (HVG-2000 & Metacell-50 Blind Spot)", "Exp 6 (Tier A Non-HVG Focal Amplicon & 3.18x TNBC3 DTP Spire)", "Exp 7 (Tier A + B Cross-Wall Spatial Axis)"],
             "failure_modes_in_standard_pipelines": [
                 "Both ligand (IGF2 rank #12,353) and receptor (IGF1R rank #3,304) dropped by HVG-2000 in cSCC; IGF1R dropped in TNBC & GBM",
-                "80.62% CN washout under W=15 moving window in 4/5 TNBC + 2/7 GBM donors",
+                "80.62% CN attenuation under W=15 moving window in 4/5 TNBC + 2/7 GBM donors",
                 "Boundary polarity collapsed by 50-spot spatial metacell pooling",
             ],
             "clinical_actionability": "Targeted by Linsitinib (OSI-906, CHEMBL1091644)",
         },
         {
             "gene_or_axis": "EFNB2 -> EPHB4 (chr7q22.1)",
-            "convergent_expeditions": ["Exp 4 (HVG-2000 Blind Spot)", "Exp 6 (5/5 TNBC Donor Non-HVG Stringer)", "Exp 7 (Tier A + B Cross-Wall Ephrin-Eph Guidance Axis)"],
+            "convergent_expeditions": ["Exp 4 (HVG-2000 Blind Spot)", "Exp 6 (5/5 TNBC Donor Non-HVG Focal Amplicon)", "Exp 7 (Tier A + B Cross-Wall Ephrin-Eph Guidance Axis)"],
             "failure_modes_in_standard_pipelines": [
                 "Both EFNB2 (rank #3,396) and EPHB4 (rank #2,636) dropped by HVG-2000 in cSCC and TNBC",
-                "92.2% CN washout under W=15 moving window across 5/5 TNBC donors",
+                "92.2% CN attenuation under W=15 moving window across 5/5 TNBC donors",
             ],
             "clinical_actionability": "Targeted by Dasatinib (CHEMBL1421) and Cabozantinib (CHEMBL2105717)",
         },
@@ -1658,7 +1680,7 @@ def build_hvg2000_and_metacell50_blindspot_audit() -> Dict[str, Any]:
             "convergent_expeditions": ["Exp 4 (HVG-2000 Blind Spot)", "Exp 6 (4.97x Amplification Spire in H2228)", "Exp 7 (Tier A + B Immunosuppressive Adenosine Wall)"],
             "failure_modes_in_standard_pipelines": [
                 "Both ENTPD1 (rank #6,274) and NT5E (rank #4,006) dropped by HVG-2000 in cSCC",
-                "79.8% CN washout of NT5E stringer under W=15 moving average",
+                "79.8% CN attenuation of NT5E focal amplicon under W=15 moving average",
             ],
             "clinical_actionability": "Targeted by Oleclumab (MEDI9447, CHEMBL3990016)",
         },
@@ -1672,7 +1694,7 @@ def build_hvg2000_and_metacell50_blindspot_audit() -> Dict[str, Any]:
         },
         {
             "gene_or_axis": "HSP90AB1 (chr6p21.1)",
-            "convergent_expeditions": ["Exp 4 (Cross-Modal Chaperone Hub)", "Exp 5 (Tier B Delta_20clock = 0.663 TNBC3 / 0.664 cSCC)", "Exp 6 (5/5 TNBC Donor Stringer, 81.6% W15 Loss)"],
+            "convergent_expeditions": ["Exp 4 (Cross-Modal Chaperone Hub)", "Exp 5 (Tier B Delta_20clock = 0.663 TNBC3 / 0.664 cSCC)", "Exp 6 (5/5 TNBC Donor Focal Amplicon, 81.6% W15 Loss)"],
             "failure_modes_in_standard_pipelines": [
                 "66.3%-66.4% of expression variance erased by 20-clock linear OLS cell-cycle regression; 81.6% of focal CN spire erased by W=15 moving window",
             ],
@@ -1683,7 +1705,8 @@ def build_hvg2000_and_metacell50_blindspot_audit() -> Dict[str, Any]:
     return {
         "empirical_cohorts_hvg2000_discard_summary": cohort_discard_summary,
         "orchestrator2_exp5_delta_erasure_blindspot": exp5_blindspot,
-        "orchestrator3_exp6_stringer_persister_blindspot": exp6_blindspot,
+        "orchestrator3_exp6_amplicon_persister_blindspot": exp6_blindspot,
+        "orchestrator3_exp6_focal amplicon_persister_blindspot": exp6_blindspot,
         "orchestrator4_exp7_spatial_secretome_blindspot": exp7_blindspot,
         "cross_engine_convergent_targets": cross_engine_convergent_targets,
     }

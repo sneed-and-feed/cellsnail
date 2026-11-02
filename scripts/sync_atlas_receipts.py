@@ -1,111 +1,28 @@
+"""scripts/sync_atlas_receipts.py
+=============================
+Synchronizes local receipt artifacts within the cellsnail repository.
+Operates strictly in standalone mode with zero cross-repository dependencies.
+"""
+
+from __future__ import annotations
+
 import json
-import os
+from pathlib import Path
 
-src_path = r"C:\Users\x\Documents\antigravity\darksnail\results\darksnail_atlas_receipts.json"
-with open(src_path, "r", encoding="utf-8") as f:
-    data = json.load(f)
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+_RESULTS_DIR = _REPO_ROOT / "results"
 
-# 1. architecture_summary
-if "cellsnail" not in data["architecture_summary"]["spokes"]:
-    data["architecture_summary"]["spokes"].append("cellsnail")
 
-# 2. formalization_theorems
-thms = data["formalization_theorems"]["theorems"]
-thms["thm212"] = {
-    "id": "Theorem 2.12",
-    "name": "Non-Circular Morse Dropout Shielding & Zero Spurious Correlation Injection",
-    "lean_symbols": ["morse_dropout_shielding_zero_spurious_corr"],
-    "statement": "Discrete Morse impulse is strictly positive iff local extremum; monotone ramps rejected; separable filtering on uncorrelated channels preserves zero covariance",
-    "verified": True,
-    "sorry_count": 0
-}
-thms["thm213"] = {
-    "id": "Theorem 2.13",
-    "name": "H_clock (+) H_nope Cell-Cycle & Batch Orthogonal Decomposition",
-    "lean_symbols": ["h_clock_h_nope_orthogonality"],
-    "statement": "For idempotent symmetric projector P: direct sum exact, subspaces orthogonal, energy additive, clock projection of deconfounded signal vanishes",
-    "verified": True,
-    "sorry_count": 0
-}
-thms["thm214"] = {
-    "id": "Theorem 2.14",
-    "name": "Ascertainment-Bias-Free Ultrametric Site Condensation",
-    "lean_symbols": ["ascertainment_bias_free_ultrametric_condensation"],
-    "statement": "Scaling ultrametric distance strictly preserves three-point condition and equal root-to-leaf path heights; ascertainment bias vanishes under proportional condensation",
-    "verified": True,
-    "sorry_count": 0
-}
-thms["thm215"] = {
-    "id": "Theorem 2.15",
-    "name": "Bi-Hemispheric CNV-to-RNA Dosage Linkage & Driver-Passenger Causal Factorization",
-    "lean_symbols": ["multiomic_dosage_linkage_causal_factorization"],
-    "statement": "For 6D multi-omic covariance and SO(6) rotor: Tr(M cov M^T) = Tr(cov) and quadratic variance form conserved under rotated loadings",
-    "verified": True,
-    "sorry_count": 0
-}
+def sync_receipts():
+    summary_path = _RESULTS_DIR / "cellsnail_evaluation_summary.json"
+    if summary_path.exists():
+        with open(summary_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        print(f"Verified cellsnail evaluation summary at {summary_path}")
+        return data
+    print(f"No summary found at {summary_path}")
+    return {}
 
-# 3. hardware_cache_receipts
-data["hardware_cache_receipts"]["arenas"]["cellsnail"] = {
-    "arena_struct": "CellSnailArena",
-    "size_bytes": 983872,
-    "size_kb": 960.8125,
-    "alignment_bytes": 64,
-    "lld_miss_rate_pct": 0.03075,
-    "l1d_hit_rate_pct": 63.09,
-    "l2_hit_rate_pct": 82.39,
-    "l3_hit_rate_pct": 99.53,
-    "dynamic_heap_allocations": 0,
-    "status": "PASS"
-}
 
-# 4. empirical_benchmarks
-data["empirical_benchmarks"]["cellsnail"] = {
-    "mode_a_status": "ALL_15_INVARIANTS_VERIFIED",
-    "mode_b_status": "MODE_B_EMPIRICAL_COHORTS_AND_CROSSOVER_COMPLETE",
-    "empirical_accessions": ["GSE118767", "GSE54695", "GSE148673", "GSE57872", "GSE144239", "Ensembl_GRCh38_MANE_ClinVar"],
-    "spurious_ercc_pairs_cellsnail": 0,
-    "spurious_ercc_pairs_magic": 132,
-    "spurious_ercc_pairs_alra": 437,
-    "unpermuted_gse54695_ercc_pairs_cellsnail": 0,
-    "rare_persister_subclone_f1": 1.0,
-    "rare_persister_fraction": 0.004,
-    "focal_cnv_amplicons_recovered": 4,
-    "focal_cnv_bounded_edge_fidelity": 0.971019,
-    "focal_cnv_bounded_edge_fidelity_hmmcopy": 0.368889,
-    "focal_cnv_adjacent_leakage": 0.0,
-    "cell_cycle_naive_ols_lineage_loss_pct": 16.72,
-    "cell_cycle_orthogonality_residual": 0.0,
-    "synthetic_lethality_beta1_cavities": 3,
-    "spatial_sheaf_penetrating_edges": 0,
-    "spatial_sheaf_clamped_walls": 1614,
-    "spatial_sheaf_bleed_rate": 0.0,
-    "spatial_invasion_front_contrast_ratio": 85.35,
-    "multiomic_dosage_trace_residual": 3.552713678800501e-15,
-    "multiomic_dosage_relative_trace_residual": 1.4098115726846652e-15,
-    "speedup_vs_magic": "46.2x faster",
-    "speedup_vs_alra": "18.7x faster",
-    "speedup_vs_hmmcopy": "12.4x faster",
-    "pytest_passed": 136,
-    "status": "PASS"
-}
-
-# 5. deliverables_index
-studios = data["deliverables_index"]["webgl2_studios"]
-if "cellsnail/studio/cellsnail_portable_studio.html" not in studios:
-    studios.append("cellsnail/studio/cellsnail_portable_studio.html")
-
-proofs = data["deliverables_index"]["formal_proofs"]
-if "cellsnail/formalization/OcclusionTriad.lean" not in proofs:
-    proofs.append("cellsnail/formalization/OcclusionTriad.lean")
-
-dest_paths = [
-    r"C:\Users\x\Documents\antigravity\results\darksnail_atlas_receipts.json",
-    r"C:\Users\x\Documents\antigravity\darksnail\results\darksnail_atlas_receipts.json",
-    r"C:\Users\x\Documents\antigravity\cellsnail\results\darksnail_atlas_receipts.json"
-]
-
-for p in dest_paths:
-    os.makedirs(os.path.dirname(p), exist_ok=True)
-    with open(p, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2)
-    print(f"Wrote: {p}")
+if __name__ == "__main__":
+    sync_receipts()

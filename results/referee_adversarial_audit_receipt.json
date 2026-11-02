@@ -1,11 +1,11 @@
 {
-  "audit_timestamp": "2026-10-26T17:57:25Z",
-  "final_status": "ALL_CHECKS_PASSED",
-  "elapsed_seconds": 6.03,
+  "audit_timestamp": "2026-11-02T16:36:27Z",
+  "final_status": "FAILURES_DETECTED",
+  "elapsed_seconds": 6.63,
   "negative_controls": {
     "column_permutations": {
       "sorted_100_mean_recall": 1.0,
-      "unsorted_100_mean_recall": 0.9466666666666668,
+      "unsorted_100_mean_recall": 0.9566666666666667,
       "adversarial_sorted_recall": 1.0,
       "adversarial_unsorted_recall": 0.3333333333333333,
       "verdict": "PASS"
@@ -54,89 +54,89 @@
           "mean_penetration_residual": 0.0,
           "max_penetration_residual": 0.0,
           "accuracy_sheaf_v020": 1.0,
-          "accuracy_isotropic": 0.9975,
+          "accuracy_isotropic": 0.9958333333333332,
           "accuracy_sheaf_v010": 1.0
         },
         {
           "jitter_um": 1.0,
           "edge_bleed_rate": 0.0,
-          "mean_penetration_residual": 1.2247147740396257e-16,
-          "max_penetration_residual": 1.2490009027033011e-15,
-          "accuracy_sheaf_v020": 1.0,
-          "accuracy_isotropic": 0.9966666666666667,
-          "accuracy_sheaf_v010": 1.0
+          "mean_penetration_residual": 1.1353906145169558e-16,
+          "max_penetration_residual": 2.220446049250313e-15,
+          "accuracy_sheaf_v020": 0.9916666666666667,
+          "accuracy_isotropic": 0.9958333333333335,
+          "accuracy_sheaf_v010": 0.9916666666666667
         },
         {
           "jitter_um": 2.5,
           "edge_bleed_rate": 0.0,
-          "mean_penetration_residual": 1.2247147740396257e-16,
-          "max_penetration_residual": 1.2490009027033011e-15,
-          "accuracy_sheaf_v020": 1.0,
-          "accuracy_isotropic": 0.9975,
-          "accuracy_sheaf_v010": 1.0
+          "mean_penetration_residual": 1.1353906145169558e-16,
+          "max_penetration_residual": 2.220446049250313e-15,
+          "accuracy_sheaf_v020": 0.9908333333333333,
+          "accuracy_isotropic": 0.9958333333333332,
+          "accuracy_sheaf_v010": 0.9908333333333333
         },
         {
           "jitter_um": 5.0,
           "edge_bleed_rate": 0.0,
-          "mean_penetration_residual": 1.2247147740396257e-16,
-          "max_penetration_residual": 1.2490009027033011e-15,
-          "accuracy_sheaf_v020": 0.9975,
-          "accuracy_isotropic": 0.9966666666666667,
-          "accuracy_sheaf_v010": 0.9958333333333332
+          "mean_penetration_residual": 1.1353906145169558e-16,
+          "max_penetration_residual": 2.220446049250313e-15,
+          "accuracy_sheaf_v020": 0.9783333333333334,
+          "accuracy_isotropic": 0.9916666666666667,
+          "accuracy_sheaf_v010": 0.9783333333333334
         },
         {
           "jitter_um": 10.0,
-          "edge_bleed_rate": 26.666666666666668,
-          "mean_penetration_residual": 0.14018859789691213,
-          "max_penetration_residual": 0.6950414964881777,
-          "accuracy_sheaf_v020": 0.9883333333333333,
-          "accuracy_isotropic": 0.9983333333333334,
-          "accuracy_sheaf_v010": 0.9816666666666666
+          "edge_bleed_rate": 17.152466367713004,
+          "mean_penetration_residual": 0.10183518874093685,
+          "max_penetration_residual": 0.6510770083960187,
+          "accuracy_sheaf_v020": 0.9783333333333334,
+          "accuracy_isotropic": 0.9916666666666667,
+          "accuracy_sheaf_v010": 0.9583333333333334
         },
         {
           "jitter_um": 15.0,
-          "edge_bleed_rate": 40.0,
-          "mean_penetration_residual": 0.30502266070786405,
-          "max_penetration_residual": 1.1727949489884444,
-          "accuracy_sheaf_v020": 0.9933333333333333,
-          "accuracy_isotropic": 0.9950000000000001,
-          "accuracy_sheaf_v010": 0.9683333333333333
+          "edge_bleed_rate": 34.97757847533632,
+          "mean_penetration_residual": 0.21541706860786047,
+          "max_penetration_residual": 1.1410428186996617,
+          "accuracy_sheaf_v020": 0.9875000000000002,
+          "accuracy_isotropic": 0.9966666666666667,
+          "accuracy_sheaf_v010": 0.9358333333333334
         },
         {
           "jitter_um": 20.0,
-          "edge_bleed_rate": 40.0,
-          "mean_penetration_residual": 0.37007775636984636,
-          "max_penetration_residual": 1.22056596492214,
-          "accuracy_sheaf_v020": 0.9966666666666667,
-          "accuracy_isotropic": 0.9983333333333334,
-          "accuracy_sheaf_v010": 0.965
+          "edge_bleed_rate": 36.65919282511211,
+          "mean_penetration_residual": 0.2923368483612834,
+          "max_penetration_residual": 1.1977044311142175,
+          "accuracy_sheaf_v020": 0.9933333333333335,
+          "accuracy_isotropic": 0.9958333333333335,
+          "accuracy_sheaf_v010": 0.9241666666666667
         },
         {
           "jitter_um": 30.0,
-          "edge_bleed_rate": 46.666666666666664,
-          "mean_penetration_residual": 0.32617451971291833,
-          "max_penetration_residual": 0.9675907647805484,
+          "edge_bleed_rate": 36.65919282511211,
+          "mean_penetration_residual": 0.26853719628709205,
+          "max_penetration_residual": 0.9548899126650352,
           "accuracy_sheaf_v020": 0.9950000000000001,
-          "accuracy_isotropic": 0.9958333333333332,
-          "accuracy_sheaf_v010": 0.96
+          "accuracy_isotropic": 0.9916666666666667,
+          "accuracy_sheaf_v010": 0.9275000000000001
         },
         {
           "jitter_um": 45.0,
-          "edge_bleed_rate": 46.666666666666664,
-          "mean_penetration_residual": 0.2180283631301897,
-          "max_penetration_residual": 0.6015263179768386,
-          "accuracy_sheaf_v020": 0.9983333333333334,
-          "accuracy_isotropic": 0.9983333333333334,
-          "accuracy_sheaf_v010": 0.9674999999999999
+          "edge_bleed_rate": 49.66367713004484,
+          "mean_penetration_residual": 0.18279257029912385,
+          "max_penetration_residual": 0.5951758919190822,
+          "accuracy_sheaf_v020": 0.9933333333333333,
+          "accuracy_isotropic": 0.9933333333333333,
+          "accuracy_sheaf_v010": 0.9333333333333335
         },
         {
           "jitter_um": 60.0,
-          "edge_bleed_rate": 46.666666666666664,
-          "mean_penetration_residual": 0.14351806040434703,
-          "max_penetration_residual": 0.3865520436299076,
-          "accuracy_sheaf_v020": 0.9975,
-          "accuracy_isotropic": 0.9975,
-          "accuracy_sheaf_v010": 0.9833333333333333
+          "edge_bleed_rate": 50.0,
+          "mean_penetration_residual": 0.12385911543590634,
+          "max_penetration_residual": 0.38281649889004926,
+          "accuracy_sheaf_v020": 0.9966666666666667,
+          "accuracy_isotropic": 0.9966666666666667,
+          "accuracy_sheaf_v010": 0.9358333333333334
         }
       ],
       "low_jitter_zero_bleed": true,
@@ -202,65 +202,65 @@
     "track_3_cell_cycle": {
       "tnbc3_orthogonality_residual": 0.0,
       "gbm_orthogonality_residual": 0.0,
-      "total_norm_conservation_ratio": 0.9999999999999999,
+      "total_norm_conservation_ratio": 1.0,
       "naive_ols_variance_loss": 0.2492,
       "individual_donor_max_residual": 0.0,
       "individual_donor_min_variance": 1.0,
       "verdict": "PASS"
     },
     "track_4_spatial_sheaf": {
-      "boundary_edges": 60,
+      "boundary_edges": 892,
       "sheaf_bleed_percent": 0.0,
       "isotropic_bleed_percent": 50.0,
       "mean_penetration_residual": 0.0,
       "max_penetration_residual": 0.0,
-      "mmp10_contrast_ratio": 15.44,
+      "mmp10_contrast_ratio": 1530.0,
       "verdict": "PASS"
     },
     "track_5_so6_rotor": {
-      "baseline_relative_trace_residual": 1.274796393012888e-15,
-      "max_trace_residual_missingness_sweep": 1.487262458515036e-15,
-      "max_trace_residual_ill_conditioned": 1.9808814413428796e-15,
+      "baseline_relative_trace_residual": 1.4070428478221382e-15,
+      "max_trace_residual_missingness_sweep": 1.6080489689395865e-15,
+      "max_trace_residual_ill_conditioned": 2.521121834436392e-15,
       "missingness_sweep_results": [
         {
           "m_miss": 0.0,
-          "relative_trace_residual": 1.274796393012888e-15,
+          "relative_trace_residual": 1.4070428478221382e-15,
           "passed_1_6e15": true
         },
         {
           "m_miss": 0.25,
-          "relative_trace_residual": 1.274796393012888e-15,
+          "relative_trace_residual": 1.4070428478221382e-15,
           "passed_1_6e15": true
         },
         {
           "m_miss": 0.5,
-          "relative_trace_residual": 1.274796393012888e-15,
+          "relative_trace_residual": 1.4070428478221382e-15,
           "passed_1_6e15": true
         },
         {
           "m_miss": 0.7,
-          "relative_trace_residual": 1.274796393012888e-15,
-          "passed_1_6e15": true
+          "relative_trace_residual": 1.6080489689395865e-15,
+          "passed_1_6e15": false
         },
         {
           "m_miss": 0.85,
-          "relative_trace_residual": 1.487262458515036e-15,
-          "passed_1_6e15": true
+          "relative_trace_residual": 1.6080489689395865e-15,
+          "passed_1_6e15": false
         },
         {
           "m_miss": 0.9,
-          "relative_trace_residual": 1.274796393012888e-15,
-          "passed_1_6e15": true
+          "relative_trace_residual": 1.6080489689395865e-15,
+          "passed_1_6e15": false
         }
       ],
       "ill_conditioned_results": [
         {
           "condition_number": 100.0,
-          "relative_trace_residual": 1.2802571815497303e-16
+          "relative_trace_residual": 3.840771544649191e-16
         },
         {
           "condition_number": 10000.0,
-          "relative_trace_residual": 1.9808814413428796e-15
+          "relative_trace_residual": 2.521121834436392e-15
         },
         {
           "condition_number": 100000000.0,
@@ -268,15 +268,15 @@
         },
         {
           "condition_number": 1000000000000.0,
-          "relative_trace_residual": 1.46484228515625e-15
+          "relative_trace_residual": 1.953123046875e-15
         },
         {
           "condition_number": 100000000000000.0,
-          "relative_trace_residual": 9.3749990625e-16
+          "relative_trace_residual": 3.1249996875e-16
         }
       ],
       "gtex_rsid": "rs79646167",
-      "verdict": "PASS"
+      "verdict": "FAIL"
     }
   }
 }

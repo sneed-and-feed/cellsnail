@@ -1166,7 +1166,7 @@ def build_cross_expedition_convergence(
     Construct the Cross-Expedition Convergence tables and compound catastrophe
     metrics linking:
       1. Expedition 1 <-> Expedition 2 (Dual Blind-Spot Table):
-         Simultaneous erasure of 15 focal CNV stringers & rare persister collateral
+         Simultaneous erasure of 15 focal CNV amplicons & rare persister collateral
          targets (`EGFR`, `MYC`, `CDK4`, `ABCB1`, `PTEN`, `HSP90AA1`, `CDKN2A`,
          `LY6E`, `MDM2`, `S100A6`, `LGALS1`, `KRAS`, `AXL`, `PROM1`, `ERBB2`) by
          15-bin CNV window smoothing (`HMMcopy`/`CopyKAT`) in Exp 2 AND RNA OLS
@@ -1206,46 +1206,46 @@ def build_cross_expedition_convergence(
         {
             "gene": "EGFR",
             "genomic_bin": "Bin 25 (chr7:55019017)",
-            "exp2_role": "1-Bin Focal Stringer (Subclone_A CN=8.024, Rare_Persister CN=8.755, 14.69x RNA)",
-            "cn_cellsnail": 8.024,
-            "cn_window15": 2.401,
-            "dna_excess_cn_washout_percent": 93.34,
+            "exp2_role": "1-Bin Focal Amplicon in Subclone_A & Rare_Persister",
+            "cn_cellsnail": 8.0,
+            "cn_window15": 2.4,
+            "dna_excess_cn_attenuation_percent": 93.34,
             "lead_therapeutic": "Osimertinib (CHEMBL3353410, Ki=2.2 nM) / Erlotinib (Kd=0.35 nM)",
         },
         {
             "gene": "MYC",
             "genomic_bin": "Bin 35 (chr8:127735434)",
-            "exp2_role": "1-Bin ecDNA Spire atop chr8 Gain Plateau (CN=9.824 vs W15=3.164)",
-            "cn_cellsnail": 9.824,
-            "cn_window15": 3.164,
-            "dna_excess_cn_washout_percent": 85.12,
+            "exp2_role": "1-Bin ecDNA Spire atop chr8 Gain Plateau",
+            "cn_cellsnail": 9.8,
+            "cn_window15": 3.2,
+            "dna_excess_cn_attenuation_percent": 85.12,
             "lead_therapeutic": "OMO-103 Omomyc (NCT04800162) / Bromodomain cooperativity",
         },
         {
             "gene": "CDK4",
             "genomic_bin": "Bin 55 (chr12:57747727)",
-            "exp2_role": "1-Bin Focal Stringer in Subclone_B 12q Amplicon (CN=6.357 vs W15=3.692)",
-            "cn_cellsnail": 6.357,
-            "cn_window15": 3.692,
-            "dna_excess_cn_washout_percent": 61.17,
+            "exp2_role": "1-Bin Focal Amplicon in Subclone_B 12q Amplicon",
+            "cn_cellsnail": 6.4,
+            "cn_window15": 3.7,
+            "dna_excess_cn_attenuation_percent": 61.17,
             "lead_therapeutic": "Abemaciclib (CHEMBL3301610, IC50=1.7 nM) / Palbociclib (IC50=8.2 nM)",
         },
         {
             "gene": "ABCB1",
             "genomic_bin": "Bin 28 (chr7:87503863)",
-            "exp2_role": "Rare_Persister 1-Bin Efflux Stringer (0.40% DTP, CN=12.262 vs W15=2.617, 12.45x RNA)",
-            "cn_cellsnail": 12.262,
-            "cn_window15": 2.617,
-            "dna_excess_cn_washout_percent": 93.99,
+            "exp2_role": "Rare_Persister 1-Bin Efflux Amplicon",
+            "cn_cellsnail": 12.0,
+            "cn_window15": 2.6,
+            "dna_excess_cn_attenuation_percent": 93.99,
             "lead_therapeutic": "Tariquidar (CHEMBL348475, IC50=38 nM, PDB 6QEX)",
         },
         {
             "gene": "PTEN",
             "genomic_bin": "Bin 45 (chr10:87863113)",
-            "exp2_role": "1-Bin Focal Homozygous Deletion (Subclone_A CN=0.123 vs W15=1.792)",
+            "exp2_role": "1-Bin Focal Homozygous Deletion",
             "cn_cellsnail": 0.123,
             "cn_window15": 1.792,
-            "dna_excess_cn_washout_percent": 89.60,
+            "dna_excess_cn_attenuation_percent": 89.60,
             "lead_therapeutic": "Capivasertib (CHEMBL2325741) / Ipatasertib synthetic lethality",
         },
         {
@@ -1254,7 +1254,7 @@ def build_cross_expedition_convergence(
             "exp2_role": "Subclone_B Amplicon & Rare_Persister Chaperone Collateral (CN=4.14, 3.34x DTP RNA)",
             "cn_cellsnail": 4.140,
             "cn_window15": 2.680,
-            "dna_excess_cn_washout_percent": 68.22,
+            "dna_excess_cn_attenuation_percent": 68.22,
             "lead_therapeutic": "Ganetespib (CHEMBL2103879, IC50=5.0 nM) / Tanespimycin / Pimitespib",
         },
         {
@@ -1263,7 +1263,7 @@ def build_cross_expedition_convergence(
             "exp2_role": "Checkpoint Collateral & Rare_Persister Arrest Marker (3.11x DTP RNA)",
             "cn_cellsnail": 3.850,
             "cn_window15": 2.380,
-            "dna_excess_cn_washout_percent": 79.46,
+            "dna_excess_cn_attenuation_percent": 79.46,
             "lead_therapeutic": "CDK4/6 inhibitor sensitivity biomarker (R-HSA-2559585)",
         },
         {
@@ -1272,7 +1272,7 @@ def build_cross_expedition_convergence(
             "exp2_role": "Subclone_B Amplicon & Rare_Persister Surface Collateral (CN=4.21, 3.38x DTP RNA)",
             "cn_cellsnail": 4.210,
             "cn_window15": 2.690,
-            "dna_excess_cn_washout_percent": 68.78,
+            "dna_excess_cn_attenuation_percent": 68.78,
             "lead_therapeutic": "RG7841 (DLYE5953A) anti-LY6E ADC target",
         },
         {
@@ -1281,7 +1281,7 @@ def build_cross_expedition_convergence(
             "exp2_role": "Subclone_B 12q Co-Amplicon with CDK4 (CN=4.20 vs W15=2.71)",
             "cn_cellsnail": 4.200,
             "cn_window15": 2.710,
-            "dna_excess_cn_washout_percent": 67.73,
+            "dna_excess_cn_attenuation_percent": 67.73,
             "lead_therapeutic": "Idasanutlin (CHEMBL2402737, Kd=0.15 nM) / Navtemadlin",
         },
         {
@@ -1290,7 +1290,7 @@ def build_cross_expedition_convergence(
             "exp2_role": "Rare_Persister Calcium-Binding Survival Marker (15.29x DTP RNA)",
             "cn_cellsnail": 3.920,
             "cn_window15": 2.310,
-            "dna_excess_cn_washout_percent": 83.85,
+            "dna_excess_cn_attenuation_percent": 83.85,
             "lead_therapeutic": "Persister survival / Hippo-YAP co-target",
         },
         {
@@ -1299,7 +1299,7 @@ def build_cross_expedition_convergence(
             "exp2_role": "Rare_Persister Immunosuppressive Lectin Collateral (2.83x DTP RNA)",
             "cn_cellsnail": 3.640,
             "cn_window15": 2.260,
-            "dna_excess_cn_washout_percent": 84.15,
+            "dna_excess_cn_attenuation_percent": 84.15,
             "lead_therapeutic": "OTX008 Galectin-1 inhibitor",
         },
         {
@@ -1308,7 +1308,7 @@ def build_cross_expedition_convergence(
             "exp2_role": "Focal MAPK Driver & Persister Bypass Signaler",
             "cn_cellsnail": 4.450,
             "cn_window15": 2.520,
-            "dna_excess_cn_washout_percent": 78.78,
+            "dna_excess_cn_attenuation_percent": 78.78,
             "lead_therapeutic": "Adagrasib (CHEMBL4594350, IC50=5.0 nM) / Sotorasib (IC50=9.66 nM)",
         },
         {
@@ -1317,7 +1317,7 @@ def build_cross_expedition_convergence(
             "exp2_role": "GBM DTP-1 (+4.80 sigma) & DTP-2 (+4.51 sigma) Mesenchymal Persister RTK",
             "cn_cellsnail": 4.180,
             "cn_window15": 2.410,
-            "dna_excess_cn_washout_percent": 81.19,
+            "dna_excess_cn_attenuation_percent": 81.19,
             "lead_therapeutic": "Bemcentinib (CHEMBL3809489, IC50=14 nM) / Gilteritinib / Cabozantinib (0.5 nM)",
         },
         {
@@ -1326,7 +1326,7 @@ def build_cross_expedition_convergence(
             "exp2_role": "GBM DTP-1 (+6.98 sigma) Quiescent Stem Persister Marker",
             "cn_cellsnail": 3.750,
             "cn_window15": 2.220,
-            "dna_excess_cn_washout_percent": 87.43,
+            "dna_excess_cn_attenuation_percent": 87.43,
             "lead_therapeutic": "CD133 stem-persister immunotarget",
         },
         {
@@ -1335,7 +1335,7 @@ def build_cross_expedition_convergence(
             "exp2_role": "GBM DTP-2 (+6.62 sigma) Mosaic ERBB2+/AXL+ Persister RTK",
             "cn_cellsnail": 4.620,
             "cn_window15": 2.490,
-            "dna_excess_cn_washout_percent": 81.30,
+            "dna_excess_cn_attenuation_percent": 81.30,
             "lead_therapeutic": "Neratinib (CHEMBL180022, IC50=1.0 nM) / Lapatinib (Ki=1.59 nM) / Tucatinib",
         },
     ]
@@ -1348,7 +1348,7 @@ def build_cross_expedition_convergence(
         d20_map = meta_g.get("delta_extclock_by_cohort", {})
         max_d5 = float(meta_g.get("max_delta_erasure_5clock", 0.0))
         max_d20 = float(meta_g.get("max_delta_erasure_extclock", 0.0))
-        dna_retain = 1.0 - (item["dna_excess_cn_washout_percent"] / 100.0)
+        dna_retain = 1.0 - (item["dna_excess_cn_attenuation_percent"] / 100.0)
         rna_retain_5 = 1.0 - max_d5
         rna_retain_20 = 1.0 - max_d20
         compound_joint_survival_5clock = dna_retain * rna_retain_5
@@ -1361,10 +1361,11 @@ def build_cross_expedition_convergence(
                 db_genes.get(g_sym, {}).get("ensembl_grch38", {}).get("ensembl_gene_id", ""),
             ),
             "genomic_bin": item["genomic_bin"],
-            "exp2_stringer_or_persister_role": item["exp2_role"],
+            "exp2_amplicon_or_persister_role": item["exp2_role"],
             "cn_cellsnail": item["cn_cellsnail"],
             "cn_window15_smoothed": item["cn_window15"],
-            "exp2_dna_window15_washout_percent": item["dna_excess_cn_washout_percent"],
+            "exp2_dna_window15_attenuation_percent": item["dna_excess_cn_attenuation_percent"],
+            "exp2_dna_window15_attenuation_percent": item["dna_excess_cn_attenuation_percent"],
             "exp1_delta_5clock_by_cohort": d5_map,
             "exp1_max_delta_5clock_percent": round(100.0 * max_d5, 2),
             "exp1_max_delta_20clock_percent": round(100.0 * max_d20, 2),
@@ -1480,9 +1481,15 @@ def build_cross_expedition_convergence(
     return {
         "exp1_exp2_dual_blind_spot_summary": {
             "total_shared_targets": len(dual_blind_spot_table),
-            "mean_dna_window15_washout_percent": round(
+            "mean_dna_window15_attenuation_percent": round(
                 float(
-                    np.mean([r["exp2_dna_window15_washout_percent"] for r in dual_blind_spot_table])
+                    np.mean([r["exp2_dna_window15_attenuation_percent"] for r in dual_blind_spot_table])
+                ),
+                2,
+            ),
+            "mean_dna_window15_attenuation_percent": round(
+                float(
+                    np.mean([r["exp2_dna_window15_attenuation_percent"] for r in dual_blind_spot_table])
                 ),
                 2,
             ),
@@ -1554,14 +1561,15 @@ def build_cross_expedition_convergence(
                 "LY6E",
             ],
             "exp1_rna_ols_erasure_range_percent": [14.95, 61.90],
-            "exp2_dna_window15_washout_range_x": [15.02, 16.63],
+            "exp2_dna_window15_attenuation_range_x": [15.02, 16.63],
+            "exp2_dna_window15_attenuation_range_x": [15.02, 16.63],
             "exp3_spatial_isotropic_bleed_inflation_range_percent": [241.2, 417.0],
             "exp3_se2_sheaf_polarity_gain_range_x": [2.03, 38.76],
             "conclusion": (
                 "Standard single-cell and spatial pipelines inflict a compound Triple Catastrophe "
                 "on proliferation-coupled oncogenic amplicons and invasive-margin receptors: "
                 "(1) OLS cell-cycle regression erases 15%-80% of RNA driver variance, "
-                "(2) 15-bin CNV smoothing washes out 61%-94% of sub-megabase DNA amplicon spires, and "
+                "(2) 15-bin CNV smoothing attenuates 61%-94% of sub-megabase DNA amplicon spires, and "
                 "(3) isotropic spatial smoothing fabricates +241%-417% false-positive pseudo-EMT hybrids "
                 "while collapsing trans-membrane juxtacrine polarity up to 38.76-fold. "
                 "cellsnail v0.2.0 eliminates all three failure modes simultaneously."

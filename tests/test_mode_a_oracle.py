@@ -12,7 +12,7 @@ from cellsnail.benchmark.mode_a_oracle import (
     verify_cellular_sheaf_coboundary,
     verify_discrete_energy_identity,
     verify_h_clock_h_nope_orthogonality,
-    verify_ideal_mhd_transverse_invariance,
+    verify_transverse_sheaf_curvature_invariance,
     verify_kelvin_mandel_trace,
     verify_morse_dropout_shielding,
     verify_multiomic_dosage_linkage,
@@ -72,8 +72,8 @@ def test_theorem_2_8_cayley_transform_unitarity():
     assert res["residual"] < 1e-14
 
 
-def test_theorem_2_9_ideal_mhd_transverse_invariance():
-    res = verify_ideal_mhd_transverse_invariance()
+def test_theorem_2_9_transverse_sheaf_curvature_invariance():
+    res = verify_transverse_sheaf_curvature_invariance()
     assert res["passed"] is True
     assert res["residual"] < 1e-15
 

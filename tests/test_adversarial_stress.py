@@ -7,7 +7,7 @@ runaway scales, and algebraic invariants across both Python reference oracles an
 native #![no_std] Rust SIMD C-ABI bindings:
 
 1. Extreme Noise (SNR < 0 dB down to -20 dB) and Extreme Dropout (50%, 80%, 95%) on
-   `morse_dropout_filter` / `beltrami_morse_gate`:
+   `morse_dropout_filter`:
    - Verifies exact zero spurious correlation injection (|r| > 0.70 == 0) across independent genes.
    - Evaluates real wet-lab ERCC spike-in controls from `sc_mixology` across 50%, 80%, and 95% dropout.
    - Contrasts against MAGIC graph diffusion and ALRA SVD low-rank smearing.
@@ -59,7 +59,6 @@ from cellsnail.benchmark.mode_b_blind import (
 )
 from cellsnail.data import load_sc_mixology
 from cellsnail.operators import (
-    beltrami_morse_gate,
     contact_sheaf_se2_step,
     genotype_tiebreaker_so10,
     kelvin_mandel_so6_rotor,
@@ -73,7 +72,7 @@ from cellsnail.operators import (
 
 
 # ==============================================================================
-# Challenge 1: Extreme Noise & Dropout on morse_dropout_filter / beltrami_morse_gate
+# Challenge 1: Extreme Noise & Dropout on morse_dropout_filter
 # ==============================================================================
 
 class TestExtremeNoiseAndDropoutSpuriousCorrelation:
@@ -148,8 +147,8 @@ class TestExtremeNoiseAndDropoutSpuriousCorrelation:
             assert res["spurious_pairs"]["alra"] > 100, "ALRA should inject > 100 spurious pairs"
             assert res["spurious_pairs"]["magic"] > 0, "MAGIC should inject spurious pairs"
 
-    def test_beltrami_morse_gate_2d_extreme_noise_and_dropout(self):
-        """Test 2D spatial Beltrami-Morse gate under severe noise and 95% zero dropout."""
+    def test_morse_dropout_filter_2d_extreme_noise_and_dropout(self):
+        """Test 2D spatial Morse dropout filter under severe noise and 95% zero dropout."""
         rng = np.random.RandomState(42)
         grid_size = 64
         # Two independent spatial feature channels
@@ -160,8 +159,8 @@ class TestExtremeNoiseAndDropoutSpuriousCorrelation:
         ch1[rng.rand(grid_size, grid_size) < 0.95] = 0.0
         ch2[rng.rand(grid_size, grid_size) < 0.95] = 0.0
 
-        out1 = beltrami_morse_gate(ch1)
-        out2 = beltrami_morse_gate(ch2)
+        out1 = morse_dropout_filter(ch1)
+        out2 = morse_dropout_filter(ch2)
 
         # Verify no NaN or Inf in outputs
         assert np.all(np.isfinite(out1["filtered"]))

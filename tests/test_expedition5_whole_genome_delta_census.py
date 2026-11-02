@@ -265,10 +265,10 @@ def test_15_cross_engine_convergence_exp4_exp6_exp7(exp5_results):
     assert exp4["mask_mismatches_across_33694_genes"] == 0
     assert exp4["bcm2712_l3_cache_hit_rate_pct"] == 99.53
 
-    exp6 = ce["exp5_exp6_pan_autosome_focal_stringers"]
+    exp6 = ce["exp5_exp6_pan_autosome_focal_amplicons"]
     assert exp6["triple_erasure_flagship_discovery"]["gene"] == "PKMYT1"
     assert exp6["double_erasure_pan_patient_chaperone_hub"]["gene"] == "HSP90AB1"
-    assert len(exp6["pan_autosome_stringer_candidates_evaluated"]) == 25
+    assert len(exp6["pan_autosome_amplicon_candidates_evaluated"]) == 25
 
     exp7 = ce["exp5_exp7_spatial_boundary_secretome"]
     assert exp7["total_cscc_slides_integrated_in_exp7"] == 6
@@ -355,11 +355,11 @@ def test_21_cscc_layer3_tsk_niche_secretome_erasure(exp5_results):
     assert axes["LAMC2 -> ITGB4"]["itgb4_cscc_rep1_tsk_layer3_delta_20clock"] > 0.45
 
 
-def test_22_pan_autosome_stringer_candidates_cross_validation(exp5_results):
-    """Verify pan-autosome stringer candidates (PKMYT1, HSP90AB1, MCL1, XPO1, BRD4, GPX4, TOP1) in Exp 5 <-> Exp 6 table."""
+def test_22_pan_autosome_amplicon_candidates_cross_validation(exp5_results):
+    """Verify pan-autosome amplicon candidates (PKMYT1, HSP90AB1, MCL1, XPO1, BRD4, GPX4, TOP1) in Exp 5 <-> Exp 6 table."""
     table = {
         r["gene"]: r
-        for r in exp5_results["cross_engine_convergence"]["exp5_exp6_pan_autosome_focal_stringers"]["pan_autosome_stringer_candidates_evaluated"]
+        for r in exp5_results["cross_engine_convergence"]["exp5_exp6_pan_autosome_focal_amplicons"]["pan_autosome_amplicon_candidates_evaluated"]
     }
     assert table["PKMYT1"]["max_delta_20clock"] > 0.65
     assert table["HSP90AB1"]["max_delta_20clock"] > 0.65

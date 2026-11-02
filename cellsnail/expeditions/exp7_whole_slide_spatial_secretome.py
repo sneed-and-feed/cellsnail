@@ -866,7 +866,7 @@ class WholeSlideSpatialSecretomeScanner:
                 "cscc_hvg_rank_400": int(self.gene_meta["PKMYT1"]["hvg_rank_400"]),
                 "tnbc3_delta_20clock": 0.590,
                 "tnbc3_hvg_rank": 6146,
-                "exp7_spatial_axis": "Triple-killed across Exp 5 (#6,146 TNBC3 / #6,182 cSCC), Exp 6 (chr16p13.3 L=3 stringer), and Exp 7",
+                "exp7_spatial_axis": "Triple-killed across Exp 5 (#6,146 TNBC3 / #6,182 cSCC), Exp 6 (chr16p13.3 L=3 focal amplicon), and Exp 7",
                 "therapeutic_agent": "Lunresertib (RP-6306, Phase II PKMYT1 inhibitor)",
             },
             "RACGAP1": {
@@ -895,28 +895,28 @@ class WholeSlideSpatialSecretomeScanner:
             {
                 "gene_symbol": "IGF1R",
                 "grch38_locus": "chr15q26.3 (chr15:98648538-98964530)",
-                "exp6_genomic_finding": "Tier A Non-HVG 1-gene focal stringer across 4/5 TNBC donors (TNBC1, TNBC2, TNBC4, TNBC5) + 2/7 GBM donors (MGH28, MGH31) + 3.18x in TNBC3 rare DTPs (peak CN = 12.63 -> W15 = 4.06, 80.62% moving-window washout)",
+                "exp6_genomic_finding": "Tier A Non-HVG 1-gene focal focal amplicon across 4/5 TNBC donors (TNBC1, TNBC2, TNBC4, TNBC5) + 2/7 GBM donors (MGH28, MGH31) + 3.18x in TNBC3 rare DTPs (peak CN = 12.63 -> W15 = 4.06, 80.62% moving-window attenuation)",
                 "exp7_spatial_axis": "IGF2->IGF1R (IGF1R HVG rank 3,304 Non-HVG, IGF2 HVG rank 12,353 Non-HVG, SBR_shf = 26.10, 9.75x sharpening)",
                 "chembl_therapeutic": "Linsitinib (CHEMBL1091644, Phase III IGF1R inhibitor)",
             },
             {
                 "gene_symbol": "EPHB4",
                 "grch38_locus": "chr7q22.1 (chr7:100802564-100825996)",
-                "exp6_genomic_finding": "Tier A Non-HVG 1-gene focal stringer across 5/5 TNBC donors (100% LODO replication, peak CN = 8.63 -> W15 = 2.52, 92.19% moving-window washout)",
+                "exp6_genomic_finding": "Tier A Non-HVG 1-gene focal focal amplicon across 5/5 TNBC donors (100% LODO replication, peak CN = 8.63 -> W15 = 2.52, 92.19% moving-window attenuation)",
                 "exp7_spatial_axis": "EFNB2->EPHB4 & EFNB1->EPHB4 (EPHB4 HVG rank 2,636 Non-HVG, EFNB2 HVG rank 3,396 Non-HVG, SBR_shf = 11.09, contact repulsion boundary clamp)",
                 "chembl_therapeutic": "Dasatinib (CHEMBL1421, Phase IV) / Cabozantinib (CHEMBL2105717, Phase IV)",
             },
             {
                 "gene_symbol": "TGFBR2",
                 "grch38_locus": "chr3p24.1 (chr3:30606601-30694142)",
-                "exp6_genomic_finding": "Multi-donor Non-HVG focal micro-deletion across 4/5 TNBC bulk tumors (CN = 0.71 -> W15 = 2.15, 100.0% deletion washout into false-diploid call)",
+                "exp6_genomic_finding": "Multi-donor Non-HVG focal micro-deletion across 4/5 TNBC bulk tumors (CN = 0.71 -> W15 = 2.15, 100.0% deletion attenuation into false-diploid call)",
                 "exp7_spatial_axis": "INHBA->TGFBR2 & TGFB3->TGFBR2 (TGFBR2 HVG rank 3,084 Non-HVG on 6/6 slides, INHBA rank 3,311, TGFB3 rank 6,341, 15.76x sharpening, 4/6 slides replicated)",
                 "chembl_therapeutic": "Bintrafusp alfa (CHEMBL4298024, Phase III) / Galunisertib (CHEMBL2364611, Phase II) / Vactosertib (CHEMBL3989926)",
             },
             {
                 "gene_symbol": "NT5E",
                 "grch38_locus": "chr6q14.3 (chr6:85449584-85495791)",
-                "exp6_genomic_finding": "Focal CD73 stringer enriched 4.97x in H2228 lung adenocarcinoma with 79.8% W15 moving-window washout",
+                "exp6_genomic_finding": "Focal CD73 focal amplicon enriched 4.97x in H2228 lung adenocarcinoma with 79.8% W15 moving-window attenuation",
                 "exp7_spatial_axis": "ENTPD1->NT5E (ENTPD1 [CD39] HVG rank 6,274 Non-HVG, NT5E [CD73] HVG rank 4,006 Non-HVG, extracellular adenosine immunosuppressive relay)",
                 "chembl_therapeutic": "Oleclumab (CHEMBL3990016, Phase III anti-CD73 antibody)",
             },
@@ -937,14 +937,14 @@ class WholeSlideSpatialSecretomeScanner:
             {
                 "gene_symbol": "KDR_PDGFRB_DDR1",
                 "grch38_locus": "chr4q12 (KDR) / chr5q32 (PDGFRB) / chr6p21.33 (DDR1)",
-                "exp6_genomic_finding": "Peritumoral angiogenic & collagen-mechanosensing RTK stringers dropped by standard HVG-2000 & moving-window filters",
+                "exp6_genomic_finding": "Peritumoral angiogenic & collagen-mechanosensing RTK focal amplicons dropped by standard HVG-2000 & moving-window filters",
                 "exp7_spatial_axis": "PDGFA->PDGFRB (PDGFA rank 5,184, SBR_shf = 43.44), COL1A1->DDR1 (DDR1 rank 2,576, 6/6 slides, SBR_shf = 29.10), VEGFA->KDR (KDR rank 7,259, VEGFA rank 2,135)",
                 "chembl_therapeutic": "Imatinib (CHEMBL941), Dasatinib (CHEMBL1421), Nintedanib (CHEMBL502835), Bevacizumab (CHEMBL1201583)",
             },
             {
                 "gene_symbol": "CD74_LGALS1",
                 "grch38_locus": "chr5q33.1 (CD74) / chr22q13.1 (LGALS1)",
-                "exp6_genomic_finding": "CD74 5/5 TNBC bulk micro-deletion vs H2228 16.51x focal stringer; LGALS1 enriched across 5/5 TNBC DTPs",
+                "exp6_genomic_finding": "CD74 5/5 TNBC bulk micro-deletion vs H2228 16.51x focal focal amplicon; LGALS1 enriched across 5/5 TNBC DTPs",
                 "exp7_spatial_axis": "MIF->CD74 (MIF rank 7,706 Non-HVG on 6/6 slides, 5/6 slides replicated, SBR_shf = 32.52); LGALS1->ITGB1 (SBR_shf = 75.56) & LGALS1->PTPRC (SBR_shf = 68.58)",
                 "chembl_therapeutic": "Milatuzumab (CHEMBL1743040, Phase II anti-CD74) / OTX008 (Galectin-1 inhibitor)",
             },
@@ -954,7 +954,7 @@ class WholeSlideSpatialSecretomeScanner:
             "quad_engine_overview": {
                 "exp4_systems_and_streaming": "WholeGenomeArenaStreamer.stream_spatial_sheaf_aligner precomputes the spot contact graph and native C-ABI spatial_tissue_sheaf_solver_huber_f32 boundary coboundary audit once in O(N^2), then streams all 17,138 cSCC genes in column tiles (B_G = 163 at N = 400, 106 tiles) through ring_buffer (512 KB) inside the fixed 983,872 B (0.9383 MB < 2.0 MB) static SRAM arena with 0.00000000 max abs diff vs full-slide SE2CellularSheaf",
                 "exp5_temporal_delta_census": "Unbiased 33,694-gene TNBC / 17,138-gene cSCC / 5,948-gene GBM cell-cycle OLS erasure census recovers Tier A Non-HVG chromatin/mitotic drivers (DNAJC9, VRK1, PKMYT1, RACGAP1, TRIP13) and Tier B spatial-metabolic targets (SLC7A5, ITGB4, TP63, AKT1, NUDT1)",
-                "exp6_genomic_stringer_atlas": "Pan-autosome GRCh38 (19,589 TNBC / 11,834 lung / 5,543 GBM genes across chr1-chr22) 1D Morse filter recovers 1-3 gene focal stringers & micro-deletions (IGF1R, EPHB4, TGFBR2, NT5E, AXL, ERBB2, PKMYT1, CD74, LGALS1) washed out 80%-100% by W15-W51 moving windows",
+                "exp6_genomic_amplicon_atlas": "Pan-autosome GRCh38 (19,589 TNBC / 11,834 lung / 5,543 GBM genes across chr1-chr22) 1D Morse filter recovers 1-3 gene focal focal amplicons & micro-deletions (IGF1R, EPHB4, TGFBR2, NT5E, AXL, ERBB2, PKMYT1, CD74, LGALS1) washed out 80%-100% by W15-W51 moving windows",
                 "exp7_spatial_secretome_wall_scan": "Whole-slide 17,138-gene SE2CellularSheaf v0.2.0 scan across 6 cSCC slides (4,293 spots, 1,003 edges) uncovers 7,206/9,084 (79.33%) Non-HVG significant pairs and 225 curated active pairs (141 Tier A + 153 Tier B + 87 Combined) with 0.0% pseudo-EMT bleed across 34/34 pairs",
             },
             "exp4_streaming_and_hvg_metacell_blindspot_bridge": {
@@ -973,14 +973,17 @@ class WholeSlideSpatialSecretomeScanner:
                 "tnbc3_hvg2000_discard_pct": 94.06,
                 "cscc_hvg2000_clean_expressed_discard_pct": 88.36,
                 "gbm_hvg2000_discard_pct": 66.38,
-                "pseudobulk50_tnbc3_persister_washout_pct": 96.0,
-                "pseudobulk50_gbm_dtp_washout_pct": 92.0,
-                "pseudobulk50_cscc_spatial_polarity_washout_mean_pct": 84.17,
-                "pseudobulk50_cscc_spatial_polarity_washout_top15_pct": 91.99,
+                "pseudobulk50_tnbc3_persister_attenuation_pct": 96.0,
+                "pseudobulk50_gbm_dtp_attenuation_pct": 92.0,
+                "pseudobulk50_cscc_spatial_polarity_attenuation_mean_pct": 84.17,
+                "pseudobulk50_cscc_spatial_polarity_attenuation_mean_pct": 84.17,
+                "pseudobulk50_cscc_spatial_polarity_attenuation_top15_pct": 91.99,
+                "pseudobulk50_cscc_spatial_polarity_attenuation_top15_pct": 91.99,
                 "pseudobulk50_cscc_sbr_collapse_range_pct": [91.8, 99.5],
             },
             "exp5_whole_genome_delta_erasure_bridge": exp5_convergent_genes,
-            "exp6_pan_autosome_grch38_stringer_and_persister_bridge": exp6_convergent_axes,
+            "exp6_pan_autosome_grch38_amplicon_and_persister_bridge": exp6_convergent_axes,
+            "exp6_pan_autosome_grch38_focal amplicon_and_persister_bridge": exp6_convergent_axes,
         }
 
     # --------------------------------------------------------------------------
@@ -1752,10 +1755,10 @@ class WholeSlideSpatialSecretomeScanner:
                 ),
                 "quad_engine_cross_orchestrator_convergence": (
                     "Unifies Exp 4 (WholeGenomeArenaStreamer.stream_spatial_sheaf_aligner 106-tile 983,872 B < 2.0 MB static SRAM streaming "
-                    "with 0.00000000 max abs diff vs full-slide SE2CellularSheaf & HVG/Pseudobulk-50 washout proof), "
+                    "with 0.00000000 max abs diff vs full-slide SE2CellularSheaf & HVG/Pseudobulk-50 attenuation proof), "
                     "Exp 5 (20-clock OLS Delta-erasure on SLC7A5 [0.689], ITGB4 [0.630], TP63 [0.651], AKT1 [0.403], NUDT1 [0.444], "
-                    "DNAJC9 [0.436], VRK1 [0.323], PKMYT1 [0.384], RACGAP1 [0.509]), and Exp 6 (pan-autosome GRCh38 focal stringers "
-                    "and micro-deletions on IGF1R [80.62% W15 loss], EPHB4 [92.19% W15 loss], TGFBR2 [100.0% deletion washout], "
+                    "DNAJC9 [0.436], VRK1 [0.323], PKMYT1 [0.384], RACGAP1 [0.509]), and Exp 6 (pan-autosome GRCh38 focal focal amplicons "
+                    "and micro-deletions on IGF1R [80.62% W15 loss], EPHB4 [92.19% W15 loss], TGFBR2 [100.0% deletion attenuation], "
                     "NT5E [79.8% W15 loss], AXL, ERBB2, CD74, LGALS1)"
                 ),
                 "adversarial_validation": (

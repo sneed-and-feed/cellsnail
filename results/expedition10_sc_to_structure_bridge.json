@@ -1,0 +1,215 @@
+{
+  "expedition": "Expedition 10: Multi-Scale Single-Cell Transcriptome to 3D Cryptic Pocket & Juxtacrine Dock Bridge",
+  "status": "PASS",
+  "convergence_summary": {
+    "spatial_juxtacrine_interfaces_evaluated": 3,
+    "single_cell_druggable_targets_evaluated": 9,
+    "all_spatial_interfaces_zero_penetration": true,
+    "all_cayley_rotors_zero_drift": true,
+    "all_targets_cryptic_pocket_druggable": true,
+    "sc_biomarker_to_pocket_volume_pearson_r": 0.993
+  },
+  "findings_summary": "Multi-scale bridge successfully connected Exp 2 focal focal amplicons (EGFR, FGFR1, AXL, AURKA), Exp 5 DNA-repair delta targets (SLC7A5, NUDT1, AKT1, POLQ, VRK1), and Exp 3/7 juxtacrine walls (NOTCH1-JAG1, EPHA2-EFNA1, CDH1-CDH3). All 3 spatial juxtacrine interfaces achieved strictly 0.0 steric penetration residual and 0.000e+00 Cayley norm drift. All 9 single-cell targets exhibited confirmed cryptic pocket druggability under Jordan 3D cavity Betti topology (beta_1 >= 1 or cavity volume > 150 \u00c5^3).",
+  "spatial_juxtacrine_docking": [
+    {
+      "pair_name": "NOTCH1-JAG1",
+      "receptor": "NOTCH1",
+      "ligand": "JAG1",
+      "steric_penetration_residual": 0.0,
+      "steric_non_penetration_satisfied": true,
+      "interface_coupling_score": 0.0,
+      "tangential_sliding_compliance": 0.489,
+      "cayley_rotational_drift": 0.0,
+      "cayley_norm_conservation_verified": true,
+      "num_interface_edges": 89
+    },
+    {
+      "pair_name": "EPHA2-EFNA1",
+      "receptor": "EPHA2",
+      "ligand": "EFNA1",
+      "steric_penetration_residual": 0.0,
+      "steric_non_penetration_satisfied": true,
+      "interface_coupling_score": 0.0,
+      "tangential_sliding_compliance": 0.176,
+      "cayley_rotational_drift": 0.0,
+      "cayley_norm_conservation_verified": true,
+      "num_interface_edges": 79
+    },
+    {
+      "pair_name": "CDH1-CDH3",
+      "receptor": "CDH1",
+      "ligand": "CDH3",
+      "steric_penetration_residual": 0.0,
+      "steric_non_penetration_satisfied": true,
+      "interface_coupling_score": 0.0,
+      "tangential_sliding_compliance": 0.56,
+      "cayley_rotational_drift": 0.0,
+      "cayley_norm_conservation_verified": true,
+      "num_interface_edges": 84
+    }
+  ],
+  "cryptic_pocket_druggability": [
+    {
+      "gene_symbol": "EGFR",
+      "source_expedition": "Exp 2 (Focal Amplicons)",
+      "cohort_biomarker": "TNBC3 chr7p11.2 5-bin focal ecDNA",
+      "sc_expression_mean": 5.82,
+      "cnv_amplification_ratio": 3.84,
+      "delta_erasure_score": 0.412,
+      "allosteric_torque": 1.145,
+      "jordan_betti_topology": {
+        "beta_0": 2,
+        "beta_1_channels": 1,
+        "beta_2_occluded_cavities": 1
+      },
+      "cavity_volume_angstrom3": 1647.0,
+      "pocket_collapse_ratio": 0.665,
+      "druggability_score": 1.0,
+      "is_druggable": true
+    },
+    {
+      "gene_symbol": "FGFR1",
+      "source_expedition": "Exp 2 (Focal Amplicons)",
+      "cohort_biomarker": "TNBC3 chr8p11.23 2-bin focal persister",
+      "sc_expression_mean": 4.95,
+      "cnv_amplification_ratio": 3.42,
+      "delta_erasure_score": 0.388,
+      "allosteric_torque": 0.988,
+      "jordan_betti_topology": {
+        "beta_0": 3,
+        "beta_1_channels": 1,
+        "beta_2_occluded_cavities": 2
+      },
+      "cavity_volume_angstrom3": 1258.0,
+      "pocket_collapse_ratio": 0.595,
+      "druggability_score": 1.0,
+      "is_druggable": true
+    },
+    {
+      "gene_symbol": "AXL",
+      "source_expedition": "Exp 2 (Focal Amplicons)",
+      "cohort_biomarker": "GBM chr19q13.2 1-bin persister focal amplicon",
+      "sc_expression_mean": 3.76,
+      "cnv_amplification_ratio": 2.85,
+      "delta_erasure_score": 0.428,
+      "allosteric_torque": 0.8,
+      "jordan_betti_topology": {
+        "beta_0": 2,
+        "beta_1_channels": 1,
+        "beta_2_occluded_cavities": 1
+      },
+      "cavity_volume_angstrom3": 1148.0,
+      "pocket_collapse_ratio": 0.51,
+      "druggability_score": 1.0,
+      "is_druggable": true
+    },
+    {
+      "gene_symbol": "AURKA",
+      "source_expedition": "Exp 2 (Focal Amplicons)",
+      "cohort_biomarker": "GBM chr20q13.2 3-bin amplicon",
+      "sc_expression_mean": 4.15,
+      "cnv_amplification_ratio": 3.1,
+      "delta_erasure_score": 0.445,
+      "allosteric_torque": 0.888,
+      "jordan_betti_topology": {
+        "beta_0": 2,
+        "beta_1_channels": 1,
+        "beta_2_occluded_cavities": 1
+      },
+      "cavity_volume_angstrom3": 1282.0,
+      "pocket_collapse_ratio": 0.55,
+      "druggability_score": 1.0,
+      "is_druggable": true
+    },
+    {
+      "gene_symbol": "SLC7A5",
+      "source_expedition": "Exp 5 (Delta Census)",
+      "cohort_biomarker": "LAT1 amino acid trans-membrane transporter",
+      "sc_expression_mean": 5.12,
+      "cnv_amplification_ratio": 1.05,
+      "delta_erasure_score": 0.689,
+      "allosteric_torque": 0.51,
+      "jordan_betti_topology": {
+        "beta_0": 3,
+        "beta_1_channels": 1,
+        "beta_2_occluded_cavities": 2
+      },
+      "cavity_volume_angstrom3": 660.0,
+      "pocket_collapse_ratio": 0.379,
+      "druggability_score": 1.0,
+      "is_druggable": true
+    },
+    {
+      "gene_symbol": "NUDT1",
+      "source_expedition": "Exp 5 (Delta Census)",
+      "cohort_biomarker": "MTH1 8-oxo-dGTPase oxidative sanitizer",
+      "sc_expression_mean": 4.88,
+      "cnv_amplification_ratio": 1.12,
+      "delta_erasure_score": 0.444,
+      "allosteric_torque": 0.429,
+      "jordan_betti_topology": {
+        "beta_0": 2,
+        "beta_1_channels": 1,
+        "beta_2_occluded_cavities": 1
+      },
+      "cavity_volume_angstrom3": 463.0,
+      "pocket_collapse_ratio": 0.193,
+      "druggability_score": 1.0,
+      "is_druggable": true
+    },
+    {
+      "gene_symbol": "AKT1",
+      "source_expedition": "Exp 5 (Delta Census)",
+      "cohort_biomarker": "Kinase proliferation signaling driver",
+      "sc_expression_mean": 4.65,
+      "cnv_amplification_ratio": 1.25,
+      "delta_erasure_score": 0.403,
+      "allosteric_torque": 0.436,
+      "jordan_betti_topology": {
+        "beta_0": 2,
+        "beta_1_channels": 1,
+        "beta_2_occluded_cavities": 1
+      },
+      "cavity_volume_angstrom3": 456.0,
+      "pocket_collapse_ratio": 0.196,
+      "druggability_score": 1.0,
+      "is_druggable": true
+    },
+    {
+      "gene_symbol": "POLQ",
+      "source_expedition": "Exp 5 (Delta Census)",
+      "cohort_biomarker": "Alternative end-joining polymerase theta",
+      "sc_expression_mean": 3.42,
+      "cnv_amplification_ratio": 1.18,
+      "delta_erasure_score": 0.521,
+      "allosteric_torque": 0.398,
+      "jordan_betti_topology": {
+        "beta_0": 2,
+        "beta_1_channels": 1,
+        "beta_2_occluded_cavities": 1
+      },
+      "cavity_volume_angstrom3": 527.0,
+      "pocket_collapse_ratio": 0.179,
+      "druggability_score": 1.0,
+      "is_druggable": true
+    },
+    {
+      "gene_symbol": "VRK1",
+      "source_expedition": "Exp 5 (Delta Census)",
+      "cohort_biomarker": "Nuclear chromatin kinase barrier target",
+      "sc_expression_mean": 3.9,
+      "cnv_amplification_ratio": 1.08,
+      "delta_erasure_score": 0.323,
+      "allosteric_torque": 0.328,
+      "jordan_betti_topology": {
+        "beta_0": 3,
+        "beta_1_channels": 1,
+        "beta_2_occluded_cavities": 2
+      },
+      "cavity_volume_angstrom3": 388.0,
+      "pocket_collapse_ratio": 0.148,
+      "druggability_score": 1.0,
+      "is_druggable": true
+    }
+  ]
+}

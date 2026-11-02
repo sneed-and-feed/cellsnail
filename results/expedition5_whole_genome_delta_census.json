@@ -13664,28 +13664,1686 @@
         }
       ]
     },
-    "exp5_exp6_pan_autosome_focal_stringers": {
-      "partner_expedition": "Expedition 6: Pan-Autosome GRCh38 Uncharted 1-3 Gene Focal Stringer Atlas",
+    "exp5_exp6_pan_autosome_focal_amplicons": {
+      "partner_expedition": "Expedition 6: Pan-Autosome GRCh38 Uncharted 1-3 Gene Focal Amplicon Atlas",
       "triple_erasure_flagship_discovery": {
         "gene": "PKMYT1",
         "cytoband": "chr16p13.3",
-        "stringer_architecture": "L=3 contiguous focal stringer (KREMEN2-PAQR4-PKMYT1, chr16:3013712-3029936, 16.2 kb span)",
+        "amplicon_architecture": "L=3 contiguous focal amplicon (KREMEN2-PAQR4-PKMYT1, chr16:3013712-3029936, 16.2 kb span)",
         "patient_recurrence": "3/5 TNBC patients (TNBC1, TNBC3, TNBC4)",
         "erasure_mechanism_1_hvg_filter": "Dropped by top-2000 HVG in TNBC3 (#6,146) and cSCC (#6,182)",
-        "erasure_mechanism_2_cnv_window_smoothing": "65.7% W15 washout and 79.9% W51 washout under standard InferCNV/CopyKAT smoothing",
+        "erasure_mechanism_2_cnv_window_smoothing": "65.7% W15 attenuation and 79.9% W51 attenuation under standard InferCNV/CopyKAT smoothing",
         "erasure_mechanism_3_ols_cell_cycle_regression": "59.03% (TNBC3) and 68.05% (TNBC1) expression variance erased by 20-clock OLS regression",
-        "cellsnail_recovery": "100% H_nope variance retained + exact TV-1D/Potts focal stringer boundary recovery",
+        "cellsnail_recovery": "100% H_nope variance retained + exact TV-1D/Potts focal amplicon boundary recovery",
         "clinical_actionability": "Phase II Wee1-family Tyr14/Thr15 kinase inhibitor Lunresertib (RP-6306, IC50 = 2.8 nM)"
       },
       "double_erasure_pan_patient_chaperone_hub": {
         "gene": "HSP90AB1",
         "cytoband": "chr6p21.1",
-        "stringer_architecture": "5/5 TNBC patient recurrent chr6p21.1 focal stringer (peak raw CN = 18.00 -> W15 = 4.95, 81.6% washout)",
+        "amplicon_architecture": "5/5 TNBC patient recurrent chr6p21.1 focal amplicon (peak raw CN = 18.00 -> W15 = 4.95, 81.6% attenuation)",
         "ols_delta_20clock_tnbc3": 0.6632,
         "ols_delta_20clock_cscc_rep1": 0.6641,
         "clinical_actionability": "Approved HSP90 inhibitor Pimitespib (Jeselhy / TAS-116, IC50 = 18.0 nM) & Ganetespib"
       },
-      "pan_autosome_stringer_candidates_evaluated": [
+      "pan_autosome_amplicon_candidates_evaluated": [
+        {
+          "gene": "PKMYT1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 5641,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.6623,
+              "delta_5clock": 0.604,
+              "delta_20clock": 0.703,
+              "perm_z_20clock": 111.96,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 7536,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3638,
+              "delta_5clock": 0.3566,
+              "delta_20clock": 0.4101,
+              "perm_z_20clock": 65.38,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 6146,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.5518,
+              "delta_5clock": 0.5208,
+              "delta_20clock": 0.5896,
+              "perm_z_20clock": 41.67,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 9350,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4962,
+              "delta_5clock": 0.4492,
+              "delta_20clock": 0.6116,
+              "perm_z_20clock": 42.73,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 7739,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.7364,
+              "delta_5clock": 0.7439,
+              "delta_20clock": 0.8131,
+              "perm_z_20clock": 60.95,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 6182,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.332,
+              "delta_5clock": 0.3229,
+              "delta_20clock": 0.3845,
+              "perm_z_20clock": 37.43,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.8131,
+          "mean_delta_20clock": 0.5853,
+          "max_delta_5clock": 0.7439
+        },
+        {
+          "gene": "HSP90AB1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 18,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.161,
+              "delta_5clock": 0.2099,
+              "delta_20clock": 0.3828,
+              "perm_z_20clock": 66.38,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 96,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2193,
+              "delta_5clock": 0.2205,
+              "delta_20clock": 0.4862,
+              "perm_z_20clock": 76.34,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 196,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.5232,
+              "delta_5clock": 0.5651,
+              "delta_20clock": 0.6629,
+              "perm_z_20clock": 53.97,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 81,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2983,
+              "delta_5clock": 0.2363,
+              "delta_20clock": 0.424,
+              "perm_z_20clock": 39.05,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 116,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1773,
+              "delta_5clock": 0.2198,
+              "delta_20clock": 0.3591,
+              "perm_z_20clock": 32.29,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 228,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.6418,
+              "delta_5clock": 0.5844,
+              "delta_20clock": 0.6639,
+              "perm_z_20clock": 73.06,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.6639,
+          "mean_delta_20clock": 0.4965,
+          "max_delta_5clock": 0.5844
+        },
+        {
+          "gene": "KREMEN2",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 13195,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0331,
+              "delta_5clock": 0.0404,
+              "delta_20clock": 0.0782,
+              "perm_z_20clock": 7.11,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 16125,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0068,
+              "delta_5clock": 0.0079,
+              "delta_20clock": 0.0437,
+              "perm_z_20clock": 2.72,
+              "perm_fdr_20clock": 0.040655
+            },
+            "TNBC3": {
+              "hvg_rank": 3235,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3892,
+              "delta_5clock": 0.3446,
+              "delta_20clock": 0.474,
+              "perm_z_20clock": 37.34,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 9911,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0928,
+              "delta_5clock": 0.0803,
+              "delta_20clock": 0.1989,
+              "perm_z_20clock": 10.42,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 6651,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1037,
+              "delta_5clock": 0.0874,
+              "delta_20clock": 0.16,
+              "perm_z_20clock": 12.72,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 9600,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1158,
+              "delta_5clock": 0.1258,
+              "delta_20clock": 0.1497,
+              "perm_z_20clock": 11.78,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.474,
+          "mean_delta_20clock": 0.1841,
+          "max_delta_5clock": 0.3446
+        },
+        {
+          "gene": "PAQR4",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 3671,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2449,
+              "delta_5clock": 0.2063,
+              "delta_20clock": 0.3057,
+              "perm_z_20clock": 49.13,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 4450,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1527,
+              "delta_5clock": 0.1108,
+              "delta_20clock": 0.2491,
+              "perm_z_20clock": 35.51,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 5697,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.379,
+              "delta_5clock": 0.3468,
+              "delta_20clock": 0.434,
+              "perm_z_20clock": 34.97,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 6188,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2976,
+              "delta_5clock": 0.2535,
+              "delta_20clock": 0.3573,
+              "perm_z_20clock": 28.86,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 6389,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2256,
+              "delta_5clock": 0.185,
+              "delta_20clock": 0.2683,
+              "perm_z_20clock": 22.94,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 6136,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2231,
+              "delta_5clock": 0.2108,
+              "delta_20clock": 0.2529,
+              "perm_z_20clock": 23.3,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.434,
+          "mean_delta_20clock": 0.3112,
+          "max_delta_5clock": 0.3468
+        },
+        {
+          "gene": "VEGFA",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 203,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0272,
+              "delta_5clock": 0.0489,
+              "delta_20clock": 0.0837,
+              "perm_z_20clock": 13.37,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 3066,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0242,
+              "delta_5clock": 0.0167,
+              "delta_20clock": 0.1305,
+              "perm_z_20clock": 20.82,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 403,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1946,
+              "delta_5clock": 0.2086,
+              "delta_20clock": 0.2997,
+              "perm_z_20clock": 22.47,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 792,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1272,
+              "delta_5clock": 0.1065,
+              "delta_20clock": 0.2448,
+              "perm_z_20clock": 19.48,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 1487,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0548,
+              "delta_5clock": 0.0626,
+              "delta_20clock": 0.1544,
+              "perm_z_20clock": 12.74,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 1468,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0234,
+              "delta_5clock": 0.019,
+              "delta_20clock": 0.0552,
+              "perm_z_20clock": 3.24,
+              "perm_fdr_20clock": 0.070346
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 2296,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0479,
+              "delta_5clock": 0.0543,
+              "delta_20clock": 0.0821,
+              "perm_z_20clock": 5.59,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.2997,
+          "mean_delta_20clock": 0.1501,
+          "max_delta_5clock": 0.2086
+        },
+        {
+          "gene": "TFEB",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 5734,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0425,
+              "delta_5clock": 0.0382,
+              "delta_20clock": 0.063,
+              "perm_z_20clock": 7.1,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 5331,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0166,
+              "delta_5clock": 0.0117,
+              "delta_20clock": 0.0371,
+              "perm_z_20clock": 3.23,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 12300,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0024,
+              "delta_5clock": 0.0088,
+              "delta_20clock": 0.038,
+              "perm_z_20clock": -0.02,
+              "perm_fdr_20clock": 0.507188
+            },
+            "TNBC4": {
+              "hvg_rank": 6567,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0463,
+              "delta_5clock": 0.05,
+              "delta_20clock": 0.1013,
+              "perm_z_20clock": 6.4,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 10139,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0068,
+              "delta_5clock": 0.0073,
+              "delta_20clock": 0.0528,
+              "perm_z_20clock": 1.62,
+              "perm_fdr_20clock": 0.099398
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 9385,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0225,
+              "delta_5clock": 0.0186,
+              "delta_20clock": 0.0676,
+              "perm_z_20clock": 3.6,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.1013,
+          "mean_delta_20clock": 0.06,
+          "max_delta_5clock": 0.05
+        },
+        {
+          "gene": "MCL1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 939,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.061,
+              "delta_5clock": 0.0716,
+              "delta_20clock": 0.1234,
+              "perm_z_20clock": 19.32,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 1172,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0052,
+              "delta_5clock": 0.009,
+              "delta_20clock": 0.0803,
+              "perm_z_20clock": 10.75,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 1256,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1283,
+              "delta_5clock": 0.1492,
+              "delta_20clock": 0.1961,
+              "perm_z_20clock": 14.28,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 426,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2029,
+              "delta_5clock": 0.1696,
+              "delta_20clock": 0.3226,
+              "perm_z_20clock": 26.78,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 854,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1254,
+              "delta_5clock": 0.1246,
+              "delta_20clock": 0.2543,
+              "perm_z_20clock": 22.36,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 665,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0001,
+              "delta_5clock": 0.0053,
+              "delta_20clock": 0.0382,
+              "perm_z_20clock": 1.47,
+              "perm_fdr_20clock": 0.214027
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 503,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.544,
+              "delta_5clock": 0.4763,
+              "delta_20clock": 0.5572,
+              "perm_z_20clock": 68.1,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.5572,
+          "mean_delta_20clock": 0.2246,
+          "max_delta_5clock": 0.4763
+        },
+        {
+          "gene": "XPO1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 4148,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1137,
+              "delta_5clock": 0.1118,
+              "delta_20clock": 0.1519,
+              "perm_z_20clock": 24.7,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 3283,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1435,
+              "delta_5clock": 0.1524,
+              "delta_20clock": 0.2015,
+              "perm_z_20clock": 26.32,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 1920,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.367,
+              "delta_5clock": 0.348,
+              "delta_20clock": 0.417,
+              "perm_z_20clock": 37.39,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 2079,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2647,
+              "delta_5clock": 0.2119,
+              "delta_20clock": 0.3565,
+              "perm_z_20clock": 27.64,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 2113,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1787,
+              "delta_5clock": 0.1774,
+              "delta_20clock": 0.2516,
+              "perm_z_20clock": 23.6,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 2459,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0489,
+              "delta_5clock": 0.0427,
+              "delta_20clock": 0.0703,
+              "perm_z_20clock": 4.14,
+              "perm_fdr_20clock": 0.036
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 2197,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4438,
+              "delta_5clock": 0.4215,
+              "delta_20clock": 0.4608,
+              "perm_z_20clock": 44.25,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.4608,
+          "mean_delta_20clock": 0.2728,
+          "max_delta_5clock": 0.4215
+        },
+        {
+          "gene": "FGFR1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 8066,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0183,
+              "delta_5clock": 0.0355,
+              "delta_20clock": 0.0563,
+              "perm_z_20clock": 6.61,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 11409,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0192,
+              "delta_5clock": 0.0109,
+              "delta_20clock": 0.0591,
+              "perm_z_20clock": 6.08,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 2917,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0052,
+              "delta_5clock": 0.0028,
+              "delta_20clock": 0.0717,
+              "perm_z_20clock": 3.09,
+              "perm_fdr_20clock": 0.015726
+            },
+            "TNBC4": {
+              "hvg_rank": 4055,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0872,
+              "delta_5clock": 0.0879,
+              "delta_20clock": 0.2212,
+              "perm_z_20clock": 15.21,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 7191,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0936,
+              "delta_5clock": 0.0911,
+              "delta_20clock": 0.1537,
+              "perm_z_20clock": 12.75,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 3459,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0007,
+              "delta_5clock": 0.0038,
+              "delta_20clock": 0.0269,
+              "perm_z_20clock": 0.3,
+              "perm_fdr_20clock": 0.49683
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 4611,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.039,
+              "delta_5clock": 0.0355,
+              "delta_20clock": 0.0783,
+              "perm_z_20clock": 5.82,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.2212,
+          "mean_delta_20clock": 0.0953,
+          "max_delta_5clock": 0.0911
+        },
+        {
+          "gene": "PRKDC",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 613,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3491,
+              "delta_5clock": 0.3331,
+              "delta_20clock": 0.4425,
+              "perm_z_20clock": 81.81,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 600,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2582,
+              "delta_5clock": 0.1926,
+              "delta_20clock": 0.4335,
+              "perm_z_20clock": 64.83,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 957,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3929,
+              "delta_5clock": 0.3791,
+              "delta_20clock": 0.4549,
+              "perm_z_20clock": 36.48,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 201,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3875,
+              "delta_5clock": 0.273,
+              "delta_20clock": 0.5501,
+              "perm_z_20clock": 52.55,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 849,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3087,
+              "delta_5clock": 0.291,
+              "delta_20clock": 0.4126,
+              "perm_z_20clock": 38.54,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 4718,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0471,
+              "delta_5clock": 0.033,
+              "delta_20clock": 0.0635,
+              "perm_z_20clock": 4.09,
+              "perm_fdr_20clock": 0.036
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 1077,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.6032,
+              "delta_5clock": 0.5405,
+              "delta_20clock": 0.6375,
+              "perm_z_20clock": 65.64,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.6375,
+          "mean_delta_20clock": 0.4278,
+          "max_delta_5clock": 0.5405
+        },
+        {
+          "gene": "MTAP",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 4914,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1324,
+              "delta_5clock": 0.129,
+              "delta_20clock": 0.1859,
+              "perm_z_20clock": 30.04,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 2883,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1364,
+              "delta_5clock": 0.1274,
+              "delta_20clock": 0.3098,
+              "perm_z_20clock": 49.86,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 3636,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3782,
+              "delta_5clock": 0.3538,
+              "delta_20clock": 0.4423,
+              "perm_z_20clock": 32.64,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 2276,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2457,
+              "delta_5clock": 0.171,
+              "delta_20clock": 0.4035,
+              "perm_z_20clock": 34.11,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 4539,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1011,
+              "delta_5clock": 0.0853,
+              "delta_20clock": 0.1478,
+              "perm_z_20clock": 10.86,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 4345,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2533,
+              "delta_5clock": 0.2506,
+              "delta_20clock": 0.291,
+              "perm_z_20clock": 28.28,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.4423,
+          "mean_delta_20clock": 0.2967,
+          "max_delta_5clock": 0.3538
+        },
+        {
+          "gene": "WEE1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 3475,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1349,
+              "delta_5clock": 0.1378,
+              "delta_20clock": 0.2052,
+              "perm_z_20clock": 32.38,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 4440,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0839,
+              "delta_5clock": 0.0709,
+              "delta_20clock": 0.2169,
+              "perm_z_20clock": 33.72,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 4498,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3038,
+              "delta_5clock": 0.3153,
+              "delta_20clock": 0.3698,
+              "perm_z_20clock": 28.47,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 4102,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2704,
+              "delta_5clock": 0.245,
+              "delta_20clock": 0.3907,
+              "perm_z_20clock": 32.21,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 832,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1279,
+              "delta_5clock": 0.1213,
+              "delta_20clock": 0.2284,
+              "perm_z_20clock": 21.16,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 1541,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0009,
+              "delta_5clock": 0.0033,
+              "delta_20clock": 0.0277,
+              "perm_z_20clock": 0.48,
+              "perm_fdr_20clock": 0.414454
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 6604,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.285,
+              "delta_5clock": 0.2106,
+              "delta_20clock": 0.3352,
+              "perm_z_20clock": 32.12,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.3907,
+          "mean_delta_20clock": 0.2534,
+          "max_delta_5clock": 0.3153
+        },
+        {
+          "gene": "CHEK1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 5767,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4618,
+              "delta_5clock": 0.3856,
+              "delta_20clock": 0.5007,
+              "perm_z_20clock": 78.82,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 4818,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2597,
+              "delta_5clock": 0.2021,
+              "delta_20clock": 0.311,
+              "perm_z_20clock": 52.3,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 8163,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.222,
+              "delta_5clock": 0.2039,
+              "delta_20clock": 0.27,
+              "perm_z_20clock": 21.43,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 6693,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3718,
+              "delta_5clock": 0.3063,
+              "delta_20clock": 0.4336,
+              "perm_z_20clock": 39.4,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 8821,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4485,
+              "delta_5clock": 0.3903,
+              "delta_20clock": 0.4863,
+              "perm_z_20clock": 40.76,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 8675,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2182,
+              "delta_5clock": 0.1975,
+              "delta_20clock": 0.2548,
+              "perm_z_20clock": 21.48,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.5007,
+          "mean_delta_20clock": 0.3761,
+          "max_delta_5clock": 0.3903
+        },
+        {
+          "gene": "PAK1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 3611,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0656,
+              "delta_5clock": 0.0459,
+              "delta_20clock": 0.0901,
+              "perm_z_20clock": 12.58,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 2473,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0709,
+              "delta_5clock": 0.0605,
+              "delta_20clock": 0.1151,
+              "perm_z_20clock": 16.16,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 4891,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0892,
+              "delta_5clock": 0.0867,
+              "delta_20clock": 0.1461,
+              "perm_z_20clock": 9.96,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 1410,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2879,
+              "delta_5clock": 0.2294,
+              "delta_20clock": 0.3375,
+              "perm_z_20clock": 28.94,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 3873,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0979,
+              "delta_5clock": 0.0912,
+              "delta_20clock": 0.173,
+              "perm_z_20clock": 13.9,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 5511,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1935,
+              "delta_5clock": 0.2053,
+              "delta_20clock": 0.2484,
+              "perm_z_20clock": 24.08,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.3375,
+          "mean_delta_20clock": 0.185,
+          "max_delta_5clock": 0.2294
+        },
+        {
+          "gene": "IGF1R",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 7203,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0123,
+              "delta_5clock": 0.0156,
+              "delta_20clock": 0.0504,
+              "perm_z_20clock": 5.5,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 6338,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.023,
+              "delta_5clock": 0.0333,
+              "delta_20clock": 0.1811,
+              "perm_z_20clock": 28.24,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 6676,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0204,
+              "delta_5clock": 0.0234,
+              "delta_20clock": 0.1207,
+              "perm_z_20clock": 6.06,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 7622,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0533,
+              "delta_5clock": 0.0514,
+              "delta_20clock": 0.1337,
+              "perm_z_20clock": 9.46,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 5884,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0497,
+              "delta_5clock": 0.0391,
+              "delta_20clock": 0.0923,
+              "perm_z_20clock": 6.79,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 3939,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0031,
+              "delta_5clock": 0.0145,
+              "delta_20clock": 0.0375,
+              "perm_z_20clock": 1.52,
+              "perm_fdr_20clock": 0.178804
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 3294,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3016,
+              "delta_5clock": 0.2506,
+              "delta_20clock": 0.3231,
+              "perm_z_20clock": 30.19,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.3231,
+          "mean_delta_20clock": 0.1341,
+          "max_delta_5clock": 0.2506
+        },
+        {
+          "gene": "YES1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 3710,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0828,
+              "delta_5clock": 0.1477,
+              "delta_20clock": 0.1775,
+              "perm_z_20clock": 27.93,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 4297,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0625,
+              "delta_5clock": 0.0528,
+              "delta_20clock": 0.2505,
+              "perm_z_20clock": 40.88,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 2052,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3297,
+              "delta_5clock": 0.3171,
+              "delta_20clock": 0.399,
+              "perm_z_20clock": 30.93,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 1653,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2431,
+              "delta_5clock": 0.2135,
+              "delta_20clock": 0.4685,
+              "perm_z_20clock": 39.66,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 2536,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1229,
+              "delta_5clock": 0.1451,
+              "delta_20clock": 0.2338,
+              "perm_z_20clock": 22.21,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 4323,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0063,
+              "delta_5clock": 0.0085,
+              "delta_20clock": 0.0413,
+              "perm_z_20clock": 2.1,
+              "perm_fdr_20clock": 0.120084
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 2248,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4061,
+              "delta_5clock": 0.3852,
+              "delta_20clock": 0.4291,
+              "perm_z_20clock": 42.04,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.4685,
+          "mean_delta_20clock": 0.2857,
+          "max_delta_5clock": 0.3852
+        },
+        {
+          "gene": "CCNE1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 11747,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2525,
+              "delta_5clock": 0.2088,
+              "delta_20clock": 0.3292,
+              "perm_z_20clock": 49.83,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 4227,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2321,
+              "delta_5clock": 0.1985,
+              "delta_20clock": 0.3507,
+              "perm_z_20clock": 53.44,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 3127,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4509,
+              "delta_5clock": 0.3841,
+              "delta_20clock": 0.5132,
+              "perm_z_20clock": 36.76,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 6896,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3205,
+              "delta_5clock": 0.2175,
+              "delta_20clock": 0.3988,
+              "perm_z_20clock": 29.7,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 10875,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1265,
+              "delta_5clock": 0.1065,
+              "delta_20clock": 0.176,
+              "perm_z_20clock": 11.03,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 9968,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.048,
+              "delta_5clock": 0.0544,
+              "delta_20clock": 0.0951,
+              "perm_z_20clock": 6.26,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.5132,
+          "mean_delta_20clock": 0.3105,
+          "max_delta_5clock": 0.3841
+        },
+        {
+          "gene": "BRD4",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 3019,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0873,
+              "delta_5clock": 0.1045,
+              "delta_20clock": 0.139,
+              "perm_z_20clock": 23.59,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 2127,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0597,
+              "delta_5clock": 0.0511,
+              "delta_20clock": 0.1629,
+              "perm_z_20clock": 24.19,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 1243,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3239,
+              "delta_5clock": 0.3293,
+              "delta_20clock": 0.3942,
+              "perm_z_20clock": 31.3,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 1810,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1929,
+              "delta_5clock": 0.1519,
+              "delta_20clock": 0.321,
+              "perm_z_20clock": 29.07,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 1832,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1916,
+              "delta_5clock": 0.1641,
+              "delta_20clock": 0.3103,
+              "perm_z_20clock": 31.21,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 1555,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3211,
+              "delta_5clock": 0.2921,
+              "delta_20clock": 0.342,
+              "perm_z_20clock": 32.74,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.3942,
+          "mean_delta_20clock": 0.2782,
+          "max_delta_5clock": 0.3293
+        },
+        {
+          "gene": "GPX4",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 1641,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1406,
+              "delta_5clock": 0.14,
+              "delta_20clock": 0.1855,
+              "perm_z_20clock": 28.21,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 1227,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1042,
+              "delta_5clock": 0.0975,
+              "delta_20clock": 0.1459,
+              "perm_z_20clock": 21.02,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 834,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3109,
+              "delta_5clock": 0.3231,
+              "delta_20clock": 0.4412,
+              "perm_z_20clock": 38.58,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 250,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2085,
+              "delta_5clock": 0.1922,
+              "delta_20clock": 0.3099,
+              "perm_z_20clock": 27.5,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 108,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2009,
+              "delta_5clock": 0.2292,
+              "delta_20clock": 0.3928,
+              "perm_z_20clock": 34.73,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 5547,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0114,
+              "delta_5clock": 0.0204,
+              "delta_20clock": 0.0498,
+              "perm_z_20clock": 2.58,
+              "perm_fdr_20clock": 0.055887
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 672,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.4054,
+              "delta_5clock": 0.3508,
+              "delta_20clock": 0.4265,
+              "perm_z_20clock": 48.06,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.4412,
+          "mean_delta_20clock": 0.2788,
+          "max_delta_5clock": 0.3508
+        },
+        {
+          "gene": "BCL2L1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 5390,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0307,
+              "delta_5clock": 0.042,
+              "delta_20clock": 0.0815,
+              "perm_z_20clock": 10.04,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 5566,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0132,
+              "delta_5clock": 0.0107,
+              "delta_20clock": 0.0302,
+              "perm_z_20clock": 1.77,
+              "perm_fdr_20clock": 0.07707
+            },
+            "TNBC3": {
+              "hvg_rank": 4373,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1099,
+              "delta_5clock": 0.1059,
+              "delta_20clock": 0.1809,
+              "perm_z_20clock": 11.93,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 2100,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1657,
+              "delta_5clock": 0.1567,
+              "delta_20clock": 0.2827,
+              "perm_z_20clock": 22.4,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 3102,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0589,
+              "delta_5clock": 0.1012,
+              "delta_20clock": 0.1828,
+              "perm_z_20clock": 14.56,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 2143,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0137,
+              "delta_5clock": 0.0196,
+              "delta_20clock": 0.045,
+              "perm_z_20clock": 2.48,
+              "perm_fdr_20clock": 0.097599
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 3150,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.17,
+              "delta_5clock": 0.1647,
+              "delta_20clock": 0.2024,
+              "perm_z_20clock": 19.41,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.2827,
+          "mean_delta_20clock": 0.1436,
+          "max_delta_5clock": 0.1647
+        },
+        {
+          "gene": "TOP1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 2225,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1108,
+              "delta_5clock": 0.1315,
+              "delta_20clock": 0.1936,
+              "perm_z_20clock": 29.54,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 2216,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1406,
+              "delta_5clock": 0.1271,
+              "delta_20clock": 0.197,
+              "perm_z_20clock": 28.84,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 634,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.4303,
+              "delta_5clock": 0.4645,
+              "delta_20clock": 0.5293,
+              "perm_z_20clock": 43.1,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 671,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2708,
+              "delta_5clock": 0.2235,
+              "delta_20clock": 0.3876,
+              "perm_z_20clock": 34.71,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 1031,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1896,
+              "delta_5clock": 0.2052,
+              "delta_20clock": 0.3435,
+              "perm_z_20clock": 32.1,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 5087,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0043,
+              "delta_5clock": 0.0131,
+              "delta_20clock": 0.0309,
+              "perm_z_20clock": 0.63,
+              "perm_fdr_20clock": 0.372023
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 1961,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3263,
+              "delta_5clock": 0.3066,
+              "delta_20clock": 0.3633,
+              "perm_z_20clock": 39.47,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.5293,
+          "mean_delta_20clock": 0.2922,
+          "max_delta_5clock": 0.4645
+        },
+        {
+          "gene": "DYRK1A",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 7633,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0263,
+              "delta_5clock": 0.0491,
+              "delta_20clock": 0.0626,
+              "perm_z_20clock": 7.4,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 8329,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0066,
+              "delta_5clock": 0.0081,
+              "delta_20clock": 0.0635,
+              "perm_z_20clock": 7.67,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 6141,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1673,
+              "delta_5clock": 0.1738,
+              "delta_20clock": 0.2521,
+              "perm_z_20clock": 18.9,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 5565,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1264,
+              "delta_5clock": 0.1048,
+              "delta_20clock": 0.2137,
+              "perm_z_20clock": 17.48,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 4969,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0876,
+              "delta_5clock": 0.0818,
+              "delta_20clock": 0.1275,
+              "perm_z_20clock": 10.37,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 4446,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2059,
+              "delta_5clock": 0.1632,
+              "delta_20clock": 0.2359,
+              "perm_z_20clock": 24.69,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.2521,
+          "mean_delta_20clock": 0.1592,
+          "max_delta_5clock": 0.1738
+        },
+        {
+          "gene": "CRKL",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 8365,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0158,
+              "delta_5clock": 0.0231,
+              "delta_20clock": 0.0587,
+              "perm_z_20clock": 6.9,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 7221,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0265,
+              "delta_5clock": 0.0291,
+              "delta_20clock": 0.0742,
+              "perm_z_20clock": 8.55,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 8595,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0666,
+              "delta_5clock": 0.072,
+              "delta_20clock": 0.0921,
+              "perm_z_20clock": 4.63,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 5639,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1327,
+              "delta_5clock": 0.1217,
+              "delta_20clock": 0.214,
+              "perm_z_20clock": 16.19,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 6660,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0617,
+              "delta_5clock": 0.0464,
+              "delta_20clock": 0.1211,
+              "perm_z_20clock": 10.62,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 179,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0003,
+              "delta_5clock": 0.0016,
+              "delta_20clock": 0.0061,
+              "perm_z_20clock": -1.94,
+              "perm_fdr_20clock": 1.0
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 3705,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.264,
+              "delta_5clock": 0.2394,
+              "delta_20clock": 0.3042,
+              "perm_z_20clock": 29.72,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.3042,
+          "mean_delta_20clock": 0.1243,
+          "max_delta_5clock": 0.2394
+        },
+        {
+          "gene": "PDGFRA",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 1384,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0487,
+              "delta_5clock": 0.0495,
+              "delta_20clock": 0.2051,
+              "perm_z_20clock": 32.33,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 15188,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0026,
+              "delta_5clock": 0.008,
+              "delta_20clock": 0.0244,
+              "perm_z_20clock": 0.77,
+              "perm_fdr_20clock": 0.23158
+            },
+            "TNBC3": {
+              "hvg_rank": 1366,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1224,
+              "delta_5clock": 0.1513,
+              "delta_20clock": 0.2068,
+              "perm_z_20clock": 16.19,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 11179,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0188,
+              "delta_5clock": 0.0285,
+              "delta_20clock": 0.0955,
+              "perm_z_20clock": 3.52,
+              "perm_fdr_20clock": 0.021748
+            },
+            "GBM": {
+              "hvg_rank": 2916,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0144,
+              "delta_5clock": 0.0151,
+              "delta_20clock": 0.0354,
+              "perm_z_20clock": 1.29,
+              "perm_fdr_20clock": 0.221001
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 5143,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0097,
+              "delta_5clock": 0.0048,
+              "delta_20clock": 0.0429,
+              "perm_z_20clock": 1.41,
+              "perm_fdr_20clock": 0.132536
+            }
+          },
+          "max_delta_20clock": 0.2068,
+          "mean_delta_20clock": 0.1017,
+          "max_delta_5clock": 0.1513
+        },
+        {
+          "gene": "SOX2",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 16185,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.001,
+              "delta_5clock": 0.0028,
+              "delta_20clock": 0.0193,
+              "perm_z_20clock": 0.12,
+              "perm_fdr_20clock": 0.428681
+            },
+            "TNBC5": {
+              "hvg_rank": 12394,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0216,
+              "delta_5clock": 0.0316,
+              "delta_20clock": 0.0594,
+              "perm_z_20clock": 1.4,
+              "perm_fdr_20clock": 0.131142
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 14040,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0005,
+              "delta_5clock": 0.0024,
+              "delta_20clock": 0.0284,
+              "perm_z_20clock": -0.13,
+              "perm_fdr_20clock": 0.49336
+            }
+          },
+          "max_delta_20clock": 0.0594,
+          "mean_delta_20clock": 0.0357,
+          "max_delta_5clock": 0.0316
+        }
+      ],
+      "pan_autosome_amplicon_candidates_evaluated": [
         {
           "gene": "PKMYT1",
           "cellsnail_h_nope_variance_retained": 1.0,
@@ -17175,6 +18833,3344 @@
             "delta_5clock": 0.0958,
             "delta_20clock": 0.1841
           }
+        }
+      ]
+    },
+    "exp5_exp6_pan_autosome_focal_amplicons": {
+      "partner_expedition": "Expedition 6: Pan-Autosome GRCh38 Uncharted 1-3 Gene Focal Amplicon Atlas",
+      "triple_erasure_flagship_discovery": {
+        "gene": "PKMYT1",
+        "cytoband": "chr16p13.3",
+        "amplicon_architecture": "L=3 contiguous focal amplicon (KREMEN2-PAQR4-PKMYT1, chr16:3013712-3029936, 16.2 kb span)",
+        "patient_recurrence": "3/5 TNBC patients (TNBC1, TNBC3, TNBC4)",
+        "erasure_mechanism_1_hvg_filter": "Dropped by top-2000 HVG in TNBC3 (#6,146) and cSCC (#6,182)",
+        "erasure_mechanism_2_cnv_window_smoothing": "65.7% W15 attenuation and 79.9% W51 attenuation under standard InferCNV/CopyKAT smoothing",
+        "erasure_mechanism_3_ols_cell_cycle_regression": "59.03% (TNBC3) and 68.05% (TNBC1) expression variance erased by 20-clock OLS regression",
+        "cellsnail_recovery": "100% H_nope variance retained + exact TV-1D/Potts focal amplicon boundary recovery",
+        "clinical_actionability": "Phase II Wee1-family Tyr14/Thr15 kinase inhibitor Lunresertib (RP-6306, IC50 = 2.8 nM)"
+      },
+      "double_erasure_pan_patient_chaperone_hub": {
+        "gene": "HSP90AB1",
+        "cytoband": "chr6p21.1",
+        "amplicon_architecture": "5/5 TNBC patient recurrent chr6p21.1 focal amplicon (peak raw CN = 18.00 -> W15 = 4.95, 81.6% attenuation)",
+        "ols_delta_20clock_tnbc3": 0.6632,
+        "ols_delta_20clock_cscc_rep1": 0.6641,
+        "clinical_actionability": "Approved HSP90 inhibitor Pimitespib (Jeselhy / TAS-116, IC50 = 18.0 nM) & Ganetespib"
+      },
+      "pan_autosome_amplicon_candidates_evaluated": [
+        {
+          "gene": "PKMYT1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 5641,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.6623,
+              "delta_5clock": 0.604,
+              "delta_20clock": 0.703,
+              "perm_z_20clock": 111.96,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 7536,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3638,
+              "delta_5clock": 0.3566,
+              "delta_20clock": 0.4101,
+              "perm_z_20clock": 65.38,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 6146,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.5518,
+              "delta_5clock": 0.5208,
+              "delta_20clock": 0.5896,
+              "perm_z_20clock": 41.67,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 9350,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4962,
+              "delta_5clock": 0.4492,
+              "delta_20clock": 0.6116,
+              "perm_z_20clock": 42.73,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 7739,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.7364,
+              "delta_5clock": 0.7439,
+              "delta_20clock": 0.8131,
+              "perm_z_20clock": 60.95,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 6182,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.332,
+              "delta_5clock": 0.3229,
+              "delta_20clock": 0.3845,
+              "perm_z_20clock": 37.43,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.8131,
+          "mean_delta_20clock": 0.5853,
+          "max_delta_5clock": 0.7439
+        },
+        {
+          "gene": "HSP90AB1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 18,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.161,
+              "delta_5clock": 0.2099,
+              "delta_20clock": 0.3828,
+              "perm_z_20clock": 66.38,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 96,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2193,
+              "delta_5clock": 0.2205,
+              "delta_20clock": 0.4862,
+              "perm_z_20clock": 76.34,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 196,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.5232,
+              "delta_5clock": 0.5651,
+              "delta_20clock": 0.6629,
+              "perm_z_20clock": 53.97,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 81,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2983,
+              "delta_5clock": 0.2363,
+              "delta_20clock": 0.424,
+              "perm_z_20clock": 39.05,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 116,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1773,
+              "delta_5clock": 0.2198,
+              "delta_20clock": 0.3591,
+              "perm_z_20clock": 32.29,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 228,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.6418,
+              "delta_5clock": 0.5844,
+              "delta_20clock": 0.6639,
+              "perm_z_20clock": 73.06,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.6639,
+          "mean_delta_20clock": 0.4965,
+          "max_delta_5clock": 0.5844
+        },
+        {
+          "gene": "KREMEN2",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 13195,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0331,
+              "delta_5clock": 0.0404,
+              "delta_20clock": 0.0782,
+              "perm_z_20clock": 7.11,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 16125,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0068,
+              "delta_5clock": 0.0079,
+              "delta_20clock": 0.0437,
+              "perm_z_20clock": 2.72,
+              "perm_fdr_20clock": 0.040655
+            },
+            "TNBC3": {
+              "hvg_rank": 3235,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3892,
+              "delta_5clock": 0.3446,
+              "delta_20clock": 0.474,
+              "perm_z_20clock": 37.34,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 9911,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0928,
+              "delta_5clock": 0.0803,
+              "delta_20clock": 0.1989,
+              "perm_z_20clock": 10.42,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 6651,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1037,
+              "delta_5clock": 0.0874,
+              "delta_20clock": 0.16,
+              "perm_z_20clock": 12.72,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 9600,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1158,
+              "delta_5clock": 0.1258,
+              "delta_20clock": 0.1497,
+              "perm_z_20clock": 11.78,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.474,
+          "mean_delta_20clock": 0.1841,
+          "max_delta_5clock": 0.3446
+        },
+        {
+          "gene": "PAQR4",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 3671,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2449,
+              "delta_5clock": 0.2063,
+              "delta_20clock": 0.3057,
+              "perm_z_20clock": 49.13,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 4450,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1527,
+              "delta_5clock": 0.1108,
+              "delta_20clock": 0.2491,
+              "perm_z_20clock": 35.51,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 5697,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.379,
+              "delta_5clock": 0.3468,
+              "delta_20clock": 0.434,
+              "perm_z_20clock": 34.97,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 6188,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2976,
+              "delta_5clock": 0.2535,
+              "delta_20clock": 0.3573,
+              "perm_z_20clock": 28.86,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 6389,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2256,
+              "delta_5clock": 0.185,
+              "delta_20clock": 0.2683,
+              "perm_z_20clock": 22.94,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 6136,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2231,
+              "delta_5clock": 0.2108,
+              "delta_20clock": 0.2529,
+              "perm_z_20clock": 23.3,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.434,
+          "mean_delta_20clock": 0.3112,
+          "max_delta_5clock": 0.3468
+        },
+        {
+          "gene": "VEGFA",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 203,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0272,
+              "delta_5clock": 0.0489,
+              "delta_20clock": 0.0837,
+              "perm_z_20clock": 13.37,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 3066,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0242,
+              "delta_5clock": 0.0167,
+              "delta_20clock": 0.1305,
+              "perm_z_20clock": 20.82,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 403,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1946,
+              "delta_5clock": 0.2086,
+              "delta_20clock": 0.2997,
+              "perm_z_20clock": 22.47,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 792,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1272,
+              "delta_5clock": 0.1065,
+              "delta_20clock": 0.2448,
+              "perm_z_20clock": 19.48,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 1487,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0548,
+              "delta_5clock": 0.0626,
+              "delta_20clock": 0.1544,
+              "perm_z_20clock": 12.74,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 1468,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0234,
+              "delta_5clock": 0.019,
+              "delta_20clock": 0.0552,
+              "perm_z_20clock": 3.24,
+              "perm_fdr_20clock": 0.070346
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 2296,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0479,
+              "delta_5clock": 0.0543,
+              "delta_20clock": 0.0821,
+              "perm_z_20clock": 5.59,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.2997,
+          "mean_delta_20clock": 0.1501,
+          "max_delta_5clock": 0.2086
+        },
+        {
+          "gene": "TFEB",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 5734,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0425,
+              "delta_5clock": 0.0382,
+              "delta_20clock": 0.063,
+              "perm_z_20clock": 7.1,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 5331,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0166,
+              "delta_5clock": 0.0117,
+              "delta_20clock": 0.0371,
+              "perm_z_20clock": 3.23,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 12300,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0024,
+              "delta_5clock": 0.0088,
+              "delta_20clock": 0.038,
+              "perm_z_20clock": -0.02,
+              "perm_fdr_20clock": 0.507188
+            },
+            "TNBC4": {
+              "hvg_rank": 6567,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0463,
+              "delta_5clock": 0.05,
+              "delta_20clock": 0.1013,
+              "perm_z_20clock": 6.4,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 10139,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0068,
+              "delta_5clock": 0.0073,
+              "delta_20clock": 0.0528,
+              "perm_z_20clock": 1.62,
+              "perm_fdr_20clock": 0.099398
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 9385,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0225,
+              "delta_5clock": 0.0186,
+              "delta_20clock": 0.0676,
+              "perm_z_20clock": 3.6,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.1013,
+          "mean_delta_20clock": 0.06,
+          "max_delta_5clock": 0.05
+        },
+        {
+          "gene": "MCL1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 939,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.061,
+              "delta_5clock": 0.0716,
+              "delta_20clock": 0.1234,
+              "perm_z_20clock": 19.32,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 1172,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0052,
+              "delta_5clock": 0.009,
+              "delta_20clock": 0.0803,
+              "perm_z_20clock": 10.75,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 1256,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1283,
+              "delta_5clock": 0.1492,
+              "delta_20clock": 0.1961,
+              "perm_z_20clock": 14.28,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 426,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2029,
+              "delta_5clock": 0.1696,
+              "delta_20clock": 0.3226,
+              "perm_z_20clock": 26.78,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 854,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1254,
+              "delta_5clock": 0.1246,
+              "delta_20clock": 0.2543,
+              "perm_z_20clock": 22.36,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 665,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0001,
+              "delta_5clock": 0.0053,
+              "delta_20clock": 0.0382,
+              "perm_z_20clock": 1.47,
+              "perm_fdr_20clock": 0.214027
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 503,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.544,
+              "delta_5clock": 0.4763,
+              "delta_20clock": 0.5572,
+              "perm_z_20clock": 68.1,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.5572,
+          "mean_delta_20clock": 0.2246,
+          "max_delta_5clock": 0.4763
+        },
+        {
+          "gene": "XPO1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 4148,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1137,
+              "delta_5clock": 0.1118,
+              "delta_20clock": 0.1519,
+              "perm_z_20clock": 24.7,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 3283,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1435,
+              "delta_5clock": 0.1524,
+              "delta_20clock": 0.2015,
+              "perm_z_20clock": 26.32,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 1920,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.367,
+              "delta_5clock": 0.348,
+              "delta_20clock": 0.417,
+              "perm_z_20clock": 37.39,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 2079,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2647,
+              "delta_5clock": 0.2119,
+              "delta_20clock": 0.3565,
+              "perm_z_20clock": 27.64,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 2113,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1787,
+              "delta_5clock": 0.1774,
+              "delta_20clock": 0.2516,
+              "perm_z_20clock": 23.6,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 2459,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0489,
+              "delta_5clock": 0.0427,
+              "delta_20clock": 0.0703,
+              "perm_z_20clock": 4.14,
+              "perm_fdr_20clock": 0.036
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 2197,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4438,
+              "delta_5clock": 0.4215,
+              "delta_20clock": 0.4608,
+              "perm_z_20clock": 44.25,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.4608,
+          "mean_delta_20clock": 0.2728,
+          "max_delta_5clock": 0.4215
+        },
+        {
+          "gene": "FGFR1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 8066,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0183,
+              "delta_5clock": 0.0355,
+              "delta_20clock": 0.0563,
+              "perm_z_20clock": 6.61,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 11409,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0192,
+              "delta_5clock": 0.0109,
+              "delta_20clock": 0.0591,
+              "perm_z_20clock": 6.08,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 2917,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0052,
+              "delta_5clock": 0.0028,
+              "delta_20clock": 0.0717,
+              "perm_z_20clock": 3.09,
+              "perm_fdr_20clock": 0.015726
+            },
+            "TNBC4": {
+              "hvg_rank": 4055,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0872,
+              "delta_5clock": 0.0879,
+              "delta_20clock": 0.2212,
+              "perm_z_20clock": 15.21,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 7191,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0936,
+              "delta_5clock": 0.0911,
+              "delta_20clock": 0.1537,
+              "perm_z_20clock": 12.75,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 3459,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0007,
+              "delta_5clock": 0.0038,
+              "delta_20clock": 0.0269,
+              "perm_z_20clock": 0.3,
+              "perm_fdr_20clock": 0.49683
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 4611,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.039,
+              "delta_5clock": 0.0355,
+              "delta_20clock": 0.0783,
+              "perm_z_20clock": 5.82,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.2212,
+          "mean_delta_20clock": 0.0953,
+          "max_delta_5clock": 0.0911
+        },
+        {
+          "gene": "PRKDC",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 613,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3491,
+              "delta_5clock": 0.3331,
+              "delta_20clock": 0.4425,
+              "perm_z_20clock": 81.81,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 600,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2582,
+              "delta_5clock": 0.1926,
+              "delta_20clock": 0.4335,
+              "perm_z_20clock": 64.83,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 957,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3929,
+              "delta_5clock": 0.3791,
+              "delta_20clock": 0.4549,
+              "perm_z_20clock": 36.48,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 201,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3875,
+              "delta_5clock": 0.273,
+              "delta_20clock": 0.5501,
+              "perm_z_20clock": 52.55,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 849,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3087,
+              "delta_5clock": 0.291,
+              "delta_20clock": 0.4126,
+              "perm_z_20clock": 38.54,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 4718,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0471,
+              "delta_5clock": 0.033,
+              "delta_20clock": 0.0635,
+              "perm_z_20clock": 4.09,
+              "perm_fdr_20clock": 0.036
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 1077,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.6032,
+              "delta_5clock": 0.5405,
+              "delta_20clock": 0.6375,
+              "perm_z_20clock": 65.64,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.6375,
+          "mean_delta_20clock": 0.4278,
+          "max_delta_5clock": 0.5405
+        },
+        {
+          "gene": "MTAP",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 4914,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1324,
+              "delta_5clock": 0.129,
+              "delta_20clock": 0.1859,
+              "perm_z_20clock": 30.04,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 2883,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1364,
+              "delta_5clock": 0.1274,
+              "delta_20clock": 0.3098,
+              "perm_z_20clock": 49.86,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 3636,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3782,
+              "delta_5clock": 0.3538,
+              "delta_20clock": 0.4423,
+              "perm_z_20clock": 32.64,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 2276,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2457,
+              "delta_5clock": 0.171,
+              "delta_20clock": 0.4035,
+              "perm_z_20clock": 34.11,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 4539,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1011,
+              "delta_5clock": 0.0853,
+              "delta_20clock": 0.1478,
+              "perm_z_20clock": 10.86,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 4345,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2533,
+              "delta_5clock": 0.2506,
+              "delta_20clock": 0.291,
+              "perm_z_20clock": 28.28,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.4423,
+          "mean_delta_20clock": 0.2967,
+          "max_delta_5clock": 0.3538
+        },
+        {
+          "gene": "WEE1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 3475,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1349,
+              "delta_5clock": 0.1378,
+              "delta_20clock": 0.2052,
+              "perm_z_20clock": 32.38,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 4440,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0839,
+              "delta_5clock": 0.0709,
+              "delta_20clock": 0.2169,
+              "perm_z_20clock": 33.72,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 4498,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3038,
+              "delta_5clock": 0.3153,
+              "delta_20clock": 0.3698,
+              "perm_z_20clock": 28.47,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 4102,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2704,
+              "delta_5clock": 0.245,
+              "delta_20clock": 0.3907,
+              "perm_z_20clock": 32.21,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 832,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1279,
+              "delta_5clock": 0.1213,
+              "delta_20clock": 0.2284,
+              "perm_z_20clock": 21.16,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 1541,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0009,
+              "delta_5clock": 0.0033,
+              "delta_20clock": 0.0277,
+              "perm_z_20clock": 0.48,
+              "perm_fdr_20clock": 0.414454
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 6604,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.285,
+              "delta_5clock": 0.2106,
+              "delta_20clock": 0.3352,
+              "perm_z_20clock": 32.12,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.3907,
+          "mean_delta_20clock": 0.2534,
+          "max_delta_5clock": 0.3153
+        },
+        {
+          "gene": "CHEK1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 5767,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4618,
+              "delta_5clock": 0.3856,
+              "delta_20clock": 0.5007,
+              "perm_z_20clock": 78.82,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 4818,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2597,
+              "delta_5clock": 0.2021,
+              "delta_20clock": 0.311,
+              "perm_z_20clock": 52.3,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 8163,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.222,
+              "delta_5clock": 0.2039,
+              "delta_20clock": 0.27,
+              "perm_z_20clock": 21.43,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 6693,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3718,
+              "delta_5clock": 0.3063,
+              "delta_20clock": 0.4336,
+              "perm_z_20clock": 39.4,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 8821,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4485,
+              "delta_5clock": 0.3903,
+              "delta_20clock": 0.4863,
+              "perm_z_20clock": 40.76,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 8675,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2182,
+              "delta_5clock": 0.1975,
+              "delta_20clock": 0.2548,
+              "perm_z_20clock": 21.48,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.5007,
+          "mean_delta_20clock": 0.3761,
+          "max_delta_5clock": 0.3903
+        },
+        {
+          "gene": "PAK1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 3611,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0656,
+              "delta_5clock": 0.0459,
+              "delta_20clock": 0.0901,
+              "perm_z_20clock": 12.58,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 2473,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0709,
+              "delta_5clock": 0.0605,
+              "delta_20clock": 0.1151,
+              "perm_z_20clock": 16.16,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 4891,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0892,
+              "delta_5clock": 0.0867,
+              "delta_20clock": 0.1461,
+              "perm_z_20clock": 9.96,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 1410,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2879,
+              "delta_5clock": 0.2294,
+              "delta_20clock": 0.3375,
+              "perm_z_20clock": 28.94,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 3873,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0979,
+              "delta_5clock": 0.0912,
+              "delta_20clock": 0.173,
+              "perm_z_20clock": 13.9,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 5511,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1935,
+              "delta_5clock": 0.2053,
+              "delta_20clock": 0.2484,
+              "perm_z_20clock": 24.08,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.3375,
+          "mean_delta_20clock": 0.185,
+          "max_delta_5clock": 0.2294
+        },
+        {
+          "gene": "IGF1R",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 7203,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0123,
+              "delta_5clock": 0.0156,
+              "delta_20clock": 0.0504,
+              "perm_z_20clock": 5.5,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 6338,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.023,
+              "delta_5clock": 0.0333,
+              "delta_20clock": 0.1811,
+              "perm_z_20clock": 28.24,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 6676,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0204,
+              "delta_5clock": 0.0234,
+              "delta_20clock": 0.1207,
+              "perm_z_20clock": 6.06,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 7622,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0533,
+              "delta_5clock": 0.0514,
+              "delta_20clock": 0.1337,
+              "perm_z_20clock": 9.46,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 5884,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0497,
+              "delta_5clock": 0.0391,
+              "delta_20clock": 0.0923,
+              "perm_z_20clock": 6.79,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 3939,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0031,
+              "delta_5clock": 0.0145,
+              "delta_20clock": 0.0375,
+              "perm_z_20clock": 1.52,
+              "perm_fdr_20clock": 0.178804
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 3294,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3016,
+              "delta_5clock": 0.2506,
+              "delta_20clock": 0.3231,
+              "perm_z_20clock": 30.19,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.3231,
+          "mean_delta_20clock": 0.1341,
+          "max_delta_5clock": 0.2506
+        },
+        {
+          "gene": "YES1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 3710,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0828,
+              "delta_5clock": 0.1477,
+              "delta_20clock": 0.1775,
+              "perm_z_20clock": 27.93,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 4297,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0625,
+              "delta_5clock": 0.0528,
+              "delta_20clock": 0.2505,
+              "perm_z_20clock": 40.88,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 2052,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3297,
+              "delta_5clock": 0.3171,
+              "delta_20clock": 0.399,
+              "perm_z_20clock": 30.93,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 1653,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2431,
+              "delta_5clock": 0.2135,
+              "delta_20clock": 0.4685,
+              "perm_z_20clock": 39.66,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 2536,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1229,
+              "delta_5clock": 0.1451,
+              "delta_20clock": 0.2338,
+              "perm_z_20clock": 22.21,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 4323,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0063,
+              "delta_5clock": 0.0085,
+              "delta_20clock": 0.0413,
+              "perm_z_20clock": 2.1,
+              "perm_fdr_20clock": 0.120084
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 2248,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4061,
+              "delta_5clock": 0.3852,
+              "delta_20clock": 0.4291,
+              "perm_z_20clock": 42.04,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.4685,
+          "mean_delta_20clock": 0.2857,
+          "max_delta_5clock": 0.3852
+        },
+        {
+          "gene": "CCNE1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 11747,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2525,
+              "delta_5clock": 0.2088,
+              "delta_20clock": 0.3292,
+              "perm_z_20clock": 49.83,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 4227,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2321,
+              "delta_5clock": 0.1985,
+              "delta_20clock": 0.3507,
+              "perm_z_20clock": 53.44,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 3127,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4509,
+              "delta_5clock": 0.3841,
+              "delta_20clock": 0.5132,
+              "perm_z_20clock": 36.76,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 6896,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3205,
+              "delta_5clock": 0.2175,
+              "delta_20clock": 0.3988,
+              "perm_z_20clock": 29.7,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 10875,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1265,
+              "delta_5clock": 0.1065,
+              "delta_20clock": 0.176,
+              "perm_z_20clock": 11.03,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 9968,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.048,
+              "delta_5clock": 0.0544,
+              "delta_20clock": 0.0951,
+              "perm_z_20clock": 6.26,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.5132,
+          "mean_delta_20clock": 0.3105,
+          "max_delta_5clock": 0.3841
+        },
+        {
+          "gene": "BRD4",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 3019,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0873,
+              "delta_5clock": 0.1045,
+              "delta_20clock": 0.139,
+              "perm_z_20clock": 23.59,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 2127,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0597,
+              "delta_5clock": 0.0511,
+              "delta_20clock": 0.1629,
+              "perm_z_20clock": 24.19,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 1243,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3239,
+              "delta_5clock": 0.3293,
+              "delta_20clock": 0.3942,
+              "perm_z_20clock": 31.3,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 1810,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1929,
+              "delta_5clock": 0.1519,
+              "delta_20clock": 0.321,
+              "perm_z_20clock": 29.07,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 1832,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1916,
+              "delta_5clock": 0.1641,
+              "delta_20clock": 0.3103,
+              "perm_z_20clock": 31.21,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 1555,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3211,
+              "delta_5clock": 0.2921,
+              "delta_20clock": 0.342,
+              "perm_z_20clock": 32.74,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.3942,
+          "mean_delta_20clock": 0.2782,
+          "max_delta_5clock": 0.3293
+        },
+        {
+          "gene": "GPX4",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 1641,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1406,
+              "delta_5clock": 0.14,
+              "delta_20clock": 0.1855,
+              "perm_z_20clock": 28.21,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 1227,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1042,
+              "delta_5clock": 0.0975,
+              "delta_20clock": 0.1459,
+              "perm_z_20clock": 21.02,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 834,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3109,
+              "delta_5clock": 0.3231,
+              "delta_20clock": 0.4412,
+              "perm_z_20clock": 38.58,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 250,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2085,
+              "delta_5clock": 0.1922,
+              "delta_20clock": 0.3099,
+              "perm_z_20clock": 27.5,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 108,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2009,
+              "delta_5clock": 0.2292,
+              "delta_20clock": 0.3928,
+              "perm_z_20clock": 34.73,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 5547,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0114,
+              "delta_5clock": 0.0204,
+              "delta_20clock": 0.0498,
+              "perm_z_20clock": 2.58,
+              "perm_fdr_20clock": 0.055887
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 672,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.4054,
+              "delta_5clock": 0.3508,
+              "delta_20clock": 0.4265,
+              "perm_z_20clock": 48.06,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.4412,
+          "mean_delta_20clock": 0.2788,
+          "max_delta_5clock": 0.3508
+        },
+        {
+          "gene": "BCL2L1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 5390,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0307,
+              "delta_5clock": 0.042,
+              "delta_20clock": 0.0815,
+              "perm_z_20clock": 10.04,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 5566,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0132,
+              "delta_5clock": 0.0107,
+              "delta_20clock": 0.0302,
+              "perm_z_20clock": 1.77,
+              "perm_fdr_20clock": 0.07707
+            },
+            "TNBC3": {
+              "hvg_rank": 4373,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1099,
+              "delta_5clock": 0.1059,
+              "delta_20clock": 0.1809,
+              "perm_z_20clock": 11.93,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 2100,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1657,
+              "delta_5clock": 0.1567,
+              "delta_20clock": 0.2827,
+              "perm_z_20clock": 22.4,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 3102,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0589,
+              "delta_5clock": 0.1012,
+              "delta_20clock": 0.1828,
+              "perm_z_20clock": 14.56,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 2143,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0137,
+              "delta_5clock": 0.0196,
+              "delta_20clock": 0.045,
+              "perm_z_20clock": 2.48,
+              "perm_fdr_20clock": 0.097599
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 3150,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.17,
+              "delta_5clock": 0.1647,
+              "delta_20clock": 0.2024,
+              "perm_z_20clock": 19.41,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.2827,
+          "mean_delta_20clock": 0.1436,
+          "max_delta_5clock": 0.1647
+        },
+        {
+          "gene": "TOP1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 2225,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1108,
+              "delta_5clock": 0.1315,
+              "delta_20clock": 0.1936,
+              "perm_z_20clock": 29.54,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 2216,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1406,
+              "delta_5clock": 0.1271,
+              "delta_20clock": 0.197,
+              "perm_z_20clock": 28.84,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 634,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.4303,
+              "delta_5clock": 0.4645,
+              "delta_20clock": 0.5293,
+              "perm_z_20clock": 43.1,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 671,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2708,
+              "delta_5clock": 0.2235,
+              "delta_20clock": 0.3876,
+              "perm_z_20clock": 34.71,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 1031,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1896,
+              "delta_5clock": 0.2052,
+              "delta_20clock": 0.3435,
+              "perm_z_20clock": 32.1,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 5087,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0043,
+              "delta_5clock": 0.0131,
+              "delta_20clock": 0.0309,
+              "perm_z_20clock": 0.63,
+              "perm_fdr_20clock": 0.372023
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 1961,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3263,
+              "delta_5clock": 0.3066,
+              "delta_20clock": 0.3633,
+              "perm_z_20clock": 39.47,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.5293,
+          "mean_delta_20clock": 0.2922,
+          "max_delta_5clock": 0.4645
+        },
+        {
+          "gene": "DYRK1A",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 7633,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0263,
+              "delta_5clock": 0.0491,
+              "delta_20clock": 0.0626,
+              "perm_z_20clock": 7.4,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 8329,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0066,
+              "delta_5clock": 0.0081,
+              "delta_20clock": 0.0635,
+              "perm_z_20clock": 7.67,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 6141,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1673,
+              "delta_5clock": 0.1738,
+              "delta_20clock": 0.2521,
+              "perm_z_20clock": 18.9,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 5565,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1264,
+              "delta_5clock": 0.1048,
+              "delta_20clock": 0.2137,
+              "perm_z_20clock": 17.48,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 4969,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0876,
+              "delta_5clock": 0.0818,
+              "delta_20clock": 0.1275,
+              "perm_z_20clock": 10.37,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 4446,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2059,
+              "delta_5clock": 0.1632,
+              "delta_20clock": 0.2359,
+              "perm_z_20clock": 24.69,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.2521,
+          "mean_delta_20clock": 0.1592,
+          "max_delta_5clock": 0.1738
+        },
+        {
+          "gene": "CRKL",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 8365,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0158,
+              "delta_5clock": 0.0231,
+              "delta_20clock": 0.0587,
+              "perm_z_20clock": 6.9,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 7221,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0265,
+              "delta_5clock": 0.0291,
+              "delta_20clock": 0.0742,
+              "perm_z_20clock": 8.55,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 8595,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0666,
+              "delta_5clock": 0.072,
+              "delta_20clock": 0.0921,
+              "perm_z_20clock": 4.63,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 5639,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1327,
+              "delta_5clock": 0.1217,
+              "delta_20clock": 0.214,
+              "perm_z_20clock": 16.19,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 6660,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0617,
+              "delta_5clock": 0.0464,
+              "delta_20clock": 0.1211,
+              "perm_z_20clock": 10.62,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 179,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0003,
+              "delta_5clock": 0.0016,
+              "delta_20clock": 0.0061,
+              "perm_z_20clock": -1.94,
+              "perm_fdr_20clock": 1.0
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 3705,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.264,
+              "delta_5clock": 0.2394,
+              "delta_20clock": 0.3042,
+              "perm_z_20clock": 29.72,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.3042,
+          "mean_delta_20clock": 0.1243,
+          "max_delta_5clock": 0.2394
+        },
+        {
+          "gene": "PDGFRA",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 1384,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0487,
+              "delta_5clock": 0.0495,
+              "delta_20clock": 0.2051,
+              "perm_z_20clock": 32.33,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 15188,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0026,
+              "delta_5clock": 0.008,
+              "delta_20clock": 0.0244,
+              "perm_z_20clock": 0.77,
+              "perm_fdr_20clock": 0.23158
+            },
+            "TNBC3": {
+              "hvg_rank": 1366,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1224,
+              "delta_5clock": 0.1513,
+              "delta_20clock": 0.2068,
+              "perm_z_20clock": 16.19,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 11179,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0188,
+              "delta_5clock": 0.0285,
+              "delta_20clock": 0.0955,
+              "perm_z_20clock": 3.52,
+              "perm_fdr_20clock": 0.021748
+            },
+            "GBM": {
+              "hvg_rank": 2916,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0144,
+              "delta_5clock": 0.0151,
+              "delta_20clock": 0.0354,
+              "perm_z_20clock": 1.29,
+              "perm_fdr_20clock": 0.221001
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 5143,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0097,
+              "delta_5clock": 0.0048,
+              "delta_20clock": 0.0429,
+              "perm_z_20clock": 1.41,
+              "perm_fdr_20clock": 0.132536
+            }
+          },
+          "max_delta_20clock": 0.2068,
+          "mean_delta_20clock": 0.1017,
+          "max_delta_5clock": 0.1513
+        },
+        {
+          "gene": "SOX2",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 16185,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.001,
+              "delta_5clock": 0.0028,
+              "delta_20clock": 0.0193,
+              "perm_z_20clock": 0.12,
+              "perm_fdr_20clock": 0.428681
+            },
+            "TNBC5": {
+              "hvg_rank": 12394,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0216,
+              "delta_5clock": 0.0316,
+              "delta_20clock": 0.0594,
+              "perm_z_20clock": 1.4,
+              "perm_fdr_20clock": 0.131142
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 14040,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0005,
+              "delta_5clock": 0.0024,
+              "delta_20clock": 0.0284,
+              "perm_z_20clock": -0.13,
+              "perm_fdr_20clock": 0.49336
+            }
+          },
+          "max_delta_20clock": 0.0594,
+          "mean_delta_20clock": 0.0357,
+          "max_delta_5clock": 0.0316
+        }
+      ],
+      "pan_autosome_amplicon_candidates_evaluated": [
+        {
+          "gene": "PKMYT1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 5641,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.6623,
+              "delta_5clock": 0.604,
+              "delta_20clock": 0.703,
+              "perm_z_20clock": 111.96,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 7536,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3638,
+              "delta_5clock": 0.3566,
+              "delta_20clock": 0.4101,
+              "perm_z_20clock": 65.38,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 6146,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.5518,
+              "delta_5clock": 0.5208,
+              "delta_20clock": 0.5896,
+              "perm_z_20clock": 41.67,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 9350,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4962,
+              "delta_5clock": 0.4492,
+              "delta_20clock": 0.6116,
+              "perm_z_20clock": 42.73,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 7739,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.7364,
+              "delta_5clock": 0.7439,
+              "delta_20clock": 0.8131,
+              "perm_z_20clock": 60.95,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 6182,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.332,
+              "delta_5clock": 0.3229,
+              "delta_20clock": 0.3845,
+              "perm_z_20clock": 37.43,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.8131,
+          "mean_delta_20clock": 0.5853,
+          "max_delta_5clock": 0.7439
+        },
+        {
+          "gene": "HSP90AB1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 18,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.161,
+              "delta_5clock": 0.2099,
+              "delta_20clock": 0.3828,
+              "perm_z_20clock": 66.38,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 96,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2193,
+              "delta_5clock": 0.2205,
+              "delta_20clock": 0.4862,
+              "perm_z_20clock": 76.34,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 196,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.5232,
+              "delta_5clock": 0.5651,
+              "delta_20clock": 0.6629,
+              "perm_z_20clock": 53.97,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 81,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2983,
+              "delta_5clock": 0.2363,
+              "delta_20clock": 0.424,
+              "perm_z_20clock": 39.05,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 116,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1773,
+              "delta_5clock": 0.2198,
+              "delta_20clock": 0.3591,
+              "perm_z_20clock": 32.29,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 228,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.6418,
+              "delta_5clock": 0.5844,
+              "delta_20clock": 0.6639,
+              "perm_z_20clock": 73.06,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.6639,
+          "mean_delta_20clock": 0.4965,
+          "max_delta_5clock": 0.5844
+        },
+        {
+          "gene": "KREMEN2",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 13195,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0331,
+              "delta_5clock": 0.0404,
+              "delta_20clock": 0.0782,
+              "perm_z_20clock": 7.11,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 16125,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0068,
+              "delta_5clock": 0.0079,
+              "delta_20clock": 0.0437,
+              "perm_z_20clock": 2.72,
+              "perm_fdr_20clock": 0.040655
+            },
+            "TNBC3": {
+              "hvg_rank": 3235,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3892,
+              "delta_5clock": 0.3446,
+              "delta_20clock": 0.474,
+              "perm_z_20clock": 37.34,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 9911,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0928,
+              "delta_5clock": 0.0803,
+              "delta_20clock": 0.1989,
+              "perm_z_20clock": 10.42,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 6651,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1037,
+              "delta_5clock": 0.0874,
+              "delta_20clock": 0.16,
+              "perm_z_20clock": 12.72,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 9600,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1158,
+              "delta_5clock": 0.1258,
+              "delta_20clock": 0.1497,
+              "perm_z_20clock": 11.78,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.474,
+          "mean_delta_20clock": 0.1841,
+          "max_delta_5clock": 0.3446
+        },
+        {
+          "gene": "PAQR4",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 3671,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2449,
+              "delta_5clock": 0.2063,
+              "delta_20clock": 0.3057,
+              "perm_z_20clock": 49.13,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 4450,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1527,
+              "delta_5clock": 0.1108,
+              "delta_20clock": 0.2491,
+              "perm_z_20clock": 35.51,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 5697,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.379,
+              "delta_5clock": 0.3468,
+              "delta_20clock": 0.434,
+              "perm_z_20clock": 34.97,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 6188,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2976,
+              "delta_5clock": 0.2535,
+              "delta_20clock": 0.3573,
+              "perm_z_20clock": 28.86,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 6389,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2256,
+              "delta_5clock": 0.185,
+              "delta_20clock": 0.2683,
+              "perm_z_20clock": 22.94,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 6136,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2231,
+              "delta_5clock": 0.2108,
+              "delta_20clock": 0.2529,
+              "perm_z_20clock": 23.3,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.434,
+          "mean_delta_20clock": 0.3112,
+          "max_delta_5clock": 0.3468
+        },
+        {
+          "gene": "VEGFA",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 203,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0272,
+              "delta_5clock": 0.0489,
+              "delta_20clock": 0.0837,
+              "perm_z_20clock": 13.37,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 3066,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0242,
+              "delta_5clock": 0.0167,
+              "delta_20clock": 0.1305,
+              "perm_z_20clock": 20.82,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 403,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1946,
+              "delta_5clock": 0.2086,
+              "delta_20clock": 0.2997,
+              "perm_z_20clock": 22.47,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 792,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1272,
+              "delta_5clock": 0.1065,
+              "delta_20clock": 0.2448,
+              "perm_z_20clock": 19.48,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 1487,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0548,
+              "delta_5clock": 0.0626,
+              "delta_20clock": 0.1544,
+              "perm_z_20clock": 12.74,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 1468,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0234,
+              "delta_5clock": 0.019,
+              "delta_20clock": 0.0552,
+              "perm_z_20clock": 3.24,
+              "perm_fdr_20clock": 0.070346
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 2296,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0479,
+              "delta_5clock": 0.0543,
+              "delta_20clock": 0.0821,
+              "perm_z_20clock": 5.59,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.2997,
+          "mean_delta_20clock": 0.1501,
+          "max_delta_5clock": 0.2086
+        },
+        {
+          "gene": "TFEB",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 5734,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0425,
+              "delta_5clock": 0.0382,
+              "delta_20clock": 0.063,
+              "perm_z_20clock": 7.1,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 5331,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0166,
+              "delta_5clock": 0.0117,
+              "delta_20clock": 0.0371,
+              "perm_z_20clock": 3.23,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 12300,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0024,
+              "delta_5clock": 0.0088,
+              "delta_20clock": 0.038,
+              "perm_z_20clock": -0.02,
+              "perm_fdr_20clock": 0.507188
+            },
+            "TNBC4": {
+              "hvg_rank": 6567,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0463,
+              "delta_5clock": 0.05,
+              "delta_20clock": 0.1013,
+              "perm_z_20clock": 6.4,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 10139,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0068,
+              "delta_5clock": 0.0073,
+              "delta_20clock": 0.0528,
+              "perm_z_20clock": 1.62,
+              "perm_fdr_20clock": 0.099398
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 9385,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0225,
+              "delta_5clock": 0.0186,
+              "delta_20clock": 0.0676,
+              "perm_z_20clock": 3.6,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.1013,
+          "mean_delta_20clock": 0.06,
+          "max_delta_5clock": 0.05
+        },
+        {
+          "gene": "MCL1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 939,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.061,
+              "delta_5clock": 0.0716,
+              "delta_20clock": 0.1234,
+              "perm_z_20clock": 19.32,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 1172,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0052,
+              "delta_5clock": 0.009,
+              "delta_20clock": 0.0803,
+              "perm_z_20clock": 10.75,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 1256,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1283,
+              "delta_5clock": 0.1492,
+              "delta_20clock": 0.1961,
+              "perm_z_20clock": 14.28,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 426,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2029,
+              "delta_5clock": 0.1696,
+              "delta_20clock": 0.3226,
+              "perm_z_20clock": 26.78,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 854,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1254,
+              "delta_5clock": 0.1246,
+              "delta_20clock": 0.2543,
+              "perm_z_20clock": 22.36,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 665,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0001,
+              "delta_5clock": 0.0053,
+              "delta_20clock": 0.0382,
+              "perm_z_20clock": 1.47,
+              "perm_fdr_20clock": 0.214027
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 503,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.544,
+              "delta_5clock": 0.4763,
+              "delta_20clock": 0.5572,
+              "perm_z_20clock": 68.1,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.5572,
+          "mean_delta_20clock": 0.2246,
+          "max_delta_5clock": 0.4763
+        },
+        {
+          "gene": "XPO1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 4148,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1137,
+              "delta_5clock": 0.1118,
+              "delta_20clock": 0.1519,
+              "perm_z_20clock": 24.7,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 3283,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1435,
+              "delta_5clock": 0.1524,
+              "delta_20clock": 0.2015,
+              "perm_z_20clock": 26.32,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 1920,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.367,
+              "delta_5clock": 0.348,
+              "delta_20clock": 0.417,
+              "perm_z_20clock": 37.39,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 2079,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2647,
+              "delta_5clock": 0.2119,
+              "delta_20clock": 0.3565,
+              "perm_z_20clock": 27.64,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 2113,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1787,
+              "delta_5clock": 0.1774,
+              "delta_20clock": 0.2516,
+              "perm_z_20clock": 23.6,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 2459,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0489,
+              "delta_5clock": 0.0427,
+              "delta_20clock": 0.0703,
+              "perm_z_20clock": 4.14,
+              "perm_fdr_20clock": 0.036
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 2197,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4438,
+              "delta_5clock": 0.4215,
+              "delta_20clock": 0.4608,
+              "perm_z_20clock": 44.25,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.4608,
+          "mean_delta_20clock": 0.2728,
+          "max_delta_5clock": 0.4215
+        },
+        {
+          "gene": "FGFR1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 8066,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0183,
+              "delta_5clock": 0.0355,
+              "delta_20clock": 0.0563,
+              "perm_z_20clock": 6.61,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 11409,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0192,
+              "delta_5clock": 0.0109,
+              "delta_20clock": 0.0591,
+              "perm_z_20clock": 6.08,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 2917,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0052,
+              "delta_5clock": 0.0028,
+              "delta_20clock": 0.0717,
+              "perm_z_20clock": 3.09,
+              "perm_fdr_20clock": 0.015726
+            },
+            "TNBC4": {
+              "hvg_rank": 4055,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0872,
+              "delta_5clock": 0.0879,
+              "delta_20clock": 0.2212,
+              "perm_z_20clock": 15.21,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 7191,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0936,
+              "delta_5clock": 0.0911,
+              "delta_20clock": 0.1537,
+              "perm_z_20clock": 12.75,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 3459,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0007,
+              "delta_5clock": 0.0038,
+              "delta_20clock": 0.0269,
+              "perm_z_20clock": 0.3,
+              "perm_fdr_20clock": 0.49683
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 4611,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.039,
+              "delta_5clock": 0.0355,
+              "delta_20clock": 0.0783,
+              "perm_z_20clock": 5.82,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.2212,
+          "mean_delta_20clock": 0.0953,
+          "max_delta_5clock": 0.0911
+        },
+        {
+          "gene": "PRKDC",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 613,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3491,
+              "delta_5clock": 0.3331,
+              "delta_20clock": 0.4425,
+              "perm_z_20clock": 81.81,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 600,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2582,
+              "delta_5clock": 0.1926,
+              "delta_20clock": 0.4335,
+              "perm_z_20clock": 64.83,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 957,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3929,
+              "delta_5clock": 0.3791,
+              "delta_20clock": 0.4549,
+              "perm_z_20clock": 36.48,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 201,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3875,
+              "delta_5clock": 0.273,
+              "delta_20clock": 0.5501,
+              "perm_z_20clock": 52.55,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 849,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3087,
+              "delta_5clock": 0.291,
+              "delta_20clock": 0.4126,
+              "perm_z_20clock": 38.54,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 4718,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0471,
+              "delta_5clock": 0.033,
+              "delta_20clock": 0.0635,
+              "perm_z_20clock": 4.09,
+              "perm_fdr_20clock": 0.036
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 1077,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.6032,
+              "delta_5clock": 0.5405,
+              "delta_20clock": 0.6375,
+              "perm_z_20clock": 65.64,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.6375,
+          "mean_delta_20clock": 0.4278,
+          "max_delta_5clock": 0.5405
+        },
+        {
+          "gene": "MTAP",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 4914,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1324,
+              "delta_5clock": 0.129,
+              "delta_20clock": 0.1859,
+              "perm_z_20clock": 30.04,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 2883,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1364,
+              "delta_5clock": 0.1274,
+              "delta_20clock": 0.3098,
+              "perm_z_20clock": 49.86,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 3636,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3782,
+              "delta_5clock": 0.3538,
+              "delta_20clock": 0.4423,
+              "perm_z_20clock": 32.64,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 2276,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2457,
+              "delta_5clock": 0.171,
+              "delta_20clock": 0.4035,
+              "perm_z_20clock": 34.11,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 4539,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1011,
+              "delta_5clock": 0.0853,
+              "delta_20clock": 0.1478,
+              "perm_z_20clock": 10.86,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 4345,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2533,
+              "delta_5clock": 0.2506,
+              "delta_20clock": 0.291,
+              "perm_z_20clock": 28.28,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.4423,
+          "mean_delta_20clock": 0.2967,
+          "max_delta_5clock": 0.3538
+        },
+        {
+          "gene": "WEE1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 3475,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1349,
+              "delta_5clock": 0.1378,
+              "delta_20clock": 0.2052,
+              "perm_z_20clock": 32.38,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 4440,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0839,
+              "delta_5clock": 0.0709,
+              "delta_20clock": 0.2169,
+              "perm_z_20clock": 33.72,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 4498,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3038,
+              "delta_5clock": 0.3153,
+              "delta_20clock": 0.3698,
+              "perm_z_20clock": 28.47,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 4102,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2704,
+              "delta_5clock": 0.245,
+              "delta_20clock": 0.3907,
+              "perm_z_20clock": 32.21,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 832,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1279,
+              "delta_5clock": 0.1213,
+              "delta_20clock": 0.2284,
+              "perm_z_20clock": 21.16,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 1541,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0009,
+              "delta_5clock": 0.0033,
+              "delta_20clock": 0.0277,
+              "perm_z_20clock": 0.48,
+              "perm_fdr_20clock": 0.414454
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 6604,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.285,
+              "delta_5clock": 0.2106,
+              "delta_20clock": 0.3352,
+              "perm_z_20clock": 32.12,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.3907,
+          "mean_delta_20clock": 0.2534,
+          "max_delta_5clock": 0.3153
+        },
+        {
+          "gene": "CHEK1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 5767,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4618,
+              "delta_5clock": 0.3856,
+              "delta_20clock": 0.5007,
+              "perm_z_20clock": 78.82,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 4818,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2597,
+              "delta_5clock": 0.2021,
+              "delta_20clock": 0.311,
+              "perm_z_20clock": 52.3,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 8163,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.222,
+              "delta_5clock": 0.2039,
+              "delta_20clock": 0.27,
+              "perm_z_20clock": 21.43,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 6693,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3718,
+              "delta_5clock": 0.3063,
+              "delta_20clock": 0.4336,
+              "perm_z_20clock": 39.4,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 8821,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4485,
+              "delta_5clock": 0.3903,
+              "delta_20clock": 0.4863,
+              "perm_z_20clock": 40.76,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 8675,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2182,
+              "delta_5clock": 0.1975,
+              "delta_20clock": 0.2548,
+              "perm_z_20clock": 21.48,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.5007,
+          "mean_delta_20clock": 0.3761,
+          "max_delta_5clock": 0.3903
+        },
+        {
+          "gene": "PAK1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 3611,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0656,
+              "delta_5clock": 0.0459,
+              "delta_20clock": 0.0901,
+              "perm_z_20clock": 12.58,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 2473,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0709,
+              "delta_5clock": 0.0605,
+              "delta_20clock": 0.1151,
+              "perm_z_20clock": 16.16,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 4891,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0892,
+              "delta_5clock": 0.0867,
+              "delta_20clock": 0.1461,
+              "perm_z_20clock": 9.96,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 1410,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2879,
+              "delta_5clock": 0.2294,
+              "delta_20clock": 0.3375,
+              "perm_z_20clock": 28.94,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 3873,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0979,
+              "delta_5clock": 0.0912,
+              "delta_20clock": 0.173,
+              "perm_z_20clock": 13.9,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 5511,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1935,
+              "delta_5clock": 0.2053,
+              "delta_20clock": 0.2484,
+              "perm_z_20clock": 24.08,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.3375,
+          "mean_delta_20clock": 0.185,
+          "max_delta_5clock": 0.2294
+        },
+        {
+          "gene": "IGF1R",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 7203,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0123,
+              "delta_5clock": 0.0156,
+              "delta_20clock": 0.0504,
+              "perm_z_20clock": 5.5,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 6338,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.023,
+              "delta_5clock": 0.0333,
+              "delta_20clock": 0.1811,
+              "perm_z_20clock": 28.24,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 6676,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0204,
+              "delta_5clock": 0.0234,
+              "delta_20clock": 0.1207,
+              "perm_z_20clock": 6.06,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 7622,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0533,
+              "delta_5clock": 0.0514,
+              "delta_20clock": 0.1337,
+              "perm_z_20clock": 9.46,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 5884,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0497,
+              "delta_5clock": 0.0391,
+              "delta_20clock": 0.0923,
+              "perm_z_20clock": 6.79,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 3939,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0031,
+              "delta_5clock": 0.0145,
+              "delta_20clock": 0.0375,
+              "perm_z_20clock": 1.52,
+              "perm_fdr_20clock": 0.178804
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 3294,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3016,
+              "delta_5clock": 0.2506,
+              "delta_20clock": 0.3231,
+              "perm_z_20clock": 30.19,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.3231,
+          "mean_delta_20clock": 0.1341,
+          "max_delta_5clock": 0.2506
+        },
+        {
+          "gene": "YES1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 3710,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0828,
+              "delta_5clock": 0.1477,
+              "delta_20clock": 0.1775,
+              "perm_z_20clock": 27.93,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 4297,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0625,
+              "delta_5clock": 0.0528,
+              "delta_20clock": 0.2505,
+              "perm_z_20clock": 40.88,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 2052,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3297,
+              "delta_5clock": 0.3171,
+              "delta_20clock": 0.399,
+              "perm_z_20clock": 30.93,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 1653,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2431,
+              "delta_5clock": 0.2135,
+              "delta_20clock": 0.4685,
+              "perm_z_20clock": 39.66,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 2536,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1229,
+              "delta_5clock": 0.1451,
+              "delta_20clock": 0.2338,
+              "perm_z_20clock": 22.21,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 4323,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0063,
+              "delta_5clock": 0.0085,
+              "delta_20clock": 0.0413,
+              "perm_z_20clock": 2.1,
+              "perm_fdr_20clock": 0.120084
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 2248,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4061,
+              "delta_5clock": 0.3852,
+              "delta_20clock": 0.4291,
+              "perm_z_20clock": 42.04,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.4685,
+          "mean_delta_20clock": 0.2857,
+          "max_delta_5clock": 0.3852
+        },
+        {
+          "gene": "CCNE1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 11747,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2525,
+              "delta_5clock": 0.2088,
+              "delta_20clock": 0.3292,
+              "perm_z_20clock": 49.83,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 4227,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2321,
+              "delta_5clock": 0.1985,
+              "delta_20clock": 0.3507,
+              "perm_z_20clock": 53.44,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 3127,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.4509,
+              "delta_5clock": 0.3841,
+              "delta_20clock": 0.5132,
+              "perm_z_20clock": 36.76,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 6896,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.3205,
+              "delta_5clock": 0.2175,
+              "delta_20clock": 0.3988,
+              "perm_z_20clock": 29.7,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 10875,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1265,
+              "delta_5clock": 0.1065,
+              "delta_20clock": 0.176,
+              "perm_z_20clock": 11.03,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 9968,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.048,
+              "delta_5clock": 0.0544,
+              "delta_20clock": 0.0951,
+              "perm_z_20clock": 6.26,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.5132,
+          "mean_delta_20clock": 0.3105,
+          "max_delta_5clock": 0.3841
+        },
+        {
+          "gene": "BRD4",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 3019,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0873,
+              "delta_5clock": 0.1045,
+              "delta_20clock": 0.139,
+              "perm_z_20clock": 23.59,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 2127,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0597,
+              "delta_5clock": 0.0511,
+              "delta_20clock": 0.1629,
+              "perm_z_20clock": 24.19,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 1243,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3239,
+              "delta_5clock": 0.3293,
+              "delta_20clock": 0.3942,
+              "perm_z_20clock": 31.3,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 1810,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1929,
+              "delta_5clock": 0.1519,
+              "delta_20clock": 0.321,
+              "perm_z_20clock": 29.07,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 1832,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1916,
+              "delta_5clock": 0.1641,
+              "delta_20clock": 0.3103,
+              "perm_z_20clock": 31.21,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 1555,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3211,
+              "delta_5clock": 0.2921,
+              "delta_20clock": 0.342,
+              "perm_z_20clock": 32.74,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.3942,
+          "mean_delta_20clock": 0.2782,
+          "max_delta_5clock": 0.3293
+        },
+        {
+          "gene": "GPX4",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 1641,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1406,
+              "delta_5clock": 0.14,
+              "delta_20clock": 0.1855,
+              "perm_z_20clock": 28.21,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 1227,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1042,
+              "delta_5clock": 0.0975,
+              "delta_20clock": 0.1459,
+              "perm_z_20clock": 21.02,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 834,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3109,
+              "delta_5clock": 0.3231,
+              "delta_20clock": 0.4412,
+              "perm_z_20clock": 38.58,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 250,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2085,
+              "delta_5clock": 0.1922,
+              "delta_20clock": 0.3099,
+              "perm_z_20clock": 27.5,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 108,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2009,
+              "delta_5clock": 0.2292,
+              "delta_20clock": 0.3928,
+              "perm_z_20clock": 34.73,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 5547,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0114,
+              "delta_5clock": 0.0204,
+              "delta_20clock": 0.0498,
+              "perm_z_20clock": 2.58,
+              "perm_fdr_20clock": 0.055887
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 672,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.4054,
+              "delta_5clock": 0.3508,
+              "delta_20clock": 0.4265,
+              "perm_z_20clock": 48.06,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.4412,
+          "mean_delta_20clock": 0.2788,
+          "max_delta_5clock": 0.3508
+        },
+        {
+          "gene": "BCL2L1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 5390,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0307,
+              "delta_5clock": 0.042,
+              "delta_20clock": 0.0815,
+              "perm_z_20clock": 10.04,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 5566,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0132,
+              "delta_5clock": 0.0107,
+              "delta_20clock": 0.0302,
+              "perm_z_20clock": 1.77,
+              "perm_fdr_20clock": 0.07707
+            },
+            "TNBC3": {
+              "hvg_rank": 4373,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1099,
+              "delta_5clock": 0.1059,
+              "delta_20clock": 0.1809,
+              "perm_z_20clock": 11.93,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 2100,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1657,
+              "delta_5clock": 0.1567,
+              "delta_20clock": 0.2827,
+              "perm_z_20clock": 22.4,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 3102,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0589,
+              "delta_5clock": 0.1012,
+              "delta_20clock": 0.1828,
+              "perm_z_20clock": 14.56,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 2143,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0137,
+              "delta_5clock": 0.0196,
+              "delta_20clock": 0.045,
+              "perm_z_20clock": 2.48,
+              "perm_fdr_20clock": 0.097599
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 3150,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.17,
+              "delta_5clock": 0.1647,
+              "delta_20clock": 0.2024,
+              "perm_z_20clock": 19.41,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.2827,
+          "mean_delta_20clock": 0.1436,
+          "max_delta_5clock": 0.1647
+        },
+        {
+          "gene": "TOP1",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 2225,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1108,
+              "delta_5clock": 0.1315,
+              "delta_20clock": 0.1936,
+              "perm_z_20clock": 29.54,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 2216,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1406,
+              "delta_5clock": 0.1271,
+              "delta_20clock": 0.197,
+              "perm_z_20clock": 28.84,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 634,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.4303,
+              "delta_5clock": 0.4645,
+              "delta_20clock": 0.5293,
+              "perm_z_20clock": 43.1,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 671,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.2708,
+              "delta_5clock": 0.2235,
+              "delta_20clock": 0.3876,
+              "perm_z_20clock": 34.71,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 1031,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1896,
+              "delta_5clock": 0.2052,
+              "delta_20clock": 0.3435,
+              "perm_z_20clock": 32.1,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 5087,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0043,
+              "delta_5clock": 0.0131,
+              "delta_20clock": 0.0309,
+              "perm_z_20clock": 0.63,
+              "perm_fdr_20clock": 0.372023
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 1961,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.3263,
+              "delta_5clock": 0.3066,
+              "delta_20clock": 0.3633,
+              "perm_z_20clock": 39.47,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.5293,
+          "mean_delta_20clock": 0.2922,
+          "max_delta_5clock": 0.4645
+        },
+        {
+          "gene": "DYRK1A",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 7633,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0263,
+              "delta_5clock": 0.0491,
+              "delta_20clock": 0.0626,
+              "perm_z_20clock": 7.4,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 8329,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0066,
+              "delta_5clock": 0.0081,
+              "delta_20clock": 0.0635,
+              "perm_z_20clock": 7.67,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 6141,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1673,
+              "delta_5clock": 0.1738,
+              "delta_20clock": 0.2521,
+              "perm_z_20clock": 18.9,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 5565,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1264,
+              "delta_5clock": 0.1048,
+              "delta_20clock": 0.2137,
+              "perm_z_20clock": 17.48,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 4969,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0876,
+              "delta_5clock": 0.0818,
+              "delta_20clock": 0.1275,
+              "perm_z_20clock": 10.37,
+              "perm_fdr_20clock": 0.008777
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 4446,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.2059,
+              "delta_5clock": 0.1632,
+              "delta_20clock": 0.2359,
+              "perm_z_20clock": 24.69,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.2521,
+          "mean_delta_20clock": 0.1592,
+          "max_delta_5clock": 0.1738
+        },
+        {
+          "gene": "CRKL",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 8365,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0158,
+              "delta_5clock": 0.0231,
+              "delta_20clock": 0.0587,
+              "perm_z_20clock": 6.9,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 7221,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0265,
+              "delta_5clock": 0.0291,
+              "delta_20clock": 0.0742,
+              "perm_z_20clock": 8.55,
+              "perm_fdr_20clock": 0.007687
+            },
+            "TNBC3": {
+              "hvg_rank": 8595,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0666,
+              "delta_5clock": 0.072,
+              "delta_20clock": 0.0921,
+              "perm_z_20clock": 4.63,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 5639,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.1327,
+              "delta_5clock": 0.1217,
+              "delta_20clock": 0.214,
+              "perm_z_20clock": 16.19,
+              "perm_fdr_20clock": 0.00782
+            },
+            "TNBC5": {
+              "hvg_rank": 6660,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0617,
+              "delta_5clock": 0.0464,
+              "delta_20clock": 0.1211,
+              "perm_z_20clock": 10.62,
+              "perm_fdr_20clock": 0.008777
+            },
+            "GBM": {
+              "hvg_rank": 179,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0003,
+              "delta_5clock": 0.0016,
+              "delta_20clock": 0.0061,
+              "perm_z_20clock": -1.94,
+              "perm_fdr_20clock": 1.0
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 3705,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.264,
+              "delta_5clock": 0.2394,
+              "delta_20clock": 0.3042,
+              "perm_z_20clock": 29.72,
+              "perm_fdr_20clock": 0.006455
+            }
+          },
+          "max_delta_20clock": 0.3042,
+          "mean_delta_20clock": 0.1243,
+          "max_delta_5clock": 0.2394
+        },
+        {
+          "gene": "PDGFRA",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 1384,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.0487,
+              "delta_5clock": 0.0495,
+              "delta_20clock": 0.2051,
+              "perm_z_20clock": 32.33,
+              "perm_fdr_20clock": 0.008106
+            },
+            "TNBC2": {
+              "hvg_rank": 15188,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0026,
+              "delta_5clock": 0.008,
+              "delta_20clock": 0.0244,
+              "perm_z_20clock": 0.77,
+              "perm_fdr_20clock": 0.23158
+            },
+            "TNBC3": {
+              "hvg_rank": 1366,
+              "is_hvg_top2000": true,
+              "delta_2score": 0.1224,
+              "delta_5clock": 0.1513,
+              "delta_20clock": 0.2068,
+              "perm_z_20clock": 16.19,
+              "perm_fdr_20clock": 0.008313
+            },
+            "TNBC4": {
+              "hvg_rank": 11179,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0188,
+              "delta_5clock": 0.0285,
+              "delta_20clock": 0.0955,
+              "perm_z_20clock": 3.52,
+              "perm_fdr_20clock": 0.021748
+            },
+            "GBM": {
+              "hvg_rank": 2916,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0144,
+              "delta_5clock": 0.0151,
+              "delta_20clock": 0.0354,
+              "perm_z_20clock": 1.29,
+              "perm_fdr_20clock": 0.221001
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 5143,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0097,
+              "delta_5clock": 0.0048,
+              "delta_20clock": 0.0429,
+              "perm_z_20clock": 1.41,
+              "perm_fdr_20clock": 0.132536
+            }
+          },
+          "max_delta_20clock": 0.2068,
+          "mean_delta_20clock": 0.1017,
+          "max_delta_5clock": 0.1513
+        },
+        {
+          "gene": "SOX2",
+          "cellsnail_h_nope_variance_retained": 1.0,
+          "cohorts": {
+            "TNBC1": {
+              "hvg_rank": 16185,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.001,
+              "delta_5clock": 0.0028,
+              "delta_20clock": 0.0193,
+              "perm_z_20clock": 0.12,
+              "perm_fdr_20clock": 0.428681
+            },
+            "TNBC5": {
+              "hvg_rank": 12394,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0216,
+              "delta_5clock": 0.0316,
+              "delta_20clock": 0.0594,
+              "perm_z_20clock": 1.4,
+              "perm_fdr_20clock": 0.131142
+            },
+            "cSCC_P2_rep1": {
+              "hvg_rank": 14040,
+              "is_hvg_top2000": false,
+              "delta_2score": 0.0005,
+              "delta_5clock": 0.0024,
+              "delta_20clock": 0.0284,
+              "perm_z_20clock": -0.13,
+              "perm_fdr_20clock": 0.49336
+            }
+          },
+          "max_delta_20clock": 0.0594,
+          "mean_delta_20clock": 0.0357,
+          "max_delta_5clock": 0.0316
         }
       ]
     }

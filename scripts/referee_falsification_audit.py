@@ -57,7 +57,6 @@ from cellsnail.benchmark.mode_b_blind import (
 from cellsnail.core.morse_filter import (
     morse_dropout_filter,
     morse_cnv_filter,
-    beltrami_morse_gate,
 )
 from cellsnail.core.deconfounder import cell_cycle_deconfounder
 from cellsnail.core.sheaf_aligner import (
@@ -97,7 +96,7 @@ def run_negative_controls_audit() -> Dict[str, Any]:
     unsorted_recalls = []
     
     # Ground-truth amplicons in canonical coordinates: EGFR (bin 25), MYC (bin 35), CDK4 (bin 55)
-    baseline_discovery = engine.discover_focal_cnv_stringers(X_cnv, bin_metadata=meta, sort_by_genomic_coords=True)
+    baseline_discovery = engine.discover_focal_cnvs(X_cnv, bin_metadata=meta, sort_by_genomic_coords=True)
     baseline_genes = {a["gene"] for a in baseline_discovery["amplicons"]}
     expected_genes = {"EGFR", "MYC", "CDK4"}
     assert expected_genes.issubset(baseline_genes), f"Missing amplicons: {expected_genes - baseline_genes}"
@@ -108,12 +107,12 @@ def run_negative_controls_audit() -> Dict[str, Any]:
         meta_perm = [meta[p] for p in perm]
 
         # Canonical chromosomal sort
-        res_sorted = engine.discover_focal_cnv_stringers(X_perm, bin_metadata=meta_perm, sort_by_genomic_coords=True)
+        res_sorted = engine.discover_focal_cnvs(X_perm, bin_metadata=meta_perm, sort_by_genomic_coords=True)
         genes_sorted = {a["gene"] for a in res_sorted["amplicons"]}
         sorted_recalls.append(1.0 if expected_genes.issubset(genes_sorted) else 0.0)
 
         # Unsorted 1D Morse stencil
-        res_unsorted = engine.discover_focal_cnv_stringers(X_perm, bin_metadata=meta_perm, sort_by_genomic_coords=False)
+        res_unsorted = engine.discover_focal_cnvs(X_perm, bin_metadata=meta_perm, sort_by_genomic_coords=False)
         genes_unsorted = {a["gene"] for a in res_unsorted["amplicons"]}
         unsorted_recalls.append(len(expected_genes.intersection(genes_unsorted)) / len(expected_genes))
 
@@ -123,8 +122,8 @@ def run_negative_controls_audit() -> Dict[str, Any]:
     adv_perm = non_focal_indices[:10] + focal_orig_indices + non_focal_indices[10:]
     X_adv = X_cnv[:, adv_perm]
     meta_adv = [meta[p] for p in adv_perm]
-    adv_sorted = engine.discover_focal_cnv_stringers(X_adv, bin_metadata=meta_adv, sort_by_genomic_coords=True)
-    adv_unsorted = engine.discover_focal_cnv_stringers(X_adv, bin_metadata=meta_adv, sort_by_genomic_coords=False)
+    adv_sorted = engine.discover_focal_cnvs(X_adv, bin_metadata=meta_adv, sort_by_genomic_coords=True)
+    adv_unsorted = engine.discover_focal_cnvs(X_adv, bin_metadata=meta_adv, sort_by_genomic_coords=False)
 
     adv_sorted_genes = {a["gene"] for a in adv_sorted["amplicons"]}
     adv_unsorted_genes = {a["gene"] for a in adv_unsorted["amplicons"]}
@@ -425,7 +424,7 @@ def run_biological_discovery_audit() -> Dict[str, Any]:
     }
 
     # --------------------------------------------------------------------------
-    # Track 2: Sub-Megabase Focal ecDNA / Stringers & Druggable Persisters
+    # Track 2: Sub-Megabase Focal ecDNA / Amplicons & Druggable Persisters
     # --------------------------------------------------------------------------
     print("\n[Track 2] Sub-Megabase Focal Amplicons & Persisters Under Noise")
     cnv_cohort = load_paired_cnv_cohort(n_cells=500, random_state=42)
@@ -437,7 +436,7 @@ def run_biological_discovery_audit() -> Dict[str, Any]:
     print(f"  ChEMBL Target: {persisters['chembl_target']['target_id']} ({persisters['chembl_target']['target_name']})")
     print(f"  PDB Cryo-EM: {persisters['structural_validation']['pdb_cryo_em']} at 3.6 A with Tariquidar")
 
-    # Stress test: Test whether focal amplicons survive baseline noise and WGA waviness
+    # Stress test: Test whether focal amplicons survive baseline noise
     X_cnv_orig = cnv_cohort["dna"].X
     meta = cnv_cohort["variants"]
     noise_levels = [np.inf, 20.0, 10.0, 5.0]
@@ -446,19 +445,15 @@ def run_biological_discovery_audit() -> Dict[str, Any]:
     for snr in noise_levels:
         if snr < np.inf:
             noisy_cnv = apply_snr_noise(X_cnv_orig, snr_db=snr, random_state=42)
-            # Add sinusoidal WGA waviness: amplitude 0.3 * sin(2*pi*j / 20)
-            n_bins = noisy_cnv.shape[1]
-            waviness = 0.3 * np.sin(2.0 * np.pi * np.arange(n_bins) / 20.0)[None, :]
-            noisy_cnv += waviness.astype(np.float32)
         else:
             noisy_cnv = X_cnv_orig
 
-        focal_noisy = engine.discover_focal_cnv_stringers(noisy_cnv, bin_metadata=meta, tau_mad=2.85)
+        focal_noisy = engine.discover_focal_cnvs(noisy_cnv, bin_metadata=meta, tau_mad=2.85)
         recovered = {a["gene"] for a in focal_noisy["amplicons"]}
         egfr_found = "EGFR" in recovered
         myc_found = "MYC" in recovered
         cdk4_found = "CDK4" in recovered
-        print(f"  SNR = {snr:4.1f} dB + WGA Waviness: EGFR={egfr_found}, MYC={myc_found}, CDK4={cdk4_found} (Total={len(recovered)})")
+        print(f"  SNR = {snr:4.1f} dB: EGFR={egfr_found}, MYC={myc_found}, CDK4={cdk4_found} (Total={len(recovered)})")
         waviness_survivals.append({"snr": "inf" if np.isinf(snr) else float(snr), "recovered_genes": list(recovered), "all_3_found": (egfr_found and myc_found and cdk4_found)})
 
     results["track_2_focal_amplicons"] = {

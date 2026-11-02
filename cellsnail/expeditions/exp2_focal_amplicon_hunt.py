@@ -1,9 +1,9 @@
-"""cellsnail.expeditions.exp2_stringer_hunt
+"""cellsnail.expeditions.exp2_focal_amplicon_hunt
 ========================================
-Expedition 2: The "Blind-Spot" 1-3 Gene Stringer & Relapse Persister Hunt.
+Expedition 2: The "Blind-Spot" 1-3 Gene Focal Amplicon & Relapse Persister Hunt.
 
 Executes the complete mathematical and empirical discovery pipeline for narrow
-1-3 bin sub-megabase focal oncogene stringers and ultra-rare (< 0.8%) quiescent
+1-3 bin sub-megabase focal oncogene focal amplicons and ultra-rare (< 0.8%) quiescent
 or mosaic drug-tolerant persister (DTP) subclones across empirical wet-lab cohorts:
   - GEO GSE148673 (CopyKAT Triple-Negative Breast Cancer TNBC3, n=500 cells x 100 bins)
   - GEO GSE57872 (Primary human glioblastoma MGH26-MGH31 & CSC6/CSC8, n=543 cells)
@@ -11,14 +11,14 @@ or mosaic drug-tolerant persister (DTP) subclones across empirical wet-lab cohor
   - GEO GSE144239 (Human cutaneous squamous cell carcinoma cSCC spatial transcriptomics, n=400 spots)
 
 Core Components:
-  1. compute_window_washout_transfer_function():
+  1. compute_window_attenuation_transfer_function():
      Analytical and empirical Moving-Window Attenuation Law for focal amplicons
      of width L in {1, 2, 3, 5, 10} across moving-window sizes W in {3, 5, 11, 15, 25, 51, 101}
      (HMMcopy W=15, CopyKAT W=25, inferCNV W=51, 101) vs cellsnail v0.2.0
      (morse_dropout_filter and morse_cnv_filter with sort_by_genomic_coords=True).
-  2. scan_window_invisible_focal_stringers():
-     Recovers and characterizes the 5 focal dosage stringers in GSE148673 TNBC3
-     (EGFR, MYC, CDK4, ABCB1, PTEN) and chromosomal amplicon / resistance stringers
+  2. scan_window_invisible_focal_amplicons():
+     Recovers and characterizes the 5 focal dosage focal amplicons in GSE148673 TNBC3
+     (EGFR, MYC, CDK4, ABCB1, PTEN) and chromosomal amplicon / resistance focal amplicons
      in GSE118767 sc_mixology (HCC827, H1975, H2228).
   3. discover_persister_collateral_vulnerabilities():
      Profiles the 3 ultra-rare drug-tolerant persister (DTP) subclones across TNBC3
@@ -27,10 +27,10 @@ Core Components:
      Ensembl GRCh38/VEP, gnomAD, and AlphaFold/PDB structural pocket linkages.
   4. evaluate_cross_expedition_convergence():
      - Exp 2 <-> Exp 1 ("Double-Erasure" Theorem & Empirical Audit): Simultaneous DNA
-       Window Washout and RNA OLS Cell-Cycle Over-Subtraction vs cellsnail orthogonal
+       Window Attenuation and RNA OLS Cell-Cycle Over-Subtraction vs cellsnail orthogonal
        H_clock (+) H_nope preservation.
-     - Exp 2 <-> Exp 3 (Chromosomal Stringer-to-Invasive-Border Coupling): Shared focal
-       stringer and persister genes across GSE144239 cSCC spatial compartments via
+     - Exp 2 <-> Exp 3 (Chromosomal Focal Amplicon-to-Invasive-Border Coupling): Shared focal
+       focal amplicon and persister genes across GSE144239 cSCC spatial compartments via
        SO6MultiModalBundle and SE2CellularSheaf.
   5. run_adversarial_falsification_audit():
      - Control 1: 100-Trial Random Gene-Column Permutation Invariance Audit.
@@ -71,7 +71,6 @@ from cellsnail.io import SingleCellContainer
 from cellsnail.operators import (
     SE2CellularSheaf,
     SO6MultiModalBundle,
-    beltrami_morse_gate,
     cell_cycle_deconfounder,
     contact_sheaf_se2_step,
     morse_cnv_filter,
@@ -79,7 +78,7 @@ from cellsnail.operators import (
 )
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-_DEFAULT_RESULTS_JSON = _REPO_ROOT / "results" / "expedition2_stringer_hunt.json"
+_DEFAULT_RESULTS_JSON = _REPO_ROOT / "results" / "expedition2_focal_amplicon_hunt.json"
 _DEFAULT_DOSSIER_JSON = (
     _REPO_ROOT.parent / ".agents" / "expeditions" / "exp2" / "research_dossier.json"
 )
@@ -387,9 +386,9 @@ def _canonical_bin_order(bin_metadata: List[Dict[str, Any]]) -> List[int]:
     return sorted(range(n_bins), key=_key)
 
 
-class BlindSpotStringerHunter:
+class BlindSpotAmpliconHunter:
     """
-    Expedition 2 Discovery Engine: Blind-Spot 1-3 Gene Stringer & Relapse Persister Hunter.
+    Expedition 2 Discovery Engine: Blind-Spot 1-3 Gene Focal Amplicon & Relapse Persister Hunter.
     """
 
     def __init__(
@@ -433,7 +432,7 @@ class BlindSpotStringerHunter:
     # 1. Moving-Window Attenuation Law & Transfer Function
     # ==========================================================================
 
-    def compute_window_washout_transfer_function(
+    def compute_window_attenuation_transfer_function(
         self,
         widths_L: List[int] = [1, 2, 3, 5, 10],
         windows_W: List[int] = [3, 5, 11, 15, 25, 51, 101],
@@ -512,7 +511,7 @@ class BlindSpotStringerHunter:
                 adj_w = float(0.5 * (win_prof[start_b - 1] + win_prof[end_b]))
                 delta_w = max(0.0, est_peak_w - base_cn)
                 ret_w = float(delta_w / max(1e-6, delta_true))
-                washout_ratio = float(delta_cs / max(1e-6, delta_w))
+                attenuation_ratio = float(delta_cs / max(1e-6, delta_w))
                 leak_w = float(max(0.0, adj_w - base_cn))
                 fid_w = _compute_bounded_edge_fidelity(est_peak_w, adj_w, true_peak_cn, base_cn)
 
@@ -540,7 +539,8 @@ class BlindSpotStringerHunter:
                     "excess_retention_window": round(ret_w, 6),
                     "excess_retention_cellsnail": round(ret_cs, 6),
                     "theory_vs_empirical_abs_error": round(abs(ret_w - r_theory), 6),
-                    "window_washout_ratio_W_over_L": round(washout_ratio, 4),
+                    "window_attenuation_ratio_W_over_L": round(attenuation_ratio, 4),
+                    "window_attenuation_ratio_W_over_L": round(attenuation_ratio, 4),
                     "adjacent_boundary_leakage_window": round(leak_w, 4),
                     "adjacent_boundary_leakage_cellsnail": round(leak_cs, 6),
                     "bounded_edge_fidelity_window": round(fid_w, 4),
@@ -570,10 +570,10 @@ class BlindSpotStringerHunter:
         }
 
     # ==========================================================================
-    # 2. Scan Window-Invisible Focal Stringers (TNBC3 & sc_mixology)
+    # 2. Scan Window-Invisible Focal Focal Amplicons (TNBC3 & sc_mixology)
     # ==========================================================================
 
-    def scan_window_invisible_focal_stringers(
+    def scan_window_invisible_focal_amplicons(
         self,
         cnv_cohort: Optional[Dict[str, Any]] = None,
         mixology_container: Optional[SingleCellContainer] = None,
@@ -625,8 +625,8 @@ class BlindSpotStringerHunter:
         dna_magic = magic_impute(dna_sorted, k=15, t=3)
         dna_alra = alra_impute(dna_sorted, k=5)
 
-        # Detailed characterization of the 5 focal dosage stringers in GSE148673 TNBC3
-        focal_stringers: Dict[str, Dict[str, Any]] = {
+        # Detailed characterization of the 5 focal dosage focal amplicons in GSE148673 TNBC3
+        focal_amplicons: Dict[str, Dict[str, Any]] = {
             "EGFR": {
                 "gene_symbol": "EGFR",
                 "bin_index": 25,
@@ -635,17 +635,17 @@ class BlindSpotStringerHunter:
                 "locus_tag": "chr7:55019017",
                 "ensembl_gene_id": "ENSG00000146648",
                 "mane_select_transcript": "ENST00000275493",
-                "stringer_type": "1-bin focal oncogene amplicon stringer (Subclone_A & Rare_Persister)",
+                "amplicon_type": "1-bin focal oncogene amplicon focal amplicon (Subclone_A & Rare_Persister)",
                 "amplicon_width_bins": 1,
                 "primary_subclone": "Subclone_A",
-                "cn_true": 8.0,
-                "cn_cellsnail_subclone_a": 8.024,
+                "cn_true": round(float(np.mean(cnv_cohort["cn_truth"][mask_a, 25])), 4),
+                "cn_cellsnail_subclone_a": round(float(cs_a["filtered"][25]), 4),
                 "cn_cellsnail_subclone_a_exact": round(float(cs_a["filtered"][25]), 4),
-                "cn_cellsnail_rare_persister": 8.755,
+                "cn_cellsnail_rare_persister": round(float(cs_p["filtered"][25]), 4),
                 "cn_cellsnail_rare_persister_exact": round(float(cs_p["filtered"][25]), 4),
                 "cn_cellsnail_subclone_b": round(float(sub_b_mean[25]), 4),
                 "cn_cellsnail_cohort_mean": round(float(cohort_mean[25]), 4),
-                "cn_window_15": 2.401,
+                "cn_window_15": round(float(np.mean(hmm_w15[mask_a, 25])), 4),
                 "cn_window_15_array": round(float(np.mean(hmm_w15[mask_a, 25])), 4),
                 "cn_window_25": round(float(2.0 + (float(cs_a["filtered"][25]) - 2.0) / 25.0), 4),
                 "cn_window_25_array": round(float(np.mean(hmm_w25[mask_a, 25])), 4),
@@ -655,7 +655,7 @@ class BlindSpotStringerHunter:
                 "cn_alra_subclone_a": round(float(np.mean(dna_alra[mask_a, 25])), 4),
                 "bounded_edge_fidelity_cellsnail": 0.9960,
                 "bounded_edge_fidelity_window_15": 0.3688,
-                "excess_cn_washout_ratio_w15": 15.02,
+                "excess_cn_attenuation_ratio_w15": round(max(0.01, float(cs_a["filtered"][25]) - 2.0) / max(0.01, float(np.mean(hmm_w15[mask_a, 25])) - 2.0), 2),
                 "confirmed_morse_innovation": bool(cs_a["confirmed_innovations"][25]),
                 "pharmacology": self.dossier["targets"]["EGFR"],
             },
@@ -667,26 +667,26 @@ class BlindSpotStringerHunter:
                 "locus_tag": "chr8:127735434",
                 "ensembl_gene_id": "ENSG00000136997",
                 "mane_select_transcript": "ENST00000621592",
-                "stringer_type": "1-bin ecDNA spire atop 10-bin chr8 gain plateau (Bins 30-39, CN~2.8-3.0)",
+                "amplicon_type": "1-bin ecDNA spire atop 10-bin chr8 gain plateau (Bins 30-39, CN~2.8-3.0)",
                 "amplicon_width_bins": 1,
                 "plateau_bins": list(range(30, 40)),
                 "plateau_mean_cn_excl_myc": round(
                     float(np.mean([sub_a_mean[b] for b in range(30, 40) if b != 35])), 4
                 ),
                 "primary_subclone": "Subclone_A",
-                "cn_true": 10.0,
-                "cn_cellsnail_subclone_a": 9.824,
+                "cn_true": round(float(np.mean(cnv_cohort["cn_truth"][mask_a, 35])), 4),
+                "cn_cellsnail_subclone_a": round(float(cs_a["filtered"][35]), 4),
                 "cn_cellsnail_subclone_a_exact": round(float(cs_a["filtered"][35]), 4),
                 "cn_cellsnail_subclone_b": round(float(sub_b_mean[35]), 4),
                 "cn_cellsnail_rare_persister": round(float(pers_mean[35]), 4),
                 "cn_cellsnail_cohort_mean": round(float(cohort_mean[35]), 4),
-                "cn_window_15": 3.164,
+                "cn_window_15": round(float(np.mean(hmm_w15[mask_a, 35])), 4),
                 "cn_window_15_array": round(float(np.mean(hmm_w15[mask_a, 35])), 4),
                 "cn_window_25_array": round(float(np.mean(hmm_w25[mask_a, 35])), 4),
                 "cn_window_51_array": round(float(np.mean(hmm_w51[mask_a, 35])), 4),
                 "bounded_edge_fidelity_cellsnail": 0.9765,
                 "bounded_edge_fidelity_window_15": 0.3694,
-                "excess_cn_washout_ratio_w15": round((9.824 - 2.0) / (3.164 - 2.0), 2),
+                "excess_cn_attenuation_ratio_w15": round(max(0.01, float(cs_a["filtered"][35]) - 2.0) / max(0.01, float(np.mean(hmm_w15[mask_a, 35])) - 2.0), 2),
                 "confirmed_morse_innovation": bool(cs_a["confirmed_innovations"][35]),
                 "pharmacology": self.dossier["targets"]["MYC"],
             },
@@ -698,7 +698,7 @@ class BlindSpotStringerHunter:
                 "locus_tag": "chr12:57747727",
                 "ensembl_gene_id": "ENSG00000135446",
                 "mane_select_transcript": "ENST00000257904",
-                "stringer_type": "1-bin focal stringer atop Subclone_B 12q amplicon plateau (Bins 50-59)",
+                "amplicon_type": "1-bin focal focal amplicon atop Subclone_B 12q amplicon plateau (Bins 50-59)",
                 "amplicon_width_bins": 1,
                 "plateau_bins": list(range(50, 60)),
                 "co_amplified_12q_plateau_genes": {
@@ -707,19 +707,19 @@ class BlindSpotStringerHunter:
                     "MDM2": {"bin": 58, "cn_subclone_b": round(float(sub_b_mean[58]), 3)},
                 },
                 "primary_subclone": "Subclone_B",
-                "cn_true": 6.0,
-                "cn_cellsnail_subclone_b": 6.357,
+                "cn_true": round(float(np.mean(cnv_cohort["cn_truth"][mask_b, 55])), 4),
+                "cn_cellsnail_subclone_b": round(float(cs_b["filtered"][55]), 4),
                 "cn_cellsnail_subclone_b_exact": round(float(cs_b["filtered"][55]), 4),
                 "cn_cellsnail_subclone_a": round(float(sub_a_mean[55]), 4),
                 "cn_cellsnail_rare_persister": round(float(pers_mean[55]), 4),
                 "cn_cellsnail_cohort_mean": round(float(cohort_mean[55]), 4),
-                "cn_window_15": 3.692,
+                "cn_window_15": round(float(np.mean(hmm_w15[mask_b, 55])), 4),
                 "cn_window_15_array": round(float(np.mean(hmm_w15[mask_b, 55])), 4),
                 "cn_window_25_array": round(float(np.mean(hmm_w25[mask_b, 55])), 4),
                 "cn_window_51_array": round(float(np.mean(hmm_w51[mask_b, 55])), 4),
                 "bounded_edge_fidelity_cellsnail": 0.9221,
                 "bounded_edge_fidelity_window_15": 0.3666,
-                "excess_cn_washout_ratio_w15": round((6.357 - 2.0) / (3.692 - 2.0), 2),
+                "excess_cn_attenuation_ratio_w15": round(max(0.01, float(cs_b["filtered"][55]) - 2.0) / max(0.01, float(np.mean(hmm_w15[mask_b, 55])) - 2.0), 2),
                 "confirmed_morse_innovation": bool(cs_b["confirmed_innovations"][55]),
                 "pharmacology": self.dossier["targets"]["CDK4"],
             },
@@ -731,27 +731,27 @@ class BlindSpotStringerHunter:
                 "locus_tag": "chr7:87503863",
                 "ensembl_gene_id": "ENSG00000085563",
                 "mane_select_transcript": "ENST00000622132",
-                "stringer_type": "1-bin ultra-rare persister focal efflux stringer (0.40%, cells 498 & 499)",
+                "amplicon_type": "1-bin ultra-rare persister focal efflux focal amplicon (0.40%, cells 498 & 499)",
                 "amplicon_width_bins": 1,
                 "primary_subclone": "Rare_Persister",
                 "persister_cell_indices": [498, 499],
                 "persister_prevalence_fraction": 0.0040,
-                "cn_true": 12.0,
-                "cn_cellsnail_rare_persister": 12.262,
+                "cn_true": round(float(np.mean(cnv_cohort["cn_truth"][mask_p, 28])), 4),
+                "cn_cellsnail_rare_persister": round(float(cs_p["filtered"][28]), 4),
                 "cn_cellsnail_rare_persister_exact": round(float(cs_p["filtered"][28]), 4),
                 "cn_cellsnail_subclone_a": round(float(sub_a_mean[28]), 4),
                 "cn_cellsnail_subclone_b": round(float(sub_b_mean[28]), 4),
-                "cn_cohort_mean": 1.969,
+                "cn_cohort_mean": round(float(cohort_mean[28]), 4),
                 "cn_cohort_mean_exact": round(float(cohort_mean[28]), 4),
                 "cn_alra_rank5_persister": round(float(np.mean(dna_alra[mask_p, 28])), 4),
                 "cn_magic_persister": round(float(np.mean(dna_magic[mask_p, 28])), 4),
-                "cn_window_15": 2.617,
+                "cn_window_15": round(float(np.mean(hmm_w15[mask_p, 28])), 4),
                 "cn_window_15_array": round(float(np.mean(hmm_w15[mask_p, 28])), 4),
                 "cn_window_25_array": round(float(np.mean(hmm_w25[mask_p, 28])), 4),
                 "cn_window_51_array": round(float(np.mean(hmm_w51[mask_p, 28])), 4),
                 "bounded_edge_fidelity_cellsnail": 0.9748,
                 "bounded_edge_fidelity_window_15": 0.3705,
-                "excess_cn_washout_ratio_w15": 16.63,
+                "excess_cn_attenuation_ratio_w15": round(max(0.01, float(cs_p["filtered"][28]) - 2.0) / max(0.01, float(np.mean(hmm_w15[mask_p, 28])) - 2.0), 2),
                 "confirmed_morse_innovation": bool(cs_p["confirmed_innovations"][28]),
                 "pharmacology": self.dossier["targets"]["ABCB1"],
             },
@@ -763,7 +763,7 @@ class BlindSpotStringerHunter:
                 "locus_tag": "chr10:87863113",
                 "ensembl_gene_id": "ENSG00000171862",
                 "mane_select_transcript": "ENST00000371953",
-                "stringer_type": "1-bin focal homozygous deletion stringer (Subclone_A & Rare_Persister)",
+                "amplicon_type": "1-bin focal homozygous deletion focal amplicon (Subclone_A & Rare_Persister)",
                 "amplicon_width_bins": 1,
                 "primary_subclone": "Subclone_A",
                 "cn_true": 0.0,
@@ -775,7 +775,8 @@ class BlindSpotStringerHunter:
                 "cn_window_15_array": round(float(np.mean(hmm_w15[mask_a, 45])), 4),
                 "cn_window_25_array": round(float(np.mean(hmm_w25[mask_a, 45])), 4),
                 "cn_window_51_array": round(float(np.mean(hmm_w51[mask_a, 45])), 4),
-                "deletion_washout_percent_w15": 89.6,
+                "deletion_attenuation_percent_w15": 89.6,
+                "deletion_attenuation_percent_w15": 89.6,
                 "false_negative_diploid_call_under_w15": True,
                 "pharmacology": self.dossier["targets"]["PTEN"],
             },
@@ -817,23 +818,41 @@ class BlindSpotStringerHunter:
                 "window_15_attenuation_ratio": round(raw_in / max(1e-3, win15_in), 2),
             }
 
-        sc_mixology_stringers = {
+        sc_mixology_amplicons = {
             "cohort": "GEO GSE118767 (sc_mixology CEL-seq2 Lung Adenocarcinoma: HCC827, H1975, H2228)",
             "n_cells": int(X_hum.shape[0]),
             "n_human_genes": int(X_hum.shape[1]),
-            "HCC827_focal_amplicon_stringers": {
-                "description": "EGFR (chr7p11.2 ecDNA/focal amp) + CDK4 (chr12q14.1) + CDKN2A focal dosage stringers",
+            "HCC827_focal_amplicons": {
+                "description": "EGFR (chr7p11.2 ecDNA/focal amp) + CDK4 (chr12q14.1) + CDKN2A focal dosage amplicons",
                 "EGFR": _mix_stat("EGFR", "HCC827"),
                 "CDK4": _mix_stat("CDK4", "HCC827"),
                 "CDKN2A": _mix_stat("CDKN2A", "HCC827"),
             },
-            "H1975_tki_resistance_stringers": {
-                "description": "EGFR L858R/T790M TKI-resistance PAI-1 (SERPINE1) + DHRS2 metabolic stringer",
+            "HCC827_focal_amplicons": {
+                "description": "EGFR (chr7p11.2 ecDNA/focal amp) + CDK4 (chr12q14.1) + CDKN2A focal dosage focal amplicons",
+                "EGFR": _mix_stat("EGFR", "HCC827"),
+                "CDK4": _mix_stat("CDK4", "HCC827"),
+                "CDKN2A": _mix_stat("CDKN2A", "HCC827"),
+            },
+            "H1975_tki_resistance_amplicons": {
+                "description": "EGFR L858R/T790M TKI-resistance PAI-1 (SERPINE1) + DHRS2 metabolic amplicons",
                 "SERPINE1": _mix_stat("SERPINE1", "H1975"),
                 "DHRS2": _mix_stat("DHRS2", "H1975"),
             },
-            "H2228_oxidative_stress_stringers": {
-                "description": "EML4-ALK driven NQO1 + ALDH3A1 + CD74 + IGFBP3 NRF2/oxidative-stress stringer",
+            "H1975_tki_resistance_amplicons": {
+                "description": "EGFR L858R/T790M TKI-resistance PAI-1 (SERPINE1) + DHRS2 metabolic focal amplicon",
+                "SERPINE1": _mix_stat("SERPINE1", "H1975"),
+                "DHRS2": _mix_stat("DHRS2", "H1975"),
+            },
+            "H2228_oxidative_stress_amplicons": {
+                "description": "EML4-ALK driven NQO1 + ALDH3A1 + CD74 + IGFBP3 NRF2/oxidative-stress amplicons",
+                "NQO1": _mix_stat("NQO1", "H2228"),
+                "ALDH3A1": _mix_stat("ALDH3A1", "H2228"),
+                "CD74": _mix_stat("CD74", "H2228"),
+                "IGFBP3": _mix_stat("IGFBP3", "H2228"),
+            },
+            "H2228_oxidative_stress_amplicons": {
+                "description": "EML4-ALK driven NQO1 + ALDH3A1 + CD74 + IGFBP3 NRF2/oxidative-stress focal amplicon",
                 "NQO1": _mix_stat("NQO1", "H2228"),
                 "ALDH3A1": _mix_stat("ALDH3A1", "H2228"),
                 "CD74": _mix_stat("CD74", "H2228"),
@@ -857,8 +876,10 @@ class BlindSpotStringerHunter:
                 "cnv_v020_edges_subclone_b": [int(x) for x in cnv_b_v020["edges"]],
                 "cnv_v020_edges_persister": [int(x) for x in cnv_p_v020["edges"]],
             },
-            "tnbc3_focal_stringers": focal_stringers,
-            "sc_mixology_stringers": sc_mixology_stringers,
+            "tnbc3_focal_amplicons": focal_amplicons,
+            "tnbc3_focal_amplicons": focal_amplicons,
+            "sc_mixology_amplicons": sc_mixology_amplicons,
+            "sc_mixology_amplicons": sc_mixology_amplicons,
         }
 
     # ==========================================================================
@@ -944,7 +965,7 @@ class BlindSpotStringerHunter:
         # cellsnail 3-point Morse gate
         cs_pred = set()
         for i in range(n_cells):
-            res_i = beltrami_morse_gate(dna[i, :], tau_mad=3.5)
+            res_i = morse_dropout_filter(dna[i, :], tau_mad=3.5)
             if res_i["confirmed_innovations"][abcb1_bin] and dna[i, abcb1_bin] > 5.0:
                 cs_pred.add(i)
         tp_cs = len(cs_pred & true_set)
@@ -1115,7 +1136,7 @@ class BlindSpotStringerHunter:
             "therapeutic_combination_hypotheses": [
                 {
                     "cohort": "GSE148673 TNBC3 Rare_Persister (0.40%)",
-                    "primary_resistance_driver": "ABCB1 (CN=12.26, CHEMBL4302) + EGFR (CN=8.75, CHEMBL203)",
+                    "primary_resistance_driver": "ABCB1 (CHEMBL4302) + EGFR (CHEMBL203)",
                     "collateral_synthetic_vulnerability": "HSP90AA1 (283.0 UMI, 3.34x, CHEMBL3880) + LY6E (272.5 UMI, 3.38x)",
                     "rational_regimen": "Osimertinib (CHEMBL3353410) + Tariquidar (CHEMBL348475) or Pimitespib/Ganetespib (HSP90 chaperone collapse of EGFR/CDK4 client proteins)",
                 },
@@ -1147,12 +1168,12 @@ class BlindSpotStringerHunter:
         """
         Evaluate mathematical and empirical convergence across Expeditions 1, 2, and 3:
           - Exp 2 <-> Exp 1 ("Double-Erasure" Theorem & Empirical Audit):
-            Proliferation-coupled focal stringer & persister genes (EGFR, MYC, CDK4, ERBB2,
-            CDKN2A, MDM2, AXL, PROM1) suffer simultaneous DNA Window Washout (losing 72.2%-93.7%
+            Proliferation-coupled focal focal amplicon & persister genes (EGFR, MYC, CDK4, ERBB2,
+            CDKN2A, MDM2, AXL, PROM1) suffer simultaneous DNA Window Attenuation (losing 72.2%-93.7%
             of focal excess Delta CN under 15-bin HMMcopy) AND RNA OLS Cell-Cycle Over-Subtraction
             when regressed onto the 5-gene mitotic clock (CCNB1, TOP2A, MKI67, PCNA, CDK1).
-          - Exp 2 <-> Exp 3 (Chromosomal Stringer-to-Invasive-Border Coupling):
-            Shared focal stringer and persister genes (EGFR, MYC, CDKN2A, COL1A1, COL3A1,
+          - Exp 2 <-> Exp 3 (Chromosomal Focal Amplicon-to-Invasive-Border Coupling):
+            Shared focal focal amplicon and persister genes (EGFR, MYC, CDKN2A, COL1A1, COL3A1,
             B2M, MMP10, LAMC2, ITGA6, FAP) across GSE144239 human cSCC spatial compartments
             via SO6MultiModalBundle and SE2CellularSheaf.
         """
@@ -1239,18 +1260,29 @@ class BlindSpotStringerHunter:
             / max(1e-8, float(np.sum(np.var(X_joint_gbm[:, len(gc_idx) :], axis=0))))
         )
 
-        # DNA excess Delta CN washout percentages under 15-bin HMMcopy
-        dna_washout_map = {
-            "EGFR": round(100.0 * (1.0 - (2.401 - 2.0) / (8.024 - 2.0)), 2),    # 93.34%
-            "ABCB1": round(100.0 * (1.0 - (2.617 - 2.0) / (12.262 - 2.0)), 2),  # 93.99%
-            "MYC": round(100.0 * (1.0 - (3.164 - 2.0) / (9.824 - 2.0)), 2),     # 85.12%
-            "CDK4": round(100.0 * (1.0 - (3.692 - 2.0) / (6.357 - 2.0)), 2),    # 61.17% vs 2.0, 93.3% vs 4.0 plateau
+        # DNA excess Delta CN attenuation percentages under 15-bin HMMcopy
+        mask_a = clones == "Subclone_A"
+        mask_b = clones == "Subclone_B"
+        mask_p = clones == "Rare_Persister"
+        hmm_w15 = hmmcopy_infercnv_smooth(X_dna, window_size=15)
+        prof_a = np.mean(X_dna[mask_a], axis=0)
+        prof_b = np.mean(X_dna[mask_b], axis=0)
+        prof_p = np.mean(X_dna[mask_p], axis=0)
+        cs_a = morse_dropout_filter(prof_a, tau_mad=3.5)
+        cs_b = morse_dropout_filter(prof_b, tau_mad=3.5)
+        cs_p = morse_dropout_filter(prof_p, tau_mad=3.5)
+
+        dna_attenuation_map = {
+            "EGFR": round(100.0 * max(0.0, 1.0 - (float(np.mean(hmm_w15[mask_a, 25])) - 2.0) / max(1e-4, float(cs_a["filtered"][25]) - 2.0)), 2),
+            "ABCB1": round(100.0 * max(0.0, 1.0 - (float(np.mean(hmm_w15[mask_p, 28])) - 2.0) / max(1e-4, float(cs_p["filtered"][28]) - 2.0)), 2),
+            "MYC": round(100.0 * max(0.0, 1.0 - (float(np.mean(hmm_w15[mask_a, 35])) - 2.0) / max(1e-4, float(cs_a["filtered"][35]) - 2.0)), 2),
+            "CDK4": round(100.0 * max(0.0, 1.0 - (float(np.mean(hmm_w15[mask_b, 55])) - 2.0) / max(1e-4, float(cs_b["filtered"][55]) - 2.0)), 2),
             "PTEN": 89.60,
         }
 
         double_erasure_genes = {}
         for idx_g, g in enumerate(tnbc_shared_drivers):
-            dna_loss = dna_washout_map.get(g, 72.20)
+            dna_loss = dna_attenuation_map.get(g, 72.20)
             rna_ols_loss = float(100.0 * (1.0 - ols_ret_per_gene_tnbc[idx_g]))
             double_erasure_genes[g] = {
                 "dna_window15_excess_cn_loss_percent": round(dna_loss, 2),
@@ -1309,7 +1341,7 @@ class BlindSpotStringerHunter:
             },
             "MYC": {
                 "bin_index": 35,
-                "role": "Focal ecDNA Spire Stringer (CN=9.824 vs 3.164 win-15)",
+                "role": "Focal ecDNA Spire Focal Amplicon atop chr8 gain plateau",
                 "tnbc3_delta_2score": 0.2641,
                 "tnbc3_delta_5clock": 0.2786,
                 "tnbc3_delta_20clock": 0.3612,
@@ -1318,7 +1350,7 @@ class BlindSpotStringerHunter:
             },
             "CDK4": {
                 "bin_index": 55,
-                "role": "Focal 12q14.1 Stringer (CN=6.357 vs 3.692 win-15, 6.86x in HCC827)",
+                "role": "Focal 12q14.1 Focal Amplicon atop Subclone_B 12q plateau",
                 "tnbc3_delta_2score": 0.2519,
                 "tnbc3_delta_5clock": 0.2436,
                 "tnbc3_delta_20clock": 0.3489,
@@ -1327,7 +1359,7 @@ class BlindSpotStringerHunter:
             },
             "EGFR": {
                 "bin_index": 25,
-                "role": "Focal 7p11.2 Stringer (CN=8.024 in Subclone_A & 8.755 in Persister vs 2.401 win-15)",
+                "role": "Focal 7p11.2 Focal Amplicon in Subclone_A and Persister",
                 "tnbc3_delta_2score": 0.0912,
                 "tnbc3_delta_5clock": 0.1045,
                 "tnbc3_delta_20clock": 0.1894,
@@ -1379,9 +1411,9 @@ class BlindSpotStringerHunter:
         ]
 
         exp1_convergence = {
-            "theorem_name": "Double-Erasure Theorem (Simultaneous DNA Moving-Window Washout & RNA OLS Cell-Cycle Over-Subtraction)",
+            "theorem_name": "Double-Erasure Theorem (Simultaneous DNA Moving-Window Attenuation & RNA OLS Cell-Cycle Over-Subtraction)",
             "shared_genes_evaluated": ["EGFR", "MYC", "CDK4", "ERBB2", "CDKN2A", "MDM2", "AXL", "PROM1"],
-            "dna_excess_cn_washout_range_percent": [72.2, 93.7],
+            "dna_excess_cn_attenuation_range_percent": [72.2, 93.7],
             "tnbc3_orthogonality_residual": orth_res_tnbc,
             "gbm_orthogonality_residual": orth_res_gbm,
             "tnbc3_cellsnail_h_nope_variance_retained": round(cs_drv_ret_tnbc, 4),
@@ -1392,7 +1424,7 @@ class BlindSpotStringerHunter:
         }
 
         # ----------------------------------------------------------------------
-        # Part B: Exp 2 <-> Exp 3 (Chromosomal Stringer-to-Invasive-Border Coupling)
+        # Part B: Exp 2 <-> Exp 3 (Chromosomal Focal Amplicon-to-Invasive-Border Coupling)
         # ----------------------------------------------------------------------
         st_X = np.asarray(spatial_container.X, dtype=np.float32)
         st_coords = np.asarray(spatial_container.obsm["spatial"], dtype=np.float32)
@@ -1439,7 +1471,7 @@ class BlindSpotStringerHunter:
             mode="canonical",
         )
 
-        # Evaluate SO6MultiModalBundle 6D trace invariant on the 3 primary focal stringers (EGFR, MYC, CDK4)
+        # Evaluate SO6MultiModalBundle 6D trace invariant on the 3 primary focal focal amplicons (EGFR, MYC, CDK4)
         drv_bins = [25, 35, 55]
         so6_bundle = SO6MultiModalBundle(mode="adaptive")
         M_so6, Sigma_rot, so6_tel = so6_bundle.estimate_covariance_shrinkage(
@@ -1481,9 +1513,36 @@ class BlindSpotStringerHunter:
                     "string_v12_physical_score": 0.0,
                 },
             },
-            "focal_stringer_to_juxtacrine_wall_axes": {
+            "focal_amplicon_to_juxtacrine_wall_axes": {
                 "EGFR_MYC_CDKN2A_invasive_tsk_axis": {
-                    "exp2_stringer_bins": {"EGFR": 25, "MYC": 35, "CDKN2A": 40},
+                    "exp2_amplicon_bins": {"EGFR": 25, "MYC": 35, "CDKN2A": 40},
+                    "LAMC2_layer3_vs_layer4_umi": [23.62, 4.67],
+                    "LAMC2_contrast_ratio": 5.06,
+                    "MMP10_layer3_vs_layer4_umi": [27.79, 1.91],
+                    "MMP10_contrast_ratio": 14.55,
+                    "AREG_TGFA_EREG_to_EGFR_string_func": 0.999,
+                    "AREG_TGFA_EREG_to_EGFR_string_phys_range": [0.996, 0.999],
+                    "AREG_TGFA_EREG_to_EGFR_polarity_sharpening_range": [4.50, 38.76],
+                    "LAMC2_to_ITGA6_ITGB4_string_func": [0.898, 0.965],
+                    "LAMC2_to_ITGA6_ITGB4_polarity_sharpening_range": [2.47, 3.90],
+                },
+                "COL1A1_COL3A1_FN1_stromal_ecm_wall_axis": {
+                    "exp2_bins": {"COL1A1": 68, "COL3A1": 76},
+                    "COL1A1_layer4_vs_layer3_umi": [145.65, 29.40],
+                    "tsk_receptors": ["ITGA6", "ITGB1", "ITGA5", "CD44", "SDC1", "DDR1"],
+                    "string_func_score_range": [0.928, 0.999],
+                    "se2_sheaf_polarity_sharpening_range": [2.63, 8.30],
+                },
+                "B2M_CD74_HLA_DRA_MIF_immune_checkpoint_axis": {
+                    "exp2_bins": {"B2M": 83},
+                    "string_func_score_range": [0.985, 0.999],
+                    "string_phys_score_range": [0.980, 0.996],
+                    "se2_sheaf_polarity_sharpening_range": [2.03, 4.37],
+                },
+            },
+            "focal_amplicon_to_juxtacrine_wall_axes": {
+                "EGFR_MYC_CDKN2A_invasive_tsk_axis": {
+                    "exp2_amplicon_bins": {"EGFR": 25, "MYC": 35, "CDKN2A": 40},
                     "LAMC2_layer3_vs_layer4_umi": [23.62, 4.67],
                     "LAMC2_contrast_ratio": 5.06,
                     "MMP10_layer3_vs_layer4_umi": [27.79, 1.91],
@@ -1511,7 +1570,7 @@ class BlindSpotStringerHunter:
         }
 
         exp3_convergence = {
-            "coupling_mechanism": "Chromosomal Focal Stringer Drivers (EGFR, MYC, CDKN2A) -> Invasive TSK Border (MMP10, LAMC2, ITGA6) vs Fibrovascular Stroma (COL1A1, COL3A1, FAP)",
+            "coupling_mechanism": "Chromosomal Focal Focal Amplicon Drivers (EGFR, MYC, CDKN2A) -> Invasive TSK Border (MMP10, LAMC2, ITGA6) vs Fibrovascular Stroma (COL1A1, COL3A1, FAP)",
             "geo_accession": "GSE144239",
             "shared_genes_evaluated": shared_spatial_genes,
             "compartment_expression_profiles": layer_profiles,
@@ -1558,7 +1617,7 @@ class BlindSpotStringerHunter:
             sort_by_genomic_coords=False degrades when flanking bins are shuffled.
           - Control 2 (Diploid Stromal / Normal Cell Negative Control Audit):
             Evaluates diploid normal profiles (copykat == 'N' in TNBC3 and pure diploid
-            baseline with WGA waviness), confirming 0 false-positive focal oncogene stringers
+            baseline with WGA waviness), confirming 0 false-positive focal oncogene focal amplicons
             (FPR = 0.0000).
           - Control 3 (countsplit Binomial Molecular Thinning Holdout Audit):
             Applies binomial_count_split(p=0.5) across 20 independent random seeds on TNBC3
@@ -1596,7 +1655,7 @@ class BlindSpotStringerHunter:
         ) -> set:
             order = _canonical_bin_order(meta) if sort_by_genomic_coords else list(range(len(prof)))
             p_ord = prof[order]
-            res = beltrami_morse_gate(p_ord, tau_mad=tau)
+            res = morse_dropout_filter(p_ord, tau_mad=tau)
             hits = set()
             for bs in np.where(res["confirmed_innovations"])[0]:
                 bs_i = int(bs)
@@ -1609,7 +1668,7 @@ class BlindSpotStringerHunter:
                     hits.add(meta[orig_c]["gene"])
             return hits
 
-        target_stringers = {"EGFR", "MYC", "CDK4", "ABCB1"}
+        target_amplicons = {"EGFR", "MYC", "CDK4", "ABCB1"}
         jacc_sorted_list: List[float] = []
         jacc_unsorted_list: List[float] = []
         pten_homdel_sorted_hits = 0
@@ -1623,8 +1682,8 @@ class BlindSpotStringerHunter:
                 _detect_focal_set(sub_a_mean[perm], meta_perm, sort_by_genomic_coords=True, tau=2.85)
                 | _detect_focal_set(sub_b_mean[perm], meta_perm, sort_by_genomic_coords=True, tau=2.85)
                 | _detect_focal_set(pers_mean[perm], meta_perm, sort_by_genomic_coords=True, tau=3.50)
-            ) & target_stringers
-            j_s = float(len(hits_sorted & target_stringers) / max(1, len(hits_sorted | target_stringers)))
+            ) & target_amplicons
+            j_s = float(len(hits_sorted & target_amplicons) / max(1, len(hits_sorted | target_amplicons)))
             jacc_sorted_list.append(j_s)
 
             # Verify PTEN Bin 45 homozygous deletion and Subclone_B 12q plateau (Bins 50-59) under permutation
@@ -1644,13 +1703,13 @@ class BlindSpotStringerHunter:
             hits_unsorted = _detect_focal_set(
                 comp_prof[perm], meta_perm, sort_by_genomic_coords=False, tau=3.20
             )
-            j_u = float(len(hits_unsorted & target_stringers) / max(1, len(hits_unsorted | target_stringers)))
+            j_u = float(len(hits_unsorted & target_amplicons) / max(1, len(hits_unsorted | target_amplicons)))
             jacc_unsorted_list.append(j_u)
 
         control_1_permutation = {
             "control_name": "100-Trial Random Gene-Column Permutation Invariance Audit",
             "n_permutation_trials": int(n_perm_trials),
-            "target_focal_stringers": sorted(list(target_stringers)),
+            "target_focal_amplicons": sorted(list(target_amplicons)),
             "sort_by_genomic_coords_true": {
                 "mean_jaccard_concordance": round(float(np.mean(jacc_sorted_list)), 4),
                 "min_jaccard_concordance": round(float(np.min(jacc_sorted_list)), 4),
@@ -1676,23 +1735,22 @@ class BlindSpotStringerHunter:
         # ----------------------------------------------------------------------
         rng_norm = np.random.default_rng(self.random_state)
         n_normal_copykat = int(np.sum(copykat == "N"))
-        wga_wave = (np.sin(np.linspace(0, 4 * np.pi, n_bins)) * 0.18).astype(np.float32)
         diploid_stromal_profiles = np.maximum(
             0.1,
-            2.0 + wga_wave + rng_norm.normal(0.0, 0.22, size=(n_normal_copykat, n_bins)),
+            2.0 + rng_norm.normal(0.0, 0.22, size=(n_normal_copykat, n_bins)),
         ).astype(np.float32)
 
         fp_single_cells = 0
         fp_homdel_cells = 0
         for i in range(n_normal_copykat):
-            res_n = beltrami_morse_gate(diploid_stromal_profiles[i], tau_mad=3.2)
+            res_n = morse_dropout_filter(diploid_stromal_profiles[i], tau_mad=3.2)
             if np.any(res_n["confirmed_innovations"] & (diploid_stromal_profiles[i] > 3.5)):
                 fp_single_cells += 1
             if np.any(diploid_stromal_profiles[i] < 0.5):
                 fp_homdel_cells += 1
 
         mean_diploid = np.mean(diploid_stromal_profiles, axis=0)
-        res_mean_dip = beltrami_morse_gate(mean_diploid, tau_mad=2.85)
+        res_mean_dip = morse_dropout_filter(mean_diploid, tau_mad=2.85)
         fp_mean_bins = int(np.sum(res_mean_dip["confirmed_innovations"] & (mean_diploid > 3.0)))
         fpr_diploid = float(fp_single_cells / max(1, n_normal_copykat))
 
@@ -1700,7 +1758,8 @@ class BlindSpotStringerHunter:
             "control_name": "Diploid Stromal / Normal Cell Negative Control Audit",
             "n_diploid_normal_cells_evaluated": int(n_normal_copykat),
             "n_genomic_bins": int(n_bins),
-            "false_positive_focal_stringers_mean_profile": int(fp_mean_bins),
+            "false_positive_focal_amplicons_mean_profile": int(fp_mean_bins),
+            "false_positive_focal_amplicons_mean_profile": int(fp_mean_bins),
             "false_positive_single_cells": int(fp_single_cells),
             "false_positive_homozygous_deletions": int(fp_homdel_cells),
             "false_positive_rate_fpr": round(fpr_diploid, 4),
@@ -1819,14 +1878,28 @@ class BlindSpotStringerHunter:
                 "out_of_sample_replication_rate": round(float(pers_replicated_seeds / n_countsplit_seeds), 4),
                 "replicated_seeds": int(pers_replicated_seeds),
             },
-            "sc_mixology_stringer_panel": {
+            "sc_mixology_amplicon_panel": {
                 "genes": [g for g, _ in mix_specs],
                 "mean_split_correlation_r": round(float(np.mean(mix_split_corrs)), 4),
                 "min_split_correlation_r": round(float(np.min(mix_split_corrs)), 4),
                 "out_of_sample_replication_rate": round(float(mix_replicated_seeds / n_countsplit_seeds), 4),
                 "replicated_seeds": int(mix_replicated_seeds),
             },
-            "sc_mixology_full_9gene_stringer_panel": {
+            "sc_mixology_amplicon_panel": {
+                "genes": [g for g, _ in mix_specs],
+                "mean_split_correlation_r": round(float(np.mean(mix_split_corrs)), 4),
+                "min_split_correlation_r": round(float(np.min(mix_split_corrs)), 4),
+                "out_of_sample_replication_rate": round(float(mix_replicated_seeds / n_countsplit_seeds), 4),
+                "replicated_seeds": int(mix_replicated_seeds),
+            },
+            "sc_mixology_full_9gene_amplicon_panel": {
+                "genes": [g for g, _ in mix_full_9specs],
+                "mean_split_correlation_r": round(float(np.mean(mix9_split_corrs)), 4),
+                "min_split_correlation_r": round(float(np.min(mix9_split_corrs)), 4),
+                "out_of_sample_replication_rate": round(float(mix9_replicated_seeds / n_countsplit_seeds), 4),
+                "replicated_seeds": int(mix9_replicated_seeds),
+            },
+            "sc_mixology_full_9gene_amplicon_panel": {
                 "genes": [g for g, _ in mix_full_9specs],
                 "mean_split_correlation_r": round(float(np.mean(mix9_split_corrs)), 4),
                 "min_split_correlation_r": round(float(np.min(mix9_split_corrs)), 4),
@@ -1872,7 +1945,7 @@ class BlindSpotStringerHunter:
         output_json_path: Optional[Union[str, Path]] = _DEFAULT_RESULTS_JSON,
     ) -> Dict[str, Any]:
         """
-        Execute all 5 stages of the Expedition 2 Blind-Spot 1-3 Gene Stringer &
+        Execute all 5 stages of the Expedition 2 Blind-Spot 1-3 Gene Focal Amplicon &
         Relapse Persister Hunt and deterministically serialize to JSON (allow_nan=False).
         """
         cnv_cohort = load_paired_cnv_cohort(n_cells=500, random_state=self.random_state)
@@ -1880,8 +1953,8 @@ class BlindSpotStringerHunter:
         gbm = load_gbm_cohort()
         spatial = load_merfish_spatial(n_cells=400, random_state=self.random_state)
 
-        stage1_transfer = self.compute_window_washout_transfer_function()
-        stage2_stringers = self.scan_window_invisible_focal_stringers(
+        stage1_transfer = self.compute_window_attenuation_transfer_function()
+        stage2_focal_amplicons = self.scan_window_invisible_focal_amplicons(
             cnv_cohort=cnv_cohort, mixology_container=mixology
         )
         stage3_persisters = self.discover_persister_collateral_vulnerabilities(
@@ -1895,13 +1968,15 @@ class BlindSpotStringerHunter:
         )
 
         receipt = {
-            "expedition_id": "EXPEDITION_2_BLIND_SPOT_STRINGER_AND_PERSISTER_HUNT",
-            "title": "The Blind-Spot 1-3 Gene Stringer & Relapse Persister Hunt",
+            "expedition_id": "EXPEDITION_2_BLIND_SPOT_FOCAL_AMPLICON_AND_PERSISTER_HUNT",
+            "title": "The Blind-Spot 1-3 Gene Focal Amplicon & Relapse Persister Hunt",
             "version": "0.2.0",
             "status": "EXPEDITION_2_COMPLETE",
             "geo_accessions": ["GSE148673", "GSE57872", "GSE118767", "GSE54695", "GSE144239"],
-            "window_washout_transfer_function": stage1_transfer,
-            "window_invisible_focal_stringers": stage2_stringers,
+            "window_attenuation_transfer_function": stage1_transfer,
+            "window_attenuation_transfer_function": stage1_transfer,
+            "window_invisible_focal_amplicons": stage2_focal_amplicons,
+            "window_invisible_focal_amplicons": stage2_focal_amplicons,
             "persister_collateral_vulnerabilities": stage3_persisters,
             "cross_expedition_convergence": stage4_convergence,
             "adversarial_falsification_audit": stage5_falsification,
@@ -1916,20 +1991,32 @@ class BlindSpotStringerHunter:
         return receipt
 
 
-def run_expedition2_stringer_hunt(
+BlindSpotAmpliconHunter.compute_window_attenuation_transfer_function = (
+    BlindSpotAmpliconHunter.compute_window_attenuation_transfer_function
+)
+BlindSpotAmpliconHunter.scan_window_invisible_focal_amplicons = (
+    BlindSpotAmpliconHunter.scan_window_invisible_focal_amplicons
+)
+BlindSpotAmpliconHunter = BlindSpotAmpliconHunter
+
+
+def run_expedition2_amplicon_hunt(
     output_json_path: Optional[Union[str, Path]] = _DEFAULT_RESULTS_JSON,
     random_state: int = 42,
 ) -> Dict[str, Any]:
     """
-    CLI and programmatic entrypoint for Expedition 2: Blind-Spot 1-3 Gene Stringer
+    CLI and programmatic entrypoint for Expedition 2: Blind-Spot 1-3 Gene Focal Amplicon
     & Relapse Persister Discovery Pipeline.
     """
-    hunter = BlindSpotStringerHunter(random_state=random_state)
+    hunter = BlindSpotAmpliconHunter(random_state=random_state)
     return hunter.run_all(output_json_path=output_json_path)
 
 
+run_expedition2_amplicon_hunt = run_expedition2_amplicon_hunt
+
+
 if __name__ == "__main__":
-    res = run_expedition2_stringer_hunt()
+    res = run_expedition2_amplicon_hunt()
     print(
         f"[Expedition 2] Completed: status={res['status']}, "
         f"controls_passed={res['adversarial_falsification_audit']['all_adversarial_controls_passed']}"

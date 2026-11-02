@@ -19,7 +19,6 @@ from cellsnail._native import (
 )
 from cellsnail.operators import (
     CellSnailEngine,
-    beltrami_morse_gate,
     cell_cycle_deconfounder,
     compute_spatial_mad_floor_256,
     contact_sheaf_se2_step,
@@ -27,6 +26,7 @@ from cellsnail.operators import (
     genotype_tiebreaker_so10,
     kelvin_mandel_so6_rotor,
     morse_dropout_filter,
+    morse_gate_1d,
     multiomic_covariance_rotor,
     pseudotime_spherical_cascade,
     skew_triad_step,
@@ -44,7 +44,7 @@ def test_native_library_available():
 def test_arena_size_bytes_and_sram_ceiling():
     lib = load_native_library()
     sz = lib.cellsnail_arena_size_bytes()
-    assert sz == 983_872, f"Expected exactly 983,872 bytes, got {sz}"
+    assert sz == 1_303_360, f"Expected exactly 1,303,360 bytes, got {sz}"
     assert sz <= 2_097_152, f"Arena size {sz} exceeds 2.0 MB SRAM ceiling"
     assert sz % 64 == 0, f"Arena size {sz} must be 64-byte aligned"
 
@@ -52,12 +52,9 @@ def test_arena_size_bytes_and_sram_ceiling():
 def test_pair1_morse_dropout_filter():
     # 1. Monotone ramp: [1.0, 2.0, 3.0] -> rejected
     mono = np.array([1.0, 2.0, 3.0], dtype=np.float32)
-    res_canonical = beltrami_morse_gate(mono, tau_mad=0.5)
-    res_alias = morse_dropout_filter(mono, tau_mad=0.5)
+    res_filter = morse_dropout_filter(mono, tau_mad=0.5)
 
-    assert res_canonical["filtered"][1] == 0.0, "Monotone slope must be rejected"
-    assert res_alias["filtered"][1] == 0.0, "Alias must produce identical output"
-    assert np.allclose(res_canonical["filtered"], res_alias["filtered"])
+    assert res_filter["filtered"][1] == 0.0, "Monotone slope must be rejected"
 
     # 2. Isolated thin spike: [0.1, 5.0, 0.1] with tau=1.0 -> preserved at 100% amplitude
     spike = np.array([0.1, 5.0, 0.1], dtype=np.float32)
@@ -267,4 +264,41 @@ def test_v020_adaptive_native_operators():
     cov6 = np.diag(np.arange(1, 7, dtype=np.float32))
     m6, cov_out = native_multiomic_covariance_rotor_shrinkage(rot3, cov6, alpha_shrink=0.5)
     assert abs(np.trace(cov_out) - np.trace(cov6)) < 1e-4, "Shrinkage must conserve exact trace"
+
+
+def test_v030_3d_structural_native_operators():
+    from cellsnail._native import (
+        native_cryoem_sidechain_morse_filter,
+        native_allosteric_pocket_sheaf_solver,
+        native_ramachandran_cayley_integrator,
+    )
+
+    # 1. Native Cryo-EM 3D discrete Morse filter
+    vol = np.zeros((5, 5, 5), dtype=np.float32)
+    vol[2, 2, 1:4] = 6.0  # sustained ridge
+    vol[1, 1, 1] = 10.0   # isolated noise spike
+    out, sal = native_cryoem_sidechain_morse_filter(vol, mad_floor=1.0, tau=1.0)
+    assert out[1, 1, 1] == 0.0, "Isolated 1-voxel noise spike must be rejected"
+    assert out[2, 2, 2] == 6.0, "Sustained ridge center must be preserved"
+    assert out[2, 2, 1] == 6.0 and out[2, 2, 3] == 6.0, "Sustained ridge boundaries must be preserved"
+
+    # 2. Native SE(3) contact sheaf solver
+    coords = np.array([[0.0, 0.0, 0.0], [3.8, 0.0, 0.0]], dtype=np.float32)
+    edges = np.array([[0, 1]], dtype=np.uint32)
+    twists, eta, pen_res = native_allosteric_pocket_sheaf_solver(coords, edges, mut_residue=0, num_iters=20)
+    assert pen_res == 0.0, "Steric penetration residual must be 0.0"
+    assert eta[0] == 1.0, "Mutated residue must have eta=1.0"
+    assert eta[1] > 0.0, "Contact residue must receive non-local leverage"
+
+    # 3. Native Cayley Ramachandran integrator
+    c_in = np.array([[1.54, 0.0, 0.0]], dtype=np.float32)
+    u_seq = np.zeros((16, 3), dtype=np.float32)
+    u_seq[:, 0] = 1.0
+    c_out, r_mat = native_ramachandran_cayley_integrator(c_in, u_seq=u_seq, k_steps=16)
+    assert c_out is not None
+    norm_in = float(np.linalg.norm(c_in[0]))
+    norm_out = float(np.linalg.norm(c_out[0]))
+    assert abs(norm_out - norm_in) == 0.0, "Exact 0.000e+00 Float32 ULP drift"
+    assert np.allclose(r_mat.T @ r_mat, np.eye(3, dtype=np.float32), atol=1e-6)
+
 

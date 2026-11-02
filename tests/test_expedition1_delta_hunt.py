@@ -373,7 +373,7 @@ def test_18_cross_expedition_exp1_exp2_dual_blind_spot_table(cross_exp_results):
     s2 = cross_exp_results["exp1_exp2_dual_blind_spot_summary"]
     assert s2["total_shared_targets"] == 15
     assert s2["cellsnail_joint_survival_percent"] == 100.0
-    assert s2["mean_dna_window15_washout_percent"] > 75.0
+    assert s2["mean_dna_window15_attenuation_percent"] > 75.0
     assert s2["mean_rna_5clock_erasure_percent"] > 30.0
     assert s2["mean_standard_pipeline_joint_survival_5clock_percent"] < 20.0
 
@@ -500,7 +500,7 @@ def test_24_tri_modal_convergence_headline_completeness(cross_exp_results):
     assert len(tri["anchor_genes"]) == 10
     assert "EGFR" in tri["anchor_genes"]
     assert "LAMC2" in tri["anchor_genes"]
-    assert tri["exp2_dna_window15_washout_range_x"] == [15.02, 16.63]
+    assert tri["exp2_dna_window15_attenuation_range_x"] == [15.02, 16.63]
     assert tri["exp3_se2_sheaf_polarity_gain_range_x"] == [2.03, 38.76]
 
 
@@ -595,7 +595,7 @@ def test_28_manuscript_tables_match_json_receipt_zero_discrepancy():
 
     # 3. Verify Dual Blind-Spot summary metrics in Section 6.1
     s2 = data["cross_expedition_convergence"]["exp1_exp2_dual_blind_spot_summary"]
-    assert f"{s2['mean_dna_window15_washout_percent']:.2f}%" in doc_text
+    assert f"{s2['mean_dna_window15_attenuation_percent']:.2f}%" in doc_text
     assert f"{s2['mean_rna_5clock_erasure_percent']:.2f}%" in doc_text
     assert f"{s2['mean_standard_pipeline_joint_survival_5clock_percent']:.2f}%" in doc_text
 

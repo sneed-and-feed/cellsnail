@@ -1,14 +1,12 @@
 """cellsnail.discovery
 ==================
-"New Light" Biological Discovery Engine.
+Biological Discovery Engine for 1D Single-Cell Genomic CNV and Focal Amplicon Detection.
 
-Addresses the Eleven Grand Challenges (Lähnemann et al. 2020) by extracting
-hidden, fine-grained biological phenomena that standard pipelines smear, merge,
-or destroy:
+Extracts fine-grained biological phenomena across single-cell genomics:
   1. Rare Persister Subclone Recovery (< 0.5% chemoresistant persisters).
-  2. Sub-Megabase Focal Oncogene Stringer Recovery (EGFR, CDK4, MYC amplicons).
+  2. Sub-Megabase Focal Oncogene Amplicon Recovery (EGFR, CDK4, MYC amplicons).
   3. Deconfounded Spatial Niche Boundary Delineation (zero cross-membrane bleed).
-  4. Multi-Omic CNV-to-RNA Driver-Passenger Causal Factorization (SO(6) rotor).
+  4. Multi-Omic CNV-to-RNA Dosage Correlation Analysis (SO(6) rotor).
   5. Zero-Leakage Selective Inference with Exact Type I Error Control.
 """
 
@@ -17,6 +15,11 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
 
+from cellsnail._native import (
+    morse_gate_1d,
+    morse_gate_genomic,
+    validate_genomic_coordinates,
+)
 from cellsnail.benchmark.baselines import alra_impute, magic_impute
 from cellsnail.benchmark.mode_b_blind import _safe_corrcoef, binomial_count_split
 from cellsnail.data import (
@@ -27,7 +30,6 @@ from cellsnail.data import (
 )
 from cellsnail.io import SingleCellContainer
 from cellsnail.operators import (
-    beltrami_morse_gate,
     build_kelvin_mandel_so6_rotor,
     cell_cycle_deconfounder,
     contact_sheaf_se2_step,
@@ -40,14 +42,65 @@ from cellsnail.operators import (
 )
 
 
+def _parse_genomic_bin_coord(meta: Any, default_idx: int) -> Tuple[int, int, int]:
+    """Parse genomic coordinate metadata into (chrom_id, start, end)."""
+    if isinstance(meta, dict):
+        chrom_raw = meta.get("chrom", meta.get("chr", meta.get("chromosome", "chr99")))
+        start_raw = meta.get("start", meta.get("pos", meta.get("position", default_idx * 1000)))
+        end_raw = meta.get("end", int(start_raw) + 1000)
+    elif isinstance(meta, (list, tuple)):
+        chrom_raw = meta[0]
+        start_raw = meta[1] if len(meta) > 1 else default_idx * 1000
+        end_raw = meta[2] if len(meta) > 2 else int(start_raw) + 1000
+    elif isinstance(meta, str):
+        if ":" in meta:
+            c_part, pos_part = meta.split(":", 1)
+            chrom_raw = c_part
+            if "-" in pos_part:
+                s_part, e_part = pos_part.split("-", 1)
+                start_raw = int(s_part)
+                end_raw = int(e_part)
+            else:
+                start_raw = int(pos_part)
+                end_raw = start_raw + 1000
+        else:
+            chrom_raw = meta
+            start_raw = default_idx * 1000
+            end_raw = start_raw + 1000
+    else:
+        chrom_raw = "chr99"
+        start_raw = default_idx * 1000
+        end_raw = start_raw + 1000
+
+    c_str = str(chrom_raw).strip().lower()
+    if c_str.startswith("chr"):
+        c_str = c_str[3:]
+    if c_str.isdigit():
+        chrom_id = int(c_str)
+    elif c_str == "x":
+        chrom_id = 23
+    elif c_str == "y":
+        chrom_id = 24
+    elif c_str in ("m", "mt"):
+        chrom_id = 25
+    else:
+        chrom_id = 99
+
+    start = int(start_raw)
+    end = int(end_raw)
+    if end < start:
+        end = start + 1000
+    return chrom_id, start, end
+
+
 class DiscoveryEngine:
     """
     Unified Single-Cell Discovery Engine.
-    Exposes high-level methods for the 5 "New Light" Empirical Case Studies:
+    Exposes high-level methods for empirical genomic case studies:
       1. Ghost Regulon Audit (GSE54695 ERCC92 + GSE118767 sc_mixology).
-      2. Sub-Megabase Focal Oncogene Stringer & Rare Persister Recovery (GSE148673 + GSE57872 + Ensembl/ClinVar/COSMIC).
+      2. Sub-Megabase Focal Oncogene Amplicon & Rare Persister Recovery (GSE148673 + GSE57872 + Ensembl/ClinVar/COSMIC).
       3. Mitotic Cell-Cycle Oscillator Deconfounding (H_clock (+) H_nope on TNBC3 & GBM).
-      4. Synthetic Lethality Cavities & Driver-Passenger Factorization (beta_1/beta_2 voids + SO(6) rotor).
+      4. Synthetic Lethality Cavities & Multi-Modal Covariance Analysis (SO(6) rotor).
       5. Deconfounded Spatial Niche Invasion Fronts (GSE144239 cSCC Basal / TSK MMP10 / Stroma COL1A1).
     """
 
@@ -259,7 +312,7 @@ class DiscoveryEngine:
         candidate_feature_idx = int(np.argmax(feature_spread))
         col_signal = X[:, candidate_feature_idx]
         floor_val = tau_mad if tau_mad is not None else float(feature_med[candidate_feature_idx] + 3.0 * np.std(col_signal))
-        res_morse = beltrami_morse_gate(col_signal, tau_mad=floor_val)
+        res_morse = morse_dropout_filter(col_signal, tau_mad=floor_val)
 
         persister_candidate_indices = np.where(res_morse["confirmed_innovations"])[0]
 
@@ -324,7 +377,7 @@ class DiscoveryEngine:
 
         discovery_receipt = {
             "type": "rare_persister_subclone",
-            "track": "Track 2: Sub-Megabase Focal ecDNA / Stringers & Druggable Persisters",
+            "track": "Track 2: Sub-Megabase Focal ecDNA / Amplicons & Druggable Persisters",
             "total_cells_analyzed": n_cells,
             "max_allowed_fraction": min_fraction,
             "max_allowed_cells": max_persister_cells,
@@ -347,15 +400,16 @@ class DiscoveryEngine:
         return discovery_receipt
 
     # ==========================================================================
-    # Case Study 2B: Sub-Megabase Focal Oncogene Stringer Recovery
+    # Case Study 2B: Sub-Megabase Focal Oncogene Amplicon Recovery
     # ==========================================================================
 
-    def discover_focal_cnv_stringers(
+    def discover_focal_cnvs(
         self,
         cnv_matrix: np.ndarray,
         bin_metadata: Optional[List[Dict[str, Any]]] = None,
         tau_mad: Optional[float] = 2.85,
         sort_by_genomic_coords: bool = True,
+        validate_coords: Optional[bool] = None,
     ) -> Dict[str, Any]:
         """
         Recover narrow sub-megabase focal oncogene amplicons (e.g. EGFR 0.4 Mb,
@@ -364,33 +418,78 @@ class DiscoveryEngine:
         LOEUF, AlphaMissense), ClinVar (VCV/RCV), and COSMIC (COSV).
 
         When sort_by_genomic_coords=True and bin_metadata is provided, bins are
-        canonicalized into chromosomal order prior to 3-point Morse stencil
-        evaluation, guaranteeing 100% invariance to arbitrary gene-column permutations.
+        canonicalized into chromosomal coordinate order (chrom_id, start, end)
+        prior to Morse gate evaluation, guaranteeing 100% invariance to arbitrary
+        gene-column permutations and strict boundary reset across chromosome ends.
         """
         X_cnv = np.asarray(cnv_matrix, dtype=np.float32)
         n_cells, n_bins = X_cnv.shape
         raw_mean_profile = np.mean(X_cnv, axis=0)
 
-        if sort_by_genomic_coords and bin_metadata is not None and len(bin_metadata) == n_bins:
-            def _canonical_bin_key(col_i: int) -> Tuple[int, int, int]:
-                m = bin_metadata[col_i]
-                bid = str(m.get("id", ""))
-                if bid.startswith("bin_"):
-                    parts = bid.split("_")
-                    if len(parts) >= 2 and parts[1].isdigit():
-                        return (0, int(parts[1]), 0)
-                ch = str(m.get("chrom", "chr99")).replace("chr", "")
-                ch_num = int(ch) if ch.isdigit() else 99
-                return (1, ch_num, int(m.get("pos", col_i)))
+        # Parse genomic coordinates from bin_metadata
+        if bin_metadata is not None and len(bin_metadata) == n_bins:
+            parsed_coords = [_parse_genomic_bin_coord(bin_metadata[i], i) for i in range(n_bins)]
+            raw_chrom_ids = np.array([c[0] for c in parsed_coords], dtype=np.uint32)
+            raw_starts = np.array([c[1] for c in parsed_coords], dtype=np.uint64)
+            raw_ends = np.array([c[2] for c in parsed_coords], dtype=np.uint64)
+        else:
+            raw_chrom_ids = np.ones(n_bins, dtype=np.uint32)
+            raw_starts = (np.arange(n_bins, dtype=np.uint64)) * 1000
+            raw_ends = raw_starts + 1000
 
-            chrom_order = sorted(range(n_bins), key=_canonical_bin_key)
+        if sort_by_genomic_coords and bin_metadata is not None and len(bin_metadata) == n_bins:
+            chrom_order = sorted(range(n_bins), key=lambda i: (raw_chrom_ids[i], raw_starts[i], raw_ends[i]))
         else:
             chrom_order = list(range(n_bins))
 
+        chrom_ids_sorted = raw_chrom_ids[chrom_order]
+        starts_sorted = raw_starts[chrom_order]
+        ends_sorted = raw_ends[chrom_order]
         mean_profile = raw_mean_profile[chrom_order]
-        res_morse = beltrami_morse_gate(mean_profile, tau_mad=tau_mad)
-        is_spike = res_morse["confirmed_innovations"]
-        focal_bins_sorted = np.where(is_spike)[0]
+
+        val_status = validate_genomic_coordinates(chrom_ids_sorted, starts_sorted, ends_sorted)
+        if validate_coords is True and val_status != 0:
+            raise ValueError(f"Genomic coordinate validation failed with status code {val_status}")
+
+        floor_val = float(tau_mad) if tau_mad is not None else 1.0
+
+        if sort_by_genomic_coords:
+            out_morse, salience, gate_code = morse_gate_genomic(
+                chrom_ids=chrom_ids_sorted,
+                starts=starts_sorted,
+                ends=ends_sorted,
+                x=mean_profile,
+                mad_floor=floor_val,
+                tau=floor_val,
+            )
+            is_spike = (out_morse > 0.0)
+            focal_bins_sorted = np.where(is_spike)[0]
+
+            morse_p_arr = np.zeros(n_bins, dtype=np.float32)
+            for i in range(n_bins):
+                curr_c = chrom_ids_sorted[i]
+                has_l = (i > 0) and (chrom_ids_sorted[i - 1] == curr_c)
+                has_r = (i + 1 < n_bins) and (chrom_ids_sorted[i + 1] == curr_c)
+                if has_l and has_r:
+                    dm = mean_profile[i] - mean_profile[i - 1]
+                    dp = mean_profile[i] - mean_profile[i + 1]
+                    morse_p_arr[i] = dm * dp
+                elif has_l and not has_r:
+                    morse_p_arr[i] = mean_profile[i] - mean_profile[i - 1]
+                elif not has_l and has_r:
+                    morse_p_arr[i] = mean_profile[i] - mean_profile[i + 1]
+                else:
+                    morse_p_arr[i] = mean_profile[i]
+        else:
+            out_morse, salience = morse_gate_1d(mean_profile, mad_floor=floor_val, tau=floor_val)
+            is_spike = (out_morse > 0.0)
+            focal_bins_sorted = np.where(is_spike)[0]
+
+            morse_p_arr = np.zeros(n_bins, dtype=np.float32)
+            if n_bins >= 3:
+                dm = mean_profile[1:-1] - mean_profile[:-2]
+                dp = mean_profile[1:-1] - mean_profile[2:]
+                morse_p_arr[1:-1] = dm * dp
 
         panel = load_ensembl_clinvar_panel()
         ens_genes = panel.get("genes", {})
@@ -408,10 +507,19 @@ class DiscoveryEngine:
             b_s = int(b_sorted)
             orig_col = int(chrom_order[b_s])
             amp = float(mean_profile[b_s])
-            left_amp = float(mean_profile[b_s - 1]) if b_s > 0 else 0.0
-            right_amp = float(mean_profile[b_s + 1]) if b_s < n_bins - 1 else 0.0
+
+            if sort_by_genomic_coords:
+                curr_c = chrom_ids_sorted[b_s]
+                has_l = (b_s > 0) and (chrom_ids_sorted[b_s - 1] == curr_c)
+                has_r = (b_s + 1 < n_bins) and (chrom_ids_sorted[b_s + 1] == curr_c)
+                left_amp = float(mean_profile[b_s - 1]) if has_l else 0.0
+                right_amp = float(mean_profile[b_s + 1]) if has_r else 0.0
+            else:
+                left_amp = float(mean_profile[b_s - 1]) if b_s > 0 else 0.0
+                right_amp = float(mean_profile[b_s + 1]) if b_s < n_bins - 1 else 0.0
+
             sharpness = float(amp / max(1e-3, 0.5 * (left_amp + right_amp)))
-            morse_p = float(res_morse["morse_prod"][b_s])
+            morse_p = float(morse_p_arr[b_s])
             if sharpness <= 1.20 or morse_p < 0.25:
                 continue
 
@@ -477,12 +585,13 @@ class DiscoveryEngine:
 
         receipt = {
             "type": "sub_megabase_focal_amplicons",
-            "track": "Track 2: Sub-Megabase Focal ecDNA / Stringers & Druggable Persisters",
+            "track": "Track 2: Sub-Megabase Focal ecDNA / Focal Amplicons & Druggable Persisters",
             "total_genomic_bins": n_bins,
             "focal_amplicons_discovered": len(amplicons),
             "amplicons": amplicons,
-            "mad_floor_used": float(res_morse["mad_floor"]),
+            "mad_floor_used": float(floor_val),
             "chromosomal_coordinate_sorted": bool(sort_by_genomic_coords),
+            "genomic_validation_status": int(val_status),
             "ensembl_clinvar_hotspots": panel.get("clinical_hotspot_variants", {}),
             "gnomad_constraints": {
                 "MYC": {"pLI": 0.999998, "loeuf": 0.1555, "oe_lof": 0.0328},
@@ -662,7 +771,7 @@ class DiscoveryEngine:
         return receipt
 
     # ==========================================================================
-    # Case Study 4: Synthetic Lethality Cavities & Driver-Passenger Factorization
+    # Case Study 4: Synthetic Lethality Cavities & Clonal Subspace Analysis
     # ==========================================================================
 
     def discover_synthetic_lethality_cavities(
@@ -672,7 +781,7 @@ class DiscoveryEngine:
         """
         Identify topological mutual-exclusivity cavities (beta_1 / beta_2 voids in the
         clonal mutation/dosage lattice across GSE148673 TNBC3 and GSE57872 GBM) and
-        separate active fitness drivers (G_act) from buffered hitchhiking passengers
+        delineate clonal genomic variation (G_act) from transcriptional passenger effects
         (Omega_reg).
         """
         if cnv_cohort is None:
@@ -866,7 +975,7 @@ class DiscoveryEngine:
         return receipt
 
     # ==========================================================================
-    # Multi-Omic CNV-to-RNA Driver-Passenger Causal Factorization
+    # Multi-Omic CNV-to-RNA Dosage Correlation Analysis
     # ==========================================================================
 
     def factorize_multiomic_dosage_linkage(
@@ -1015,13 +1124,13 @@ class DiscoveryEngine:
         self,
         cnv_cohort: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
-        """Track 2: Sub-Megabase Focal ecDNA / Stringers & Druggable Persisters on GSE148673 TNBC3."""
+        """Track 2: Sub-Megabase Focal ecDNA / Focal Amplicons & Druggable Persisters on GSE148673 TNBC3."""
         if cnv_cohort is None:
             cnv_cohort = load_paired_cnv_cohort(n_cells=500, random_state=self.random_state)
         persisters = self.discover_rare_persister_subclones(cnv_cohort["dna"], min_fraction=0.005)
-        amplicons = self.discover_focal_cnv_stringers(cnv_cohort["dna"].X, bin_metadata=cnv_cohort["variants"], tau_mad=2.85)
+        amplicons = self.discover_focal_cnvs(cnv_cohort["dna"].X, bin_metadata=cnv_cohort["variants"], tau_mad=2.85)
         return {
-            "track": "Track 2: Sub-Megabase Focal ecDNA / Stringers & Druggable Persisters",
+            "track": "Track 2: Sub-Megabase Focal ecDNA / Focal Amplicons & Druggable Persisters",
             "persister_subclone": persisters,
             "focal_amplicons": amplicons,
         }
@@ -1070,6 +1179,23 @@ class DiscoveryEngine:
         return self.factorize_multiomic_dosage_linkage(dna_cov, rna_cov, cross_cov=cross_cov, apply_shrinkage=True)
 
 
+def discover_focal_cnvs(
+    cnv_matrix: np.ndarray,
+    bin_metadata: Optional[List[Dict[str, Any]]] = None,
+    tau_mad: Optional[float] = 2.85,
+    sort_by_genomic_coords: bool = True,
+    validate_coords: Optional[bool] = None,
+) -> Dict[str, Any]:
+    """Recover narrow sub-megabase focal oncogene amplicons across single-cell CNV profiles."""
+    return DiscoveryEngine().discover_focal_cnvs(
+        cnv_matrix=cnv_matrix,
+        bin_metadata=bin_metadata,
+        tau_mad=tau_mad,
+        sort_by_genomic_coords=sort_by_genomic_coords,
+        validate_coords=validate_coords,
+    )
+
+
 def run_discovery_pipeline() -> Dict[str, Any]:
     """
     Execute full discovery pipeline across all 5 "New Light" Empirical Case Studies
@@ -1091,7 +1217,7 @@ def run_discovery_pipeline() -> Dict[str, Any]:
     )
 
     # Track 2B: Sub-megabase focal amplicon discovery + Ensembl/ClinVar/COSMIC cross-reference
-    focal_receipt = engine.discover_focal_cnv_stringers(
+    focal_receipt = engine.discover_focal_cnvs(
         cnv_cohort["dna"].X,
         bin_metadata=cnv_cohort["variants"],
         tau_mad=2.85,

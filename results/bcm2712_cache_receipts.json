@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "verifier": "Broadcom BCM2712 Cortex-A76 Hardware Cache Verifier (scripts/verify_bcm2712_cache.py)",
-  "timestamp_utc": "2026-10-26T18:18:11Z",
+  "timestamp_utc": "2026-10-28T12:58:09Z",
   "hardware_target": "Broadcom BCM2712 (Raspberry Pi 5)",
   "cpu_core": "ARM Cortex-A76 (ARMv8.2-A)",
   "bcm2712_cache_geometry": {
@@ -39,42 +39,45 @@
       "arena_struct": "CellSnailArena",
       "spoke": "cellsnail",
       "description": "Multi-Omic Single-Cell Data Science #![no_std] SIMD Fixed SRAM Arena",
-      "arena_size_bytes": 983872,
-      "arena_size_kb": 960.8125,
+      "arena_size_bytes": 1303360,
+      "arena_size_kb": 1272.8125,
       "arena_max_ceiling_bytes": 2097152,
       "arena_alignment_bytes": 64,
       "total_references": 50000000,
-      "simulation_wall_time_sec": 1.3696,
-      "throughput_refs_per_sec": 36506990.7,
+      "simulation_wall_time_sec": 1.784,
+      "throughput_refs_per_sec": 28026830.4,
       "l1d": {
-        "hits": 31544412,
-        "misses": 18455588,
-        "hit_rate_pct": 63.09
+        "hits": 22719183,
+        "misses": 27280817,
+        "hit_rate_pct": 45.44
       },
       "l2": {
-        "hits": 15206093,
-        "misses": 3249495,
-        "hit_rate_pct": 82.39
+        "hits": 19196314,
+        "misses": 8084503,
+        "hit_rate_pct": 70.37
       },
       "l3": {
-        "hits": 3234122,
-        "misses": 15373,
-        "hit_rate_pct": 99.53
+        "hits": 8064138,
+        "misses": 20365,
+        "hit_rate_pct": 99.75
       },
-      "lld_miss_rate_pct": 0.03075,
-      "target_lld_miss_rate_pct": 0.1,
+      "lld_miss_rate_pct": 0.04073,
+      "target_lld_miss_rate_pct": 0.05,
       "target_achieved": true,
       "allocator_static_audit": {
         "audited": true,
         "target_binary": "C:/Users/x/Documents/antigravity/cellsnail/rust/cellsnail_rs/target/release/cellsnail_rs.dll",
         "heap_allocators_imported": [],
         "stepping_symbols_verified": [
-          "beltrami_morse_gate_f32",
+          "morse_gate_1d_f32",
           "continuity_clutter_filter_f32",
           "skew_triad_step_f32",
           "slow_fast_cascade_k16_f32",
           "contact_sheaf_se2_step_f32",
-          "kelvin_mandel_so6_rotor_f32"
+          "kelvin_mandel_so6_rotor_f32",
+          "cellsnail_cryoem_morse_3d_f32",
+          "cellsnail_contact_sheaf_se3_f32",
+          "cellsnail_cayley_ramachandran_f32"
         ],
         "stealth_symbols_verified": [
           "morse_dropout_filter_f32",
@@ -82,7 +85,10 @@
           "genotype_tiebreaker_so10_f32",
           "pseudotime_spherical_cascade_f32",
           "spatial_tissue_sheaf_solver_f32",
-          "multiomic_covariance_rotor_f32"
+          "multiomic_covariance_rotor_f32",
+          "cryoem_sidechain_morse_filter",
+          "allosteric_pocket_sheaf_solver",
+          "ramachandran_cayley_integrator"
         ],
         "dynamic_allocations_detected": 0,
         "status": "ZERO_DYNAMIC_ALLOCATIONS_VERIFIED"
@@ -92,9 +98,9 @@
   "summary": {
     "total_arenas_verified": 1,
     "total_references_simulated": 50000000,
-    "mean_lld_miss_rate_pct": 0.03075,
-    "max_lld_miss_rate_pct": 0.03075,
-    "target_threshold_pct": 0.1,
+    "mean_lld_miss_rate_pct": 0.04073,
+    "max_lld_miss_rate_pct": 0.04073,
+    "target_threshold_pct": 0.05,
     "all_cache_targets_passed": true,
     "all_allocator_audits_passed": true,
     "overall_verification_status": "PASS"

@@ -2,7 +2,7 @@
 
 **Author**: Noah Cohen  
 **Target Spoke**: `cellsnail` (`https://github.com/sneed-and-feed/cellsnail`)  
-**Ecosystem**: DarkSnail / `triad-core` Spoke Constellation  
+**Ecosystem**: CellSnail Spoke Constellation  
 **Date**: 2026-10-26  
 **Flagship Preprint**: See [CELLSNAIL_PREPRINT.md](CELLSNAIL_PREPRINT.md) for the complete consolidated research preprint covering all theory, formal proofs, hardware benchmarks, and empirical discoveries.  
 **Audit Status**: Methodologically Hardened — Real Empirical Wet-Lab Datasets Bundled (`GSE118767`, `GSE54695`, `GSE148673`, `GSE57872`, `GSE144239`, Ensembl `GRCh38` / `ClinVar` / `COSMIC`), Non-Circular `countsplit` & `LOCO`/`LODO`/`LOFO` Cross-Validation, Bounded `[0, 1]` Edge Fidelity, 4 Failure-Mode Crossover Sweeps, 5 Empirical Discovery Tracks with Authentic Cross-Validation, 3 Multi-Modal Discovery Expeditions, and Exhaustive Adversarial Referee Falsification Audit (`222/222` Passing Tests, `0` `sorry`, `0` GFM Errors)
@@ -61,10 +61,10 @@ All Mode B benchmarks and "New Light" discovery case studies execute directly ag
 | Theorem 2.6 | 16-Step Cascade Spherical Norm | `slow_fast_cascade_k16` | $10^{-14}$ | $4.44 \times 10^{-16}$ | PASS |
 | Theorem 2.7 | Kelvin-Mandel Voigt Trace | `kelvin_mandel_so6_rotor` | $1.14 \times 10^{-13}$ | $1.07 \times 10^{-14}$ | PASS |
 | Theorem 2.8 | Cayley Transform Unitarity | `genotype_tiebreaker_so10` | $10^{-14}$ | $8.88 \times 10^{-16}$ | PASS |
-| Theorem 2.9 | Ideal MHD Transverse Invariance | `spatial_tissue_sheaf_solver` | $10^{-15}$ | $0.00 \times 10^{0}$ | PASS |
+| Theorem 2.9 | Transverse Sheaf Curvature Invariance | `spatial_tissue_sheaf_solver` | $10^{-15}$ | $0.00 \times 10^{0}$ | PASS |
 | Theorem 2.10 | Cellular Sheaf Normal Coboundary | `contact_sheaf_se2_step` | $0.00 \times 10^{0}$ | $0.00 \times 10^{0}$ | PASS |
 | Theorem 2.11 | Static SRAM Ceiling ($\le 2.0\text{ MB}$) | `CellSnailArena` | $0.00 \times 10^{0}$ | $983872\text{ bytes}$ | PASS |
-| Theorem 2.12 | Morse Dropout Spurious Covariance | `beltrami_morse_gate` | $0.00 \times 10^{0}$ | $0.00 \times 10^{0}$ | PASS |
+| Theorem 2.12 | Morse Dropout Spurious Covariance | `morse_dropout_filter` | $0.00 \times 10^{0}$ | $0.00 \times 10^{0}$ | PASS |
 | Theorem 2.13 | Cell-Cycle Subspace Orthogonality | `cell_cycle_deconfounder` | $10^{-14}$ | $1.11 \times 10^{-16}$ | PASS |
 | Theorem 2.14 | Ultrametric 3-Point Preservation | `ultrametric_condensation` | $0.00 \times 10^{0}$ | $0.00 \times 10^{0}$ | PASS |
 | Theorem 2.15 | Multi-Omic Dosage Rotor Trace | `multiomic_covariance_rotor` | $1.14 \times 10^{-13}$ | $1.07 \times 10^{-14}$ | PASS |
@@ -131,11 +131,11 @@ Under this bounded formulation, $\mathcal F_{\text{edge}} = 1.000$ is achieved i
 | :--- | :--- | :--- | :--- | :--- |
 | $\text{SNR} = \infty$, Drop $0\%$ | Raw Unfiltered | $1.0030$ | $0.0000$ | $0.9960$ |
 | $\text{SNR} = \infty$, Drop $0\%$ | `HMMcopy` / `inferCNV` ($W=15$) | $0.3366$ | $0.6723$ | $0.3691$ |
-| $\text{SNR} = \infty$, Drop $0\%$ | `cellsnail` (`beltrami_morse_gate`) | $1.0030$ | $0.0000$ | $0.9960$ |
+| $\text{SNR} = \infty$, Drop $0\%$ | `cellsnail` (`morse_dropout_filter`) | $1.0030$ | $0.0000$ | $0.9960$ |
 | $\text{SNR} = 10\text{ dB}$, Drop $10\%$ | `HMMcopy` / `inferCNV` ($W=15$) | $0.3053$ | $0.4243$ | $0.3690$ |
-| $\text{SNR} = 10\text{ dB}$, Drop $10\%$ | `cellsnail` (`beltrami_morse_gate`) | $0.9299$ | $0.0000$ | $0.9108$ |
+| $\text{SNR} = 10\text{ dB}$, Drop $10\%$ | `cellsnail` (`morse_dropout_filter`) | $0.9299$ | $0.0000$ | $0.9108$ |
 | $\text{SNR} = 5\text{ dB}$, Drop $30\%$ | `HMMcopy` / `inferCNV` ($W=15$) | $0.2441$ | $0.0000$ | $0.3650$ |
-| $\text{SNR} = 5\text{ dB}$, Drop $30\%$ | `cellsnail` (`beltrami_morse_gate`) | $0.7777$ | $0.0000$ | $0.7435$ |
+| $\text{SNR} = 5\text{ dB}$, Drop $30\%$ | `cellsnail` (`morse_dropout_filter`) | $0.7777$ | $0.0000$ | $0.7435$ |
 
 ---
 
@@ -155,22 +155,22 @@ We applied binomial molecular thinning `X_thin ~ Binomial(X, p_thin)` across $p_
 | $0.10$ (Shallow) | $5.45$ | $0.539$ | $0.159$ | $0.214$ | $108$ vs. $1$ | `ALRA` wins on broad multi-gene modules ($R^2 = 0.539$ vs. $0.159$) |
 | $0.05$ (Ultra-Shallow) | $2.73$ | $0.482$ | $0.114$ | $0.100$ | $74$ vs. $0$ | 3-point Morse stencil degrades ($10.0\%$ recall); `ALRA` pools across genes |
 
-**Physical Mechanism of Failure**: Because `morse_dropout_filter` / `beltrami_morse_gate` relies on a local 3-point discrete stencil $I_{\text{Morse}}(v, z) = (v(z)-v(z-1))(v(z)-v(z+1))$, when UMI depth drops below $\bar u \approx 5\text{ UMIs/gene}$ (`p_thin <= 0.10`), discrete Poisson dropout zeroes out the focal peak in individual cells, collapsing single-cell focal `EGFR` recall from `1.000` to `0.214` (`p_thin = 0.10`) and `0.100` (`p_thin = 0.05`). Conversely, for broad correlated 20-gene transcriptional programs at ultra-shallow sequencing depth, low-rank SVD (`ALRA`) pools variance across all 20 genes to maintain $R^2 = 0.482$, outperforming pointwise Morse filtering ($R^2 = 0.114$) at the cost of injecting `74`–`437` false-positive ERCC correlations.
+**Physical Mechanism of Failure**: Because `morse_dropout_filter` / `morse_dropout_filter` relies on a local 3-point discrete stencil $I_{\text{Morse}}(v, z) = (v(z)-v(z-1))(v(z)-v(z+1))$, when UMI depth drops below $\bar u \approx 5\text{ UMIs/gene}$ (`p_thin <= 0.10`), discrete Poisson dropout zeroes out the focal peak in individual cells, collapsing single-cell focal `EGFR` recall from `1.000` to `0.214` (`p_thin = 0.10`) and `0.100` (`p_thin = 0.05`). Conversely, for broad correlated 20-gene transcriptional programs at ultra-shallow sequencing depth, low-rank SVD (`ALRA`) pools variance across all 20 genes to maintain $R^2 = 0.482$, outperforming pointwise Morse filtering ($R^2 = 0.114$) at the cost of injecting `74`–`437` false-positive ERCC correlations.
 
-### 3.2 Crossover 2: Focal Stringer vs. Broad Chromosome-Arm CNV Width Sweep (`benchmark_cnv_width_resolution_crossover`)
+### 3.2 Crossover 2: Focal Focal Amplicon vs. Broad Chromosome-Arm CNV Width Sweep (`benchmark_cnv_width_resolution_crossover`)
 
-We swept genomic copy-number gain width $W_{\text{bins}} \in \{1, 2, 3, 5, 10, 15\}$ (corresponding to $0.4\text{ Mb}$ sub-megabase focal stringers up to $6.0\text{ Mb}$ broad chromosomal segments) at $\text{SNR} = 10\text{ dB}$:
+We swept genomic copy-number gain width $W_{\text{bins}} \in \{1, 2, 3, 5, 10, 15\}$ (corresponding to $0.4\text{ Mb}$ sub-megabase focal focal amplicons up to $6.0\text{ Mb}$ broad chromosomal segments) at $\text{SNR} = 10\text{ dB}$:
 
 | Amplicon Width $W_{\text{bins}}$ | Genomic Span (Mb) | Bounded Edge Fidelity (`HMMcopy` $W=15$) | Bounded Edge Fidelity (`cellsnail`) | Interior Plateau Single-Cell RMSE (`HMMcopy`) | Interior Plateau Single-Cell RMSE (`cellsnail` Unsmoothed) | Interior Plateau Winner |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| $1\text{ bin}$ (Focal Stringer) | $0.4\text{ Mb}$ | $0.368$ | $0.991$ | $5.571$ | $0.707$ | `cellsnail` ($7.9\times$ lower RMSE) |
-| $2\text{ bins}$ (Focal Stringer) | $0.8\text{ Mb}$ | $0.368$ | $0.988$ | $5.172$ | $0.700$ | `cellsnail` ($7.4\times$ lower RMSE) |
+| $1\text{ bin}$ (Focal Focal Amplicon) | $0.4\text{ Mb}$ | $0.368$ | $0.991$ | $5.571$ | $0.707$ | `cellsnail` ($7.9\times$ lower RMSE) |
+| $2\text{ bins}$ (Focal Focal Amplicon) | $0.8\text{ Mb}$ | $0.368$ | $0.988$ | $5.172$ | $0.700$ | `cellsnail` ($7.4\times$ lower RMSE) |
 | $3\text{ bins}$ | $1.2\text{ Mb}$ | $0.368$ | $0.622$ | $4.768$ | $0.802$ | `cellsnail` ($5.9\times$ lower RMSE) |
 | $5\text{ bins}$ | $2.0\text{ Mb}$ | $0.368$ | $0.622$ | $4.005$ | $0.857$ | `cellsnail` ($4.7\times$ lower RMSE) |
 | $10\text{ bins}$ | $4.0\text{ Mb}$ | $0.431$ | $0.972$ | $2.024$ | $1.002$ | `cellsnail` ($2.0\times$ lower RMSE) |
 | $15\text{ bins}$ (Broad Arm Gain) | $6.0\text{ Mb}$ | $0.489$ | $0.611$ | $0.300$ | $1.092$ | `HMMcopy` / `inferCNV` ($3.6\times$ lower interior RMSE) |
 
-**Physical Mechanism of Crossover**: On narrow $1\text{–}2$ bin sub-megabase focal oncogene stringers (`EGFR`, `MYC`, `CDK4`, `ABCB1`), 15-bin windowed `HMMcopy`/`inferCNV` averages the focal peak with 13–14 flanking diploid bins (`RMSE = 5.571`), whereas `beltrami_morse_gate` preserves the spike (`F_edge = 0.991`, `RMSE = 0.707`). However, on broad `W_bins >= 15` chromosome-arm plateaus, `beltrami_morse_gate` only triggers at the 1D boundary steps (`z_start, z_end`) because interior plateau points have $I_{\text{Morse}} \le 0$. Consequently, at the center of a broad chromosome-arm gain, 15-bin windowed `HMMcopy` reduces single-cell WGA noise by $\sqrt{15}\times$ (`RMSE = 0.300` vs. unsmoothed interior `1.092`).
+**Physical Mechanism of Crossover**: On narrow $1\text{–}2$ bin sub-megabase focal oncogene focal amplicons (`EGFR`, `MYC`, `CDK4`, `ABCB1`), 15-bin windowed `HMMcopy`/`inferCNV` averages the focal peak with 13–14 flanking diploid bins (`RMSE = 5.571`), whereas `morse_dropout_filter` preserves the spike (`F_edge = 0.991`, `RMSE = 0.707`). However, on broad `W_bins >= 15` chromosome-arm plateaus, `morse_dropout_filter` only triggers at the 1D boundary steps (`z_start, z_end`) because interior plateau points have $I_{\text{Morse}} \le 0$. Consequently, at the center of a broad chromosome-arm gain, 15-bin windowed `HMMcopy` reduces single-cell WGA noise by $\sqrt{15}\times$ (`RMSE = 0.300` vs. unsmoothed interior `1.092`).
 
 ### 3.3 Crossover 3: Spatial Coordinate Mis-Segmentation Jitter & "Double-Penalty" Crossover (`benchmark_spatial_jitter_crossover_sweep`)
 
@@ -190,8 +190,8 @@ We perturbed the calibrated empirical spot coordinates of `GSE144239` human `cSC
 
 We audited two additional structural failure modes in `benchmark_permutation_and_missing_modality_crossover`:
 
-1. **Part A — Non-Chromosomal Gene-Column Permutation Collisions (`discover_focal_cnv_stringers`)**:
-   Because the 1D Morse stencil $I_{\text{Morse}}(v, z) = (v(z)-v(z-1))(v(z)-v(z+1))$ operates on adjacent indices $z \pm 1$, applying it to an un-ordered scRNA-seq gene table where two or more amplified oncogenes (`CDK4`, `EGFR`, `MYC`, `ABCB1`) happen to occupy adjacent columns causes them to form a monotonic step or plateau (`I_Morse <= 0`). Under an adversarial permutation placing focal bins `[55, 25, 35, 28]` into consecutive columns `[10, 11, 12, 13]`, unsorted 1D Morse recall collapses to `0.000` (`0/4` focal oncogenes recovered), and averages `0.925` across 10 random column permutations. Enabling canonical genomic coordinate sorting (`sort_by_genomic_coords=True`, default in `discover_focal_cnv_stringers`) restores `1.000` (`4/4`) recall across both adversarial and all 10 random permutations.
+1. **Part A — Non-Chromosomal Gene-Column Permutation Collisions (`discover_focal_cnv_focal amplicons`)**:
+   Because the 1D Morse stencil $I_{\text{Morse}}(v, z) = (v(z)-v(z-1))(v(z)-v(z+1))$ operates on adjacent indices $z \pm 1$, applying it to an un-ordered scRNA-seq gene table where two or more amplified oncogenes (`CDK4`, `EGFR`, `MYC`, `ABCB1`) happen to occupy adjacent columns causes them to form a monotonic step or plateau (`I_Morse <= 0`). Under an adversarial permutation placing focal bins `[55, 25, 35, 28]` into consecutive columns `[10, 11, 12, 13]`, unsorted 1D Morse recall collapses to `0.000` (`0/4` focal oncogenes recovered), and averages `0.925` across 10 random column permutations. Enabling canonical genomic coordinate sorting (`sort_by_genomic_coords=True`, default in `discover_focal_cnv_focal amplicons`) restores `1.000` (`4/4`) recall across both adversarial and all 10 random permutations.
 2. **Part B — Multi-Batch Missing-Modality (`+M1C`) & Heavy-Tailed Log-Normal Ambient RNA Soup Crossover**:
    While `multiomic_covariance_rotor` ($\mathrm{SO}(6)$ Kelvin-Mandel lift) conserves the trace of any input empirical covariance matrix $\widehat{\Sigma}$ to machine precision ($\lvert \Delta \mathrm{Tr} \rvert / \mathrm{Tr} \le 1.32 \times 10^{-15}$), when multi-batch scRNA+scDNA integration suffers from missing modality blocks ($m_{\text{miss}} \in \{0.00, 0.25, 0.50, 0.70, 0.85\}$) and heavy-tailed log-normal ambient RNA soup (`sigma_soup = 1.25`), the unregularized sample cross-covariance `Sigma_DNA,RNA` becomes noisy, degrading Frobenius covariance recovery below a shrinkage-regularized rotor for `m_miss >= 0.50`:
 
@@ -219,7 +219,7 @@ We audited all $\binom{92}{2} = 4,186$ pairs of synthetic `ERCC` spike-in transc
    - `ALRA` ($k=10$) hallucinates `328` false-positive edges ($\max \lvert r \rvert = 0.9213$) on unperturbed counts and `475` edges at $20\%$ dropout.
    - `cellsnail` (`morse_dropout_filter`) injects `0` false-positive edges ($\max \lvert r \rvert = 0.2289$) while preserving true human lung adenocarcinoma lineage marker enrichment across all three lines (`EGFR` `8.33x`, `CDK4` `6.17x`, and `MET` `1.75x` in `HCC827`; `DHRS2` `33.33x` and `SERPINE1` `7.00x` in `H1975`; `ALDH3A1` `17.13x`, `CD74` `14.86x`, `IGFBP3` `12.41x`, and `NQO1` `5.75x` in `H2228`).
 
-### 4.2 Case Study 2: Sub-Megabase Focal Oncogene Stringers & Rare (`0.40%`) Chemoresistant Persisters Cross-Referenced with Ensembl `GRCh38`, `ClinVar`, and `COSMIC`
+### 4.2 Case Study 2: Sub-Megabase Focal Oncogene Focal Amplicons & Rare (`0.40%`) Chemoresistant Persisters Cross-Referenced with Ensembl `GRCh38`, `ClinVar`, and `COSMIC`
 
 On the 500-cell `GSE148673` `CopyKAT` Triple-Negative Breast Cancer (`TNBC3`) cohort, `cellsnail` isolates all three clonal focal oncogene amplicons (`EGFR` at `chr7:55019017`, `peak_amplitude_cn = 6.218`, `sharpness_ratio = 3.118`, `morse_product = 17.841`; `MYC` at `chr8:127735434`, `peak_amplitude_cn = 7.427`, `sharpness_ratio = 2.938`, `morse_product = 23.996`; `CDK4` at `chr12:57747727`, `peak_amplitude_cn = 3.300`, `sharpness_ratio = 1.219`, `morse_product = 0.351`) and the 2 rare chemoresistant persister cells (`TNBC3_GTGCATAGTAAGTGGC` and `TNBC3_CCGTGGATCGGAGCAA`, prevalence $2/500 = 0.40\%$) defined by focal amplification of the multidrug efflux pump `ABCB1` (`ENSG00000085563`, `ENST00000622132`, observed peak `12.61` CN vs. diploid baseline median `1.91` CN).
 
@@ -302,7 +302,7 @@ In Milestone 4, an independent Adversarial Referee Auditor (`adversarial_referee
 To test whether `cellsnail` operators hallucinate non-existent biological structures or rely on arbitrary matrix coordinate indexing, we audited four classes of adversarial negative controls:
 
 1. **Feature Column Permutation Collisions**:
-   Applying 100 random column permutations to the primary human breast cancer scDNA copy-number matrix (`GSE148673` `TNBC3`) under canonical chromosomal sorting (`sort_by_genomic_coords=True`, default in `discover_focal_cnv_stringers`) achieved an exact mean recall of $1.0000$ ($100/100$ permutations recovered all 3 focal amplicons: `EGFR`, `MYC`, `CDK4`). By contrast, evaluating the 1D Morse stencil without chromosomal sorting (`sort_by_genomic_coords=False`) degraded recall to $0.9467$. Under an adversarial adjacent placement placing focal oncogenes into consecutive bins $[10, 11, 12]$, unsorted Morse filtering collapsed to $0.3333$ recall ($1/3$, recovering only `MYC`), whereas canonical chromosomal sorting maintained $1.0000$ recall ($3/3$).
+   Applying 100 random column permutations to the primary human breast cancer scDNA copy-number matrix (`GSE148673` `TNBC3`) under canonical chromosomal sorting (`sort_by_genomic_coords=True`, default in `discover_focal_cnv_focal amplicons`) achieved an exact mean recall of $1.0000$ ($100/100$ permutations recovered all 3 focal amplicons: `EGFR`, `MYC`, `CDK4`). By contrast, evaluating the 1D Morse stencil without chromosomal sorting (`sort_by_genomic_coords=False`) degraded recall to $0.9467$. Under an adversarial adjacent placement placing focal oncogenes into consecutive bins $[10, 11, 12]$, unsorted Morse filtering collapsed to $0.3333$ recall ($1/3$, recovering only `MYC`), whereas canonical chromosomal sorting maintained $1.0000$ recall ($3/3$).
 2. **Shuffled Spike-In Controls (`GSE54695` ERCC92)**:
    In raw unpermuted `GSE54695` CEL-seq wells, technical library-size co-fluctuation induces $658$ spurious gene pairs with $\lvert r \rvert > 0.50$ (mean $\lvert r \rvert = 0.2522$). Under well-permutation decoupling across 20 distinct sweep conditions ($5$ random seeds $\times 4$ thinning levels $p \in [0.05, 0.50]$):
    - `cellsnail` (`morse_dropout_filter`) injected **0** spurious pairs with $\lvert r \rvert > 0.70$ across all $4,186$ ERCC transcript pairs ($0.00\%$ false-positive rate, verified across all 20 runs).
@@ -369,7 +369,7 @@ All 5 Tier-1 biological discovery tracks in `cellsnail/discovery.py` were audite
 
 1. **Track 1 (Ghost Regulon GRN Purge)**:
    Subjecting ERCC spike-in counts to 100 independent random column permutations yielded $0/100$ false regulon incidents with a maximum correlation of $\max \lvert r \rvert = 0.4885 < 0.70$. Authentic lung adenocarcinoma lineage markers (`EGFR` $8.33\times$ in `HCC827`, `DHRS2` $33.33\times$ in `H1975`, `ALDH3A1` $17.13\times$ in `H2228`), JASPAR PWMs, UniBind direct ChIP-seq peaks (`MYC` 137, `JUN` 67, `FOXA1` 189, `E2F1` 33), and UCSC phyloP conservation ($7.94217$ on `EGFR L858R`) were independently authenticated.
-2. **Track 2 (Sub-Megabase Focal ecDNA / Stringers & Druggable Persisters)**:
+2. **Track 2 (Sub-Megabase Focal ecDNA / Focal Amplicons & Druggable Persisters)**:
    The rare chemoresistant persister subclone ($2/500$ cells, $0.40\%$, `ABCB1+`) was verified alongside focal amplicons (`EGFR`, `MYC`, `CDK4`).
    In addition, injecting high noise and sinusoidal whole-genome amplification waviness ($\text{SNR} \in [\infty, 20, 10, 5]\text{ dB}$) confirmed that all 3 focal amplicons survive baseline noise across all SNR levels.
    Biological targets were cross-referenced with Ensembl VEP triplosensitivity ($p_{\text{Triplo}} > 0.88$).
@@ -422,7 +422,7 @@ python scripts/generate_evaluation_summary.py
 python scripts/verify_bcm2712_cache.py
 
 # 6. Audit GFM and KaTeX math compliance across all 21 rules (0 errors)
-python scripts/audit_gfm_math.py README.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md docs/CELLSNAIL_PREPRINT.md docs/EXPEDITION_1_DELTA_HUNT.md docs/EXPEDITION_2_STRINGER_HUNT.md docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md
+python scripts/audit_gfm_math.py README.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md docs/CELLSNAIL_PREPRINT.md docs/EXPEDITION_1_DELTA_HUNT.md docs/EXPEDITION_2_FOCAL_AMPLICON_HUNT.md docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md
 ```
 
 ---

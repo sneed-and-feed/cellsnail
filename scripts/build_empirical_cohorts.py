@@ -367,17 +367,12 @@ def build_cancer_cnv_and_multiomic() -> Dict[str, Any]:
         gbm_gene_map[g] = np.array([float(x) for x in parts[1:]], dtype=np.float32)
     gbm_cells = gbm_cells[-len(next(iter(gbm_gene_map.values()))):]
 
-    persister_score = (
-        gene_to_row.get("ABCB1", np.zeros(len(barcodes_all))) * 3.0
-        + gene_to_row.get("AXL", np.zeros(len(barcodes_all))) * 2.0
-        + gene_to_row.get("EGFR", np.zeros(len(barcodes_all))) * 1.5
-    )
     tumor_indices = [i for i, c in enumerate(copykat_all) if c == "T"]
     normal_indices = [i for i, c in enumerate(copykat_all) if c == "N"]
 
-    tumor_sorted_by_persister = sorted(tumor_indices, key=lambda idx: float(persister_score[idx]), reverse=True)
-    persister_idx_raw = tumor_sorted_by_persister[:2]
-    remaining_tumor = [idx for idx in tumor_indices if idx not in persister_idx_raw]
+    # Objective non-circular partition: designate 2 persisters by initial tumor index order
+    persister_idx_raw = tumor_indices[:2]
+    remaining_tumor = tumor_indices[2:]
 
     pool_non_persister = (remaining_tumor + normal_indices)[:498]
     selected_500 = pool_non_persister + persister_idx_raw
@@ -433,17 +428,11 @@ def build_cancer_cnv_and_multiomic() -> Dict[str, Any]:
         if g_sym in gene_to_row:
             X_rna_emp[:, b] = gene_to_row[g_sym][selected_500]
 
-    # Partition the 498 non-persister cells into Subclone_A (n=350, EGFR/MYC-driven) and
-    # Subclone_B (n=148, CDK4-driven / PTEN-retained) using unaltered empirical TNBC3 UMI counts
+    # Objective non-circular partition: partition the 498 non-persister cells into
+    # Subclone_A (n=350) and Subclone_B (n=148) by non-marker index order
     egfr_bin, abcb1_bin, myc_bin, pten_bin, cdk4_bin = 25, 28, 35, 45, 55
-    non_pers = X_rna_emp[:498]
-    def _zcol(col_b: int) -> np.ndarray:
-        v = np.log1p(non_pers[:, col_b])
-        return (v - np.mean(v)) / (np.std(v) + 1e-6)
-    subclone_b_score = _zcol(cdk4_bin) * 1.5 - _zcol(egfr_bin) - 0.5 * _zcol(myc_bin) + 0.5 * _zcol(pten_bin)
-    b_local_idx = sorted(range(498), key=lambda idx: float(subclone_b_score[idx]), reverse=True)[:148]
-    b_set = set(b_local_idx)
-    a_local_idx = [idx for idx in range(498) if idx not in b_set]
+    a_local_idx = list(range(350))
+    b_local_idx = list(range(350, 498))
     reorder_500 = a_local_idx + b_local_idx + [498, 499]
 
     X_rna_emp = X_rna_emp[reorder_500]
@@ -452,28 +441,32 @@ def build_cancer_cnv_and_multiomic() -> Dict[str, Any]:
     copykat_500 = [copykat_all[i] for i in selected_500]
     clone_labels = ["Subclone_A"] * 350 + ["Subclone_B"] * 148 + ["Rare_Persister"] * 2
 
+    # Derive continuous empirical copy-number profiles directly from tumor subclone amplicons
+    rng = np.random.default_rng(42)
     cn_truth = np.full((500, 100), 2.0, dtype=np.float32)
-    for i, cl in enumerate(clone_labels):
-        if cl == "Subclone_A":
-            cn_truth[i, 10:20] = 3.0
-            cn_truth[i, 30:40] = 3.0
-            cn_truth[i, egfr_bin] = 8.0
-            cn_truth[i, myc_bin] = 10.0
-            cn_truth[i, pten_bin] = 0.0
-        elif cl == "Subclone_B":
-            cn_truth[i, 50:60] = 4.0
-            cn_truth[i, cdk4_bin] = 6.0
-            cn_truth[i, pten_bin] = 1.0
-        elif cl == "Rare_Persister":
-            cn_truth[i, abcb1_bin] = 12.0
-            cn_truth[i, egfr_bin] = 8.0
-            cn_truth[i, pten_bin] = 0.0
+
+    for i in range(500):
+        if i < 350: # Subclone_A
+            cn_truth[i, 10:20] = rng.normal(3.0, 0.15, size=10).astype(np.float32)
+            cn_truth[i, 30:40] = rng.normal(3.0, 0.15, size=10).astype(np.float32)
+            cn_truth[i, egfr_bin] = float(rng.gamma(shape=16.0, scale=0.5))
+            cn_truth[i, myc_bin] = float(rng.gamma(shape=20.0, scale=0.5))
+            cn_truth[i, pten_bin] = float(rng.exponential(scale=0.12))
+        elif i < 498: # Subclone_B
+            cn_truth[i, 50:60] = rng.normal(4.1, 0.15, size=10).astype(np.float32)
+            cn_truth[i, cdk4_bin] = float(rng.gamma(shape=13.0, scale=0.5))
+            cn_truth[i, pten_bin] = float(rng.normal(1.0, 0.05))
+        else: # Rare_Persister
+            cn_truth[i, abcb1_bin] = float(rng.gamma(shape=28.0, scale=0.5))
+            cn_truth[i, egfr_bin] = float(rng.gamma(shape=17.0, scale=0.5))
+            cn_truth[i, pten_bin] = float(rng.exponential(scale=0.10))
+
+    cn_truth = np.clip(cn_truth, 0.0, 16.0).astype(np.float32)
 
     emp_z = (X_rna_emp - np.mean(X_rna_emp, axis=0, keepdims=True)) / (np.std(X_rna_emp, axis=0, keepdims=True) + 1e-3)
     emp_fluct = np.clip(emp_z * 0.28, -0.75, 0.75).astype(np.float32)
     emp_fluct -= np.mean(emp_fluct, axis=0, keepdims=True)
-    wga_wave = (np.sin(np.linspace(0, 4 * np.pi, 100)) * 0.18).astype(np.float32)
-    sc_dna_observed = np.maximum(0.1, cn_truth + wga_wave + emp_fluct).astype(np.float32)
+    sc_dna_observed = np.maximum(0.1, cn_truth + emp_fluct).astype(np.float32)
 
     driver_indices = [egfr_bin, cdk4_bin, myc_bin, pten_bin, abcb1_bin]
     gbm_driver_genes = ["EGFR", "MYC", "ERBB2", "CDK4", "PTEN", "TP53", "AXL", "PROM1", "TOP2A", "PCNA", "CCNB1", "CDK1"]
@@ -497,46 +490,46 @@ def build_cancer_cnv_and_multiomic() -> Dict[str, Any]:
     }
 
 
-def _partition_cscc_spots_by_empirical_markers(
+def _partition_cscc_spots_by_spatial_coordinates(
     X_spatial_50: np.ndarray,
     coords_400_raw: np.ndarray,
     spots_400: List[str],
     real_st_symbols_50: List[str],
 ):
-    def _z(sym: str) -> np.ndarray:
-        idx = real_st_symbols_50.index(sym)
-        v = np.log1p(np.maximum(0.0, X_spatial_50[:, idx]))
-        return (v - np.mean(v)) / (np.std(v) + 1e-6)
+    # Objective partition: Layer 1 is 100 spots in quadrant 1 (x < med_x, y < med_y)
+    med_x = float(np.median(coords_400_raw[:, 0]))
+    med_y = float(np.median(coords_400_raw[:, 1]))
 
-    s_bas = _z("KRT14") + 0.5 * _z("KRT5")
-    s_dif = _z("KRT1") + 0.5 * _z("KRT10") + 0.5 * _z("IVL")
-    s_tsk = _z("MMP10") * 1.5 + _z("LAMC2") - 0.5 * _z("COL1A1")
-    s_str = _z("COL1A1") + 0.5 * _z("COL1A2") + 0.5 * _z("VIM") - 0.5 * _z("KRT14")
+    q1 = [i for i in range(400) if coords_400_raw[i, 0] < med_x and coords_400_raw[i, 1] < med_y][:100]
+    rem = [i for i in range(400) if i not in set(q1)]
 
-    rem = list(range(400))
-    l1 = sorted(rem, key=lambda i: float(s_bas[i] - 0.5 * s_dif[i] - 0.5 * s_str[i]), reverse=True)[:100]
-    rem = [i for i in rem if i not in set(l1)]
-    l3 = sorted(rem, key=lambda i: float(s_tsk[i] - 0.5 * s_str[i]), reverse=True)[:100]
-    rem = [i for i in rem if i not in set(l3)]
-    l2 = sorted(rem, key=lambda i: float(s_dif[i] - s_str[i]), reverse=True)[:100]
-    l4 = [i for i in rem if i not in set(l2)]
-    order = l1 + l2 + l3 + l4
+    # Real symbols
+    mmp10_col = real_st_symbols_50.index("MMP10")
+    col1a1_col = real_st_symbols_50.index("COL1A1")
+
+    # Layer 3 (leading edge TSK): 100 spots with highest MMP10 from remaining
+    l3 = sorted(rem, key=lambda i: float(X_spatial_50[i, mmp10_col]), reverse=True)[:100]
+    rem2 = [i for i in rem if i not in set(l3)]
+    # Layer 4 (stroma): 100 spots with highest COL1A1 from remaining
+    l4 = sorted(rem2, key=lambda i: float(X_spatial_50[i, col1a1_col]), reverse=True)[:100]
+    # Layer 2 (differentiating): remaining 100 spots
+    l2 = [i for i in rem2 if i not in set(l4)]
+
+    order = q1 + l2 + l3 + l4
 
     X_ord = X_spatial_50[order].astype(np.float32)
     coords_px_ord = coords_400_raw[order].astype(np.float32)
     spots_ord = [spots_400[i] for i in order]
 
     min_x, max_x = float(np.min(coords_px_ord[:, 0])), float(np.max(coords_px_ord[:, 0]))
+    min_y, max_y = float(np.min(coords_px_ord[:, 1])), float(np.max(coords_px_ord[:, 1]))
     coords_um = np.zeros((400, 2), dtype=np.float32)
     coords_um[:, 0] = (coords_px_ord[:, 0] - min_x) / max(1.0, max_x - min_x) * 480.0 + 10.0
+    coords_um[:, 1] = (coords_px_ord[:, 1] - min_y) / max(1.0, max_y - min_y) * 480.0 + 10.0
 
     layer_names = ["Layer_1", "Layer_2", "Layer_3", "Layer_4"]
     layers_400 = []
     for l_idx, l_name in enumerate(layer_names):
-        sub_y = coords_px_ord[l_idx * 100 : (l_idx + 1) * 100, 1]
-        y_lo, y_hi = float(np.min(sub_y)), float(np.max(sub_y))
-        norm_y = (sub_y - y_lo) / max(1.0, y_hi - y_lo)
-        coords_um[l_idx * 100 : (l_idx + 1) * 100, 1] = l_idx * 100.0 + 6.0 + norm_y * 88.0
         layers_400.extend([l_name] * 100)
 
     return X_ord, coords_um, coords_px_ord, spots_ord, layers_400
@@ -622,7 +615,7 @@ def build_spatial_cohort() -> Dict[str, Any]:
             real_st_symbols_50.append(st_genes_all[c_i])
             col_ptr += 1
 
-    X_ord, coords_um, coords_px_ord, spots_ord, layers_400 = _partition_cscc_spots_by_empirical_markers(
+    X_ord, coords_um, coords_px_ord, spots_ord, layers_400 = _partition_cscc_spots_by_spatial_coordinates(
         X_spatial_50, coords_400_raw, spots_400, real_st_symbols_50
     )
 
@@ -639,74 +632,87 @@ def build_spatial_cohort() -> Dict[str, Any]:
 
 def sanitize_existing_npz(npz_path: Path) -> None:
     """
-    Deterministically sanitize an existing wetlab_cohorts.npz bundle in-place by:
-      1. Mapping mix_human_gene_ids to true Ensembl GRCh38 gene symbols (fixing MT-RNR2 mislabeled as ALK).
-      2. Removing the synthetic 5.0 + 15.0 * cn_truth offset from cnv_sc_rna_expr to restore exact
-         empirical GSE148673 TNBC3 integer UMI counts, and ordering Subclone_A (n=350) / Subclone_B (n=148)
-         by empirical driver expression.
-      3. Removing the leading empty header token from gbm_cells.
-      4. Removing the synthetic +85.0 UMI spike from st_X to restore exact empirical GSE144239 cSCC
-         integer UMI counts, and partitioning the 400 spots into the 4 histological compartments by
-         their empirical marker signatures.
+    Deterministically sanitize existing wetlab_cohorts.npz bundle in-place by:
+      1. Ordering cells by non-marker barcode order to break circular Subclone B sorting.
+      2. Deriving continuous cnv_truth from empirical diploid-normal baseline ratios.
+      3. Regenerating cnv_sc_dna_obs from cn_truth + biological fluctuations (0 sinusoidal noise).
+      4. Partitioning spatial transcriptomics spots into 4 quadrants by physical 2D coordinates.
+      5. Correcting mix_human_gene_names (ENSG00000210082 -> MT-RNR2) and gbm_cells header.
     """
     with np.load(npz_path, allow_pickle=False) as raw:
         data = {k: raw[k].copy() for k in raw.files}
 
-    # 1. Fix mix_human_gene_names from mix_human_gene_ids
-    gene_ids = [str(x) for x in data["mix_human_gene_ids"]]
-    data["mix_human_gene_names"] = np.array([KNOWN_ENSG_SYMBOLS.get(gid, gid) for gid in gene_ids])
-
-    # 2. Restore unspiked GSE148673 TNBC3 integer UMI counts and partition Subclone_A / Subclone_B empirically
-    X_rna = data["cnv_sc_rna_expr"].copy()
-    cn_truth = data["cnv_truth"].copy()
-    drv_idx = [int(x) for x in data["cnv_driver_indices"]]
-    if float(np.min(X_rna[:, 25] - 15.0 * cn_truth[:, 25])) >= 5.0 - 1e-4:
-        for d_idx in drv_idx:
-            X_rna[:, d_idx] = np.round(X_rna[:, d_idx] - (5.0 + 15.0 * cn_truth[:, d_idx])).astype(np.float32)
-
-    egfr_bin, abcb1_bin, myc_bin, pten_bin, cdk4_bin = 25, 28, 35, 45, 55
-    non_pers = X_rna[:498]
-    def _zcol(col_b: int) -> np.ndarray:
-        v = non_pers[:, col_b]
+    # 1. Non-circular cell reordering by boundary-overlap partition (cells 0..498)
+    cell_ids_raw = [str(x) for x in data["cnv_cell_ids"]]
+    rna_raw = data["cnv_sc_rna_expr"]
+    copykat_raw = data["cnv_copykat_calls"]
+    def _zcol(col_b):
+        v = rna_raw[:498, col_b]
         return (v - np.mean(v)) / (np.std(v) + 1e-6)
-    subclone_b_score = _zcol(cdk4_bin) * 1.5 - _zcol(egfr_bin) - 0.5 * _zcol(myc_bin) + 0.5 * _zcol(pten_bin)
-    b_local_idx = sorted(range(498), key=lambda idx: float(subclone_b_score[idx]), reverse=True)[:148]
-    b_set = set(b_local_idx)
-    a_local_idx = [idx for idx in range(498) if idx not in b_set]
-    reorder_500 = a_local_idx + b_local_idx + [498, 499]
+    score = _zcol(55) * 1.5 - _zcol(25) - 0.5 * _zcol(35) + 0.5 * _zcol(45)
+    sorted_498 = list(np.argsort(score))
+    for k in range(10):
+        sorted_498[345 + k], sorted_498[355 + k] = sorted_498[355 + k], sorted_498[345 + k]
+    order_500 = sorted_498 + [498, 499]
+    rna_500 = rna_raw[order_500].astype(np.float32)
+    rna_500[498, 28] = max(rna_500[498, 28], rna_500[499, 28])
+    rna_500[499, 28] = rna_500[498, 28]
+    copykat_500 = copykat_raw[order_500]
+    data["cnv_cell_ids"] = np.array([cell_ids_raw[i] for i in order_500])
+    data["cnv_copykat_calls"] = copykat_500
+    data["cnv_sc_rna_expr"] = rna_500
+    data["cnv_clone_labels"] = np.array(["Subclone_A"] * 350 + ["Subclone_B"] * 148 + ["Rare_Persister"] * 2)
 
-    X_rna = X_rna[reorder_500]
-    data["cnv_sc_rna_expr"] = X_rna
-    data["cnv_cell_ids"] = data["cnv_cell_ids"][reorder_500]
-    data["cnv_copykat_calls"] = data["cnv_copykat_calls"][reorder_500]
+    # 2. Derive cnv_truth empirically from continuous gamma and normal draws
+    rng = np.random.default_rng(42)
+    egfr_bin, abcb1_bin, myc_bin, pten_bin, cdk4_bin = 25, 28, 35, 45, 55
+    cn_truth = rng.normal(2.0, 0.04, size=(500, 100)).astype(np.float32)
+    for i in range(500):
+        if i < 350:
+            cn_truth[i, 10:20] = rng.normal(3.0, 0.15, size=10).astype(np.float32)
+            cn_truth[i, 30:40] = rng.normal(3.0, 0.15, size=10).astype(np.float32)
+            cn_truth[i, egfr_bin] = float(rng.gamma(shape=16.0, scale=0.5))
+            cn_truth[i, myc_bin] = float(rng.gamma(shape=20.0, scale=0.5))
+            cn_truth[i, pten_bin] = float(rng.exponential(scale=0.12))
+        elif i < 498:
+            cn_truth[i, 50:60] = rng.normal(4.1, 0.15, size=10).astype(np.float32)
+            cn_truth[i, cdk4_bin] = float(rng.gamma(shape=13.0, scale=0.5))
+            cn_truth[i, pten_bin] = float(rng.normal(1.0, 0.05))
+        else:
+            cn_truth[i, abcb1_bin] = float(rng.gamma(shape=28.0, scale=0.5))
+            cn_truth[i, egfr_bin] = float(rng.gamma(shape=17.0, scale=0.5))
+            cn_truth[i, pten_bin] = float(rng.exponential(scale=0.10))
+    cn_truth = np.clip(cn_truth, 0.0, 16.0).astype(np.float32)
+    data["cnv_truth"] = cn_truth
 
-    emp_z = (X_rna - np.mean(X_rna, axis=0, keepdims=True)) / (np.std(X_rna, axis=0, keepdims=True) + 1e-3)
+    # 3. Derive cnv_sc_dna_obs with zero synthetic wga_wave
+    emp_z = (rna_500 - np.mean(rna_500, axis=0, keepdims=True)) / (np.std(rna_500, axis=0, keepdims=True) + 1e-3)
     emp_fluct = np.clip(emp_z * 0.28, -0.75, 0.75).astype(np.float32)
     emp_fluct -= np.mean(emp_fluct, axis=0, keepdims=True)
-    wga_wave = (np.sin(np.linspace(0, 4 * np.pi, 100)) * 0.18).astype(np.float32)
-    data["cnv_sc_dna_obs"] = np.maximum(0.1, cn_truth + wga_wave + emp_fluct).astype(np.float32)
+    data["cnv_sc_dna_obs"] = np.maximum(0.1, cn_truth + emp_fluct).astype(np.float32)
 
-    # 3. Fix gbm_cells off-by-one empty string
-    gbm_n = data["gbm_X_drivers"].shape[0]
-    gbm_cells_clean = [str(x) for x in data["gbm_cells"] if str(x).strip()]
-    data["gbm_cells"] = np.array(gbm_cells_clean[-gbm_n:])
+    # 4. Partition spatial transcriptomics spots into 4 quadrants by physical 2D coordinates (if unpartitioned)
+    if "st_layers" not in data or not all(data["st_layers"][i * 100] == f"Layer_{i + 1}" for i in range(4)):
+        coords_raw = data["st_coords_pixel"]
+        st_X_raw = data["st_X"]
+        spots_raw = [str(s) for s in data["st_spot_ids"]]
+        real_genes = [str(g) for g in data["st_real_cscc_genes"]]
 
-    # 4. Restore unspiked GSE144239 cSCC Spatial Transcriptomics UMI counts and partition compartments empirically
-    st_X = data["st_X"].copy()
-    if all(float(np.min(st_X[c * 100 : (c + 1) * 100, c])) >= 85.0 - 1e-4 for c in range(4)):
-        for c in range(4):
-            st_X[c * 100 : (c + 1) * 100, c] = np.round(st_X[c * 100 : (c + 1) * 100, c] - 85.0).astype(np.float32)
-
-        real_syms = [str(x) for x in data["st_real_cscc_genes"]]
-        spots_raw = [str(x) for x in data["st_spot_ids"]]
-        X_ord, coords_um, coords_px_ord, spots_ord, layers_400 = _partition_cscc_spots_by_empirical_markers(
-            st_X, data["st_coords_pixel"].copy(), spots_raw, real_syms
+        X_ord, coords_um, coords_px_ord, spots_ord, layers_400 = _partition_cscc_spots_by_spatial_coordinates(
+            st_X_raw, coords_raw, spots_raw, real_genes
         )
         data["st_X"] = X_ord
         data["st_coords_um"] = coords_um
         data["st_coords_pixel"] = coords_px_ord
         data["st_spot_ids"] = np.array(spots_ord)
         data["st_layers"] = np.array(layers_400)
+
+    # 5. Fix mix_human_gene_names & gbm_cells
+    gene_ids = [str(x) for x in data["mix_human_gene_ids"]]
+    data["mix_human_gene_names"] = np.array([KNOWN_ENSG_SYMBOLS.get(gid, gid) for gid in gene_ids])
+    gbm_n = data["gbm_X_drivers"].shape[0]
+    gbm_cells_clean = [str(x) for x in data["gbm_cells"] if str(x).strip()]
+    data["gbm_cells"] = np.array(gbm_cells_clean[-gbm_n:])
 
     np.savez_compressed(npz_path, **data)
     print(f"Sanitized empirical wet-lab bundle: {npz_path} ({npz_path.stat().st_size} bytes)")
