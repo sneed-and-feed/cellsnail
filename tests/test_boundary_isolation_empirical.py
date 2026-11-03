@@ -16,30 +16,16 @@ import pytest
 
 # Load shared library
 def get_lib():
-    dll_path = os.path.abspath(
-        os.path.join(
-            os.path.dirname(__file__),
-            "..",
-            "rust",
-            "cellsnail_rs",
-            "target",
-            "release",
-            "cellsnail_rs.dll",
-        )
+    base_dir = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "..", "rust", "cellsnail_rs", "target")
     )
-    if not os.path.exists(dll_path):
-        dll_path = os.path.abspath(
-            os.path.join(
-                os.path.dirname(__file__),
-                "..",
-                "rust",
-                "cellsnail_rs",
-                "target",
-                "debug",
-                "cellsnail_rs.dll",
-            )
-        )
-    assert os.path.exists(dll_path), f"Cannot find cellsnail_rs.dll at {dll_path}"
+    candidates = [
+        os.path.join(base_dir, profile, lib_name)
+        for profile in ("release", "debug")
+        for lib_name in ("cellsnail_rs.dll", "libcellsnail_rs.so", "libcellsnail_rs.dylib")
+    ]
+    dll_path = next((p for p in candidates if os.path.exists(p)), candidates[0])
+    assert os.path.exists(dll_path), f"Cannot find cellsnail_rs shared library in {candidates}"
     lib = ctypes.CDLL(dll_path)
 
     # Setup C-ABI signatures
