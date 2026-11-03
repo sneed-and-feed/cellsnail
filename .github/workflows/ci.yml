@@ -63,13 +63,13 @@ jobs:
 
       - name: Verify Native Rust C-ABI Bridge & Static Arena Footprint
         run: |
-          python -c "from cellsnail._native import is_native_available, load_native_library; assert is_native_available(), 'Native Rust C-ABI bridge failed to load!'; sz = int(load_native_library().cellsnail_arena_size_bytes()); print('Loaded native C-ABI, Arena bytes:', sz); assert sz == 983872"
+          python -c "from cellsnail._native import is_native_available, load_native_library; assert is_native_available(), 'Native Rust C-ABI bridge failed to load!'; sz = int(load_native_library().cellsnail_arena_size_bytes()); print('Loaded native C-ABI, Arena bytes:', sz); assert sz == 1303360"
 
       - name: Audit 21-Rule GFM / KaTeX Math Compliance
         run: |
-          python scripts/audit_gfm_math.py README.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md docs/CELLSNAIL_PREPRINT.md docs/WHOLE_GENOME_DISCOVERY_ATLAS.md docs/EXPEDITION_1_DELTA_HUNT.md docs/EXPEDITION_2_FOCAL_AMPLICON_HUNT.md docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md docs/EXPEDITION_4_STREAMING_THROUGHPUT.md docs/EXPEDITION_5_WHOLE_GENOME_DELTA_CENSUS.md docs/EXPEDITION_6_PAN_AUTOSOME_AMPLICON_ATLAS.md docs/EXPEDITION_7_WHOLE_SLIDE_SPATIAL_SECRETOME.md
+          python scripts/audit_gfm_math.py README.md docs/ARXIV_LITERATURE_SYNTHESIS.md docs/REFEREE_AUDIT_RESPONSE.md docs/CELLSNAIL_PREPRINT.md docs/WHOLE_GENOME_DISCOVERY_ATLAS.md docs/EXPEDITION_1_DELTA_HUNT.md docs/EXPEDITION_2_FOCAL_AMPLICON_HUNT.md docs/EXPEDITION_3_SPATIAL_BORDER_AUDIT.md docs/EXPEDITION_4_STREAMING_THROUGHPUT.md docs/EXPEDITION_5_WHOLE_GENOME_DELTA_CENSUS.md docs/EXPEDITION_6_PAN_AUTOSOME_AMPLICON_ATLAS.md docs/EXPEDITION_7_WHOLE_SLIDE_SPATIAL_SECRETOME.md docs/EXPEDITION_8_CLINVAR_ALLOSTERIC_ATLAS.md docs/EXPEDITION_9_CRYOEM_SIDECHAIN_SHARPENER.md docs/EXPEDITION_10_SC_TO_STRUCTURE_BRIDGE.md
 
-      - name: Run 309-Test Pytest Verification Suite
+      - name: Run Pytest Verification Suite
         run: |
           python -m pytest tests/ -v
 
@@ -79,7 +79,7 @@ jobs:
 
       - name: Package Cross-Platform Release Bundle (${{ matrix.os }})
         run: |
-          python scripts/package_release.py --version "${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || 'v0.2.0' }}" --out-dir dist
+          python scripts/package_release.py --version "${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || 'v0.3.0' }}" --out-dir dist
 
       - name: Upload Cross-Platform Native C-ABI Library, Release Archive & Artifacts
         uses: actions/upload-artifact@v4
@@ -100,6 +100,9 @@ jobs:
             results/expedition5_whole_genome_delta_census.json
             results/expedition6_pan_autosome_amplicon_atlas.json
             results/expedition7_whole_slide_spatial_secretome.json
+            results/expedition8_clinvar_allosteric_atlas.json
+            results/expedition9_cryoem_sidechain_sharpener.json
+            results/expedition10_sc_to_structure_bridge.json
 
   release:
     name: Publish GitHub Release
@@ -142,6 +145,13 @@ jobs:
             results/expedition1_delta_hunt.json
             results/expedition2_focal_amplicon_hunt.json
             results/expedition3_spatial_border_audit.json
+            results/expedition4_streaming_benchmarks.json
+            results/expedition5_whole_genome_delta_census.json
+            results/expedition6_pan_autosome_amplicon_atlas.json
+            results/expedition7_whole_slide_spatial_secretome.json
+            results/expedition8_clinvar_allosteric_atlas.json
+            results/expedition9_cryoem_sidechain_sharpener.json
+            results/expedition10_sc_to_structure_bridge.json
           draft: false
           prerelease: false
           generate_release_notes: true

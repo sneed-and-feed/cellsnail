@@ -157,7 +157,7 @@ def package_release(version: str, out_dir: Path) -> list[Path]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Package CellSnail cross-platform release bundle.")
-    parser.add_argument("--version", default="v0.2.0", help="Release version tag (default: v0.2.0)")
+    parser.add_argument("--version", default="v0.3.0", help="Release version tag (default: v0.3.0)")
     parser.add_argument("--out-dir", default="dist", help="Output directory (default: dist)")
     args = parser.parse_args()
     package_release(args.version, Path(args.out_dir))

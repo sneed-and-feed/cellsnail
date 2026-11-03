@@ -53,10 +53,10 @@ The formalization in [`formalization/OcclusionTriad.lean`](formalization/Occlusi
 | :--- | :--- | :--- | :--- |
 | **Thm 1: Strict Local Extremum** | `morseImpulse_iff_strict_extremum` | Discrete Morse impulse $I_{\text{Morse}}(v, z) > 0$ if and only if $z$ is a strict local extremum (isolated amplicon peak or micro-deletion). | PASS (`0 sorry`) |
 | **Thm 2: Monotone Slope Rejection** | `morse_monotone_slope_rejected` | Monotone increasing or decreasing sequence has $I_{\text{Morse}} \le 0$, rejecting baseline drift and sequencing ramps. | PASS (`0 sorry`) |
-| **Thm 3: Focal Amplicon Recovery** | `focal_amplicon_amplitude_recovery` | An isolated focal amplicon exceeding the noise floor is preserved with 100% amplitude fidelity ($v_{\text{filtered}}(z) = v(z)$). | PASS (`0 sorry`) |
-| **Thm 4: Flanking Leakage Bounded** | `flanking_leakage_bounded` | Filtered output outside the true amplicon support experiences zero leakage ($v_{\text{filtered}}(z \pm 1) = v_{\text{baseline}}$). | PASS (`0 sorry`) |
-| **Thm 5: Plateau Unbiasedness** | `plateau_moving_average_unbiased` | Moving average over a uniform CNV plateau has zero expectation bias ($\mathbb{E}[\bar v] = c$). | PASS (`0 sorry`) |
-| **Thm 6: Plateau Variance Reduction** | `plateau_variance_reduction` | Window averaging of length $L$ reduces noise variance by a factor of $1/L$ ($\mathrm{Var}(\bar v) = \sigma^2 / L$). | PASS (`0 sorry`) |
+| **Thm 3: Focal Amplicon Recovery** | `focal_amplicon_amplitude_recovery` | An isolated focal amplicon exceeding the noise floor is preserved with 100% amplitude fidelity: $v_{\text{filtered}}(z) = v(z)$. | PASS (`0 sorry`) |
+| **Thm 4: Flanking Leakage Bounded** | `flanking_leakage_bounded` | Filtered output outside the true amplicon support experiences zero leakage: $v_{\text{filtered}}(z \pm 1) = v_{\text{baseline}}$. | PASS (`0 sorry`) |
+| **Thm 5: Plateau Unbiasedness** | `plateau_moving_average_unbiased` | Moving average over a uniform CNV plateau has zero expectation bias: $\mathbb{E}[\bar v] = c$. | PASS (`0 sorry`) |
+| **Thm 6: Plateau Variance Reduction** | `plateau_variance_reduction` | Window averaging of length $L$ reduces noise variance by a factor of $1/L$: $\mathrm{Var}(\bar v) = \sigma^2 / L$. | PASS (`0 sorry`) |
 | **Thm 7: Boundary Step Preservation** | `boundary_pinned_step_preservation` | Sharp step transitions at CNV segment boundaries are preserved without smoothing distortion. | PASS (`0 sorry`) |
 
 Additional structural invariant theorems formalize skew-symmetric triad tiebreaking (`skew_triad_swap_neg`, `triad_pointwise_orthogonal`), spherical cascade energy conservation (`cellsnail_readout_energy_conservation`), and cellular sheaf coboundary non-penetration (`contact_sheaf_non_penetration_invariant`).
